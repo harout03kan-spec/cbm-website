@@ -61,6 +61,7 @@ const fr = {
   fp_tested: 'Testé avant expédition',
   fp_no_cables: 'Câbles d\'alimentation non inclus',
   fp_add_cart: 'Ajouter au Panier',
+  fp_added: 'Ajouté ✓',
   fp_view: 'Voir les Détails',
   fp_bulk: 'Commandes en gros disponibles. Contactez-nous.',
   fp_view_all: 'Voir Tout le Matériel',

@@ -61,6 +61,7 @@ const en = {
   fp_tested: 'Tested before shipping',
   fp_no_cables: 'Power cables not included',
   fp_add_cart: 'Add to Cart',
+  fp_added: 'Added ✓',
   fp_view: 'View Details',
   fp_bulk: 'Bulk orders available. Contact us.',
   fp_view_all: 'View All Hardware',
