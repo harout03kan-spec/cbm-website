@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useProducts } from '../../../hooks/useProducts';
+import { useCart } from '../../../hooks/useCart';
 
 type FilterKey = 'Air Cooled' | 'Hydro' | 'Home Miners' | 'Deals';
 
@@ -10,6 +11,14 @@ export default function FeaturedProducts() {
   const { t } = useTranslation();
   const [activeFilter, setActiveFilter] = useState<FilterKey>('Air Cooled');
   const { products, loading } = useProducts();
+  const { addItem } = useCart();
+  const [addedId, setAddedId] = useState<number | null>(null);
+
+  const handleAddToCart = (id: number) => {
+    addItem(id, 1);
+    setAddedId(id);
+    setTimeout(() => setAddedId(current => (current === id ? null : current)), 1500);
+  };
 
   const filters: { key: FilterKey; label: string }[] = [
     { key: 'Air Cooled',  label: t('fp_filter_air') },
@@ -112,7 +121,7 @@ export default function FeaturedProducts() {
                     </div>
                   </div>
                   <div className="grid grid-cols-2 gap-3 mb-4 mt-auto">
-                    <button className="min-h-[54px] rounded-xl text-[16px] font-extrabold text-white bg-crimson-accent border border-crimson-accent hover:bg-red-700 transition-colors cursor-pointer">{t('fp_add_cart')}</button>
+                    <button onClick={() => handleAddToCart(product.id)} className="min-h-[54px] rounded-xl text-[16px] font-extrabold text-white bg-crimson-accent border border-crimson-accent hover:bg-red-700 transition-colors cursor-pointer">{addedId === product.id ? t('fp_added') : t('fp_add_cart')}</button>
                     <Link to={`/product?id=${product.id}`} className="min-h-[54px] rounded-xl text-[16px] font-extrabold text-white bg-transparent border border-white/[0.22] hover:bg-white/[0.06] transition-colors flex items-center justify-center">{t('fp_view')}</Link>
                   </div>
                   <p className="text-[#9aa3af] font-inter text-[13px] text-center m-0">{t('fp_bulk')}</p>

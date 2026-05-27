@@ -6,33 +6,15 @@ import Navbar from '../../components/feature/Navbar';
 import Footer from '../../components/feature/Footer';
 import { products } from '../../mocks/products';
 import { useTranslation } from 'react-i18next';
-
-interface CartItem {
-  id: number;
-  quantity: number;
-}
+import { useCart } from '../../hooks/useCart';
 
 const CartPage = () => {
   const { t } = useTranslation();
-  const [cartItems, setCartItems] = useState<CartItem[]>([
-    { id: 1, quantity: 2 },
-    { id: 3, quantity: 1 }
-  ]);
+  const { items: cartItems, updateQuantity, removeItem } = useCart();
 
   const [promoCode, setPromoCode] = useState('');
   const [promoApplied, setPromoApplied] = useState(false);
   const [promoDiscount, setPromoDiscount] = useState(0);
-
-  const updateQuantity = (id: number, newQuantity: number) => {
-    if (newQuantity < 1) return;
-    setCartItems(cartItems.map(item => 
-      item.id === id ? { ...item, quantity: newQuantity } : item
-    ));
-  };
-
-  const removeItem = (id: number) => {
-    setCartItems(cartItems.filter(item => item.id !== id));
-  };
 
   const applyPromoCode = () => {
     if (promoCode.toUpperCase() === 'CANADA10') {

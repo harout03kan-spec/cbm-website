@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import Navbar from '../../components/feature/Navbar';
 import Footer from '../../components/feature/Footer';
 import { useProducts } from '../../hooks/useProducts';
+import { useCart } from '../../hooks/useCart';
 import { useTranslation } from 'react-i18next';
 import { useRecaptcha } from '../../hooks/useRecaptcha';
 
@@ -13,8 +14,6 @@ const MONERIS_CHECKOUT_ID = 'chktQMUYL79187';
 const MONERIS_JS_PROD = 'https://gatewayt.moneris.com/chkt/js/chkt_v1.00.js';
 const MONERIS_JS_TEST = 'https://gatewayt.moneris.com/chkt/js/chkt_v1.00.js';
 // For prod switch to: 'https://gateway.moneris.com/chkt/js/chkt_v1.00.js'
-
-interface CartItem { id: number; quantity: number; }
 
 declare global {
   interface Window {
@@ -31,11 +30,7 @@ const CheckoutPage = () => {
   const { getToken } = useRecaptcha();
   const navigate = useNavigate();
   const { products } = useProducts();
-
-  const [cartItems] = useState<CartItem[]>([
-    { id: 1, quantity: 1 },
-    { id: 3, quantity: 1 },
-  ]);
+  const { items: cartItems } = useCart();
 
   const [step, setStep]                   = useState(1);
   const [paymentMethod, setPaymentMethod] = useState<'moneris' | 'bitcoin' | 'wire'>('moneris');

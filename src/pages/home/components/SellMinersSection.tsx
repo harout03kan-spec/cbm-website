@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 const SellMinersSection = () => {
@@ -44,8 +43,8 @@ const SellMinersSection = () => {
               <p className="trade-seo-text">{t('sell_desc')}</p>
               <p className="trade-seo-text">{t('sell_desc2')}</p>
               <div className="trade-actions">
-                <Link to="/contact" className="trade-btn trade-btn-primary">{t('sell_cta1')}</Link>
-                <Link to="/contact" className="trade-btn trade-btn-secondary">{t('sell_cta2')}</Link>
+                <a href="https://wa.me/15146047050" target="_blank" rel="noopener noreferrer" className="trade-btn trade-btn-primary">{t('sell_cta1')}</a>
+                <a href="https://wa.me/15146047050" target="_blank" rel="noopener noreferrer" className="trade-btn trade-btn-secondary">{t('sell_cta2')}</a>
               </div>
             </div>
             <div className="trade-desk-side">

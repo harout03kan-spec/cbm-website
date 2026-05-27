@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import Navbar from '../../components/feature/Navbar';
 import Footer from '../../components/feature/Footer';
 import { useProduct, useProducts } from '../../hooks/useProducts';
+import { useCart } from '../../hooks/useCart';
 import { useTranslation } from 'react-i18next';
 
 const ProductPage = () => {
@@ -12,6 +13,7 @@ const ProductPage = () => {
   const productId = Number(searchParams.get('id')) || 1;
   const { product, loading } = useProduct(productId);
   const { products: allProducts } = useProducts();
+  const { addItem } = useCart();
 
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
@@ -27,6 +29,8 @@ const ProductPage = () => {
   ];
 
   const handleAddToCart = () => {
+    if (!product) return;
+    addItem(product.id, quantity);
     setShowNotification(true);
     setTimeout(() => setShowNotification(false), 3000);
   };
