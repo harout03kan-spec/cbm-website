@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Hero visual: honor reduced-motion by freezing continuous animation
+   while keeping the final "powered on" state visible. */
+@media (prefers-reduced-motion: reduce) {
+  .hero-visual,
+  .hero-visual * {
+    animation: none !important;
+    transition-duration: 0.01ms !important;
+  }
+}
