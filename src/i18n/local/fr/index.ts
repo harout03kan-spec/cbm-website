@@ -12,6 +12,11 @@ const fr = {
   hero_title: 'Achetez, Réparez & Hébergez des Mineurs ASIC au Canada',
   hero_sub: 'Mineurs ASIC neufs et remis à neuf, réparations internes et placements d\'hébergement coordonnés partout au Canada et aux États-Unis.',
   hero_cta: 'Acheter des Mineurs ASIC',
+  hero_cta2: 'Parler à un Expert',
+  hero_eyebrow: 'Matériel de Minage ASIC Premium',
+  hero_status: 'Minage actif',
+  hero_trust: 'Propriété canadienne · Testé avant expédition · Garantie réparation 30 jours',
+  hero_metric_label: 'Hashrate en temps réel',
 
   // ── HERO TRUST BAR ─────────────────────────────────
   htb_v1: '2 300+',

@@ -12,6 +12,11 @@ const en = {
   hero_title: 'Buy, Repair & Host ASIC Miners in Canada',
   hero_sub: 'New and refurbished ASIC miners, in‑house repairs, and coordinated hosting placements across Canada and the U.S.',
   hero_cta: 'Shop ASIC Miners',
+  hero_cta2: 'Talk to an Expert',
+  hero_eyebrow: 'Premium ASIC Mining Hardware',
+  hero_status: 'Live mining',
+  hero_trust: 'Canadian-owned · Tested before shipping · 30-day repair warranty',
+  hero_metric_label: 'Real-time hashrate',
 
   // ── HERO TRUST BAR ─────────────────────────────────
   htb_v1: '2,300+',
