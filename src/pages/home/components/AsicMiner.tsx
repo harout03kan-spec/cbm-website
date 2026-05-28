@@ -16,7 +16,8 @@ export const MINER_VIEWBOX = '0 0 400 350';
 
 // Shared anchor points (SVG user units) used by the hero overlay.
 export const MINER_PORTS = {
-  eth: { x: 212, y: 82 },
+  // ETH port sits on the PSU-side top; the cable enters from the right.
+  eth: { x: 224, y: 88 },
   // Single square power socket at the bottom of the PSU.
   socket: { x: 206, y: 300 },
 };
@@ -168,22 +169,20 @@ function AsicMiner({ powered, reduce }: { powered: boolean; reduce: boolean }) {
       <rect x="167" y="70" width="6" height="235" fill="rgba(0,0,0,0.45)" />
       <line x1="170" y1="72" x2="170" y2="303" stroke="rgba(255,255,255,0.14)" strokeWidth={0.8} />
 
-      {/* ── top nameplate banner + brand label ───────────────────────── */}
-      <rect x="64" y="72" width="172" height="20" rx="3" fill="url(#stripGrad)" stroke="rgba(255,255,255,0.08)" strokeWidth={0.8} />
-      <text x="72" y="87" fontFamily="'Inter', sans-serif" fontSize="10" letterSpacing="0.4" fontWeight={800} fill="rgba(255,255,255,0.78)">
+      {/* ── nameplate banner + brand label (fits inside the miner panel) ─ */}
+      <rect x="66" y="74" width="98" height="17" rx="3" fill="url(#stripGrad)" stroke="rgba(255,255,255,0.08)" strokeWidth={0.8} />
+      <text x="71" y="86" fontFamily="'Inter', sans-serif" fontSize="8.5" letterSpacing="0.4" fontWeight={800} fill="rgba(255,255,255,0.82)">
         ANTMINER S21{' '}
         <tspan
-          fontSize="13"
           fontWeight={900}
-          letterSpacing="0.8"
           fill="#ff4d4d"
-          style={{ filter: 'drop-shadow(0 0 3px rgba(248,60,60,0.95))' }}
+          style={{ filter: 'drop-shadow(0 0 2px rgba(248,60,60,0.95))' }}
         >
           XP
         </tspan>
       </text>
 
-      {/* ETH RJ45 port + link LEDs (right end of the banner) */}
+      {/* ETH RJ45 port + link LEDs (PSU-side top; cable enters from right) */}
       <g>
         <rect x={MINER_PORTS.eth.x - 8} y={MINER_PORTS.eth.y - 6} width={16} height={11} rx={1.5} fill="#0a0b0d" stroke="rgba(255,255,255,0.22)" strokeWidth={0.8} />
         <rect x={MINER_PORTS.eth.x - 5} y={MINER_PORTS.eth.y - 6} width={10} height={3} fill="#1a1c20" />
@@ -198,14 +197,14 @@ function AsicMiner({ powered, reduce }: { powered: boolean; reduce: boolean }) {
         <circle cx={MINER_PORTS.eth.x + 4} cy={MINER_PORTS.eth.y + 7} r={1.5} fill={powered ? '#eab308' : '#1f2937'} />
       </g>
 
-      {/* ── the two large miner fans (dominant) ──────────────────────── */}
-      <Fan cx={115} cy={156} r={44} powered={powered} />
-      <Fan cx={115} cy={252} r={44} powered={powered} />
+      {/* ── the two large miner fans (dominant, sit higher) ──────────── */}
+      <Fan cx={115} cy={146} r={46} powered={powered} />
+      <Fan cx={115} cy={244} r={46} powered={powered} />
 
-      {/* ── three smaller PSU fans (less dominant) ───────────────────── */}
-      <Fan cx={205} cy={117} r={22} powered={powered} />
-      <Fan cx={205} cy={175} r={22} powered={powered} />
-      <Fan cx={205} cy={233} r={22} powered={powered} />
+      {/* ── three smaller PSU fans (less dominant, tighter, lower) ───── */}
+      <Fan cx={205} cy={126} r={20} powered={powered} />
+      <Fan cx={205} cy={168} r={20} powered={powered} />
+      <Fan cx={205} cy={210} r={20} powered={powered} />
 
       {/* ── PSU bottom control: rocker switch + single square socket ──── */}
       {/* rocker switch */}
