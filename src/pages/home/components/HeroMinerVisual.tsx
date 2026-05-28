@@ -7,19 +7,20 @@ const TARGET_HASHRATE = 270; // TH/s — Antminer S21 XP (the unit on the facepl
 
 // Cable paths in the shared miner viewBox (0 0 400 350) so endpoints land on ports.
 const P = MINER_PORTS;
-// One thick power cable rises from off-frame and plugs into the PSU socket.
-const PLUG_BOTTOM = P.socket.y + 22; // where the cable meets the plug boot
-const POWER_CABLE = `M${P.socket.x - 28} 352 C ${P.socket.x - 16} 340, ${P.socket.x - 3} 332, ${P.socket.x} ${PLUG_BOTTOM}`;
-// Ethernet drapes in cleanly from off-frame top-right into the ETH port.
-const ETH_PATH = `M408 64 C 330 54, 262 72, ${P.eth.x} ${P.eth.y}`;
+// One thick power cable rises from off-frame and plugs into the PSU inlet.
+const PLUG_BOTTOM = P.socket.y + 26; // where the cable meets the plug boot
+const POWER_CABLE = `M${P.socket.x - 26} 352 C ${P.socket.x - 14} 338, ${P.socket.x - 2} 322, ${P.socket.x} ${PLUG_BOTTOM}`;
+// Ethernet drapes in cleanly from off-frame top-LEFT into the ETH port.
+const ETH_PATH = `M-16 46 C 18 40, 46 66, ${P.eth.x} ${P.eth.y}`;
 
 /**
  * Premium "power-on" hero: a stylized Antminer S21 XP (vector) rotates into a
- * dark industrial bay, one thick power cable plugs into the PSU socket from below
- * carrying red current, an Ethernet line streams data packets into the ETH port,
- * status LEDs wake, all five fans spin up and the live hashrate ticks to 170 TH/s.
- * CSS/SVG + framer-motion only (no 3D bundle); GPU-friendly transforms; freezes
- * to a clean "powered" state under prefers-reduced-motion.
+ * dark industrial bay, one thick power cable plugs into the PSU inlet from below
+ * carrying red current, an Ethernet line streams data packets in from the left
+ * into the ETH port, status LEDs wake, all five fans spin up and the live
+ * hashrate ticks to 270 TH/s. CSS/SVG + framer-motion only (no 3D bundle);
+ * GPU-friendly transforms; freezes to a clean "powered" state under
+ * prefers-reduced-motion.
  */
 export default function HeroMinerVisual() {
   const { t } = useTranslation();
@@ -115,12 +116,12 @@ export default function HeroMinerVisual() {
               </defs>
 
               {/* one thick power cable + red current flow into the plug */}
-              <path d={POWER_CABLE} stroke="#0c0d0f" strokeWidth={9} strokeLinecap="round" />
-              <path d={POWER_CABLE} stroke="#1c1f24" strokeWidth={6.5} strokeLinecap="round" />
+              <path d={POWER_CABLE} stroke="#0c0d0f" strokeWidth={12} strokeLinecap="round" />
+              <path d={POWER_CABLE} stroke="#1c1f24" strokeWidth={8} strokeLinecap="round" />
               <path
                 d={POWER_CABLE}
                 stroke="#DC2626"
-                strokeWidth={2}
+                strokeWidth={2.5}
                 strokeLinecap="round"
                 strokeDasharray="2 11"
                 className={powered ? 'animate-current-flow' : ''}
@@ -131,16 +132,16 @@ export default function HeroMinerVisual() {
                 }}
               />
 
-              {/* stylized square plug inserted into the PSU socket */}
+              {/* one clean stylized plug, fully seated into the square inlet */}
               <g>
-                {/* cable boot */}
-                <rect x={P.socket.x - 6} y={P.socket.y + 12} width={12} height={10} rx={3} fill="#15171a" stroke="rgba(255,255,255,0.1)" strokeWidth={0.8} />
-                {/* connector body (top edge slips up inside the socket) + soft red glow */}
+                {/* cable boot below the inlet */}
+                <rect x={P.socket.x - 7} y={P.socket.y + 21} width={14} height={10} rx={3} fill="#15171a" stroke="rgba(255,255,255,0.1)" strokeWidth={0.8} />
+                {/* connector body — top edge sits up inside the inlet cavity (inserted) */}
                 <rect
-                  x={P.socket.x - 13}
-                  y={P.socket.y - 12}
-                  width={26}
-                  height={24}
+                  x={P.socket.x - 11}
+                  y={P.socket.y - 7}
+                  width={22}
+                  height={30}
                   rx={3}
                   fill="#1b1e22"
                   stroke="rgba(255,255,255,0.16)"
@@ -150,10 +151,11 @@ export default function HeroMinerVisual() {
                     transition: 'filter 0.7s ease',
                   }}
                 />
-                {/* live face slot + prongs */}
-                <rect x={P.socket.x - 9} y={P.socket.y - 2} width={18} height={10} rx={1.5} fill="#0a0b0d" />
-                <rect x={P.socket.x - 4.6} y={P.socket.y} width={2.6} height={6} rx={1} fill="#3a3d42" />
-                <rect x={P.socket.x + 2} y={P.socket.y} width={2.6} height={6} rx={1} fill="#3a3d42" />
+                {/* shadow line at the inlet mouth sells the "seated" look */}
+                <line x1={P.socket.x - 10} y1={P.socket.y + 11} x2={P.socket.x + 10} y2={P.socket.y + 11} stroke="rgba(0,0,0,0.55)" strokeWidth={1.4} />
+                {/* connector grip ribs */}
+                <line x1={P.socket.x - 7} y1={P.socket.y + 16} x2={P.socket.x + 7} y2={P.socket.y + 16} stroke="rgba(255,255,255,0.08)" strokeWidth={1} />
+                <line x1={P.socket.x - 7} y1={P.socket.y + 19} x2={P.socket.x + 7} y2={P.socket.y + 19} stroke="rgba(255,255,255,0.08)" strokeWidth={1} />
               </g>
 
               {/* ethernet cable (thinner) */}
