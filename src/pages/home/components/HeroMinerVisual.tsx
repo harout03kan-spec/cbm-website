@@ -3,21 +3,23 @@ import { motion, useReducedMotion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import AsicMiner, { MINER_VIEWBOX, MINER_PORTS } from './AsicMiner';
 
-const TARGET_HASHRATE = 141; // TH/s — Antminer S19 XP (the unit on the faceplate)
+const TARGET_HASHRATE = 170; // TH/s — Antminer S21 XP (the unit on the faceplate)
 
-// Cable paths in the shared miner viewBox (0 0 360 340) so endpoints land on ports.
+// Cable paths in the shared miner viewBox (0 0 400 340) so endpoints land on ports.
 const P = MINER_PORTS;
-const POWER_A = `M322 300 C 296 296 268 282 ${P.socketA.x} ${P.socketA.y}`;
-const POWER_B = `M330 296 C 312 286 290 270 ${P.socketB.x} ${P.socketB.y}`;
-const ETH_PATH = `M22 252 C 64 232 84 132 ${P.eth.x} ${P.eth.y}`;
+// Twin power cables drop straight out of the PSU base and run off-frame.
+const POWER_A = `M${P.socketA.x} ${P.socketA.y} C ${P.socketA.x - 3} 320, ${P.socketA.x - 9} 332, ${P.socketA.x - 14} 342`;
+const POWER_B = `M${P.socketB.x} ${P.socketB.y} C ${P.socketB.x + 3} 320, ${P.socketB.x + 8} 332, ${P.socketB.x + 12} 342`;
+// Ethernet enters cleanly from off-frame left into the ETH port.
+const ETH_PATH = `M-8 250 C 60 232 84 132 ${P.eth.x} ${P.eth.y}`;
 
 /**
- * Premium "power-on" hero: a stylized Antminer S19 XP (vector) rotates into a
- * dark industrial bay, twin power cables feed the PSU sockets with red current,
- * an Ethernet line streams data packets into the ETH port, status LEDs wake, the
- * fans spin up and the live hashrate ticks to 141 TH/s. CSS/SVG + framer-motion
- * only (no 3D bundle); GPU-friendly transforms; freezes to a clean "powered"
- * state under prefers-reduced-motion.
+ * Premium "power-on" hero: a stylized Antminer S21 XP (vector) rotates into a
+ * dark industrial bay, twin power cables drop from the attached PSU base carrying
+ * red current, an Ethernet line streams data packets into the ETH port, status
+ * LEDs wake, all five fans spin up and the live hashrate ticks to 170 TH/s.
+ * CSS/SVG + framer-motion only (no 3D bundle); GPU-friendly transforms; freezes
+ * to a clean "powered" state under prefers-reduced-motion.
  */
 export default function HeroMinerVisual() {
   const { t } = useTranslation();
@@ -112,20 +114,6 @@ export default function HeroMinerVisual() {
                 <path id="ethPath" d={ETH_PATH} />
               </defs>
 
-              {/* small PDU / plug module beside the miner that the power feeds from */}
-              <g>
-                <rect x="314" y="298" width="40" height="26" rx="4" fill="#15171a" stroke="rgba(255,255,255,0.12)" strokeWidth={1} />
-                <rect x="319" y="303" width="7" height="6" rx="1.5" fill="#0a0b0d" stroke="rgba(255,255,255,0.12)" strokeWidth={0.6} />
-                <rect x="319" y="313" width="7" height="6" rx="1.5" fill="#0a0b0d" stroke="rgba(255,255,255,0.12)" strokeWidth={0.6} />
-                <circle
-                  cx="346"
-                  cy="305"
-                  r="2.2"
-                  fill={powered ? '#22c55e' : '#1f2937'}
-                  style={{ filter: powered ? 'drop-shadow(0 0 3px #22c55e)' : 'none', transition: 'fill 0.4s ease' }}
-                />
-              </g>
-
               {/* power cables (thick, dark) + red current flow */}
               {[POWER_A, POWER_B].map((d, i) => (
                 <g key={i}>
@@ -146,13 +134,6 @@ export default function HeroMinerVisual() {
                   />
                 </g>
               ))}
-
-              {/* ethernet jack module (data source) */}
-              <g>
-                <rect x="6" y="244" width="26" height="18" rx="3" fill="#15171a" stroke="rgba(255,255,255,0.12)" strokeWidth={1} />
-                <rect x="11" y="248" width="9" height="7" rx="1.2" fill="#0a0b0d" />
-                <circle cx="26" cy="249" r="1.4" fill={powered ? '#3b82f6' : '#1f2937'} className={powered ? 'animate-eth-blink' : ''} />
-              </g>
 
               {/* ethernet cable (thinner) */}
               <path d={ETH_PATH} stroke="#0c0d0f" strokeWidth={3.4} strokeLinecap="round" />

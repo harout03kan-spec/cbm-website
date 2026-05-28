@@ -1,22 +1,24 @@
 import { memo } from 'react';
 
 /**
- * Stylized Antminer S19 XP–style ASIC, drawn as a single 3/4 isometric SVG
+ * Stylized Antminer S21 XP–style ASIC, drawn as a single 3/4 isometric SVG
  * (vector only — no photo, no 3D bundle). Reads as a real industrial miner:
  * gunmetal boxy body, two large front fans, a top control strip with the ETH
- * port + Fault/Normal status LEDs, a PSU side face with twin power sockets, and
- * the twisted power harness off the top. Fans/LEDs animate via CSS once powered.
+ * port + Fault/Normal status LEDs, and a dedicated power-supply (PSU) block
+ * bolted flush to the right wall carrying three smaller fans. Five fans total.
+ * Fans/LEDs animate via CSS once powered; power cables drop from the PSU base.
  *
  * Everything lives in one viewBox so the hero overlay (cables, packets) can
  * anchor exactly to the ports below.
  */
-export const MINER_VIEWBOX = '0 0 360 340';
+export const MINER_VIEWBOX = '0 0 400 340';
 
 // Shared anchor points (SVG user units) used by the hero overlay for cables.
 export const MINER_PORTS = {
   eth: { x: 150, y: 83 },
-  socketA: { x: 245, y: 270 },
-  socketB: { x: 267, y: 258 },
+  // Power inlets live at the bottom of the PSU block now (not the miner side).
+  socketA: { x: 240, y: 300 },
+  socketB: { x: 272, y: 300 },
 };
 
 function Fan({ cx, cy, r, powered }: { cx: number; cy: number; r: number; powered: boolean }) {
@@ -106,6 +108,11 @@ function AsicMiner({ powered, reduce }: { powered: boolean; reduce: boolean }) {
           <stop offset="0.45" stopColor="#26282d" />
           <stop offset="1" stopColor="#16171a" />
         </linearGradient>
+        <linearGradient id="psuGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#3a3d43" />
+          <stop offset="0.45" stopColor="#202227" />
+          <stop offset="1" stopColor="#121315" />
+        </linearGradient>
         <linearGradient id="sideGrad" x1="0" y1="0" x2="1" y2="0">
           <stop offset="0" stopColor="#303338" />
           <stop offset="1" stopColor="#191b1e" />
@@ -122,63 +129,23 @@ function AsicMiner({ powered, reduce }: { powered: boolean; reduce: boolean }) {
           <stop offset="0" stopColor="#202227" />
           <stop offset="1" stopColor="#0a0b0d" />
         </radialGradient>
-        <pattern id="hexVent" width="11" height="12.7" patternUnits="userSpaceOnUse" patternTransform="scale(0.85)">
-          <circle cx="5.5" cy="3.2" r="2.1" fill="rgba(0,0,0,0.5)" />
-          <circle cx="0" cy="9.5" r="2.1" fill="rgba(0,0,0,0.5)" />
-          <circle cx="11" cy="9.5" r="2.1" fill="rgba(0,0,0,0.5)" />
-        </pattern>
       </defs>
 
-      {/* contact shadow on the floor */}
-      <ellipse cx="178" cy="312" rx="150" ry="20" fill="rgba(0,0,0,0.55)" style={{ filter: 'blur(6px)' }} />
+      {/* contact shadow on the floor (covers miner + PSU) */}
+      <ellipse cx="210" cy="312" rx="190" ry="20" fill="rgba(0,0,0,0.55)" style={{ filter: 'blur(6px)' }} />
 
-      {/* ── side / PSU face (back-right) ─────────────────────────────── */}
-      <polygon points="212,68 294,28 294,262 212,302" fill="url(#sideGrad)" stroke="#000" strokeWidth={1} />
-      {/* hex venting on the PSU */}
-      <polygon points="222,82 286,50 286,150 222,180" fill="url(#hexVent)" opacity={0.7} />
-      {/* PSU label plate */}
-      <polygon points="224,196 286,166 286,196 224,224" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.08)" strokeWidth={0.8} />
-      <line x1="230" y1="200" x2="276" y2="178" stroke="rgba(255,255,255,0.18)" strokeWidth={1.4} />
-      <line x1="230" y1="208" x2="270" y2="188" stroke="rgba(255,255,255,0.1)" strokeWidth={1.2} />
+      {/* ── PSU block (right): receding side + top, behind the front faces ── */}
+      <polygon points="300,68 382,28 382,262 300,302" fill="url(#sideGrad)" stroke="#000" strokeWidth={1} />
+      <polygon points="212,68 300,68 382,28 294,28" fill="url(#topGrad)" stroke="#000" strokeWidth={1} />
+      <line x1="300" y1="68" x2="382" y2="28" stroke="rgba(255,255,255,0.1)" strokeWidth={1} />
 
-      {/* twin power sockets (C13 style) near the bottom of the PSU face */}
-      {[
-        { x: MINER_PORTS.socketA.x, y: MINER_PORTS.socketA.y },
-        { x: MINER_PORTS.socketB.x, y: MINER_PORTS.socketB.y },
-      ].map((s, i) => (
-        <g key={i}>
-          <rect
-            x={s.x - 9}
-            y={s.y - 8}
-            width={18}
-            height={16}
-            rx={2.5}
-            fill="#0c0d0f"
-            stroke="rgba(255,255,255,0.14)"
-            strokeWidth={1}
-            transform={`translate(${s.x} ${s.y}) skewY(-26) translate(${-s.x} ${-s.y})`}
-          />
-          <g transform={`translate(${s.x} ${s.y}) skewY(-26) translate(${-s.x} ${-s.y})`}>
-            <rect x={s.x - 4} y={s.y - 4} width={2.4} height={5} rx={1} fill="#26282c" />
-            <rect x={s.x + 1.6} y={s.y - 4} width={2.4} height={5} rx={1} fill="#26282c" />
-            <rect x={s.x - 1.2} y={s.y + 1.6} width={2.4} height={3} rx={1} fill="#26282c" />
-          </g>
-        </g>
-      ))}
-
-      {/* ── top face ─────────────────────────────────────────────────── */}
+      {/* ── miner top face ───────────────────────────────────────────── */}
       <polygon points="58,68 212,68 294,28 140,28" fill="url(#topGrad)" stroke="#000" strokeWidth={1} />
       <line x1="58" y1="68" x2="140" y2="28" stroke="rgba(255,255,255,0.22)" strokeWidth={1} />
+      {/* seam between miner top and PSU top */}
       <line x1="212" y1="68" x2="294" y2="28" stroke="rgba(255,255,255,0.12)" strokeWidth={1} />
 
-      {/* twisted multicolor power harness off the top */}
-      <g strokeWidth={2} fill="none" strokeLinecap="round" opacity={0.9}>
-        <path d="M214 44 C 222 18, 236 14, 240 0" stroke="#b91c1c" />
-        <path d="M218 46 C 226 20, 238 14, 244 0" stroke="#eab308" />
-        <path d="M222 48 C 230 22, 242 16, 248 0" stroke="#2563eb" />
-      </g>
-
-      {/* ── front face (fans) ────────────────────────────────────────── */}
+      {/* ── miner front face (two main fans) ─────────────────────────── */}
       <rect x="58" y="68" width="154" height="234" rx="7" fill="url(#frontGrad)" stroke="#000" strokeWidth={1.2} />
       <rect x="58" y="68" width="154" height="234" rx="7" fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth={1} />
       {/* corner screws */}
@@ -191,7 +158,16 @@ function AsicMiner({ powered, reduce }: { powered: boolean; reduce: boolean }) {
       {/* control strip */}
       <rect x="64" y="72" width="142" height="22" rx="3" fill="url(#stripGrad)" stroke="rgba(255,255,255,0.08)" strokeWidth={0.8} />
       <text x="69" y="85" fontFamily="'Inter', sans-serif" fontSize="6" letterSpacing="0.3" fontWeight={700} fill="rgba(255,255,255,0.55)">
-        ANTMINER S19 XP
+        ANTMINER S21{' '}
+        <tspan
+          fontSize="9"
+          fontWeight={800}
+          letterSpacing="0.6"
+          fill="#f87171"
+          style={{ filter: 'drop-shadow(0 0 2px rgba(248,113,113,0.85))' }}
+        >
+          XP
+        </tspan>
       </text>
       {/* ETH RJ45 port */}
       <g>
@@ -222,12 +198,44 @@ function AsicMiner({ powered, reduce }: { powered: boolean; reduce: boolean }) {
         style={{ filter: powered ? 'drop-shadow(0 0 4px #22c55e)' : 'none' }}
       />
 
-      {/* the two large fans */}
+      {/* the two large miner fans */}
       <Fan cx={135} cy={150} r={46} powered={powered} />
       <Fan cx={135} cy={250} r={46} powered={powered} />
 
       {/* front-left vertical edge highlight */}
       <line x1="59" y1="70" x2="59" y2="300" stroke="rgba(255,255,255,0.1)" strokeWidth={1} />
+
+      {/* ── PSU front face (bolted flush to the right, no gap) ────────── */}
+      <rect x="212" y="68" width="88" height="234" rx="5" fill="url(#psuGrad)" stroke="#000" strokeWidth={1.2} />
+      <rect x="212" y="68" width="88" height="234" rx="5" fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth={1} />
+      {/* seam where the PSU meets the miner body */}
+      <line x1="212" y1="70" x2="212" y2="300" stroke="rgba(255,255,255,0.16)" strokeWidth={1} />
+      {/* PSU label plate */}
+      <rect x="226" y="74" width="60" height="13" rx="2.5" fill="url(#stripGrad)" stroke="rgba(255,255,255,0.08)" strokeWidth={0.7} />
+      <text x="232" y="83.5" fontFamily="'Inter', sans-serif" fontSize="5.4" letterSpacing="0.4" fontWeight={700} fill="rgba(255,255,255,0.5)">
+        APW POWER
+      </text>
+      {/* PSU corner screws */}
+      {[
+        [220, 78], [292, 78], [220, 292], [292, 292],
+      ].map(([x, y], i) => (
+        <circle key={i} cx={x} cy={y} r={2.2} fill="#0c0d0f" stroke="rgba(255,255,255,0.18)" strokeWidth={0.6} />
+      ))}
+
+      {/* three smaller PSU fans */}
+      <Fan cx={256} cy={132} r={29} powered={powered} />
+      <Fan cx={256} cy={198} r={29} powered={powered} />
+      <Fan cx={256} cy={264} r={29} powered={powered} />
+
+      {/* power inlets at the bottom of the PSU (cables plug in here) */}
+      {[MINER_PORTS.socketA, MINER_PORTS.socketB].map((s, i) => (
+        <g key={i}>
+          <rect x={s.x - 7} y={s.y - 7} width={14} height={11} rx={2} fill="#0a0b0d" stroke="rgba(255,255,255,0.16)" strokeWidth={0.9} />
+          <rect x={s.x - 4} y={s.y - 4} width={2.4} height={5} rx={1} fill="#26282c" />
+          <rect x={s.x + 1.6} y={s.y - 4} width={2.4} height={5} rx={1} fill="#26282c" />
+          <rect x={s.x - 1.2} y={s.y + 1} width={2.4} height={3} rx={1} fill="#26282c" />
+        </g>
+      ))}
     </svg>
   );
 }
