@@ -10,8 +10,9 @@ const P = MINER_PORTS;
 // One thick power cable rises from off-frame and plugs into the PSU inlet.
 const PLUG_BOTTOM = P.socket.y + 26; // where the cable meets the plug boot
 const POWER_CABLE = `M${P.socket.x - 26} 352 C ${P.socket.x - 14} 338, ${P.socket.x - 2} 322, ${P.socket.x} ${PLUG_BOTTOM}`;
-// Ethernet drapes in cleanly from off-frame top-LEFT into the centered ETH port.
-const ETH_PATH = `M-16 34 C 42 28, 98 54, ${P.eth.x} ${P.eth.y}`;
+// Ethernet sweeps in low from the LEFT and rises into the centered ETH port from
+// below-left, staying under the top nameplate so it never crosses the label.
+const ETH_PATH = `M-18 126 C 46 118, 116 96, ${P.eth.x} ${P.eth.y}`;
 
 /**
  * Premium "power-on" hero: a stylized Antminer S21 XP (vector) rotates into a

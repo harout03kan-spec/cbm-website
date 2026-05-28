@@ -145,11 +145,11 @@ function AsicMiner({ powered, reduce }: { powered: boolean; reduce: boolean }) {
       ))}
       <line x1="224" y1="70" x2="319" y2="20" stroke="rgba(255,255,255,0.14)" strokeWidth={1} />
       {/* subtle molded BITMAIN brand mark, sheared onto the receding side plane (bottom-right) */}
-      <g transform="matrix(0.888 -0.467 0 1 276 262)">
-        <text x="0.5" y="0.7" textAnchor="middle" fontFamily="'Inter', sans-serif" fontSize="9" letterSpacing="1" fontWeight={700} fill="rgba(0,0,0,0.45)">
+      <g transform="matrix(0.888 -0.467 0 1 274 260)">
+        <text x="0.7" y="1" textAnchor="middle" fontFamily="'Inter', sans-serif" fontSize="11.5" letterSpacing="1.4" fontWeight={700} fill="rgba(0,0,0,0.5)">
           BITMAIN
         </text>
-        <text x="0" y="0" textAnchor="middle" fontFamily="'Inter', sans-serif" fontSize="9" letterSpacing="1" fontWeight={700} fill="rgba(255,255,255,0.12)">
+        <text x="0" y="0" textAnchor="middle" fontFamily="'Inter', sans-serif" fontSize="11.5" letterSpacing="1.4" fontWeight={700} fill="rgba(255,255,255,0.2)">
           BITMAIN
         </text>
       </g>
@@ -161,12 +161,22 @@ function AsicMiner({ powered, reduce }: { powered: boolean; reduce: boolean }) {
         <line key={i} x1={x} y1="70" x2={x + 95} y2="20" stroke="rgba(0,0,0,0.18)" strokeWidth={1} />
       ))}
       {/* brand nameplate on the front edge of the top panel (sheared onto the top plane, above the ETH port) */}
-      <g transform="matrix(1 0 -0.45 0.8 148 62)">
-        <text x="0" y="3.2" textAnchor="middle" fontFamily="'Inter', sans-serif" fontSize="8.5" letterSpacing="0.4" fontWeight={800} fill="rgba(255,255,255,0.9)">
+      <g transform="matrix(1 0 -0.34 0.86 148 62)">
+        <text
+          x="0"
+          y="3.2"
+          textAnchor="middle"
+          fontFamily="'Inter', sans-serif"
+          fontSize="9"
+          letterSpacing="0.5"
+          fontWeight={900}
+          fill="#ffffff"
+          style={{ filter: 'drop-shadow(0 1px 1.4px rgba(0,0,0,0.9))' }}
+        >
           ANTMINER S21{' '}
           <tspan
-            fontWeight={800}
-            fill="#ff4d4d"
+            fontWeight={900}
+            fill="#ff3b3b"
             style={{ filter: 'drop-shadow(0 0 2px rgba(248,60,60,0.95))' }}
           >
             XP
@@ -211,9 +221,9 @@ function AsicMiner({ powered, reduce }: { powered: boolean; reduce: boolean }) {
 
       {/* control cluster — IP (left) · ETH (exact middle) · Reset / Fault (off) / Normal (lit) on the right */}
       {/* IP button (left) */}
-      <rect x="80" y="76" width="8" height="8" rx="1.6" fill="#2a2d33" stroke="rgba(255,255,255,0.16)" strokeWidth={0.6} />
-      <rect x="81" y="77" width="6" height="2" rx="1" fill="rgba(255,255,255,0.12)" />
-      <text x="84" y="98" textAnchor="middle" fontFamily="'Inter', sans-serif" fontSize="3.4" letterSpacing="0.1" fontWeight={600} fill="rgba(255,255,255,0.5)">
+      <rect x="80" y="75" width="9" height="9" rx="1.6" fill="#2a2d33" stroke="rgba(255,255,255,0.16)" strokeWidth={0.6} />
+      <rect x="81.5" y="76.5" width="6" height="2" rx="1" fill="rgba(255,255,255,0.12)" />
+      <text x="84.5" y="99" textAnchor="middle" fontFamily="'Inter', sans-serif" fontSize="4.2" letterSpacing="0" fontWeight={700} fill="rgba(255,255,255,0.8)">
         IP
       </text>
 
@@ -231,33 +241,33 @@ function AsicMiner({ powered, reduce }: { powered: boolean; reduce: boolean }) {
         />
         <circle cx={P.eth.x + 4} cy={P.eth.y + 4} r={1.4} fill={powered ? '#eab308' : '#1f2937'} />
       </g>
-      <text x={P.eth.x} y="98" textAnchor="middle" fontFamily="'Inter', sans-serif" fontSize="3.4" letterSpacing="0.2" fontWeight={600} fill="rgba(255,255,255,0.5)">
+      <text x={P.eth.x} y="99" textAnchor="middle" fontFamily="'Inter', sans-serif" fontSize="4.2" letterSpacing="0.1" fontWeight={700} fill="rgba(255,255,255,0.8)">
         ETH
       </text>
 
       {/* Reset button (recessed) — right group */}
-      <circle cx="178" cy="80" r={3} fill="#15171a" stroke="rgba(255,255,255,0.16)" strokeWidth={0.7} />
-      <circle cx="178" cy="80" r={1.2} fill="#0a0b0d" />
-      <text x="178" y="98" textAnchor="middle" fontFamily="'Inter', sans-serif" fontSize="3.4" letterSpacing="0.1" fontWeight={600} fill="rgba(255,255,255,0.5)">
+      <circle cx="172" cy="80" r={3} fill="#15171a" stroke="rgba(255,255,255,0.16)" strokeWidth={0.7} />
+      <circle cx="172" cy="80" r={1.2} fill="#0a0b0d" />
+      <text x="172" y="99" textAnchor="middle" fontFamily="'Inter', sans-serif" fontSize="4.2" letterSpacing="0" fontWeight={700} fill="rgba(255,255,255,0.8)">
         RESET
       </text>
 
       {/* Fault LED (exists but stays off) — right group */}
-      <circle cx="196" cy="80" r={2.6} fill="#3a1416" stroke="rgba(0,0,0,0.6)" strokeWidth={0.6} />
-      <text x="196" y="98" textAnchor="middle" fontFamily="'Inter', sans-serif" fontSize="3.4" letterSpacing="0.1" fontWeight={600} fill="rgba(255,255,255,0.4)">
+      <circle cx="192" cy="80" r={2.8} fill="#3a1416" stroke="rgba(0,0,0,0.6)" strokeWidth={0.6} />
+      <text x="192" y="99" textAnchor="middle" fontFamily="'Inter', sans-serif" fontSize="4.2" letterSpacing="0" fontWeight={700} fill="rgba(255,255,255,0.66)">
         FAULT
       </text>
 
-      {/* Normal LED (only this one is lit) — moved a bit more to the right */}
+      {/* Normal LED (only this one is lit) — right group */}
       <circle
-        cx="214"
+        cx="213"
         cy="80"
-        r={2.6}
+        r={2.8}
         fill={powered ? '#22c55e' : '#16291c'}
         className={powered ? 'animate-eth-blink' : ''}
         style={{ filter: powered ? 'drop-shadow(0 0 4px rgba(34,197,94,0.9))' : 'none', transition: 'fill 0.5s ease' }}
       />
-      <text x="214" y="98" textAnchor="middle" fontFamily="'Inter', sans-serif" fontSize="3.4" letterSpacing="0.1" fontWeight={600} fill="rgba(255,255,255,0.5)">
+      <text x="213" y="99" textAnchor="middle" fontFamily="'Inter', sans-serif" fontSize="4.2" letterSpacing="0" fontWeight={700} fill="rgba(255,255,255,0.8)">
         NORMAL
       </text>
 
@@ -265,10 +275,10 @@ function AsicMiner({ powered, reduce }: { powered: boolean; reduce: boolean }) {
       <Fan cx={114} cy={153} r={48} powered={powered} />
       <Fan cx={114} cy={254} r={48} powered={powered} />
 
-      {/* ── three smaller PSU fans (same position/spacing, slightly larger) ─ */}
-      <Fan cx={194} cy={158} r={18} powered={powered} />
-      <Fan cx={194} cy={196} r={18} powered={powered} />
-      <Fan cx={194} cy={234} r={18} powered={powered} />
+      {/* ── three smaller PSU fans (bigger, even spacing, small clean gaps) ─ */}
+      <Fan cx={194} cy={152} r={20} powered={powered} />
+      <Fan cx={194} cy={196} r={20} powered={powered} />
+      <Fan cx={194} cy={240} r={20} powered={powered} />
 
       {/* ── single square power inlet at the PSU base (cable plugs in here) ─ */}
       <rect x={P.socket.x - 15} y="271" width="30" height="28" rx="3" fill="#0a0b0d" stroke="rgba(255,255,255,0.16)" strokeWidth={1} />
