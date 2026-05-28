@@ -23,7 +23,7 @@ export const MINER_PORTS = {
   socket: { x: 194, y: 284 },
 };
 
-function Fan({ cx, cy, r, powered }: { cx: number; cy: number; r: number; powered: boolean }) {
+function Fan({ cx, cy, r, powered, lite = false }: { cx: number; cy: number; r: number; powered: boolean; lite?: boolean }) {
   const blades = Array.from({ length: 11 });
   return (
     <g>
@@ -31,10 +31,17 @@ function Fan({ cx, cy, r, powered }: { cx: number; cy: number; r: number; powere
       <circle cx={cx} cy={cy} r={r} fill="url(#fanWell)" stroke="#000" strokeWidth={1.2} />
       <circle cx={cx} cy={cy} r={r - 3} fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth={1} />
 
-      {/* spinning blades (behind the grill) */}
+      {/* spinning blades (behind the grill) — promoted to its own layer so the
+          compositor keeps it smooth during mobile scroll (transform-only) */}
       <g
         className={powered ? 'animate-fan-spin' : ''}
-        style={{ transformBox: 'fill-box', transformOrigin: 'center', opacity: powered ? 0.9 : 0.5 }}
+        style={{
+          transformBox: 'fill-box',
+          transformOrigin: 'center',
+          opacity: powered ? 0.9 : 0.5,
+          willChange: 'transform',
+          backfaceVisibility: 'hidden',
+        }}
       >
         {blades.map((_, i) => (
           <ellipse
@@ -77,7 +84,7 @@ function Fan({ cx, cy, r, powered }: { cx: number; cy: number; r: number; powere
       <circle cx={cx} cy={cy} r={r * 0.17} fill="#1a1c20" stroke="rgba(255,255,255,0.12)" strokeWidth={1} />
       <circle cx={cx} cy={cy} r={r * 0.06} fill="#2a2d33" />
 
-      {/* crimson rim glow on power-on */}
+      {/* crimson rim glow on power-on (blur halo dropped in lite/mobile mode to avoid scroll repaints) */}
       <circle
         cx={cx}
         cy={cy}
@@ -87,7 +94,7 @@ function Fan({ cx, cy, r, powered }: { cx: number; cy: number; r: number; powere
         strokeWidth={2}
         style={{
           opacity: powered ? 0.7 : 0,
-          filter: 'drop-shadow(0 0 5px rgba(220,38,38,0.85))',
+          filter: lite ? 'none' : 'drop-shadow(0 0 5px rgba(220,38,38,0.85))',
           transition: 'opacity 0.7s ease',
         }}
       />
@@ -95,7 +102,7 @@ function Fan({ cx, cy, r, powered }: { cx: number; cy: number; r: number; powere
   );
 }
 
-function AsicMiner({ powered, reduce }: { powered: boolean; reduce: boolean }) {
+function AsicMiner({ powered, reduce, lite = false }: { powered: boolean; reduce: boolean; lite?: boolean }) {
   void reduce; // visual state is driven by `powered`; motion is gated by the parent
   const P = MINER_PORTS;
   return (
@@ -272,13 +279,13 @@ function AsicMiner({ powered, reduce }: { powered: boolean; reduce: boolean }) {
       </text>
 
       {/* ── the two large miner fans (bigger, higher, tight to the board) ─ */}
-      <Fan cx={114} cy={153} r={48} powered={powered} />
-      <Fan cx={114} cy={254} r={48} powered={powered} />
+      <Fan cx={114} cy={153} r={48} powered={powered} lite={lite} />
+      <Fan cx={114} cy={254} r={48} powered={powered} lite={lite} />
 
       {/* ── three smaller PSU fans (bigger, even spacing, small clean gaps) ─ */}
-      <Fan cx={194} cy={152} r={20} powered={powered} />
-      <Fan cx={194} cy={196} r={20} powered={powered} />
-      <Fan cx={194} cy={240} r={20} powered={powered} />
+      <Fan cx={194} cy={152} r={20} powered={powered} lite={lite} />
+      <Fan cx={194} cy={196} r={20} powered={powered} lite={lite} />
+      <Fan cx={194} cy={240} r={20} powered={powered} lite={lite} />
 
       {/* ── single square power inlet at the PSU base (cable plugs in here) ─ */}
       <rect x={P.socket.x - 15} y="271" width="30" height="28" rx="3" fill="#0a0b0d" stroke="rgba(255,255,255,0.16)" strokeWidth={1} />

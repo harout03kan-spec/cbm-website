@@ -28,6 +28,16 @@ export default function HeroMinerVisual() {
   const reduce = useReducedMotion();
   const [powered, setPowered] = useState(false);
   const [hash, setHash] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Track small screens so we can lighten the animation for smoother mobile scroll.
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 640px)');
+    const update = () => setIsMobile(mq.matches);
+    update();
+    mq.addEventListener('change', update);
+    return () => mq.removeEventListener('change', update);
+  }, []);
 
   // Boot beat: let the miner rotate into place, then power it on.
   useEffect(() => {
@@ -104,11 +114,12 @@ export default function HeroMinerVisual() {
         >
           <motion.div
             className="absolute inset-0"
-            animate={powered && !reduce ? { y: [0, -6, 0] } : { y: 0 }}
-            transition={{ duration: 6, repeat: powered && !reduce ? Infinity : 0, ease: 'easeInOut' }}
+            style={{ willChange: 'transform' }}
+            animate={powered && !reduce && !isMobile ? { y: [0, -6, 0] } : { y: 0 }}
+            transition={{ duration: 6, repeat: powered && !reduce && !isMobile ? Infinity : 0, ease: 'easeInOut' }}
           >
             {/* the miner */}
-            <AsicMiner powered={powered} reduce={!!reduce} />
+            <AsicMiner powered={powered} reduce={!!reduce} lite={isMobile} />
 
             {/* cables + connections (same viewBox → endpoints meet the ports) */}
             <svg viewBox={MINER_VIEWBOX} className="absolute inset-0 h-full w-full" fill="none" aria-hidden="true">
@@ -204,9 +215,9 @@ export default function HeroMinerVisual() {
         </div>
       )}
 
-      {/* Live hashrate HUD */}
+      {/* Live hashrate HUD — tucked lower/smaller on mobile so it doesn't block the miner */}
       <motion.div
-        className="absolute bottom-[2%] right-[4%] rounded-2xl border border-white/10 bg-black/60 px-5 py-3 backdrop-blur-md"
+        className="absolute bottom-0 right-1 rounded-2xl border border-white/10 bg-black/60 px-3.5 py-2 backdrop-blur-md sm:bottom-[2%] sm:right-[4%] sm:px-5 sm:py-3"
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: powered ? 1 : 0, y: powered ? 0 : 16 }}
         transition={{ duration: 0.6, ease: 'easeOut', delay: 0.2 }}
@@ -218,13 +229,13 @@ export default function HeroMinerVisual() {
             )}
             <span className="relative inline-flex h-2 w-2 rounded-full bg-green-500" />
           </span>
-          <span className="font-inter text-[11px] font-semibold uppercase tracking-[0.15em] text-green-400">
+          <span className="font-inter text-[10px] font-semibold uppercase tracking-[0.15em] text-green-400 sm:text-[11px]">
             {t('hero_status')}
           </span>
         </div>
         <div className="mt-1 flex items-baseline gap-1.5">
-          <span className="font-orbitron text-3xl font-black leading-none text-white tabular-nums">{hash}</span>
-          <span className="font-inter text-sm font-bold text-soft-gray">TH/s</span>
+          <span className="font-orbitron text-2xl font-black leading-none text-white tabular-nums sm:text-3xl">{hash}</span>
+          <span className="font-inter text-xs font-bold text-soft-gray sm:text-sm">TH/s</span>
         </div>
         <div className="mt-0.5 font-inter text-[10px] uppercase tracking-wider text-zinc-500">
           {t('hero_metric_label')}
