@@ -223,7 +223,7 @@ function AsicMiner({ powered, reduce }: { powered: boolean; reduce: boolean }) {
       {/* IP button (left) */}
       <rect x="80" y="75" width="9" height="9" rx="1.6" fill="#2a2d33" stroke="rgba(255,255,255,0.16)" strokeWidth={0.6} />
       <rect x="81.5" y="76.5" width="6" height="2" rx="1" fill="rgba(255,255,255,0.12)" />
-      <text x="84.5" y="99" textAnchor="middle" fontFamily="'Inter', sans-serif" fontSize="4.2" letterSpacing="0" fontWeight={700} fill="rgba(255,255,255,0.8)">
+      <text x="84.5" y="99" textAnchor="middle" fontFamily="'Inter', sans-serif" fontSize="4.2" letterSpacing="0.15" fontWeight={700} fill="rgba(255,255,255,0.85)">
         IP
       </text>
 
@@ -241,20 +241,20 @@ function AsicMiner({ powered, reduce }: { powered: boolean; reduce: boolean }) {
         />
         <circle cx={P.eth.x + 4} cy={P.eth.y + 4} r={1.4} fill={powered ? '#eab308' : '#1f2937'} />
       </g>
-      <text x={P.eth.x} y="99" textAnchor="middle" fontFamily="'Inter', sans-serif" fontSize="4.2" letterSpacing="0.1" fontWeight={700} fill="rgba(255,255,255,0.8)">
+      <text x={P.eth.x} y="99" textAnchor="middle" fontFamily="'Inter', sans-serif" fontSize="4.2" letterSpacing="0.15" fontWeight={700} fill="rgba(255,255,255,0.85)">
         ETH
       </text>
 
       {/* Reset button (recessed) — right group */}
       <circle cx="172" cy="80" r={3} fill="#15171a" stroke="rgba(255,255,255,0.16)" strokeWidth={0.7} />
       <circle cx="172" cy="80" r={1.2} fill="#0a0b0d" />
-      <text x="172" y="99" textAnchor="middle" fontFamily="'Inter', sans-serif" fontSize="4.2" letterSpacing="0" fontWeight={700} fill="rgba(255,255,255,0.8)">
+      <text x="172" y="99" textAnchor="middle" fontFamily="'Inter', sans-serif" fontSize="4.2" letterSpacing="0.15" fontWeight={700} fill="rgba(255,255,255,0.85)">
         RESET
       </text>
 
       {/* Fault LED (exists but stays off) — right group */}
       <circle cx="192" cy="80" r={2.8} fill="#3a1416" stroke="rgba(0,0,0,0.6)" strokeWidth={0.6} />
-      <text x="192" y="99" textAnchor="middle" fontFamily="'Inter', sans-serif" fontSize="4.2" letterSpacing="0" fontWeight={700} fill="rgba(255,255,255,0.66)">
+      <text x="192" y="99" textAnchor="middle" fontFamily="'Inter', sans-serif" fontSize="4.2" letterSpacing="0.15" fontWeight={700} fill="rgba(255,255,255,0.85)">
         FAULT
       </text>
 
@@ -267,7 +267,7 @@ function AsicMiner({ powered, reduce }: { powered: boolean; reduce: boolean }) {
         className={powered ? 'animate-eth-blink' : ''}
         style={{ filter: powered ? 'drop-shadow(0 0 4px rgba(34,197,94,0.9))' : 'none', transition: 'fill 0.5s ease' }}
       />
-      <text x="213" y="99" textAnchor="middle" fontFamily="'Inter', sans-serif" fontSize="4.2" letterSpacing="0" fontWeight={700} fill="rgba(255,255,255,0.8)">
+      <text x="213" y="99" textAnchor="middle" fontFamily="'Inter', sans-serif" fontSize="4.2" letterSpacing="0.15" fontWeight={700} fill="rgba(255,255,255,0.85)">
         NORMAL
       </text>
 
