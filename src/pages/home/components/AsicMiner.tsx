@@ -17,8 +17,8 @@ export const MINER_VIEWBOX = '0 0 400 350';
 
 // Shared anchor points (SVG user units) used by the hero overlay.
 export const MINER_PORTS = {
-  // ETH RJ45 sits toward the middle of the top control board; the cable enters from the left.
-  eth: { x: 120, y: 80 },
+  // ETH RJ45 sits at the exact middle of the top control board; the cable enters from the left.
+  eth: { x: 144, y: 80 },
   // Single square power inlet centered under the three PSU fans.
   socket: { x: 194, y: 284 },
 };
@@ -144,6 +144,15 @@ function AsicMiner({ powered, reduce }: { powered: boolean; reduce: boolean }) {
         <line key={i} x1="232" y1={y} x2="312" y2={y - 42} stroke="rgba(0,0,0,0.4)" strokeWidth={1.4} />
       ))}
       <line x1="224" y1="70" x2="319" y2="20" stroke="rgba(255,255,255,0.14)" strokeWidth={1} />
+      {/* subtle molded BITMAIN brand mark, sheared onto the receding side plane (bottom-right) */}
+      <g transform="matrix(0.888 -0.467 0 1 276 262)">
+        <text x="0.5" y="0.7" textAnchor="middle" fontFamily="'Inter', sans-serif" fontSize="9" letterSpacing="1" fontWeight={700} fill="rgba(0,0,0,0.45)">
+          BITMAIN
+        </text>
+        <text x="0" y="0" textAnchor="middle" fontFamily="'Inter', sans-serif" fontSize="9" letterSpacing="1" fontWeight={700} fill="rgba(255,255,255,0.12)">
+          BITMAIN
+        </text>
+      </g>
 
       {/* ── continuous top face ──────────────────────────────────────── */}
       <polygon points="64,70 224,70 319,20 159,20" fill="url(#topGrad)" stroke="#000" strokeWidth={1} />
@@ -151,10 +160,9 @@ function AsicMiner({ powered, reduce }: { powered: boolean; reduce: boolean }) {
       {[110, 160].map((x, i) => (
         <line key={i} x1={x} y1="70" x2={x + 95} y2="20" stroke="rgba(0,0,0,0.18)" strokeWidth={1} />
       ))}
-      {/* brand nameplate sitting on the middle top panel (sheared onto the top plane) */}
-      <g transform="matrix(1 0 -0.45 0.8 191 44)">
-        <rect x="-42" y="-7" width="84" height="13" rx="2" fill="rgba(8,9,11,0.4)" stroke="rgba(255,255,255,0.08)" strokeWidth={0.6} />
-        <text x="0" y="3.2" textAnchor="middle" fontFamily="'Inter', sans-serif" fontSize="8.5" letterSpacing="0.4" fontWeight={800} fill="rgba(255,255,255,0.88)">
+      {/* brand nameplate on the front edge of the top panel (sheared onto the top plane, above the ETH port) */}
+      <g transform="matrix(1 0 -0.45 0.8 148 62)">
+        <text x="0" y="3.2" textAnchor="middle" fontFamily="'Inter', sans-serif" fontSize="8.5" letterSpacing="0.4" fontWeight={800} fill="rgba(255,255,255,0.9)">
           ANTMINER S21{' '}
           <tspan
             fontWeight={800}
@@ -201,8 +209,15 @@ function AsicMiner({ powered, reduce }: { powered: boolean; reduce: boolean }) {
         />
       ))}
 
-      {/* control cluster — ETH (middle) · IP Report · Reset · Fault (off) · Normal (lit) */}
-      {/* ETH RJ45 jack + link LEDs */}
+      {/* control cluster — IP (left) · ETH (exact middle) · Reset / Fault (off) / Normal (lit) on the right */}
+      {/* IP button (left) */}
+      <rect x="80" y="76" width="8" height="8" rx="1.6" fill="#2a2d33" stroke="rgba(255,255,255,0.16)" strokeWidth={0.6} />
+      <rect x="81" y="77" width="6" height="2" rx="1" fill="rgba(255,255,255,0.12)" />
+      <text x="84" y="98" textAnchor="middle" fontFamily="'Inter', sans-serif" fontSize="3.4" letterSpacing="0.1" fontWeight={600} fill="rgba(255,255,255,0.5)">
+        IP
+      </text>
+
+      {/* ETH RJ45 jack + link LEDs (exact middle of the board) */}
       <g>
         <rect x={P.eth.x - 7.5} y={P.eth.y - 6} width={15} height={12} rx={1.6} fill="#0a0b0d" stroke="rgba(255,255,255,0.22)" strokeWidth={0.8} />
         <rect x={P.eth.x - 4.5} y={P.eth.y - 6} width={9} height={3} fill="#1a1c20" />
@@ -220,36 +235,29 @@ function AsicMiner({ powered, reduce }: { powered: boolean; reduce: boolean }) {
         ETH
       </text>
 
-      {/* IP Report button */}
-      <rect x="142" y="76" width="8" height="8" rx="1.6" fill="#2a2d33" stroke="rgba(255,255,255,0.16)" strokeWidth={0.6} />
-      <rect x="143" y="77" width="6" height="2" rx="1" fill="rgba(255,255,255,0.12)" />
-      <text x="146" y="98" textAnchor="middle" fontFamily="'Inter', sans-serif" fontSize="3.4" letterSpacing="0.1" fontWeight={600} fill="rgba(255,255,255,0.5)">
-        IP RPT
-      </text>
-
-      {/* Reset button (recessed) */}
-      <circle cx="166" cy="80" r={3} fill="#15171a" stroke="rgba(255,255,255,0.16)" strokeWidth={0.7} />
-      <circle cx="166" cy="80" r={1.2} fill="#0a0b0d" />
-      <text x="166" y="98" textAnchor="middle" fontFamily="'Inter', sans-serif" fontSize="3.4" letterSpacing="0.1" fontWeight={600} fill="rgba(255,255,255,0.5)">
+      {/* Reset button (recessed) — right group */}
+      <circle cx="178" cy="80" r={3} fill="#15171a" stroke="rgba(255,255,255,0.16)" strokeWidth={0.7} />
+      <circle cx="178" cy="80" r={1.2} fill="#0a0b0d" />
+      <text x="178" y="98" textAnchor="middle" fontFamily="'Inter', sans-serif" fontSize="3.4" letterSpacing="0.1" fontWeight={600} fill="rgba(255,255,255,0.5)">
         RESET
       </text>
 
-      {/* Fault LED (exists but stays off) — moved a bit more to the right */}
-      <circle cx="188" cy="80" r={2.6} fill="#3a1416" stroke="rgba(0,0,0,0.6)" strokeWidth={0.6} />
-      <text x="188" y="98" textAnchor="middle" fontFamily="'Inter', sans-serif" fontSize="3.4" letterSpacing="0.1" fontWeight={600} fill="rgba(255,255,255,0.4)">
+      {/* Fault LED (exists but stays off) — right group */}
+      <circle cx="196" cy="80" r={2.6} fill="#3a1416" stroke="rgba(0,0,0,0.6)" strokeWidth={0.6} />
+      <text x="196" y="98" textAnchor="middle" fontFamily="'Inter', sans-serif" fontSize="3.4" letterSpacing="0.1" fontWeight={600} fill="rgba(255,255,255,0.4)">
         FAULT
       </text>
 
       {/* Normal LED (only this one is lit) — moved a bit more to the right */}
       <circle
-        cx="208"
+        cx="214"
         cy="80"
         r={2.6}
         fill={powered ? '#22c55e' : '#16291c'}
         className={powered ? 'animate-eth-blink' : ''}
         style={{ filter: powered ? 'drop-shadow(0 0 4px rgba(34,197,94,0.9))' : 'none', transition: 'fill 0.5s ease' }}
       />
-      <text x="208" y="98" textAnchor="middle" fontFamily="'Inter', sans-serif" fontSize="3.4" letterSpacing="0.1" fontWeight={600} fill="rgba(255,255,255,0.5)">
+      <text x="214" y="98" textAnchor="middle" fontFamily="'Inter', sans-serif" fontSize="3.4" letterSpacing="0.1" fontWeight={600} fill="rgba(255,255,255,0.5)">
         NORMAL
       </text>
 
@@ -257,10 +265,10 @@ function AsicMiner({ powered, reduce }: { powered: boolean; reduce: boolean }) {
       <Fan cx={114} cy={153} r={48} powered={powered} />
       <Fan cx={114} cy={254} r={48} powered={powered} />
 
-      {/* ── three smaller PSU fans (nudged slightly upward) ─────────────── */}
-      <Fan cx={194} cy={158} r={16} powered={powered} />
-      <Fan cx={194} cy={196} r={16} powered={powered} />
-      <Fan cx={194} cy={234} r={16} powered={powered} />
+      {/* ── three smaller PSU fans (same position/spacing, slightly larger) ─ */}
+      <Fan cx={194} cy={158} r={18} powered={powered} />
+      <Fan cx={194} cy={196} r={18} powered={powered} />
+      <Fan cx={194} cy={234} r={18} powered={powered} />
 
       {/* ── single square power inlet at the PSU base (cable plugs in here) ─ */}
       <rect x={P.socket.x - 15} y="271" width="30" height="28" rx="3" fill="#0a0b0d" stroke="rgba(255,255,255,0.16)" strokeWidth={1} />
