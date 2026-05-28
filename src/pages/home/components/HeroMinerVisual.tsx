@@ -5,19 +5,19 @@ import AsicMiner, { MINER_VIEWBOX, MINER_PORTS } from './AsicMiner';
 
 const TARGET_HASHRATE = 170; // TH/s — Antminer S21 XP (the unit on the faceplate)
 
-// Cable paths in the shared miner viewBox (0 0 400 340) so endpoints land on ports.
+// Cable paths in the shared miner viewBox (0 0 400 350) so endpoints land on ports.
 const P = MINER_PORTS;
-// Twin power cables drop straight out of the PSU base and run off-frame.
-const POWER_A = `M${P.socketA.x} ${P.socketA.y} C ${P.socketA.x - 3} 320, ${P.socketA.x - 9} 332, ${P.socketA.x - 14} 342`;
-const POWER_B = `M${P.socketB.x} ${P.socketB.y} C ${P.socketB.x + 3} 320, ${P.socketB.x + 8} 332, ${P.socketB.x + 12} 342`;
-// Ethernet enters cleanly from off-frame left into the ETH port.
-const ETH_PATH = `M-8 250 C 60 232 84 132 ${P.eth.x} ${P.eth.y}`;
+// One thick power cable rises from off-frame and plugs into the PSU socket.
+const PLUG_BOTTOM = P.socket.y + 26; // where the cable meets the plug boot
+const POWER_CABLE = `M${P.socket.x - 30} 352 C ${P.socket.x - 18} 340, ${P.socket.x - 4} 334, ${P.socket.x} ${PLUG_BOTTOM}`;
+// Ethernet drapes in cleanly from off-frame top-left into the ETH port.
+const ETH_PATH = `M-8 58 C 70 50, 150 66, ${P.eth.x} ${P.eth.y}`;
 
 /**
  * Premium "power-on" hero: a stylized Antminer S21 XP (vector) rotates into a
- * dark industrial bay, twin power cables drop from the attached PSU base carrying
- * red current, an Ethernet line streams data packets into the ETH port, status
- * LEDs wake, all five fans spin up and the live hashrate ticks to 170 TH/s.
+ * dark industrial bay, one thick power cable plugs into the PSU socket from below
+ * carrying red current, an Ethernet line streams data packets into the ETH port,
+ * status LEDs wake, all five fans spin up and the live hashrate ticks to 170 TH/s.
  * CSS/SVG + framer-motion only (no 3D bundle); GPU-friendly transforms; freezes
  * to a clean "powered" state under prefers-reduced-motion.
  */
@@ -114,26 +114,51 @@ export default function HeroMinerVisual() {
                 <path id="ethPath" d={ETH_PATH} />
               </defs>
 
-              {/* power cables (thick, dark) + red current flow */}
-              {[POWER_A, POWER_B].map((d, i) => (
-                <g key={i}>
-                  <path d={d} stroke="#0c0d0f" strokeWidth={6} strokeLinecap="round" />
-                  <path d={d} stroke="#202327" strokeWidth={4} strokeLinecap="round" />
-                  <path
-                    d={d}
-                    stroke="#DC2626"
-                    strokeWidth={1.6}
-                    strokeLinecap="round"
-                    strokeDasharray="2 10"
-                    className={powered ? 'animate-current-flow' : ''}
-                    style={{
-                      opacity: powered ? 1 : 0.15,
-                      filter: 'drop-shadow(0 0 3px rgba(220,38,38,0.9))',
-                      transition: 'opacity 0.6s ease',
-                    }}
-                  />
-                </g>
-              ))}
+              {/* one thick power cable + red current flow into the plug */}
+              <path d={POWER_CABLE} stroke="#0c0d0f" strokeWidth={9} strokeLinecap="round" />
+              <path d={POWER_CABLE} stroke="#1c1f24" strokeWidth={6.5} strokeLinecap="round" />
+              <path
+                d={POWER_CABLE}
+                stroke="#DC2626"
+                strokeWidth={2}
+                strokeLinecap="round"
+                strokeDasharray="2 11"
+                className={powered ? 'animate-current-flow' : ''}
+                style={{
+                  opacity: powered ? 1 : 0.15,
+                  filter: 'drop-shadow(0 0 3px rgba(220,38,38,0.9))',
+                  transition: 'opacity 0.6s ease',
+                }}
+              />
+
+              {/* stylized square plug inserted into the PSU socket */}
+              <g>
+                {/* cable boot */}
+                <rect x={P.socket.x - 7} y={P.socket.y + 16} width={14} height={11} rx={3} fill="#15171a" stroke="rgba(255,255,255,0.1)" strokeWidth={0.8} />
+                {/* connector body (top edge slips up into the socket) */}
+                <rect x={P.socket.x - 14} y={P.socket.y - 6} width={28} height={23} rx={3} fill="#1b1e22" stroke="rgba(255,255,255,0.16)" strokeWidth={1} />
+                <rect x={P.socket.x - 14} y={P.socket.y - 6} width={28} height={6} rx={3} fill="rgba(255,255,255,0.06)" />
+                {/* live face slot + prongs */}
+                <rect x={P.socket.x - 10} y={P.socket.y + 2} width={20} height={10} rx={1.5} fill="#0a0b0d" />
+                <rect x={P.socket.x - 5} y={P.socket.y + 4} width={2.6} height={6} rx={1} fill="#3a3d42" />
+                <rect x={P.socket.x + 2.4} y={P.socket.y + 4} width={2.6} height={6} rx={1} fill="#3a3d42" />
+                {/* energized rim glow when powered */}
+                <rect
+                  x={P.socket.x - 14}
+                  y={P.socket.y - 6}
+                  width={28}
+                  height={23}
+                  rx={3}
+                  fill="none"
+                  stroke="#DC2626"
+                  strokeWidth={1.4}
+                  style={{
+                    opacity: powered ? 0.85 : 0,
+                    filter: 'drop-shadow(0 0 4px rgba(220,38,38,0.85))',
+                    transition: 'opacity 0.7s ease',
+                  }}
+                />
+              </g>
 
               {/* ethernet cable (thinner) */}
               <path d={ETH_PATH} stroke="#0c0d0f" strokeWidth={3.4} strokeLinecap="round" />
@@ -182,7 +207,7 @@ export default function HeroMinerVisual() {
 
       {/* Live hashrate HUD */}
       <motion.div
-        className="absolute bottom-[1%] left-1/2 -translate-x-1/2 rounded-2xl border border-white/10 bg-black/60 px-5 py-3 backdrop-blur-md"
+        className="absolute bottom-[1%] right-[3%] rounded-2xl border border-white/10 bg-black/60 px-5 py-3 backdrop-blur-md"
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: powered ? 1 : 0, y: powered ? 0 : 16 }}
         transition={{ duration: 0.6, ease: 'easeOut', delay: 0.2 }}
