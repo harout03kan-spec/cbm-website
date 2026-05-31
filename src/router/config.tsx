@@ -10,6 +10,7 @@ const About = lazy(() => import('../pages/about/page'));
 const Cart = lazy(() => import('../pages/cart/page'));
 const Checkout = lazy(() => import('../pages/checkout/page'));
 const OrderSuccess = lazy(() => import('../pages/order-success/page'));
+const Crm = lazy(() => import('../pages/crm/page'));
 const NotFound = lazy(() => import('../pages/NotFound'));
 
 const routes: RouteObject[] = [
@@ -48,6 +49,10 @@ const routes: RouteObject[] = [
   {
     path: '/order-success',
     element: <OrderSuccess />,
+  },
+  {
+    path: '/crm',
+    element: <Crm />,
   },
   {
     path: '*',

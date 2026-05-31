@@ -108,7 +108,7 @@ const CartPage = () => {
             {/* Cart Items - Left Column */}
             <div className="lg:col-span-2 space-y-4">
               {cartItems.map((item, index) => {
-                const product = products.find(p => p.id === item.id);
+                const product = products.find(p => p.id === item.id) as (typeof products[number] & { badge?: string; badgeType?: string }) | undefined;
                 if (!product) return null;
 
                 return (
