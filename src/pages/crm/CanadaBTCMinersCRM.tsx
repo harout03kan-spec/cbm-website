@@ -476,6 +476,8 @@ export default function App({ onLock }) {
   const [showAllToday, setShowAllToday] = useState(false);
   const [importPrev, setImportPrev] = useState(null);
   const [tplPreview, setTplPreview] = useState(null);
+  const [restorePrev, setRestorePrev] = useState(null);
+  const [importMode, setImportMode] = useState("skip");
 
   const save = async (l, a, inv, bat, tpl) => { try { await crmStorage.set(STORE_KEY, JSON.stringify({ leads: l, activities: a, invoices: inv, batches: bat, templates: tpl, v: 4, wl: true, iv2: true, clean1: true, clean2: true, inv3: true, tpl1: true, qb1: true, qbs1: true, clean3: true, qbs2: true, qbs3: true, qbs4: true, qbs5: true, inv4: true, inv5: true, man1: true, inv6: true, inv7: true, man2: true, man3: true, man4: true, man5: true, man6: true, inv8: true }), false); } catch (e) {} };
 
@@ -754,30 +756,140 @@ export default function App({ onLock }) {
       const rows = XLSX.utils.sheet_to_json(ws, { defval: "" });
       const headers = Object.keys(rows[0] || {});
       const mapped = headers.map((h) => ({ header: h, field: headerToField[norm(h)] || null }));
+      const detected = mapped.filter((mm) => mm.field).map((mm) => mm.field);
+      const unmapped = mapped.filter((mm) => !mm.field).map((mm) => mm.header);
+      const hasInvoiceCols = headers.some((h) => /invoice|amount|paid|due|order/i.test(h));
+      const hasNoteCols = headers.some((h) => /note|message|outcome|summary|comment/i.test(h));
       const haveP = new Set(leads.map((l) => phoneKey(l.phone)).filter((x) => x.length >= 10));
       const haveE = new Set(leads.filter((l) => l.email && l.email.includes("@")).map((l) => norm(l.email)));
-      let toAdd = 0, dup = 0, missing = 0; const parsed = [];
+      let toAdd = 0, dup = 0, missing = 0, noName = 0, withNotes = 0; const parsed = [];
       rows.forEach((row) => {
         const nl = rowToLead(row); if (!nl) return;
         const pk = phoneKey(nl.phone), ek = nl.email && nl.email.includes("@") ? norm(nl.email) : "";
         const isDup = (pk.length >= 10 && haveP.has(pk)) || (ek && haveE.has(ek));
         const noContact = pk.length < 10 && !ek;
+        const missingName = !(nl.contactName || "").trim() && !(nl.company || "").trim();
         if (isDup) dup++; else { toAdd++; if (pk.length >= 10) haveP.add(pk); if (ek) haveE.add(ek); }
         if (noContact) missing++;
+        if (missingName) noName++;
+        if ((nl.notes || "").trim()) withNotes++;
         parsed.push({ nl, isDup, noContact });
       });
       setImportNote("");
-      setImportPrev({ fileName: file.name, total: rows.length, toAdd, dup, missing, mapped, parsed });
+      setImportMode("skip");
+      setImportPrev({ fileName: file.name, total: rows.length, toAdd, dup, missing, noName, withNotes, mapped, detected, unmapped, hasInvoiceCols, hasNoteCols, parsed });
     } catch (e) { setImportNote("Could not read that file. Make sure it is a CSV or Excel file with a header row."); }
   };
   const confirmImport = () => {
     if (!importPrev) return;
-    const next = [...leads]; let added = 0;
-    importPrev.parsed.forEach(({ nl, isDup }) => { if (isDup) return; nl.status = "Nurture"; nl.leadSource = nl.leadSource || ""; next.unshift(nl); added++; });
-    setLeads(next);
-    setImportNote(`Added ${added} new contact${added === 1 ? "" : "s"}. Skipped ${importPrev.dup} duplicate${importPrev.dup === 1 ? "" : "s"}.`);
+    const mode = importMode;
+    let next = [...leads]; let added = 0, updated = 0, skipped = 0;
+    const findMatch = (nl) => {
+      const pk = phoneKey(nl.phone), ek = nl.email && nl.email.includes("@") ? norm(nl.email) : "";
+      return next.find((l) => (pk.length >= 10 && phoneKey(l.phone) === pk) || (ek && norm(l.email) === ek));
+    };
+    importPrev.parsed.forEach(({ nl, isDup }) => {
+      if (isDup) {
+        if (mode === "skip") { skipped++; return; }
+        if (mode === "new") { nl.status = nl.status || "Nurture"; nl.leadSource = nl.leadSource || ""; next.unshift(nl); added++; return; }
+        // fill: update only empty fields on the matched existing contact
+        const ex = findMatch(nl);
+        if (!ex) { nl.status = nl.status || "Nurture"; next.unshift(nl); added++; return; }
+        let touched = false;
+        Object.keys(nl).forEach((k) => {
+          if (k === "id" || k === "lastUpdated") return;
+          const incoming = nl[k];
+          const cur = ex[k];
+          const curEmpty = cur === "" || cur === null || cur === undefined || (Array.isArray(cur) && cur.length === 0);
+          const hasIncoming = !(incoming === "" || incoming === null || incoming === undefined || (Array.isArray(incoming) && incoming.length === 0));
+          if (curEmpty && hasIncoming) { ex[k] = incoming; touched = true; }
+        });
+        if (touched) { ex.lastUpdated = t; updated++; } else skipped++;
+        return;
+      }
+      nl.status = nl.status || "Nurture"; nl.leadSource = nl.leadSource || ""; next.unshift(nl); added++;
+    });
+    setLeads(next.map((l) => ({ ...l })));
+    setImportNote(`Imported: ${added} added${updated ? `, ${updated} updated` : ""}${skipped ? `, ${skipped} skipped` : ""}.`);
     setImportPrev(null);
   };
+
+  // ---- full backup / restore (all CRM data, version-safe) ----
+  const collectBackup = () => {
+    let dupeIgnored = {}, savedView = "all";
+    try { dupeIgnored = JSON.parse(localStorage.getItem("cbm-crm-dupe-ignored") || "{}"); } catch (e) {}
+    try { savedView = localStorage.getItem("cbm-crm-view") || "all"; } catch (e) {}
+    return {
+      backupType: "cbm-crm-backup", version: 1, exportedAt: new Date().toISOString(),
+      storeKey: STORE_KEY,
+      leads, activities: acts, invoices, batches, templates,
+      settings: { dupeIgnored, view: savedView, light },
+    };
+  };
+  const downloadBackup = () => {
+    try {
+      const data = JSON.stringify(collectBackup(), null, 2);
+      const blob = new Blob([data], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url; a.download = `cbm-crm-backup-${todayISO()}.json`;
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+    } catch (e) {}
+  };
+  const previewRestore = async (file) => {
+    if (!file) return;
+    try {
+      const text = await file.text();
+      const data = JSON.parse(text);
+      const payload = data && data.backupType === "cbm-crm-backup" ? data : (data && (data.leads || data.activities) ? data : null);
+      if (!payload) { setImportNote("That file is not a CRM backup. Use Backup to create one first."); return; }
+      const ignoredCount = payload.settings && payload.settings.dupeIgnored ? Object.keys(payload.settings.dupeIgnored).length : 0;
+      setRestorePrev({
+        fileName: file.name, payload,
+        counts: {
+          contacts: (payload.leads || []).length,
+          invoices: (payload.invoices || []).length,
+          notes: (payload.activities || []).length,
+          templates: (payload.templates || []).length,
+          followups: (payload.leads || []).filter((l) => l && l.nextFollowUp).length,
+          ignored: ignoredCount,
+        },
+      });
+    } catch (e) { setImportNote("Could not read that backup file. Make sure it is a valid CRM backup JSON."); }
+  };
+  const confirmRestore = () => {
+    if (!restorePrev) return;
+    const p = restorePrev.payload;
+    const safeLeads = (p.leads || []).map((l) => ({ ...blankLead(), ...l }));
+    const safeTpls = (p.templates || []).map((tp) => ({ category: "General", ...tp }));
+    setLeads(safeLeads);
+    setActs(p.activities || []);
+    setInvoices(p.invoices || []);
+    setBatches(p.batches || []);
+    setTemplates(safeTpls.length ? safeTpls : SEED_TEMPLATES().map((tp) => ({ category: "General", ...tp })));
+    try {
+      if (p.settings && p.settings.dupeIgnored) localStorage.setItem("cbm-crm-dupe-ignored", JSON.stringify(p.settings.dupeIgnored));
+      if (p.settings && p.settings.view) localStorage.setItem("cbm-crm-view", p.settings.view);
+    } catch (e) {}
+    setImportNote(`Restored ${safeLeads.length} contacts from backup.`);
+    setRestorePrev(null);
+  };
+
+  // ---- data health checks ----
+  const health = useMemo(() => {
+    const noContact = leads.filter((l) => phoneKey(l.phone).length < 10 && !(l.email && l.email.includes("@")));
+    const noName = leads.filter((l) => !(l.contactName || "").trim() && !(l.company || "").trim());
+    const followNoDate = []; // follow-up records are lead.nextFollowUp; n/a as separate records
+    const unpaidNoDue = invoices.filter((i) => { const st = norm(i.status); return (st === "unpaid" || st === "overdue") && !i.dueDate; });
+    const phoneMap = {}, emailMap = {};
+    leads.forEach((l) => { const p = phoneKey(l.phone); if (p.length >= 10) (phoneMap[p] = phoneMap[p] || []).push(l); const e = (l.email && l.email.includes("@")) ? norm(l.email) : ""; if (e) (emailMap[e] = emailMap[e] || []).push(l); });
+    const dupPhones = Object.values(phoneMap).filter((a) => a.length > 1);
+    const dupEmails = Object.values(emailMap).filter((a) => a.length > 1);
+    const tplNoCat = templates.filter((tp) => !tp.category);
+    const emptyNotes = acts.filter((a) => !(a.outcome || "").trim() && !(a.notes || "").trim());
+    return { noContact, noName, followNoDate, unpaidNoDue, dupPhones, dupEmails, tplNoCat, emptyNotes };
+  }, [leads, invoices, templates, acts]);
   const importContacts = async (file) => {
     if (!file) return;
     setImportNote("Reading file...");
@@ -817,6 +929,7 @@ export default function App({ onLock }) {
     { k: "follow", label: "Follow-ups", icon: CalendarClock },
     { k: "templates", label: "Templates", icon: MessageSquare },
     { k: "dupes", label: "Duplicates", icon: AlertTriangle },
+    { k: "health", label: "Data Health", icon: Activity },
     { k: "log", label: "Activity Log", icon: Activity },
   ];
 
@@ -895,9 +1008,12 @@ export default function App({ onLock }) {
               <div className="relative">
                 <button onClick={() => setMenu(!menu)} title="Data" className="p-2 rounded-xl hover:bg-neutral-800 text-neutral-400"><RefreshCw size={18} /></button>
                 {menu && (
-                  <div className="absolute right-0 mt-1 w-52 bg-neutral-900 border border-neutral-800 rounded-xl shadow-xl shadow-black/40 py-1 text-sm z-30">
-                    <button onClick={() => { setMenu(false); reImport(); }} className="w-full text-left px-3 py-2 hover:bg-neutral-800 text-neutral-200 flex items-center gap-2"><RefreshCw size={14} /> Re-import from Excel</button>
-                    <button onClick={() => { const wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(leads), "Leads"); XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(acts), "Activity Log"); XLSX.writeFile(wb, "Canada BTC Miners CRM.xlsx"); setMenu(false); }} className="w-full text-left px-3 py-2 hover:bg-neutral-800 text-neutral-200 flex items-center gap-2"><Download size={14} /> Export to Excel</button>
+                  <div className="absolute right-0 mt-1 w-56 bg-neutral-900 border border-neutral-800 rounded-xl shadow-xl shadow-black/40 py-1 text-sm z-30">
+                    <button onClick={() => { setMenu(false); downloadBackup(); }} className="w-full text-left px-3 py-2 hover:bg-neutral-800 text-neutral-200 flex items-center gap-2"><Download size={14} /> Backup (full JSON)</button>
+                    <label className="w-full text-left px-3 py-2 hover:bg-neutral-800 text-neutral-200 flex items-center gap-2 cursor-pointer"><RefreshCw size={14} /> Restore from backup<input type="file" accept=".json,application/json" className="hidden" onChange={(e) => { const file = e.target.files && e.target.files[0]; setMenu(false); previewRestore(file); e.target.value = ""; }} /></label>
+                    <div className="my-1 border-t border-neutral-800" />
+                    <button onClick={() => { const wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(leads), "Leads"); XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(acts), "Activity Log"); XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(invoices), "Invoices"); XLSX.writeFile(wb, "Canada BTC Miners CRM.xlsx"); setMenu(false); }} className="w-full text-left px-3 py-2 hover:bg-neutral-800 text-neutral-200 flex items-center gap-2"><Download size={14} /> Export to Excel</button>
+                    <button onClick={() => { setMenu(false); setTab("health"); }} className="w-full text-left px-3 py-2 hover:bg-neutral-800 text-neutral-200 flex items-center gap-2"><Activity size={14} /> Data health</button>
                   </div>
                 )}
               </div>
@@ -1269,6 +1385,53 @@ export default function App({ onLock }) {
             )}
           </div>
         )}
+        {tab === "health" && (
+          <div className="space-y-3">
+            <div><div className="text-lg font-semibold text-white">Data health</div><div className="text-xs text-neutral-500">Records that may need attention. Click any item to open and fix it.</div></div>
+            {(() => {
+              const sections = [
+                { key: "noContact", label: "Contacts with no phone and no email", items: health.noContact, kind: "lead" },
+                { key: "noName", label: "Contacts with missing name", items: health.noName, kind: "lead" },
+                { key: "unpaidNoDue", label: "Unpaid invoices with no due date", items: health.unpaidNoDue, kind: "invoice" },
+                { key: "tplNoCat", label: "Templates with no category", items: health.tplNoCat, kind: "template" },
+                { key: "emptyNotes", label: "Notes with empty text", items: health.emptyNotes, kind: "note" },
+              ];
+              const dupCount = health.dupPhones.length + health.dupEmails.length;
+              const totalIssues = sections.reduce((n, sec) => n + sec.items.length, 0) + dupCount;
+              if (totalIssues === 0) return <div className="text-sm text-neutral-500 bg-neutral-950 border border-neutral-800 rounded-2xl p-8 text-center">Everything looks healthy. No data issues found.</div>;
+              return (
+                <div className="space-y-3">
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+                    {[["No contact info", health.noContact.length], ["No name", health.noName.length], ["Unpaid, no due date", health.unpaidNoDue.length], ["Duplicate phones", health.dupPhones.length], ["Duplicate emails", health.dupEmails.length], ["Templates no category", health.tplNoCat.length], ["Empty notes", health.emptyNotes.length]].map(([lab, n]) => (
+                      <div key={lab} className="bg-neutral-950 rounded-xl border border-neutral-800 p-3 text-center"><div className={`text-lg font-bold ${n > 0 ? "text-amber-400" : "text-neutral-600"}`}>{n}</div><div className="text-[10px] text-neutral-500 mt-0.5">{lab}</div></div>
+                    ))}
+                  </div>
+                  {sections.filter((sec) => sec.items.length > 0).map((sec) => (
+                    <div key={sec.key} className="bg-neutral-950 rounded-2xl border border-neutral-800 p-3">
+                      <div className="text-xs text-amber-300 mb-2 flex items-center gap-1.5"><AlertTriangle size={13} /> {sec.items.length} · {sec.label}</div>
+                      <div className="space-y-1.5">
+                        {sec.items.slice(0, 15).map((it, i) => (
+                          <div key={i} className="flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-neutral-900 transition">
+                            <span className="text-sm text-neutral-200 truncate flex-1">{sec.kind === "lead" ? (it.contactName || it.company || it.phone || it.email || "Unnamed") : sec.kind === "invoice" ? (it.contact || it.number || "Invoice") : sec.kind === "template" ? (it.title || "Untitled template") : (it.contact || it.type || "Note")}</span>
+                            {sec.kind === "lead" && <button onClick={() => setEdit(it)} className="shrink-0 text-xs font-medium bg-red-600 text-white hover:bg-red-500 px-3 py-1 rounded-lg">Open</button>}
+                            {sec.kind === "invoice" && <button onClick={() => setInvForm({ ...it })} className="shrink-0 text-xs font-medium bg-red-600 text-white hover:bg-red-500 px-3 py-1 rounded-lg">Open</button>}
+                            {sec.kind === "template" && <button onClick={() => setTplForm({ ...it })} className="shrink-0 text-xs font-medium bg-red-600 text-white hover:bg-red-500 px-3 py-1 rounded-lg">Open</button>}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                  {dupCount > 0 && (
+                    <div className="bg-neutral-950 rounded-2xl border border-neutral-800 p-3">
+                      <div className="text-xs text-amber-300 mb-2 flex items-center gap-1.5"><AlertTriangle size={13} /> {dupCount} duplicate phone/email group(s)</div>
+                      <button onClick={() => setTab("dupes")} className="text-sm font-medium bg-neutral-800 hover:bg-neutral-700 text-neutral-200 px-3 py-1.5 rounded-lg">Review in Duplicates</button>
+                    </div>
+                  )}
+                </div>
+              );
+            })()}
+          </div>
+        )}
         {tab === "log" && (
           <div className="space-y-3">
             <button onClick={() => setActForm({ id: uid("A"), date: t, leadId: "", contact: "", type: "Call", outcome: "", notes: "" })} className="flex items-center gap-1 text-sm bg-red-600 text-white px-3 py-2 rounded-lg hover:bg-red-500"><Plus size={16} /> Log Activity</button>
@@ -1291,7 +1454,8 @@ export default function App({ onLock }) {
       {invForm && <InvoiceForm inv={invForm} leads={leads} onSave={saveInv} onDelete={delInv} onClose={() => setInvForm(null)} />}
       {batchForm && <BatchForm batch={batchForm} onSave={saveBatch} onDelete={delBatch} onClose={() => setBatchForm(null)} />}
       {tplForm && <TemplateForm tpl={tplForm} onSave={saveTpl} onDelete={delTpl} onClose={() => setTplForm(null)} />}
-      {importPrev && <ImportPreview prev={importPrev} onConfirm={confirmImport} onClose={() => setImportPrev(null)} />}
+      {importPrev && <ImportPreview prev={importPrev} mode={importMode} setMode={setImportMode} onConfirm={confirmImport} onClose={() => setImportPrev(null)} />}
+      {restorePrev && <RestorePreview prev={restorePrev} onConfirm={confirmRestore} onClose={() => setRestorePrev(null)} />}
       {tplPreview && <TemplatePreview tpl={tplPreview} onCopy={() => { copyTpl(tplPreview); }} onEdit={() => { setTplForm({ ...tplPreview }); setTplPreview(null); }} copied={copiedId === tplPreview.id} onClose={() => setTplPreview(null)} />}
       </div>
       </div>
@@ -1590,34 +1754,78 @@ function BatchForm({ batch, onSave, onDelete, onClose }) {
 
 const TPL_CATEGORIES = ["Sales", "Repair", "Invoice", "Follow up", "Supplier", "Hosting", "General"];
 
-function ImportPreview({ prev, onConfirm, onClose }) {
+const IMPORT_MODES = [
+  { k: "skip", label: "Skip duplicates", desc: "Add only new contacts (recommended)" },
+  { k: "fill", label: "Update empty fields only", desc: "Fill blanks on matched contacts, never overwrite" },
+  { k: "new", label: "Add as new anyway", desc: "Import every row, even duplicates" },
+];
+function ImportPreview({ prev, mode, setMode, onConfirm, onClose }) {
+  const willApply = mode === "new" ? prev.total : prev.toAdd + (mode === "fill" ? prev.dup : 0);
   return (
     <div className="fixed inset-0 bg-black/70 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4" onClick={onClose}>
       <div className="bg-neutral-950 border border-neutral-800 w-full sm:max-w-lg sm:rounded-2xl rounded-t-2xl max-h-[92vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
         <div className="flex items-center justify-between p-4 border-b border-neutral-800 sticky top-0 bg-neutral-950"><div className="font-semibold text-white">Import preview</div><button onClick={onClose} className="text-neutral-400 hover:text-white"><X size={20} /></button></div>
         <div className="p-4 space-y-4">
           <div className="text-sm text-neutral-400 truncate">File: <span className="text-neutral-200">{prev.fileName}</span></div>
-          <div className="grid grid-cols-4 gap-2 text-center">
-            <div className="bg-neutral-900 rounded-xl border border-neutral-800 p-3"><div className="text-xl font-bold text-emerald-400">{prev.toAdd}</div><div className="text-[10px] text-neutral-500 mt-0.5">New</div></div>
-            <div className="bg-neutral-900 rounded-xl border border-neutral-800 p-3"><div className="text-xl font-bold text-amber-400">{prev.dup}</div><div className="text-[10px] text-neutral-500 mt-0.5">Duplicates</div></div>
-            <div className="bg-neutral-900 rounded-xl border border-neutral-800 p-3"><div className="text-xl font-bold text-red-300">{prev.missing}</div><div className="text-[10px] text-neutral-500 mt-0.5">Missing contact</div></div>
-            <div className="bg-neutral-900 rounded-xl border border-neutral-800 p-3"><div className="text-xl font-bold text-white">{prev.total}</div><div className="text-[10px] text-neutral-500 mt-0.5">Rows read</div></div>
+          <div className="grid grid-cols-3 gap-2 text-center">
+            <div className="bg-neutral-900 rounded-xl border border-neutral-800 p-2.5"><div className="text-lg font-bold text-emerald-400">{prev.toAdd}</div><div className="text-[10px] text-neutral-500 mt-0.5">New</div></div>
+            <div className="bg-neutral-900 rounded-xl border border-neutral-800 p-2.5"><div className="text-lg font-bold text-amber-400">{prev.dup}</div><div className="text-[10px] text-neutral-500 mt-0.5">Look duplicated</div></div>
+            <div className="bg-neutral-900 rounded-xl border border-neutral-800 p-2.5"><div className="text-lg font-bold text-white">{prev.total}</div><div className="text-[10px] text-neutral-500 mt-0.5">Rows read</div></div>
+            <div className="bg-neutral-900 rounded-xl border border-neutral-800 p-2.5"><div className="text-lg font-bold text-red-300">{prev.missing}</div><div className="text-[10px] text-neutral-500 mt-0.5">No phone/email</div></div>
+            <div className="bg-neutral-900 rounded-xl border border-neutral-800 p-2.5"><div className="text-lg font-bold text-red-300">{prev.noName}</div><div className="text-[10px] text-neutral-500 mt-0.5">Missing name</div></div>
+            <div className="bg-neutral-900 rounded-xl border border-neutral-800 p-2.5"><div className="text-lg font-bold text-neutral-200">{prev.withNotes}</div><div className="text-[10px] text-neutral-500 mt-0.5">Have notes</div></div>
+          </div>
+          <div className="flex flex-wrap gap-2 text-[11px]">
+            {prev.hasInvoiceCols && <span className="px-2 py-0.5 rounded-full bg-sky-500/15 text-sky-300 border border-sky-500/20">Invoice data detected</span>}
+            {prev.hasNoteCols && <span className="px-2 py-0.5 rounded-full bg-violet-500/15 text-violet-300 border border-violet-500/20">Notes detected</span>}
           </div>
           <div>
-            <div className="text-[11px] uppercase tracking-wider text-neutral-500 mb-1.5">Field mapping</div>
-            <div className="space-y-1 max-h-40 overflow-y-auto">
+            <div className="text-[11px] uppercase tracking-wider text-neutral-500 mb-1.5">Fields detected ({prev.detected.length}) · not mapped ({prev.unmapped.length})</div>
+            <div className="space-y-1 max-h-36 overflow-y-auto">
               {prev.mapped.map((mm, i) => (
                 <div key={i} className="flex items-center gap-2 text-xs">
                   <span className="text-neutral-400 truncate flex-1">{mm.header}</span>
                   <ChevronRight size={12} className="text-neutral-600 shrink-0" />
-                  <span className={`truncate flex-1 ${mm.field ? "text-neutral-200" : "text-neutral-600 italic"}`}>{mm.field || "ignored"}</span>
+                  <span className={`truncate flex-1 ${mm.field ? "text-neutral-200" : "text-neutral-600 italic"}`}>{mm.field || "not mapped"}</span>
                 </div>
               ))}
             </div>
           </div>
-          <div className="text-xs text-neutral-500">{prev.toAdd} new contact{prev.toAdd === 1 ? "" : "s"} will be added. {prev.dup} duplicate{prev.dup === 1 ? "" : "s"} (same phone or email) will be skipped. Nothing is overwritten and your existing data is untouched.</div>
+          <div>
+            <div className="text-[11px] uppercase tracking-wider text-neutral-500 mb-1.5">When a contact already exists</div>
+            <div className="space-y-1.5">
+              {IMPORT_MODES.map((mm) => (
+                <label key={mm.k} className={`flex items-start gap-2 px-3 py-2 rounded-xl border cursor-pointer transition ${mode === mm.k ? "border-red-600 bg-red-600/10" : "border-neutral-800 bg-neutral-900 hover:bg-neutral-800"}`}>
+                  <input type="radio" name="impmode" checked={mode === mm.k} onChange={() => setMode(mm.k)} className="mt-0.5" />
+                  <span><span className="text-sm text-neutral-100">{mm.label}</span><span className="block text-[11px] text-neutral-500">{mm.desc}</span></span>
+                </label>
+              ))}
+            </div>
+          </div>
+          <div className="text-xs text-neutral-500">Existing data is never overwritten except blank fields under "Update empty fields only". Your saved CRM stays safe.</div>
         </div>
-        <div className="flex items-center justify-end gap-2 p-4 border-t border-neutral-800 sticky bottom-0 bg-neutral-950"><button onClick={onClose} className="text-sm font-medium px-4 py-2 rounded-xl border border-neutral-700 text-neutral-300 hover:bg-neutral-800 transition">Cancel</button><button onClick={onConfirm} disabled={prev.toAdd === 0} className="text-sm font-medium px-5 py-2 rounded-xl bg-red-600 text-white hover:bg-red-500 disabled:opacity-50 transition">Add {prev.toAdd} contact{prev.toAdd === 1 ? "" : "s"}</button></div>
+        <div className="flex items-center justify-end gap-2 p-4 border-t border-neutral-800 sticky bottom-0 bg-neutral-950"><button onClick={onClose} className="text-sm font-medium px-4 py-2 rounded-xl border border-neutral-700 text-neutral-300 hover:bg-neutral-800 transition">Cancel</button><button onClick={onConfirm} disabled={willApply === 0} className="text-sm font-medium px-5 py-2 rounded-xl bg-red-600 text-white hover:bg-red-500 disabled:opacity-50 transition">Import {willApply} row{willApply === 1 ? "" : "s"}</button></div>
+      </div>
+    </div>
+  );
+}
+
+function RestorePreview({ prev, onConfirm, onClose }) {
+  const c = prev.counts;
+  return (
+    <div className="fixed inset-0 bg-black/70 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4" onClick={onClose}>
+      <div className="bg-neutral-950 border border-neutral-800 w-full sm:max-w-md sm:rounded-2xl rounded-t-2xl max-h-[92vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+        <div className="flex items-center justify-between p-4 border-b border-neutral-800 sticky top-0 bg-neutral-950"><div className="font-semibold text-white">Restore from backup</div><button onClick={onClose} className="text-neutral-400 hover:text-white"><X size={20} /></button></div>
+        <div className="p-4 space-y-4">
+          <div className="text-sm text-neutral-400 truncate">File: <span className="text-neutral-200">{prev.fileName}</span></div>
+          <div className="grid grid-cols-3 gap-2 text-center">
+            {[["Contacts", c.contacts], ["Invoices", c.invoices], ["Notes", c.notes], ["Templates", c.templates], ["Follow-ups", c.followups], ["Ignored dupes", c.ignored]].map(([lab, n]) => (
+              <div key={lab} className="bg-neutral-900 rounded-xl border border-neutral-800 p-3"><div className="text-lg font-bold text-white">{n}</div><div className="text-[10px] text-neutral-500 mt-0.5">{lab}</div></div>
+            ))}
+          </div>
+          <div className="text-xs px-3 py-2 rounded-lg bg-amber-500/10 border border-amber-700/40 text-amber-300">This replaces your current CRM data with the backup. Tip: run Backup first to save what you have now.</div>
+        </div>
+        <div className="flex items-center justify-end gap-2 p-4 border-t border-neutral-800 sticky bottom-0 bg-neutral-950"><button onClick={onClose} className="text-sm font-medium px-4 py-2 rounded-xl border border-neutral-700 text-neutral-300 hover:bg-neutral-800 transition">Cancel</button><button onClick={onConfirm} className="text-sm font-medium px-5 py-2 rounded-xl bg-red-600 text-white hover:bg-red-500 transition">Restore {c.contacts} contacts</button></div>
       </div>
     </div>
   );
