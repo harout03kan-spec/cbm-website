@@ -20,6 +20,14 @@ const LEAD_TYPES = ["Buyer", "Seller", "Hosting", "Supplier", "Mining farm", "Br
 const REPAIR_STATUS = ["Received", "Diagnosing", "Waiting approval", "Approved", "In repair", "Ready", "Shipped", "Closed"];
 const INVOICE_STATUS = ["Unpaid", "Sent", "Paid", "Overdue", "Cancelled", "Quote", "Refund"];
 const FOLLOW_REASONS = ["Call back", "Send quote", "Payment follow up", "Repair update", "Supplier follow up", "Hosting follow up", "Bulk deal follow up", "US outreach call"];
+const US_FOLLOW_REASONS = ["First call", "Call back", "No answer", "Left voicemail", "Send email", "Waiting reply", "Hosting follow up", "Inventory follow up", "Buying interest", "Selling interest", "Supplier follow up", "Bulk deal follow up", "Needs quote", "Not interested"];
+const US_LEAD_TYPES = ["Buyer", "Seller", "Buyer and seller", "Hosting", "Hosting facility", "Supplier", "Broker", "Mining farm", "Unknown"];
+const US_SOURCES = ["Google", "Website", "LinkedIn", "Referral", "Telegram", "Email list", "Manual entry", "Other"];
+// RingCentral US click-to-dial. Opens the RingCentral web dialer with the
+// number prefilled; no credentials are stored. Falls back to a normal tel:
+// link. Full RingCentral API/CTI (auto-dial, call recording, AI notes) would
+// need OAuth keys + login configured in a backend or env vars.
+const ringCentralUrl = (phone) => `https://app.ringcentral.com/dialer?number=${encodeURIComponent("+1" + String(phone || "").replace(/[^0-9]/g, "").replace(/^1/, ""))}`;
 const ACT_TYPES = ["Call", "Text", "Email", "Voicemail", "Quote", "Note"];
 
 const NOT_OPEN = ["won", "lost", "dead", "closed", "dormant"];
@@ -400,7 +408,7 @@ function blankLead() {
     preferredContact: "", lastContacted: "", lastResult: "", nextFollowUp: "", priority: "Medium",
     status: "Nurture", dealAlert: false, customer: false, supplier: false, repairClient: false, nextAction: "", aiSummary: "", website: "", owner: "Owner", notes: "", tags: [], lastUpdated: todayISO(),
     market: "", state: "", province: "", linkedin: "", leadType: "", megawatts: "", facilityNotes: "", inventoryNotes: "",
-    dmName: "", dmTitle: "", dmPhone: "", dmEmail: "", repairs: [],
+    dmName: "", dmTitle: "", dmPhone: "", dmEmail: "", hostingInfo: "", hostingPrice: "", wantToBuy: "", repairs: [],
   };
 }
 
@@ -1654,6 +1662,14 @@ function LeadEditor({ lead, acts, leads, invoices, onSave, onDelete, onLog, onAd
   const addRepair = () => patch({ repairs: [...repairs, { id: uid("R"), model: "", serial: "", issue: "", diagStatus: "", repairStatus: "Received", quote: "", approved: false, receivedDate: todayISO(), completedDate: "", shippedDate: "", tracking: "", notes: "" }] });
   const removeRepair = (idx) => patch({ repairs: repairs.filter((_, i) => i !== idx) });
   const isUSlead = f.market === "US Outreach" || ["us", "usa", "unitedstates"].includes(norm(f.country));
+  const splitMulti = (v) => String(v || "").split(/[;,\n]+/).map((x) => x.trim()).filter(Boolean);
+  const phones = splitMulti(f.phone);
+  const emails = splitMulti(f.email).filter((x) => x.includes("@"));
+  const followReasons = isUSlead ? US_FOLLOW_REASONS : FOLLOW_REASONS;
+  const leadTypeOptions = isUSlead ? US_LEAD_TYPES : LEAD_TYPES;
+  const sourceOptions = isUSlead ? US_SOURCES : LEAD_SOURCES;
+  const logCall = (num) => { onAddNote && onAddNote(f, num ? "Called " + num : "Logged call", "Call"); };
+  const logEmail = (addr) => { onAddNote && onAddNote(f, addr ? "Emailed " + addr : "Logged email", "Email"); };
   return (
     <div className="fixed inset-0 bg-black/70 z-40 flex items-end sm:items-center justify-center p-0 sm:p-4" onClick={onClose}>
       <div className="bg-neutral-950 border border-neutral-800 w-full sm:max-w-2xl sm:rounded-2xl rounded-t-2xl max-h-[92vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
@@ -1674,15 +1690,33 @@ function LeadEditor({ lead, acts, leads, invoices, onSave, onDelete, onLog, onAd
             <button onClick={onClose} className="shrink-0 mt-1"><X size={20} className="text-neutral-500" /></button>
           </div>
         </div>
-        {(ph || em) && (
-          <div className="flex flex-wrap gap-2 px-4 pt-3">
-            {ph && <a href={`tel:${ph}`} className="flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-lg bg-neutral-800 hover:bg-neutral-700 text-neutral-100"><Phone size={14} /> Call</a>}
-            {ph && <a href={`sms:${ph}`} className="flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-lg bg-neutral-800 hover:bg-neutral-700 text-neutral-100"><MessageSquare size={14} /> Text</a>}
-            {wa && <a href={`https://wa.me/${wa}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-lg bg-emerald-700/40 hover:bg-emerald-700/60 text-emerald-200"><MessageSquare size={14} /> WhatsApp</a>}
-            {em && <a href={gmailUrl(em)} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-lg bg-neutral-800 hover:bg-neutral-700 text-neutral-100"><Mail size={14} /> Email</a>}
-            {ph && <button onClick={() => copy(f.phone, "phone")} className="flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-lg bg-neutral-800 hover:bg-neutral-700 text-neutral-100">{copied === "phone" ? "Copied!" : "Copy phone"}</button>}
-            {em && <button onClick={() => copy(em, "email")} className="flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-lg bg-neutral-800 hover:bg-neutral-700 text-neutral-100">{copied === "email" ? "Copied!" : "Copy email"}</button>}
-            <button onClick={() => onLog(f)} className="flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-lg bg-red-600 hover:bg-red-500 text-white ml-auto"><Activity size={14} /> Log activity</button>
+        {(phones.length || emails.length || f.website || f.linkedin) && (
+          <div className="px-4 pt-3 space-y-2">
+            {phones.map((pnum, i) => { const d = digits(pnum); return (
+              <div key={"p" + i} className="flex flex-wrap items-center gap-2">
+                <span className="text-sm text-neutral-300 min-w-[130px]">{pnum}</span>
+                {isUSlead
+                  ? <a href={ringCentralUrl(pnum)} target="_blank" rel="noopener noreferrer" onClick={() => logCall(pnum)} className="flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-lg bg-sky-700/40 hover:bg-sky-700/60 text-sky-200"><Phone size={14} /> Call (RingCentral US)</a>
+                  : <a href={`tel:${d}`} className="flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-lg bg-neutral-800 hover:bg-neutral-700 text-neutral-100"><Phone size={14} /> Call</a>}
+                {!isUSlead && <a href={`sms:${d}`} className="flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-lg bg-neutral-800 hover:bg-neutral-700 text-neutral-100"><MessageSquare size={14} /> Text</a>}
+                <button onClick={() => copy(pnum, "p" + i)} className="text-sm px-3 py-1.5 rounded-lg bg-neutral-800 hover:bg-neutral-700 text-neutral-100">{copied === "p" + i ? "Copied!" : "Copy"}</button>
+              </div>
+            ); })}
+            {emails.map((eaddr, i) => (
+              <div key={"e" + i} className="flex flex-wrap items-center gap-2">
+                <span className="text-sm text-neutral-300 min-w-[130px] truncate">{eaddr}</span>
+                <a href={gmailUrl(eaddr)} target="_blank" rel="noopener noreferrer" onClick={() => logEmail(eaddr)} className="flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-lg bg-neutral-800 hover:bg-neutral-700 text-neutral-100"><Mail size={14} /> Email</a>
+                <button onClick={() => copy(eaddr, "e" + i)} className="text-sm px-3 py-1.5 rounded-lg bg-neutral-800 hover:bg-neutral-700 text-neutral-100">{copied === "e" + i ? "Copied!" : "Copy"}</button>
+              </div>
+            ))}
+            <div className="flex flex-wrap items-center gap-2">
+              {f.website && <a href={/^https?:/.test(f.website) ? f.website : "https://" + f.website} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-lg bg-neutral-800 hover:bg-neutral-700 text-neutral-100">Open website</a>}
+              {f.linkedin && <a href={/^https?:/.test(f.linkedin) ? f.linkedin : "https://" + f.linkedin} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-lg bg-neutral-800 hover:bg-neutral-700 text-neutral-100">Open LinkedIn</a>}
+              {wa && !isUSlead && <a href={`https://wa.me/${wa}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-lg bg-emerald-700/40 hover:bg-emerald-700/60 text-emerald-200"><MessageSquare size={14} /> WhatsApp</a>}
+              <button onClick={() => logCall("")} className="flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-lg bg-neutral-800 hover:bg-neutral-700 text-neutral-100"><Phone size={14} /> Log call</button>
+              <button onClick={() => logEmail("")} className="flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-lg bg-neutral-800 hover:bg-neutral-700 text-neutral-100"><Mail size={14} /> Log email</button>
+              <button onClick={() => onLog(f)} className="flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-lg bg-red-600 hover:bg-red-500 text-white ml-auto"><Activity size={14} /> Log activity</button>
+            </div>
           </div>
         )}
         <div className="px-4 pt-3 space-y-2">
@@ -1699,14 +1733,17 @@ function LeadEditor({ lead, acts, leads, invoices, onSave, onDelete, onLog, onAd
           </div>
           <div className="flex flex-wrap items-center gap-1.5">
             <span className="text-[11px] uppercase tracking-wider text-neutral-500 mr-1">Reason</span>
-            {FOLLOW_REASONS.map((r) => <button key={r} onClick={() => set("nextAction", r)} className={`text-xs px-2 py-1 rounded-md ${f.nextAction === r ? "bg-red-600/25 text-red-300" : "bg-neutral-800 hover:bg-neutral-700 text-neutral-200"}`}>{r}</button>)}
+            {followReasons.map((r) => <button key={r} onClick={() => set("nextAction", r)} className={`text-xs px-2 py-1 rounded-md ${f.nextAction === r ? "bg-red-600/25 text-red-300" : "bg-neutral-800 hover:bg-neutral-700 text-neutral-200"}`}>{r}</button>)}
           </div>
           <div className="flex flex-wrap items-center gap-1.5">
             <span className="text-[11px] uppercase tracking-wider text-neutral-500 mr-1">Mark</span>
             <button onClick={() => patch({ dealAlert: !f.dealAlert })} className={`text-xs px-2 py-1 rounded-md ${f.dealAlert ? "bg-red-600/25 text-red-300" : "bg-neutral-800 hover:bg-neutral-700 text-neutral-200"}`}>{f.dealAlert ? "Hot ✓" : "Mark hot"}</button>
             <button onClick={() => patch({ customer: !f.customer })} className={`text-xs px-2 py-1 rounded-md ${f.customer ? "bg-emerald-600/25 text-emerald-300" : "bg-neutral-800 hover:bg-neutral-700 text-neutral-200"}`}>{f.customer ? "Customer ✓" : "Mark customer"}</button>
             <button onClick={() => patch({ status: "Lost", dealAlert: false })} className="text-xs px-2 py-1 rounded-md bg-neutral-800 hover:bg-red-600/25 hover:text-red-300 text-neutral-200">Mark lost</button>
-            <button onClick={() => onAddInvoice(f)} className="text-xs px-2 py-1 rounded-md bg-neutral-800 hover:bg-neutral-700 text-neutral-200 flex items-center gap-1"><FileText size={12} /> Create invoice</button>
+            {isUSlead && <button onClick={() => { patch({ lastResult: "Waiting reply" }); onAddNote && onAddNote(f, "Waiting reply", "Note"); }} className="text-xs px-2 py-1 rounded-md bg-neutral-800 hover:bg-neutral-700 text-neutral-200">Mark waiting reply</button>}
+            {isUSlead && <button onClick={() => { patch({ lastResult: "No answer" }); onAddNote && onAddNote(f, "No answer", "Note"); }} className="text-xs px-2 py-1 rounded-md bg-neutral-800 hover:bg-neutral-700 text-neutral-200">Mark no answer</button>}
+            {isUSlead && <button onClick={() => { patch({ status: "Lost", dealAlert: false, lastResult: "Not interested" }); onAddNote && onAddNote(f, "Not interested", "Note"); }} className="text-xs px-2 py-1 rounded-md bg-neutral-800 hover:bg-red-600/25 hover:text-red-300 text-neutral-200">Mark not interested</button>}
+            {!isUSlead && <button onClick={() => onAddInvoice(f)} className="text-xs px-2 py-1 rounded-md bg-neutral-800 hover:bg-neutral-700 text-neutral-200 flex items-center gap-1"><FileText size={12} /> Create invoice</button>}
           </div>
         </div>
         {dup && <div className="mx-4 mt-3 text-xs px-3 py-2 rounded-lg bg-amber-500/15 border border-amber-600/40 text-amber-300">Possible duplicate: {dup.contactName || dup.company || "another contact"} already has this phone or email.</div>}
@@ -1715,19 +1752,19 @@ function LeadEditor({ lead, acts, leads, invoices, onSave, onDelete, onLog, onAd
           <Field label="Contact Name"><input className={inp} value={f.contactName} onChange={(e) => set("contactName", e.target.value)} /></Field>
           <Field label="Company"><input className={inp} value={f.company} onChange={(e) => set("company", e.target.value)} /></Field>
           <Field label="Type (individual or company)"><select className={inp} value={f.contactType} onChange={(e) => set("contactType", e.target.value)}><option value="">—</option>{TYPES.map((x) => <option key={x}>{x}</option>)}</select></Field>
-          <Field label="Source (where this contact came from)"><select className={inp} value={f.leadSource} onChange={(e) => set("leadSource", e.target.value)}><option value="">—</option>{Array.from(new Set([...LEAD_SOURCES, f.leadSource].filter(Boolean))).map((x) => <option key={x}>{x}</option>)}</select></Field>
-          <Field label="Phone"><input className={inp} value={f.phone} onChange={(e) => set("phone", e.target.value)} /></Field>
-          <Field label="Email"><input className={inp} value={f.email} onChange={(e) => set("email", e.target.value)} /></Field>
+          <Field label="Source (where this contact came from)"><select className={inp} value={f.leadSource} onChange={(e) => set("leadSource", e.target.value)}><option value="">—</option>{Array.from(new Set([...sourceOptions, f.leadSource].filter(Boolean))).map((x) => <option key={x}>{x}</option>)}</select></Field>
+          <Field label="Phone (separate multiple with comma)"><input className={inp} value={f.phone} onChange={(e) => set("phone", e.target.value)} placeholder="+1 555 000 0000, +1 555 111 2222" /></Field>
+          <Field label="Email (separate multiple with comma)"><input className={inp} value={f.email} onChange={(e) => set("email", e.target.value)} placeholder="a@x.com, b@x.com" /></Field>
           <div className="col-span-2 text-[11px] uppercase tracking-wider text-neutral-500 border-b border-neutral-800 pb-1.5 mt-1">Opportunity &amp; equipment</div>
           <Field label="Opportunity (buyer, seller, repair...)"><select className={inp} value={f.segment} onChange={(e) => set("segment", e.target.value)}><option value="">—</option>{OPPORTUNITY.map((x) => <option key={x}>{x}</option>)}</select></Field>
           <Field label="Operation Size"><input className={inp} value={f.operationSize} onChange={(e) => set("operationSize", e.target.value)} placeholder="e.g. 10 miners or 2 MW" /></Field>
           <Field label="ASIC Model"><input className={inp} value={f.asicModel} onChange={(e) => set("asicModel", e.target.value)} placeholder="e.g. S19J Pro 120T" /></Field>
           <Field label="City"><input className={inp} value={f.city} onChange={(e) => set("city", e.target.value)} /></Field>
           <Field label="Country"><input className={inp} value={f.country} onChange={(e) => set("country", e.target.value)} placeholder="Canada or US" /></Field>
-          <Field label="Province"><input className={inp} value={f.province} onChange={(e) => set("province", e.target.value)} placeholder="e.g. Quebec" /></Field>
-          <Field label="State"><input className={inp} value={f.state} onChange={(e) => set("state", e.target.value)} placeholder="e.g. Texas" /></Field>
+          {!isUSlead && <Field label="Province"><input className={inp} value={f.province} onChange={(e) => set("province", e.target.value)} placeholder="e.g. Quebec" /></Field>}
+          {isUSlead && <Field label="State"><input className={inp} value={f.state} onChange={(e) => set("state", e.target.value)} placeholder="e.g. Texas" /></Field>}
           <Field label="Market"><select className={inp} value={f.market} onChange={(e) => set("market", e.target.value)}><option value="">—</option>{MARKETS.map((x) => <option key={x}>{x}</option>)}</select></Field>
-          <Field label="Lead type"><select className={inp} value={f.leadType} onChange={(e) => set("leadType", e.target.value)}><option value="">—</option>{LEAD_TYPES.map((x) => <option key={x}>{x}</option>)}</select></Field>
+          <Field label="Lead type"><select className={inp} value={f.leadType} onChange={(e) => set("leadType", e.target.value)}><option value="">—</option>{Array.from(new Set([...leadTypeOptions, f.leadType].filter(Boolean))).map((x) => <option key={x}>{x}</option>)}</select></Field>
           <Field label="Lead value (CAD)"><input className={inp} value={f.estValue} onChange={(e) => set("estValue", e.target.value)} placeholder="e.g. 5000" /></Field>
           <Field label="Website"><input className={inp} value={f.website} onChange={(e) => set("website", e.target.value)} placeholder="https://" /></Field>
           <Field label="Language"><select className={inp} value={f.language} onChange={(e) => set("language", e.target.value)}><option value="">—</option>{LANGS.map((x) => <option key={x}>{x}</option>)}</select></Field>
@@ -1753,22 +1790,27 @@ function LeadEditor({ lead, acts, leads, invoices, onSave, onDelete, onLog, onAd
           <label className="col-span-2 flex items-center gap-2 text-sm text-neutral-300"><input type="checkbox" checked={f.dealAlert} onChange={(e) => set("dealAlert", e.target.checked)} /> Flag as deal alert (hot lead)</label>
           <label className="col-span-2 flex items-center gap-2 text-sm text-neutral-300"><input type="checkbox" checked={f.customer} onChange={(e) => set("customer", e.target.checked)} /> Existing customer (has bought from us)</label>
           <label className="col-span-2 flex items-center gap-2 text-sm text-neutral-300"><input type="checkbox" checked={f.supplier} onChange={(e) => set("supplier", e.target.checked)} /> Supplier (brings me batches)</label>
-          <label className="col-span-2 flex items-center gap-2 text-sm text-neutral-300"><input type="checkbox" checked={f.repairClient} onChange={(e) => set("repairClient", e.target.checked)} /> Repair client (I serviced their miners)</label>
+          {!isUSlead && <label className="col-span-2 flex items-center gap-2 text-sm text-neutral-300"><input type="checkbox" checked={f.repairClient} onChange={(e) => set("repairClient", e.target.checked)} /> Repair client (I serviced their miners)</label>}
         </div>
         {isUSlead && (
           <div className="p-4 grid grid-cols-2 gap-3 border-t border-neutral-800">
-            <div className="col-span-2 text-[11px] uppercase tracking-wider text-sky-400 border-b border-neutral-800 pb-1.5">US Outreach details</div>
+            <div className="col-span-2 text-[11px] uppercase tracking-wider text-sky-400 border-b border-neutral-800 pb-1.5">US Pipeline details</div>
+            <Field label="Job title"><input className={inp} value={f.role} onChange={(e) => set("role", e.target.value)} placeholder="e.g. Owner, Ops Manager" /></Field>
             <Field label="LinkedIn"><input className={inp} value={f.linkedin} onChange={(e) => set("linkedin", e.target.value)} placeholder="linkedin.com/company/..." /></Field>
             <Field label="Megawatts"><input className={inp} value={f.megawatts} onChange={(e) => set("megawatts", e.target.value)} placeholder="e.g. 5 MW" /></Field>
+            <Field label="Miners they run"><input className={inp} value={f.asicModel} onChange={(e) => set("asicModel", e.target.value)} placeholder="e.g. S19 XP, S21" /></Field>
+            <Field label="Hosting price"><input className={inp} value={f.hostingPrice} onChange={(e) => set("hostingPrice", e.target.value)} placeholder="e.g. $0.07/kWh" /></Field>
+            <Field label="Offers hosting"><select className={inp} value={f.hostingInfo} onChange={(e) => set("hostingInfo", e.target.value)}><option value="">—</option><option>Yes</option><option>No</option><option>Maybe</option></select></Field>
+            <div className="col-span-2"><Field label="What they want to sell"><textarea className={inp} rows={2} value={f.inventoryNotes} onChange={(e) => set("inventoryNotes", e.target.value)} placeholder="Miners or equipment they have to sell..." /></Field></div>
+            <div className="col-span-2"><Field label="What they want to buy"><textarea className={inp} rows={2} value={f.wantToBuy} onChange={(e) => set("wantToBuy", e.target.value)} placeholder="Models and quantities they want to buy..." /></Field></div>
             <div className="col-span-2"><Field label="Facility notes"><textarea className={inp} rows={2} value={f.facilityNotes} onChange={(e) => set("facilityNotes", e.target.value)} placeholder="Location, power, cooling, hosting capacity..." /></Field></div>
-            <div className="col-span-2"><Field label="Inventory notes"><textarea className={inp} rows={2} value={f.inventoryNotes} onChange={(e) => set("inventoryNotes", e.target.value)} placeholder="What they have to sell or want to buy..." /></Field></div>
             <Field label="Decision maker name"><input className={inp} value={f.dmName} onChange={(e) => set("dmName", e.target.value)} /></Field>
             <Field label="Decision maker title"><input className={inp} value={f.dmTitle} onChange={(e) => set("dmTitle", e.target.value)} /></Field>
             <Field label="Decision maker phone"><input className={inp} value={f.dmPhone} onChange={(e) => set("dmPhone", e.target.value)} /></Field>
             <Field label="Decision maker email"><input className={inp} value={f.dmEmail} onChange={(e) => set("dmEmail", e.target.value)} /></Field>
           </div>
         )}
-        <div className="px-4 pb-2">
+        {!isUSlead && <div className="px-4 pb-2">
           <div className="flex items-center justify-between mb-2"><div className="text-[11px] uppercase tracking-wider text-neutral-500">Repairs ({repairs.length})</div><button onClick={addRepair} className="text-xs flex items-center gap-1 text-red-400 hover:text-red-300"><Plus size={13} /> Add repair</button></div>
           {repairs.length === 0 ? <div className="text-xs text-neutral-700">No repairs logged for this contact yet.</div> : (
             <div className="space-y-2">
@@ -1790,7 +1832,7 @@ function LeadEditor({ lead, acts, leads, invoices, onSave, onDelete, onLog, onAd
               ))}
             </div>
           )}
-        </div>
+        </div>}
         <div className="px-4 pb-2">
           <div className="text-[11px] uppercase tracking-wider text-neutral-500 mb-2">Tags</div>
           <div className="flex flex-wrap items-center gap-1.5">
