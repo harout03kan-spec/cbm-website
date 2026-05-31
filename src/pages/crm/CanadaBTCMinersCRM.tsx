@@ -382,7 +382,7 @@ function blankLead() {
     id: uid("L"), dateAdded: todayISO(), company: "", contactName: "", contactType: "", role: "", phone: "", email: "",
     country: "", city: "", address: "", language: "", leadSource: "", segment: "", direction: "", asicModel: "", operationSize: "", quantity: "", estValue: "",
     preferredContact: "", lastContacted: "", lastResult: "", nextFollowUp: "", priority: "Medium",
-    status: "Nurture", dealAlert: false, customer: false, supplier: false, repairClient: false, nextAction: "", aiSummary: "", website: "", owner: "Owner", notes: "", lastUpdated: todayISO(),
+    status: "Nurture", dealAlert: false, customer: false, supplier: false, repairClient: false, nextAction: "", aiSummary: "", website: "", owner: "Owner", notes: "", tags: [], lastUpdated: todayISO(),
   };
 }
 
@@ -655,6 +655,23 @@ export default function App({ onLock }) {
     setTab(v === "unpaid" ? "invoices" : "leads");
   };
   const quickFollow = (id, days) => { const d = days === 0 ? todayISO() : addDays(days); setLeads((prev) => prev.map((x) => x.id === id ? { ...x, nextFollowUp: d, lastUpdated: t } : x)); };
+  const setFollowDate = (id, d) => setLeads((prev) => prev.map((x) => x.id === id ? { ...x, nextFollowUp: d || "", lastUpdated: t } : x));
+  const patchLead = (id, partial) => setLeads((prev) => prev.map((x) => x.id === id ? { ...x, ...partial, lastUpdated: t } : x));
+  const addNote = (l, text, type) => {
+    if (!text && !type) return;
+    setActs((prev) => [{ id: uid("A"), date: t, leadId: l.id, contact: l.contactName || l.company, type: type || "Note", outcome: text || "", notes: "" }, ...prev]);
+    setLeads((prev) => prev.map((x) => x.id === l.id ? { ...x, lastContacted: t, lastResult: text || x.lastResult, status: (norm(x.status) === "nurture" || norm(x.status) === "new") ? "Contacted" : x.status, lastUpdated: t } : x));
+  };
+  const quickMark = (l, kind) => {
+    let partial = {}; let note = "";
+    if (kind === "hot") { partial = { dealAlert: !l.dealAlert }; note = l.dealAlert ? "" : "Marked hot lead"; }
+    else if (kind === "customer") { partial = { customer: !l.customer }; note = l.customer ? "" : "Marked customer"; }
+    else if (kind === "lost") { partial = { status: "Lost", dealAlert: false }; note = "Marked lost"; }
+    patchLead(l.id, partial);
+    if (note) setActs((prev) => [{ id: uid("A"), date: t, leadId: l.id, contact: l.contactName || l.company, type: "Note", outcome: note, notes: "" }, ...prev]);
+  };
+  const actsCount = useMemo(() => { const map = {}; acts.forEach((a) => { if (a.leadId) map[a.leadId] = (map[a.leadId] || 0) + 1; }); return map; }, [acts]);
+  const copyText = (txt) => { try { navigator.clipboard.writeText(txt); } catch (e) {} };
 
   const saveLead = (l) => { l.lastUpdated = t; setLeads((prev) => { const i = prev.findIndex((x) => x.id === l.id); if (i >= 0) { const c = [...prev]; c[i] = l; return c; } return [l, ...prev]; }); setEdit(null); };
   const saveInv = (iv) => { setInvoices((prev) => { const i = prev.findIndex((x) => x.id === iv.id); if (i >= 0) { const c = [...prev]; c[i] = iv; return c; } return [iv, ...prev]; }); setInvForm(null); };
@@ -914,26 +931,42 @@ export default function App({ onLock }) {
             {importNote && <div className="text-xs px-3 py-2 rounded-xl bg-neutral-900 border border-neutral-800 text-neutral-300">{importNote}</div>}
             <div className="flex items-center justify-between text-xs text-neutral-500 px-1"><span>{filtered.length} of {leads.length} contacts{view !== "all" ? ` · ${(VIEWS.find((v) => v.k === view) || {}).label || ""}` : ""}</span>{(view !== "all" || fStatus || fSeg || fDir || fSource || fHot || fCold || search) && <button onClick={() => { setView("all"); try { localStorage.setItem("cbm-crm-view", "all"); } catch (e) {} setFStatus(""); setFSeg(""); setFDir(""); setFSource(""); setFHot(false); setFCold(false); setSearch(""); }} className="text-red-400 hover:text-red-300 font-medium">Clear filters</button>}</div>
             <div className="bg-neutral-950 rounded-2xl border border-neutral-800 overflow-x-auto">
-              <table className="w-full text-sm min-w-[760px]">
+              <table className="w-full text-sm min-w-[1040px]">
                 <thead><tr className="text-left text-[11px] uppercase tracking-wider text-neutral-500 border-b border-neutral-800 bg-neutral-900/40">
-                  <th className="px-4 py-2.5 font-medium">Contact</th><th className="px-3 py-2.5 font-medium">Opportunity</th><th className="px-3 py-2.5 font-medium">Model</th><th className="px-3 py-2.5 font-medium">Source</th><th className="px-3 py-2.5 font-medium">Reach</th><th className="px-3 py-2.5 font-medium">Status</th><th className="px-3 py-2.5 font-medium">Follow-up</th>
+                  <th className="px-4 py-2.5 font-medium">Contact</th><th className="px-3 py-2.5 font-medium">Category</th><th className="px-3 py-2.5 font-medium">Status</th><th className="px-3 py-2.5 font-medium whitespace-nowrap">Last contact</th><th className="px-3 py-2.5 font-medium whitespace-nowrap">Next follow-up</th><th className="px-3 py-2.5 font-medium text-right">Value</th><th className="px-3 py-2.5 font-medium text-center">Notes</th><th className="px-3 py-2.5 font-medium">Quick actions</th>
                 </tr></thead>
                 <tbody>
                   {filtered.map((l) => {
                     const od = l.nextFollowUp && l.nextFollowUp < t && isOpen(l.status);
+                    const ds = daysSince(l.lastContacted);
+                    const ph = digits(l.phone); const em = l.email && l.email.includes("@") ? l.email : "";
+                    const nc = actsCount[l.id] || 0;
                     return (
                       <tr key={l.id} className="border-b border-neutral-800/50 hover:bg-neutral-900/70 cursor-pointer transition-colors" onClick={() => setEdit(l)}>
-                        <td className="px-4 py-3"><div className="font-medium text-neutral-100 flex items-center gap-1.5 flex-wrap">{l.dealAlert && <AlertTriangle size={12} className="text-red-500 shrink-0" />}{l.contactName || l.company || "Unnamed"}{l.customer && <span className="inline-flex items-center gap-1 text-[10px] px-1.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-500/20">Customer</span>}{l.supplier && <span className="inline-flex items-center gap-1 text-[10px] px-1.5 py-0.5 rounded-full bg-sky-500/15 text-sky-300 border border-sky-500/20">Supplier</span>}{l.repairClient && <span className="inline-flex items-center gap-1 text-[10px] px-1.5 py-0.5 rounded-full bg-violet-500/15 text-violet-300 border border-violet-500/20">Repair</span>}</div>{l.phone && <div className="text-xs text-neutral-500 mt-0.5">{l.phone}</div>}</td>
-                        <td className="px-3 py-3 text-neutral-400">{l.segment || "—"}</td>
-                        <td className="px-3 py-3 text-neutral-400">{l.asicModel || "—"}</td>
-                        <td className="px-3 py-3 text-neutral-500">{l.leadSource || "—"}</td>
-                        <td className="px-3 py-3"><Reach lead={l} /></td>
+                        <td className="px-4 py-3">
+                          <div className="font-medium text-neutral-100 flex items-center gap-1.5 flex-wrap">{l.dealAlert && <AlertTriangle size={12} className="text-red-500 shrink-0" />}{l.contactName || l.company || "Unnamed"}{l.customer && <span className="inline-flex items-center gap-1 text-[10px] px-1.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-500/20">Customer</span>}{l.supplier && <span className="inline-flex items-center gap-1 text-[10px] px-1.5 py-0.5 rounded-full bg-sky-500/15 text-sky-300 border border-sky-500/20">Supplier</span>}{l.repairClient && <span className="inline-flex items-center gap-1 text-[10px] px-1.5 py-0.5 rounded-full bg-violet-500/15 text-violet-300 border border-violet-500/20">Repair</span>}</div>
+                          <div className="text-xs text-neutral-500 mt-0.5 flex items-center gap-2 flex-wrap">{l.company && l.contactName && <span className="truncate max-w-[160px]">{l.company}</span>}{l.phone && <span>{l.phone}</span>}{em && <span className="truncate max-w-[180px] text-neutral-600">{em}</span>}</div>
+                          {(l.tags || []).length > 0 && <div className="flex flex-wrap gap-1 mt-1">{(l.tags || []).slice(0, 3).map((tg) => <span key={tg} className="text-[10px] px-1.5 py-0.5 rounded-full bg-neutral-800 text-neutral-400">{tg}</span>)}</div>}
+                        </td>
+                        <td className="px-3 py-3 text-neutral-400 whitespace-nowrap">{l.segment || "—"}{l.asicModel ? <div className="text-[11px] text-neutral-600 truncate max-w-[140px]">{l.asicModel}</div> : null}</td>
                         <td className="px-3 py-3"><StatusPill s={l.status} /></td>
+                        <td className="px-3 py-3 text-neutral-500 whitespace-nowrap">{ds != null ? `${ds}d ago` : "—"}</td>
                         <td className={`px-3 py-3 whitespace-nowrap ${od ? "text-red-400 font-medium" : "text-neutral-400"}`}>{od && <span className="inline-block w-1.5 h-1.5 rounded-full bg-red-500 mr-1.5 align-middle" />}{l.nextFollowUp || "—"}</td>
+                        <td className="px-3 py-3 text-right text-neutral-300 whitespace-nowrap">{numVal(l.estValue) ? cad(numVal(l.estValue)) : "—"}</td>
+                        <td className="px-3 py-3 text-center text-neutral-400">{nc > 0 ? nc : "—"}</td>
+                        <td className="px-3 py-3" onClick={(e) => e.stopPropagation()}>
+                          <div className="flex items-center gap-1">
+                            {ph && <a href={`tel:${ph}`} title="Call" className="p-1.5 rounded-md bg-neutral-800 hover:bg-neutral-700 text-neutral-300"><Phone size={13} /></a>}
+                            {em && <a href={gmailUrl(em)} target="_blank" rel="noopener noreferrer" title="Email" className="p-1.5 rounded-md bg-neutral-800 hover:bg-neutral-700 text-neutral-300"><Mail size={13} /></a>}
+                            <button onClick={() => setActForm({ id: uid("A"), date: t, leadId: l.id, contact: l.contactName || l.company, type: "Note", outcome: "", notes: "" })} title="Add note" className="p-1.5 rounded-md bg-neutral-800 hover:bg-neutral-700 text-neutral-300"><MessageSquare size={13} /></button>
+                            <button onClick={() => quickFollow(l.id, 7)} title="Follow up in 7 days" className="p-1.5 rounded-md bg-neutral-800 hover:bg-neutral-700 text-neutral-300"><CalendarClock size={13} /></button>
+                            <button onClick={() => quickMark(l, "hot")} title="Mark hot" className={`p-1.5 rounded-md ${l.dealAlert ? "bg-red-600/30 text-red-300" : "bg-neutral-800 hover:bg-neutral-700 text-neutral-300"}`}><AlertTriangle size={13} /></button>
+                          </div>
+                        </td>
                       </tr>
                     );
                   })}
-                  {filtered.length === 0 && <tr><td colSpan={7} className="px-3 py-10 text-center text-neutral-600">No contacts match.</td></tr>}
+                  {filtered.length === 0 && <tr><td colSpan={8} className="px-3 py-10 text-center text-neutral-600">No contacts match. Try clearing filters or switch to All contacts.</td></tr>}
                 </tbody>
               </table>
             </div>
@@ -1088,7 +1121,7 @@ export default function App({ onLock }) {
         )}
       </div>
 
-      {edit && <LeadEditor lead={edit} acts={acts} leads={leads} invoices={invoices} onSave={saveLead} onDelete={delLead} onLog={(l) => setActForm({ id: uid("A"), date: t, leadId: l.id, contact: l.contactName || l.company, type: "Call", outcome: "", notes: "" })} onAddInvoice={(l) => setInvForm({ id: uid("IV"), leadId: l.id, contact: l.contactName || l.company || "", number: "", model: l.asicModel || "", qty: 1, amount: "", cost: "", profit: "", supplier: "", date: t, dueDate: t, status: "Unpaid", notes: "" })} onClose={() => setEdit(null)} />}
+      {edit && <LeadEditor lead={edit} acts={acts} leads={leads} invoices={invoices} onSave={saveLead} onDelete={delLead} onLog={(l) => setActForm({ id: uid("A"), date: t, leadId: l.id, contact: l.contactName || l.company, type: "Call", outcome: "", notes: "" })} onAddInvoice={(l) => setInvForm({ id: uid("IV"), leadId: l.id, contact: l.contactName || l.company || "", number: "", model: l.asicModel || "", qty: 1, amount: "", cost: "", profit: "", supplier: "", date: t, dueDate: t, status: "Unpaid", notes: "" })} onPatch={patchLead} onFollow={setFollowDate} onAddNote={addNote} onCopy={copyText} onClose={() => setEdit(null)} />}
       {actForm && <ActForm act={actForm} leads={leads} onSave={saveAct} onClose={() => setActForm(null)} />}
       {invForm && <InvoiceForm inv={invForm} leads={leads} onSave={saveInv} onDelete={delInv} onClose={() => setInvForm(null)} />}
       {batchForm && <BatchForm batch={batchForm} onSave={saveBatch} onDelete={delBatch} onClose={() => setBatchForm(null)} />}
@@ -1152,14 +1185,26 @@ function StatusPill({ s }) {
 function Field({ label, children }) { return <label className="block"><span className="text-xs text-neutral-500">{label}</span>{children}</label>; }
 const inp = "w-full mt-0.5 px-2 py-1.5 rounded-lg border border-neutral-700 bg-neutral-900 text-neutral-100 placeholder-neutral-600 text-sm";
 
-function LeadEditor({ lead, acts, leads, invoices, onSave, onDelete, onLog, onAddInvoice, onClose }) {
+const NOTE_QUICK = ["Called", "No answer", "Sent quote", "Waiting reply", "Deal closed", "Repair update"];
+function LeadEditor({ lead, acts, leads, invoices, onSave, onDelete, onLog, onAddInvoice, onPatch, onFollow, onAddNote, onCopy, onClose }) {
   const [f, setF] = useState({ ...lead });
+  const [noteText, setNoteText] = useState("");
+  const [tagText, setTagText] = useState("");
+  const [copied, setCopied] = useState("");
   const set = (k, v) => setF((p) => ({ ...p, [k]: v }));
+  const patch = (partial) => { setF((p) => ({ ...p, ...partial })); onPatch && onPatch(f.id, partial); };
   const history = (acts || []).filter((a) => a.leadId === f.id).sort((a, b) => (b.date || "").localeCompare(a.date || ""));
   const myInvoices = (invoices || []).filter((iv) => iv.leadId === f.id).sort((a, b) => (b.date || "").localeCompare(a.date || ""));
   const dup = (leads || []).find((l) => l.id !== f.id && ((phoneKey(l.phone).length >= 10 && phoneKey(l.phone) === phoneKey(f.phone)) || (f.email && f.email.includes("@") && norm(l.email) === norm(f.email))));
   const ph = digits(f.phone); const em = f.email && f.email.includes("@") ? f.email : "";
+  const wa = ph ? ph.replace(/[^0-9]/g, "") : "";
   const chip = "text-xs px-2 py-1 rounded-md bg-neutral-800 hover:bg-neutral-700 text-neutral-200";
+  const setFollow = (days) => { const d = days == null ? "" : (days === 0 ? todayISO() : addDays(days)); set("nextFollowUp", d); onFollow && onFollow(f.id, d); };
+  const setFollow2 = (d) => { set("nextFollowUp", d); onFollow && onFollow(f.id, d); };
+  const copy = (txt, what) => { onCopy && onCopy(txt); setCopied(what); setTimeout(() => setCopied(""), 1200); };
+  const addNote = (text, type) => { onAddNote && onAddNote(f, text, type); if (type && !text) { /* keep */ } setNoteText(""); };
+  const addTag = (tg) => { const v = (tg || "").trim(); if (!v) return; if ((f.tags || []).includes(v)) return; patch({ tags: [...(f.tags || []), v] }); setTagText(""); };
+  const removeTag = (tg) => patch({ tags: (f.tags || []).filter((x) => x !== tg) });
   return (
     <div className="fixed inset-0 bg-black/70 z-40 flex items-end sm:items-center justify-center p-0 sm:p-4" onClick={onClose}>
       <div className="bg-neutral-950 border border-neutral-800 w-full sm:max-w-2xl sm:rounded-2xl rounded-t-2xl max-h-[92vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
@@ -1183,10 +1228,32 @@ function LeadEditor({ lead, acts, leads, invoices, onSave, onDelete, onLog, onAd
           <div className="flex flex-wrap gap-2 px-4 pt-3">
             {ph && <a href={`tel:${ph}`} className="flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-lg bg-neutral-800 hover:bg-neutral-700 text-neutral-100"><Phone size={14} /> Call</a>}
             {ph && <a href={`sms:${ph}`} className="flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-lg bg-neutral-800 hover:bg-neutral-700 text-neutral-100"><MessageSquare size={14} /> Text</a>}
+            {wa && <a href={`https://wa.me/${wa}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-lg bg-emerald-700/40 hover:bg-emerald-700/60 text-emerald-200"><MessageSquare size={14} /> WhatsApp</a>}
             {em && <a href={gmailUrl(em)} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-lg bg-neutral-800 hover:bg-neutral-700 text-neutral-100"><Mail size={14} /> Email</a>}
+            {ph && <button onClick={() => copy(f.phone, "phone")} className="flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-lg bg-neutral-800 hover:bg-neutral-700 text-neutral-100">{copied === "phone" ? "Copied!" : "Copy phone"}</button>}
+            {em && <button onClick={() => copy(em, "email")} className="flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-lg bg-neutral-800 hover:bg-neutral-700 text-neutral-100">{copied === "email" ? "Copied!" : "Copy email"}</button>}
             <button onClick={() => onLog(f)} className="flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-lg bg-red-600 hover:bg-red-500 text-white ml-auto"><Activity size={14} /> Log activity</button>
           </div>
         )}
+        <div className="px-4 pt-3 space-y-2">
+          <div className="flex flex-wrap items-center gap-1.5">
+            <span className="text-[11px] uppercase tracking-wider text-neutral-500 mr-1">Follow up</span>
+            <button onClick={() => setFollow(0)} className={chip}>Today</button>
+            <button onClick={() => setFollow(1)} className={chip}>Tomorrow</button>
+            <button onClick={() => setFollow(7)} className={chip}>+7 days</button>
+            <button onClick={() => setFollow(14)} className={chip}>+14 days</button>
+            <button onClick={() => setFollow(30)} className={chip}>+30 days</button>
+            <input type="date" value={f.nextFollowUp || ""} onChange={(e) => setFollow2(e.target.value)} className="text-xs px-2 py-1 rounded-md bg-neutral-900 border border-neutral-700 text-neutral-200" />
+            {f.nextFollowUp && <button onClick={() => setFollow(null)} className="text-xs text-neutral-500 hover:text-red-400">Clear</button>}
+          </div>
+          <div className="flex flex-wrap items-center gap-1.5">
+            <span className="text-[11px] uppercase tracking-wider text-neutral-500 mr-1">Mark</span>
+            <button onClick={() => patch({ dealAlert: !f.dealAlert })} className={`text-xs px-2 py-1 rounded-md ${f.dealAlert ? "bg-red-600/25 text-red-300" : "bg-neutral-800 hover:bg-neutral-700 text-neutral-200"}`}>{f.dealAlert ? "Hot ✓" : "Mark hot"}</button>
+            <button onClick={() => patch({ customer: !f.customer })} className={`text-xs px-2 py-1 rounded-md ${f.customer ? "bg-emerald-600/25 text-emerald-300" : "bg-neutral-800 hover:bg-neutral-700 text-neutral-200"}`}>{f.customer ? "Customer ✓" : "Mark customer"}</button>
+            <button onClick={() => patch({ status: "Lost", dealAlert: false })} className="text-xs px-2 py-1 rounded-md bg-neutral-800 hover:bg-red-600/25 hover:text-red-300 text-neutral-200">Mark lost</button>
+            <button onClick={() => onAddInvoice(f)} className="text-xs px-2 py-1 rounded-md bg-neutral-800 hover:bg-neutral-700 text-neutral-200 flex items-center gap-1"><FileText size={12} /> Create invoice</button>
+          </div>
+        </div>
         {dup && <div className="mx-4 mt-3 text-xs px-3 py-2 rounded-lg bg-amber-500/15 border border-amber-600/40 text-amber-300">Possible duplicate: {dup.contactName || dup.company || "another contact"} already has this phone or email.</div>}
         <div className="p-4 grid grid-cols-2 gap-3">
           <div className="col-span-2 text-[11px] uppercase tracking-wider text-neutral-500 border-b border-neutral-800 pb-1.5">Contact details</div>
@@ -1228,15 +1295,36 @@ function LeadEditor({ lead, acts, leads, invoices, onSave, onDelete, onLog, onAd
           <label className="col-span-2 flex items-center gap-2 text-sm text-neutral-300"><input type="checkbox" checked={f.repairClient} onChange={(e) => set("repairClient", e.target.checked)} /> Repair client (I serviced their miners)</label>
         </div>
         <div className="px-4 pb-2">
+          <div className="text-[11px] uppercase tracking-wider text-neutral-500 mb-2">Tags</div>
+          <div className="flex flex-wrap items-center gap-1.5">
+            {(f.tags || []).map((tg) => <span key={tg} className="text-xs px-2 py-0.5 rounded-full bg-neutral-800 text-neutral-300 flex items-center gap-1">{tg}<button onClick={() => removeTag(tg)} className="text-neutral-500 hover:text-red-400"><X size={11} /></button></span>)}
+            <input value={tagText} onChange={(e) => setTagText(e.target.value)} onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); addTag(tagText); } }} placeholder="Add tag + Enter" className="text-xs px-2 py-1 rounded-md bg-neutral-900 border border-neutral-700 text-neutral-200 w-32" />
+          </div>
+        </div>
+        <div className="px-4 pb-2">
           <div className="flex items-center justify-between mb-2"><div className="text-xs text-neutral-500">Invoices ({myInvoices.length})</div><button onClick={() => onAddInvoice(f)} className="text-xs flex items-center gap-1 text-red-400 hover:text-red-300"><Plus size={13} /> Add invoice</button></div>
           {myInvoices.length === 0 ? <div className="text-xs text-neutral-700">No invoices for this contact yet.</div> : (
             <div className="space-y-1.5">{myInvoices.map((iv) => (<div key={iv.id} className="flex items-center gap-2 text-xs"><span className="text-neutral-600 shrink-0">{iv.date}</span><span className="text-neutral-300 truncate">{iv.model || iv.number || "Invoice"}</span><span className="text-neutral-200 ml-auto shrink-0">{iv.amount !== "" && iv.amount != null ? cad(numVal(iv.amount)) : "—"}</span><InvPill status={iv.status} /></div>))}</div>
           )}
         </div>
         <div className="px-4 pb-4">
-          <div className="text-xs text-neutral-500 mb-2">Activity history ({history.length})</div>
-          {history.length === 0 ? <div className="text-xs text-neutral-700">No activity logged for this contact yet.</div> : (
-            <div className="space-y-1.5">{history.slice(0, 8).map((a) => (<div key={a.id} className="flex items-start gap-2 text-xs"><span className="px-1.5 py-0.5 rounded bg-neutral-800 text-neutral-300 shrink-0">{a.type}</span><span className="text-neutral-600 shrink-0">{a.date}</span><span className="text-neutral-300">{a.outcome || a.notes || "—"}</span></div>))}</div>
+          <div className="text-[11px] uppercase tracking-wider text-neutral-500 mb-2">Add note</div>
+          <div className="flex flex-wrap gap-1.5 mb-2">{NOTE_QUICK.map((q) => <button key={q} onClick={() => addNote(q, "Note")} className={chip}>{q}</button>)}</div>
+          <div className="flex gap-2">
+            <input value={noteText} onChange={(e) => setNoteText(e.target.value)} onKeyDown={(e) => { if (e.key === "Enter" && noteText.trim()) { e.preventDefault(); addNote(noteText.trim(), "Note"); } }} placeholder="Type a note and press Enter..." className="flex-1 text-sm px-3 py-2 rounded-lg bg-neutral-900 border border-neutral-700 text-neutral-100 placeholder-neutral-600" />
+            <button onClick={() => noteText.trim() && addNote(noteText.trim(), "Note")} disabled={!noteText.trim()} className="text-sm px-3 py-2 rounded-lg bg-red-600 text-white hover:bg-red-500 disabled:opacity-50">Add</button>
+          </div>
+          <div className="text-xs text-neutral-500 mt-4 mb-2">Timeline ({history.length})</div>
+          {history.length === 0 ? <div className="text-xs text-neutral-700">No notes or activity yet.</div> : (
+            <div className="relative pl-4 space-y-3 before:absolute before:left-1 before:top-1 before:bottom-1 before:w-px before:bg-neutral-800">
+              {history.slice(0, 20).map((a) => (
+                <div key={a.id} className="relative text-xs">
+                  <span className="absolute -left-3 top-1 w-2 h-2 rounded-full bg-red-500 ring-2 ring-neutral-950" />
+                  <div className="flex items-center gap-2"><span className="px-1.5 py-0.5 rounded bg-neutral-800 text-neutral-300">{a.type}</span><span className="text-neutral-600">{a.date}</span></div>
+                  {(a.outcome || a.notes) && <div className="text-neutral-300 mt-0.5">{a.outcome}{a.outcome && a.notes ? " · " : ""}{a.notes}</div>}
+                </div>
+              ))}
+            </div>
           )}
         </div>
         <div className="flex items-center justify-between px-4 py-3 border-t border-neutral-800 sticky bottom-0 bg-neutral-950"><button onClick={() => onDelete(f.id)} className="text-sm text-red-500 hover:text-red-400 flex items-center gap-1.5 transition"><Trash2 size={16} /> Delete</button><div className="flex gap-2"><button onClick={onClose} className="text-sm font-medium px-4 py-2 rounded-xl border border-neutral-700 text-neutral-300 hover:bg-neutral-800 transition">Cancel</button><button onClick={() => onSave(f)} className="text-sm font-medium px-5 py-2 rounded-xl bg-red-600 text-white hover:bg-red-500 transition shadow-lg shadow-red-900/20">Save</button></div></div>
@@ -1260,6 +1348,10 @@ function ActForm({ act, leads, onSave, onClose }) {
             <Field label="Type"><select className={inp} value={f.type} onChange={(e) => set("type", e.target.value)}>{ACT_TYPES.map((x) => <option key={x}>{x}</option>)}</select></Field>
           </div>
           <Field label="Contact"><select className={inp} value={f.leadId} onChange={(e) => { const l = leads.find((x) => x.id === e.target.value); set("leadId", e.target.value); if (l) set("contact", l.contactName || l.company); }}><option value="">— pick contact —</option>{leads.map((l) => <option key={l.id} value={l.id}>{l.contactName || l.company || l.phone}</option>)}</select></Field>
+          <div>
+            <div className="text-xs text-neutral-500 mb-1">Quick note</div>
+            <div className="flex flex-wrap gap-1.5">{["Called", "No answer", "Sent quote", "Waiting reply", "Deal closed", "Repair update"].map((q) => <button key={q} type="button" onClick={() => set("outcome", q)} className={chip}>{q}</button>)}</div>
+          </div>
           <Field label="Outcome"><input className={inp} value={f.outcome} onChange={(e) => set("outcome", e.target.value)} placeholder="e.g. Sent quote, wants 10 units" /></Field>
           <Field label="Notes"><textarea className={inp} rows={2} value={f.notes} onChange={(e) => set("notes", e.target.value)} /></Field>
           {f.leadId && (
