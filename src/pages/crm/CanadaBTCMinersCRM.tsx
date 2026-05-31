@@ -1323,37 +1323,34 @@ export default function App({ onLock }) {
                 </div>
               )}
             </div>
-            <div className="bg-neutral-950 rounded-2xl border border-neutral-800 overflow-x-auto">
-              <table className="w-full text-sm min-w-[640px]">
-                <thead><tr className="text-left text-[11px] uppercase tracking-wider text-neutral-500 border-b border-neutral-800 bg-neutral-900/40"><th className="px-4 py-2.5 font-medium">Contact</th><th className="px-3 py-2.5 font-medium">Invoice #</th><th className="px-3 py-2.5 font-medium hidden sm:table-cell">Model</th><th className="px-3 py-2.5 font-medium text-right">Amount</th><th className="px-3 py-2.5 font-medium hidden md:table-cell">Due</th><th className="px-3 py-2.5 font-medium">Age</th><th className="px-3 py-2.5 font-medium">Status</th></tr></thead>
-                <tbody>
-                  {[...invoices].sort((a, b) => {
-                    const rank = (s) => norm(s) === "unpaid" || norm(s) === "overdue" ? 0 : norm(s) === "sent" ? 1 : 2;
-                    const ra = rank(a.status), rb = rank(b.status);
-                    if (ra !== rb) return ra - rb;
-                    const na = /^\d+$/.test(String(a.number || "").trim()), nb = /^\d+$/.test(String(b.number || "").trim());
-                    if (na && nb) return Number(b.number) - Number(a.number);
-                    if (na !== nb) return na ? -1 : 1;
-                    return String(b.number || "").localeCompare(String(a.number || ""));
-                  }).map((iv) => {
-                    const isUnpaid = norm(iv.status) === "unpaid" || norm(iv.status) === "overdue";
-                    const overdue = isUnpaid && iv.dueDate && iv.dueDate < t;
-                    const age = isUnpaid ? daysSince(iv.date) : null;
-                    const ageBadge = age == null ? "" : age >= 90 ? "90+" : age >= 60 ? "60+" : age >= 30 ? "30+" : "<30";
-                    return (
-                    <tr key={iv.id} onClick={() => setInvForm({ ...iv })} className="border-b border-neutral-800/50 hover:bg-neutral-900/70 cursor-pointer transition-colors">
-                      <td className="px-4 py-3 text-neutral-100">{iv.contact || "—"}</td>
-                      <td className="px-3 py-3 text-neutral-400">{iv.number || "—"}</td>
-                      <td className="px-3 py-3 text-neutral-400 hidden sm:table-cell">{iv.model || "—"}</td>
-                      <td className={`px-3 py-3 text-right ${isUnpaid ? "text-red-400 font-medium" : "text-neutral-200"}`}>{iv.amount !== "" && iv.amount != null ? cad(numVal(iv.amount)) : "—"}</td>
-                      <td className={`px-3 py-3 hidden md:table-cell ${overdue ? "text-red-400" : "text-neutral-400"}`}>{iv.dueDate || "—"}</td>
-                      <td className="px-3 py-3">{ageBadge ? <span className={`text-[10px] px-1.5 py-0.5 rounded-full ${age >= 60 ? "bg-red-500/20 text-red-300" : age >= 30 ? "bg-amber-500/20 text-amber-300" : "bg-neutral-800 text-neutral-400"}`}>{ageBadge}d</span> : <span className="text-neutral-700">—</span>}</td>
-                      <td className="px-3 py-3"><div className="flex items-center gap-1.5 flex-wrap"><InvPill status={overdue ? "Overdue" : iv.status} />{iv.historical && <span className="text-[10px] text-neutral-600">history</span>}<button onClick={(e) => { e.stopPropagation(); toggleInvoicePaid(iv.id); }} className={`text-[11px] font-medium px-2 py-1 rounded-lg transition ${norm(iv.status) === "paid" ? "bg-neutral-800 hover:bg-neutral-700 text-neutral-300" : "bg-emerald-600 hover:bg-emerald-500 text-white"}`}>{norm(iv.status) === "paid" ? "Mark unpaid" : "Mark paid"}</button></div></td>
-                    </tr>
-                  ); })}
-                  {invoices.length === 0 && <tr><td colSpan={7} className="px-3 py-8 text-center text-neutral-600">No invoices yet. Tap Invoice to add one.</td></tr>}
-                </tbody>
-              </table>
+            <div className="space-y-2">
+              {[...invoices].sort((a, b) => {
+                const rank = (s) => norm(s) === "unpaid" || norm(s) === "overdue" ? 0 : norm(s) === "sent" ? 1 : 2;
+                const ra = rank(a.status), rb = rank(b.status);
+                if (ra !== rb) return ra - rb;
+                const na = /^\d+$/.test(String(a.number || "").trim()), nb = /^\d+$/.test(String(b.number || "").trim());
+                if (na && nb) return Number(b.number) - Number(a.number);
+                if (na !== nb) return na ? -1 : 1;
+                return String(b.number || "").localeCompare(String(a.number || ""));
+              }).map((iv) => {
+                const paid = norm(iv.status) === "paid";
+                const isUnpaid = norm(iv.status) === "unpaid" || norm(iv.status) === "overdue";
+                const overdue = isUnpaid && iv.dueDate && iv.dueDate < t;
+                const age = isUnpaid ? daysSince(iv.date) : null;
+                const ageBadge = age == null ? "" : age >= 90 ? "90+" : age >= 60 ? "60+" : age >= 30 ? "30+" : "<30";
+                return (
+                  <div key={iv.id} className="bg-neutral-950 rounded-2xl border border-neutral-800 p-3 hover:border-neutral-700 transition flex items-center gap-3 flex-wrap">
+                    <button onClick={() => setInvForm({ ...iv })} className="flex-1 min-w-[180px] text-left">
+                      <div className="font-medium text-neutral-100 flex items-center gap-2 flex-wrap">{iv.contact || "—"}{iv.number && <span className="text-xs text-neutral-500">#{iv.number}</span>}{iv.historical && <span className="text-[10px] text-neutral-600">history</span>}</div>
+                      <div className="text-xs text-neutral-500 mt-0.5 flex items-center gap-2 flex-wrap">{iv.model && <span className="truncate max-w-[220px]">{iv.model}</span>}{iv.dueDate && <span className={overdue ? "text-red-400" : ""}>Due {iv.dueDate}</span>}{ageBadge && <span className={`text-[10px] px-1.5 py-0.5 rounded-full ${age >= 60 ? "bg-red-500/20 text-red-300" : age >= 30 ? "bg-amber-500/20 text-amber-300" : "bg-neutral-800 text-neutral-400"}`}>{ageBadge}d</span>}</div>
+                    </button>
+                    <div className={`text-right shrink-0 ${isUnpaid ? "text-red-400 font-medium" : "text-neutral-200"}`}>{iv.amount !== "" && iv.amount != null ? cad(numVal(iv.amount)) : "—"}</div>
+                    <div className="shrink-0"><InvPill status={overdue ? "Overdue" : iv.status} /></div>
+                    <button onClick={() => toggleInvoicePaid(iv.id)} className={`shrink-0 text-xs font-medium px-3 py-1.5 rounded-lg transition ${paid ? "bg-neutral-800 hover:bg-neutral-700 text-neutral-300" : "bg-emerald-600 hover:bg-emerald-500 text-white"}`}>{paid ? "Mark unpaid" : "Mark paid"}</button>
+                  </div>
+                );
+              })}
+              {invoices.length === 0 && <div className="bg-neutral-950 rounded-2xl border border-neutral-800 p-8 text-center text-neutral-600">No invoices yet. Tap Invoice to add one.</div>}
             </div>
           </div>
         )}
