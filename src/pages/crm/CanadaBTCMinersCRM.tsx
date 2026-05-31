@@ -15,6 +15,11 @@ const TYPES = ["Individual", "Company"];
 const OPPORTUNITY = ["Buyer", "Seller", "Buyer & Seller", "Broker", "Repair", "Hosting", "Hosting facility"];
 const LEAD_SOURCES = ["Email", "Website form submission", "Facebook Marketplace", "Call", "Referral", "Telegram", "Past customer"];
 const LANGS = ["English", "French", "Other"];
+const MARKETS = ["Canadian retail", "US Outreach", "Other"];
+const LEAD_TYPES = ["Buyer", "Seller", "Hosting", "Supplier", "Mining farm", "Broker", "Repair lead", "Unknown"];
+const REPAIR_STATUS = ["Received", "Diagnosing", "Waiting approval", "Approved", "In repair", "Ready", "Shipped", "Closed"];
+const INVOICE_STATUS = ["Unpaid", "Sent", "Paid", "Overdue", "Cancelled", "Quote", "Refund"];
+const FOLLOW_REASONS = ["Call back", "Send quote", "Payment follow up", "Repair update", "Supplier follow up", "Hosting follow up", "Bulk deal follow up", "US outreach call"];
 const ACT_TYPES = ["Call", "Text", "Email", "Voicemail", "Quote", "Note"];
 
 const NOT_OPEN = ["won", "lost", "dead", "closed", "dormant"];
@@ -348,6 +353,17 @@ const FIELD_MAP = {
   website: ["website", "site", "url"],
   owner: ["owner"],
   notes: ["notes", "note", "messagepreview", "subject", "matchedkeyword"],
+  market: ["market"],
+  state: ["state", "province", "stateprovince", "region"],
+  linkedin: ["linkedin", "linkedinurl", "linkedinprofile"],
+  leadType: ["leadtype", "prospecttype", "outreachtype"],
+  megawatts: ["megawatts", "mw", "capacity", "power"],
+  facilityNotes: ["facilitynotes", "facility", "site", "sitenotes"],
+  inventoryNotes: ["inventorynotes", "inventory", "stock"],
+  dmName: ["decisionmaker", "decisionmakername", "dmname"],
+  dmTitle: ["decisionmakertitle", "dmtitle", "titledm"],
+  dmPhone: ["decisionmakerphone", "dmphone"],
+  dmEmail: ["decisionmakeremail", "dmemail"],
 };
 
 const toISO = (v) => {
@@ -383,6 +399,8 @@ function blankLead() {
     country: "", city: "", address: "", language: "", leadSource: "", segment: "", direction: "", asicModel: "", operationSize: "", quantity: "", estValue: "",
     preferredContact: "", lastContacted: "", lastResult: "", nextFollowUp: "", priority: "Medium",
     status: "Nurture", dealAlert: false, customer: false, supplier: false, repairClient: false, nextAction: "", aiSummary: "", website: "", owner: "Owner", notes: "", tags: [], lastUpdated: todayISO(),
+    market: "", state: "", province: "", linkedin: "", leadType: "", megawatts: "", facilityNotes: "", inventoryNotes: "",
+    dmName: "", dmTitle: "", dmPhone: "", dmEmail: "", repairs: [],
   };
 }
 
@@ -476,6 +494,7 @@ export default function App({ onLock }) {
   const [showAllToday, setShowAllToday] = useState(false);
   const [importPrev, setImportPrev] = useState(null);
   const [tplPreview, setTplPreview] = useState(null);
+  const [showMoreFilters, setShowMoreFilters] = useState(false);
   const [restorePrev, setRestorePrev] = useState(null);
   const [importMode, setImportMode] = useState("skip");
 
@@ -497,6 +516,12 @@ export default function App({ onLock }) {
       } catch (e) {}
       if (!base) base = seedToLeads();
       base = base.map((l) => ({ ...blankLead(), ...l }));
+      base = base.map((l) => {
+        if (l.market) return l;
+        const cc = norm(l.country);
+        const market = (cc === "us" || cc === "usa" || cc === "unitedstates") ? "US Outreach" : "Canadian retail";
+        return { ...l, market };
+      });
       if (!clean1) base = base.map((l) => ({ ...l, status: "Nurture", segment: cleanSeg(l.segment), leadSource: cleanSource(l.leadSource) }));
       if (!clean2) base = base.map((l) => ({ ...l, leadSource: cleanSource(l.leadSource), customer: l.customer || /Order #/.test(l.notes || "") }));
       if (!clean3) base = base.map((l) => ({ ...l, leadSource: cleanSource(l.leadSource) }));
@@ -575,6 +600,13 @@ export default function App({ onLock }) {
   const segments = useMemo(() => Array.from(new Set(leads.map((l) => l.segment).filter(Boolean))).sort(), [leads]);
   const sources = useMemo(() => Array.from(new Set(leads.map((l) => l.leadSource).filter(Boolean))).sort(), [leads]);
 
+  const unpaidLeadIds = useMemo(() => {
+    const ss = new Set();
+    invoices.forEach((i) => { const st = norm(i.status); if ((st === "unpaid" || st === "overdue") && i.leadId) ss.add(i.leadId); });
+    return ss;
+  }, [invoices]);
+  const isUS = (l) => l.market === "US Outreach" || ["us", "usa", "unitedstates"].includes(norm(l.country));
+  const isCA = (l) => !isUS(l) && (l.market === "Canadian retail" || ["canada", "ca", ""].includes(norm(l.country)) || !l.market);
   const viewMatch = (l) => {
     switch (view) {
       case "hot": return l.dealAlert;
@@ -587,6 +619,9 @@ export default function App({ onLock }) {
       case "lost": return norm(l.status) === "lost";
       case "cold": return isCold(l);
       case "quote": return isOpen(l.status) && ((l.tags || []).some((x) => /quote/i.test(x)) || /quote/i.test(l.lastResult || ""));
+      case "us": return isUS(l);
+      case "ca": return isCA(l);
+      case "hasunpaid": return unpaidLeadIds.has(l.id);
       default: return true;
     }
   };
@@ -601,7 +636,9 @@ export default function App({ onLock }) {
       if (fHot && !l.dealAlert) return false;
       if (fCold && !isCold(l)) return false;
       if (!q) return true;
-      return [l.company, l.contactName, l.email, l.phone, l.asicModel, l.city, l.country, l.address, l.segment, l.notes, (l.tags || []).join(" ")].some((v) => norm(v).includes(q));
+      const invNums = invoices.filter((iv) => iv.leadId === l.id).map((iv) => iv.number).join(" ");
+      const repairBits = (l.repairs || []).map((r) => `${r.model || ""} ${r.serial || ""}`).join(" ");
+      return [l.company, l.contactName, l.email, l.phone, l.asicModel, l.city, l.country, l.state, l.address, l.segment, l.leadType, l.market, l.website, l.linkedin, l.megawatts, l.notes, (l.tags || []).join(" "), invNums, repairBits].some((v) => norm(v).includes(q));
     });
     const nm = (l) => (l.contactName || l.company || "").toLowerCase();
     if (sort === "name") r = [...r].sort((a, b) => nm(a).localeCompare(nm(b)));
@@ -609,7 +646,7 @@ export default function App({ onLock }) {
     else if (sort === "followup") r = [...r].sort((a, b) => (a.nextFollowUp || "9999").localeCompare(b.nextFollowUp || "9999"));
     else r = [...r].sort((a, b) => (b.lastUpdated || "").localeCompare(a.lastUpdated || ""));
     return r;
-  }, [leads, search, fStatus, fDir, fSeg, fSource, fHot, fCold, sort, view, t]);
+  }, [leads, invoices, search, fStatus, fDir, fSeg, fSource, fHot, fCold, sort, view, t]);
 
   const followUps = useMemo(() => leads.filter((l) => l.nextFollowUp && isOpen(l.status)).sort((a, b) => a.nextFollowUp.localeCompare(b.nextFollowUp)), [leads]);
 
@@ -642,22 +679,29 @@ export default function App({ onLock }) {
     lost: leads.filter((l) => norm(l.status) === "lost").length,
     cold: leads.filter((l) => isCold(l)).length,
     quote: leads.filter((l) => isOpen(l.status) && ((l.tags || []).some((x) => /quote/i.test(x)) || /quote/i.test(l.lastResult || ""))).length,
-  }), [leads, t]);
+    us: leads.filter((l) => l.market === "US Outreach" || ["us", "usa", "unitedstates"].includes(norm(l.country))).length,
+    ca: leads.filter((l) => !(l.market === "US Outreach" || ["us", "usa", "unitedstates"].includes(norm(l.country)))).length,
+    hasunpaid: leads.filter((l) => unpaidLeadIds.has(l.id)).length,
+  }), [leads, t, unpaidLeadIds]);
 
   const recentActs = useMemo(() => [...acts].sort((a, b) => (b.date || "").localeCompare(a.date || "")).slice(0, 8), [acts]);
 
   const VIEWS = [
     { k: "all", label: "All contacts" }, { k: "hot", label: "Hot leads" }, { k: "today", label: "Follow-up today" },
-    { k: "overdue", label: "Overdue" }, { k: "quote", label: "Awaiting quote" }, { k: "unpaid", label: "Unpaid invoices" },
-    { k: "customers", label: "Customers" }, { k: "suppliers", label: "Suppliers" }, { k: "repair", label: "Repair clients" },
-    { k: "bulk", label: "Bulk buyers" }, { k: "lost", label: "Lost leads" }, { k: "cold", label: "Cold leads" },
+    { k: "overdue", label: "Overdue" }, { k: "quote", label: "Awaiting quote" }, { k: "cold", label: "Cold leads" },
   ];
+  const MORE_VIEWS = [
+    { k: "customers", label: "Customers" }, { k: "suppliers", label: "Suppliers" }, { k: "repair", label: "Repair clients" },
+    { k: "bulk", label: "Bulk buyers" }, { k: "lost", label: "Lost leads" }, { k: "ca", label: "Canadian retail" },
+    { k: "us", label: "US Outreach" }, { k: "hasunpaid", label: "Has unpaid invoice" },
+  ];
+  const ALL_VIEWS = [...VIEWS, ...MORE_VIEWS, { k: "all", label: "All contacts" }];
   const applyView = (v) => {
     setView(v); setSearch(""); setFStatus(""); setFSeg(""); setFSource(""); setFHot(false); setFCold(false);
     if (v === "lost") setFStatus("Lost");
     if (v === "today" || v === "overdue") setSort("followup");
     try { localStorage.setItem("cbm-crm-view", v); } catch (e) {}
-    setTab(v === "unpaid" ? "invoices" : "leads");
+    setTab("leads");
   };
   const quickFollow = (id, days) => { const d = days === 0 ? todayISO() : addDays(days); setLeads((prev) => prev.map((x) => x.id === id ? { ...x, nextFollowUp: d, lastUpdated: t } : x)); };
   const setFollowDate = (id, d) => setLeads((prev) => prev.map((x) => x.id === id ? { ...x, nextFollowUp: d || "", lastUpdated: t } : x));
@@ -1049,7 +1093,7 @@ export default function App({ onLock }) {
               <Card label="Overdue" value={m.overdue} accent="red" icon={CalendarClock} onClick={() => applyView("overdue")} />
               <Card label="Hot Leads" value={m.alerts} accent="red" icon={AlertTriangle} onClick={() => applyView("hot")} />
               <Card label="Awaiting Quote" value={counts.quote} accent="blue" icon={FileText} onClick={() => applyView("quote")} />
-              <Card label="Unpaid" value={cad(invMeta.totalUnpaid)} accent="red" icon={DollarSign} onClick={() => applyView("unpaid")} />
+              <Card label="Unpaid" value={cad(invMeta.totalUnpaid)} accent="red" icon={DollarSign} onClick={() => setTab("invoices")} />
               <Card label="Cold (30d+)" value={m.cold} accent="slate" icon={TrendingUp} onClick={() => applyView("cold")} />
             </div>
             <div className="grid lg:grid-cols-3 gap-4">
@@ -1092,7 +1136,7 @@ export default function App({ onLock }) {
                 )}
                 <div className="mt-3 pt-3 border-t border-neutral-800 grid grid-cols-2 gap-2 text-center">
                   <button onClick={() => setTab("invoices")} className="rounded-xl bg-neutral-900 border border-neutral-800 p-2 hover:border-neutral-700"><div className="text-base font-bold text-emerald-400">{cad(m.dealsClosed)}</div><div className="text-[10px] text-neutral-500">Sales closed</div></button>
-                  <button onClick={() => applyView("unpaid")} className="rounded-xl bg-neutral-900 border border-neutral-800 p-2 hover:border-neutral-700"><div className="text-base font-bold text-red-400">{invMeta.unpaidCount}</div><div className="text-[10px] text-neutral-500">Unpaid invoices</div></button>
+                  <button onClick={() => setTab("invoices")} className="rounded-xl bg-neutral-900 border border-neutral-800 p-2 hover:border-neutral-700"><div className="text-base font-bold text-red-400">{invMeta.unpaidCount}</div><div className="text-[10px] text-neutral-500">Unpaid invoices</div></button>
                 </div>
               </div>
             </div>
@@ -1139,13 +1183,23 @@ export default function App({ onLock }) {
 
         {tab === "leads" && (
           <div className="space-y-3">
-            <div className="flex flex-wrap gap-1.5">
+            <div className="flex flex-wrap items-center gap-1.5">
               {VIEWS.map((v) => (
                 <button key={v.k} onClick={() => applyView(v.k)} className={`text-xs font-medium px-3 py-1.5 rounded-full border transition ${view === v.k ? "border-red-600 bg-red-600/15 text-red-400" : "border-neutral-800 bg-neutral-900 text-neutral-400 hover:text-neutral-100 hover:bg-neutral-800"}`}>
                   {v.label}{counts[v.k] != null && counts[v.k] > 0 && <span className="ml-1.5 text-[10px] text-neutral-500">{counts[v.k]}</span>}
                 </button>
               ))}
+              <button onClick={() => setShowMoreFilters((x) => !x)} className={`text-xs font-medium px-3 py-1.5 rounded-full border transition ${showMoreFilters || MORE_VIEWS.some((v) => v.k === view) ? "border-red-600 bg-red-600/15 text-red-400" : "border-neutral-800 bg-neutral-900 text-neutral-400 hover:text-neutral-100 hover:bg-neutral-800"}`}>More filters {showMoreFilters ? "▾" : "▸"}</button>
             </div>
+            {showMoreFilters && (
+              <div className="flex flex-wrap gap-1.5 bg-neutral-950 border border-neutral-800 rounded-2xl p-2">
+                {MORE_VIEWS.map((v) => (
+                  <button key={v.k} onClick={() => applyView(v.k)} className={`text-xs font-medium px-3 py-1.5 rounded-full border transition ${view === v.k ? "border-red-600 bg-red-600/15 text-red-400" : "border-neutral-800 bg-neutral-900 text-neutral-400 hover:text-neutral-100 hover:bg-neutral-800"}`}>
+                    {v.label}{counts[v.k] != null && counts[v.k] > 0 && <span className="ml-1.5 text-[10px] text-neutral-500">{counts[v.k]}</span>}
+                  </button>
+                ))}
+              </div>
+            )}
             <div className="bg-neutral-950 rounded-2xl border border-neutral-800 p-3 flex flex-wrap gap-2 items-center">
               <div className="flex-1 min-w-[200px] relative">
                 <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-500" />
@@ -1494,7 +1548,7 @@ export default function App({ onLock }) {
         )}
       </div>
 
-      {edit && <LeadEditor lead={edit} acts={acts} leads={leads} invoices={invoices} onSave={saveLead} onDelete={delLead} onLog={(l) => setActForm({ id: uid("A"), date: t, leadId: l.id, contact: l.contactName || l.company, type: "Call", outcome: "", notes: "" })} onAddInvoice={(l) => setInvForm({ id: uid("IV"), leadId: l.id, contact: l.contactName || l.company || "", number: "", model: l.asicModel || "", qty: 1, amount: "", cost: "", profit: "", supplier: "", date: t, dueDate: t, status: "Unpaid", notes: "" })} onPatch={patchLead} onFollow={setFollowDate} onAddNote={addNote} onCopy={copyText} onClose={() => setEdit(null)} />}
+      {edit && <LeadEditor lead={edit} acts={acts} leads={leads} invoices={invoices} onSave={saveLead} onDelete={delLead} onLog={(l) => setActForm({ id: uid("A"), date: t, leadId: l.id, contact: l.contactName || l.company, type: "Call", outcome: "", notes: "" })} onAddInvoice={(l) => setInvForm({ id: uid("IV"), leadId: l.id, contact: l.contactName || l.company || "", email: l.email || "", number: "", model: l.asicModel || "", qty: 1, amount: "", cost: "", profit: "", supplier: "", date: t, dueDate: t, status: "Unpaid", paymentDate: "", notes: "" })} onPatch={patchLead} onFollow={setFollowDate} onAddNote={addNote} onCopy={copyText} onClose={() => setEdit(null)} />}
       {actForm && <ActForm act={actForm} leads={leads} onSave={saveAct} onClose={() => setActForm(null)} />}
       {invForm && <InvoiceForm inv={invForm} leads={leads} onSave={saveInv} onDelete={delInv} onClose={() => setInvForm(null)} />}
       {batchForm && <BatchForm batch={batchForm} onSave={saveBatch} onDelete={delBatch} onClose={() => setBatchForm(null)} />}
@@ -1581,6 +1635,12 @@ function LeadEditor({ lead, acts, leads, invoices, onSave, onDelete, onLog, onAd
   const addNote = (text, type) => { onAddNote && onAddNote(f, text, type); if (type && !text) { /* keep */ } setNoteText(""); };
   const addTag = (tg) => { const v = (tg || "").trim(); if (!v) return; if ((f.tags || []).includes(v)) return; patch({ tags: [...(f.tags || []), v] }); setTagText(""); };
   const removeTag = (tg) => patch({ tags: (f.tags || []).filter((x) => x !== tg) });
+  const markFollowDone = () => { onAddNote && onAddNote(f, (f.nextAction ? "Done: " + f.nextAction : "Follow-up done"), "Note"); set("nextFollowUp", ""); set("lastContacted", todayISO()); onFollow && onFollow(f.id, ""); };
+  const repairs = f.repairs || [];
+  const setRepair = (idx, partial) => { const next = repairs.map((r, i) => i === idx ? { ...r, ...partial } : r); patch({ repairs: next }); };
+  const addRepair = () => patch({ repairs: [...repairs, { id: uid("R"), model: "", serial: "", issue: "", diagStatus: "", repairStatus: "Received", quote: "", approved: false, receivedDate: todayISO(), completedDate: "", shippedDate: "", tracking: "", notes: "" }] });
+  const removeRepair = (idx) => patch({ repairs: repairs.filter((_, i) => i !== idx) });
+  const isUSlead = f.market === "US Outreach" || ["us", "usa", "unitedstates"].includes(norm(f.country));
   return (
     <div className="fixed inset-0 bg-black/70 z-40 flex items-end sm:items-center justify-center p-0 sm:p-4" onClick={onClose}>
       <div className="bg-neutral-950 border border-neutral-800 w-full sm:max-w-2xl sm:rounded-2xl rounded-t-2xl max-h-[92vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
@@ -1596,6 +1656,7 @@ function LeadEditor({ lead, acts, leads, invoices, onSave, onDelete, onLog, onAd
               {f.phone && <div className="text-sm text-neutral-300 mt-1">{f.phone}</div>}
               {f.address && <div className="text-xs text-neutral-500 break-words mt-0.5">{f.address}</div>}
               {(f.contactType || f.leadSource) && <div className="text-xs text-neutral-600 mt-0.5">{[f.contactType, f.leadSource && "Source: " + f.leadSource].filter(Boolean).join(" · ")}</div>}
+              <div className="flex flex-wrap gap-1 mt-1">{f.market && <span className={`text-[10px] px-1.5 py-0.5 rounded-full ${f.market === "US Outreach" ? "bg-sky-500/15 text-sky-300" : "bg-neutral-800 text-neutral-400"}`}>{f.market}</span>}{f.leadType && <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-neutral-800 text-neutral-400">{f.leadType}</span>}</div>
             </div>
             <button onClick={onClose} className="shrink-0 mt-1"><X size={20} className="text-neutral-500" /></button>
           </div>
@@ -1621,6 +1682,11 @@ function LeadEditor({ lead, acts, leads, invoices, onSave, onDelete, onLog, onAd
             <button onClick={() => setFollow(30)} className={chip}>+30 days</button>
             <input type="date" value={f.nextFollowUp || ""} onChange={(e) => setFollow2(e.target.value)} className="text-xs px-2 py-1 rounded-md bg-neutral-900 border border-neutral-700 text-neutral-200" />
             {f.nextFollowUp && <button onClick={() => setFollow(null)} className="text-xs text-neutral-500 hover:text-red-400">Clear</button>}
+            {f.nextFollowUp && <button onClick={markFollowDone} className="text-xs px-2 py-1 rounded-md bg-emerald-700/40 hover:bg-emerald-700/60 text-emerald-200">Mark done + log</button>}
+          </div>
+          <div className="flex flex-wrap items-center gap-1.5">
+            <span className="text-[11px] uppercase tracking-wider text-neutral-500 mr-1">Reason</span>
+            {FOLLOW_REASONS.map((r) => <button key={r} onClick={() => set("nextAction", r)} className={`text-xs px-2 py-1 rounded-md ${f.nextAction === r ? "bg-red-600/25 text-red-300" : "bg-neutral-800 hover:bg-neutral-700 text-neutral-200"}`}>{r}</button>)}
           </div>
           <div className="flex flex-wrap items-center gap-1.5">
             <span className="text-[11px] uppercase tracking-wider text-neutral-500 mr-1">Mark</span>
@@ -1644,7 +1710,13 @@ function LeadEditor({ lead, acts, leads, invoices, onSave, onDelete, onLog, onAd
           <Field label="Operation Size"><input className={inp} value={f.operationSize} onChange={(e) => set("operationSize", e.target.value)} placeholder="e.g. 10 miners or 2 MW" /></Field>
           <Field label="ASIC Model"><input className={inp} value={f.asicModel} onChange={(e) => set("asicModel", e.target.value)} placeholder="e.g. S19J Pro 120T" /></Field>
           <Field label="City"><input className={inp} value={f.city} onChange={(e) => set("city", e.target.value)} /></Field>
-          <Field label="Country"><input className={inp} value={f.country} onChange={(e) => set("country", e.target.value)} /></Field>
+          <Field label="Country"><input className={inp} value={f.country} onChange={(e) => set("country", e.target.value)} placeholder="Canada or US" /></Field>
+          <Field label="Province"><input className={inp} value={f.province} onChange={(e) => set("province", e.target.value)} placeholder="e.g. Quebec" /></Field>
+          <Field label="State"><input className={inp} value={f.state} onChange={(e) => set("state", e.target.value)} placeholder="e.g. Texas" /></Field>
+          <Field label="Market"><select className={inp} value={f.market} onChange={(e) => set("market", e.target.value)}><option value="">—</option>{MARKETS.map((x) => <option key={x}>{x}</option>)}</select></Field>
+          <Field label="Lead type"><select className={inp} value={f.leadType} onChange={(e) => set("leadType", e.target.value)}><option value="">—</option>{LEAD_TYPES.map((x) => <option key={x}>{x}</option>)}</select></Field>
+          <Field label="Lead value (CAD)"><input className={inp} value={f.estValue} onChange={(e) => set("estValue", e.target.value)} placeholder="e.g. 5000" /></Field>
+          <Field label="Website"><input className={inp} value={f.website} onChange={(e) => set("website", e.target.value)} placeholder="https://" /></Field>
           <Field label="Language"><select className={inp} value={f.language} onChange={(e) => set("language", e.target.value)}><option value="">—</option>{LANGS.map((x) => <option key={x}>{x}</option>)}</select></Field>
           <div className="col-span-2"><Field label="Address"><input className={inp} value={f.address} onChange={(e) => set("address", e.target.value)} placeholder="Street, city, province, postal code" /></Field></div>
           <div className="col-span-2 text-[11px] uppercase tracking-wider text-neutral-500 border-b border-neutral-800 pb-1.5 mt-1">Pipeline &amp; follow-up</div>
@@ -1669,6 +1741,42 @@ function LeadEditor({ lead, acts, leads, invoices, onSave, onDelete, onLog, onAd
           <label className="col-span-2 flex items-center gap-2 text-sm text-neutral-300"><input type="checkbox" checked={f.customer} onChange={(e) => set("customer", e.target.checked)} /> Existing customer (has bought from us)</label>
           <label className="col-span-2 flex items-center gap-2 text-sm text-neutral-300"><input type="checkbox" checked={f.supplier} onChange={(e) => set("supplier", e.target.checked)} /> Supplier (brings me batches)</label>
           <label className="col-span-2 flex items-center gap-2 text-sm text-neutral-300"><input type="checkbox" checked={f.repairClient} onChange={(e) => set("repairClient", e.target.checked)} /> Repair client (I serviced their miners)</label>
+        </div>
+        {isUSlead && (
+          <div className="p-4 grid grid-cols-2 gap-3 border-t border-neutral-800">
+            <div className="col-span-2 text-[11px] uppercase tracking-wider text-sky-400 border-b border-neutral-800 pb-1.5">US Outreach details</div>
+            <Field label="LinkedIn"><input className={inp} value={f.linkedin} onChange={(e) => set("linkedin", e.target.value)} placeholder="linkedin.com/company/..." /></Field>
+            <Field label="Megawatts"><input className={inp} value={f.megawatts} onChange={(e) => set("megawatts", e.target.value)} placeholder="e.g. 5 MW" /></Field>
+            <div className="col-span-2"><Field label="Facility notes"><textarea className={inp} rows={2} value={f.facilityNotes} onChange={(e) => set("facilityNotes", e.target.value)} placeholder="Location, power, cooling, hosting capacity..." /></Field></div>
+            <div className="col-span-2"><Field label="Inventory notes"><textarea className={inp} rows={2} value={f.inventoryNotes} onChange={(e) => set("inventoryNotes", e.target.value)} placeholder="What they have to sell or want to buy..." /></Field></div>
+            <Field label="Decision maker name"><input className={inp} value={f.dmName} onChange={(e) => set("dmName", e.target.value)} /></Field>
+            <Field label="Decision maker title"><input className={inp} value={f.dmTitle} onChange={(e) => set("dmTitle", e.target.value)} /></Field>
+            <Field label="Decision maker phone"><input className={inp} value={f.dmPhone} onChange={(e) => set("dmPhone", e.target.value)} /></Field>
+            <Field label="Decision maker email"><input className={inp} value={f.dmEmail} onChange={(e) => set("dmEmail", e.target.value)} /></Field>
+          </div>
+        )}
+        <div className="px-4 pb-2">
+          <div className="flex items-center justify-between mb-2"><div className="text-[11px] uppercase tracking-wider text-neutral-500">Repairs ({repairs.length})</div><button onClick={addRepair} className="text-xs flex items-center gap-1 text-red-400 hover:text-red-300"><Plus size={13} /> Add repair</button></div>
+          {repairs.length === 0 ? <div className="text-xs text-neutral-700">No repairs logged for this contact yet.</div> : (
+            <div className="space-y-2">
+              {repairs.map((r, idx) => (
+                <div key={r.id || idx} className="bg-neutral-900 rounded-xl border border-neutral-800 p-2.5 grid grid-cols-2 gap-2">
+                  <input className={inp} value={r.model || ""} onChange={(e) => setRepair(idx, { model: e.target.value })} placeholder="Miner model" />
+                  <input className={inp} value={r.serial || ""} onChange={(e) => setRepair(idx, { serial: e.target.value })} placeholder="Serial number" />
+                  <div className="col-span-2"><input className={inp} value={r.issue || ""} onChange={(e) => setRepair(idx, { issue: e.target.value })} placeholder="Issue" /></div>
+                  <select className={inp} value={r.repairStatus || "Received"} onChange={(e) => setRepair(idx, { repairStatus: e.target.value })}>{REPAIR_STATUS.map((x) => <option key={x}>{x}</option>)}</select>
+                  <input className={inp} value={r.quote || ""} onChange={(e) => setRepair(idx, { quote: e.target.value })} placeholder="Quote amount" />
+                  <label className="col-span-2 flex items-center gap-2 text-xs text-neutral-300"><input type="checkbox" checked={!!r.approved} onChange={(e) => setRepair(idx, { approved: e.target.checked })} /> Approved</label>
+                  <input type="date" className={inp} value={r.receivedDate || ""} onChange={(e) => setRepair(idx, { receivedDate: e.target.value })} title="Received" />
+                  <input type="date" className={inp} value={r.completedDate || ""} onChange={(e) => setRepair(idx, { completedDate: e.target.value })} title="Completed" />
+                  <input type="date" className={inp} value={r.shippedDate || ""} onChange={(e) => setRepair(idx, { shippedDate: e.target.value })} title="Shipped / pickup" />
+                  <input className={inp} value={r.tracking || ""} onChange={(e) => setRepair(idx, { tracking: e.target.value })} placeholder="Tracking number" />
+                  <div className="col-span-2"><textarea className={inp} rows={2} value={r.notes || ""} onChange={(e) => setRepair(idx, { notes: e.target.value })} placeholder="Repair notes" /></div>
+                  <div className="col-span-2 flex justify-end"><button onClick={() => removeRepair(idx)} className="text-xs text-red-500 hover:text-red-400 flex items-center gap-1"><Trash2 size={13} /> Remove repair</button></div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
         <div className="px-4 pb-2">
           <div className="text-[11px] uppercase tracking-wider text-neutral-500 mb-2">Tags</div>
@@ -1760,7 +1868,8 @@ function InvoiceForm({ inv, leads, onSave, onDelete, onClose }) {
           <Field label="Amount (CAD)"><input className={inp} value={f.amount} onChange={(e) => set("amount", e.target.value)} placeholder="e.g. 1250" /></Field>
           <Field label="Invoice date"><input type="date" className={inp} value={f.date} onChange={(e) => set("date", e.target.value)} /></Field>
           <Field label="Due date"><input type="date" className={inp} value={f.dueDate} onChange={(e) => set("dueDate", e.target.value)} /></Field>
-          <Field label="Status"><select className={inp} value={f.status} onChange={(e) => set("status", e.target.value)}>{["Unpaid", "Sent", "Paid", "Quote", "Refund"].map((s) => <option key={s}>{s}</option>)}</select></Field>
+          <Field label="Status"><select className={inp} value={f.status} onChange={(e) => { const v = e.target.value; set("status", v); if (norm(v) === "paid" && !f.paymentDate) set("paymentDate", todayISO()); }}>{INVOICE_STATUS.map((s) => <option key={s}>{s}</option>)}</select></Field>
+          {norm(f.status) === "paid" && <Field label="Payment date"><input type="date" className={inp} value={f.paymentDate || ""} onChange={(e) => set("paymentDate", e.target.value)} /></Field>}
           <Field label="Supplier"><input className={inp} value={f.supplier} onChange={(e) => set("supplier", e.target.value)} placeholder="Who supplied it" /></Field>
           <Field label="Cost (CAD)"><input className={inp} value={f.cost} onChange={(e) => set("cost", e.target.value)} /></Field>
           <Field label="Profit (CAD)"><input className={inp} value={f.profit} onChange={(e) => set("profit", e.target.value)} /></Field>
