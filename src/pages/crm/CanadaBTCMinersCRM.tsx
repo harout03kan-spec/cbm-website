@@ -629,6 +629,12 @@ export default function App({ onLock }) {
     const q = norm(search);
     let r = leads.filter((l) => {
       if (!viewMatch(l)) return false;
+      // Section scope: Contacts hides US Pipeline records and vice versa.
+      // Global search (q present) spans both so nothing is hidden when searching.
+      if (!q) {
+        if (tab === "pipeline" && !isUS(l)) return false;
+        if (tab !== "pipeline" && isUS(l)) return false;
+      }
       if (fStatus && l.status !== fStatus) return false;
       if (fDir && l.direction !== fDir) return false;
       if (fSeg && l.segment !== fSeg) return false;
@@ -646,7 +652,7 @@ export default function App({ onLock }) {
     else if (sort === "followup") r = [...r].sort((a, b) => (a.nextFollowUp || "9999").localeCompare(b.nextFollowUp || "9999"));
     else r = [...r].sort((a, b) => (b.lastUpdated || "").localeCompare(a.lastUpdated || ""));
     return r;
-  }, [leads, invoices, search, fStatus, fDir, fSeg, fSource, fHot, fCold, sort, view, t]);
+  }, [leads, invoices, search, fStatus, fDir, fSeg, fSource, fHot, fCold, sort, view, t, tab]);
 
   const followUps = useMemo(() => leads.filter((l) => l.nextFollowUp && isOpen(l.status)).sort((a, b) => a.nextFollowUp.localeCompare(b.nextFollowUp)), [leads]);
 
@@ -692,16 +698,15 @@ export default function App({ onLock }) {
   ];
   const MORE_VIEWS = [
     { k: "customers", label: "Customers" }, { k: "suppliers", label: "Suppliers" }, { k: "repair", label: "Repair clients" },
-    { k: "bulk", label: "Bulk buyers" }, { k: "lost", label: "Lost leads" }, { k: "ca", label: "Canadian retail" },
-    { k: "us", label: "US Outreach" }, { k: "hasunpaid", label: "Has unpaid invoice" },
+    { k: "bulk", label: "Bulk buyers" }, { k: "lost", label: "Lost leads" }, { k: "hasunpaid", label: "Has unpaid invoice" },
   ];
   const ALL_VIEWS = [...VIEWS, ...MORE_VIEWS, { k: "all", label: "All contacts" }];
-  const applyView = (v) => {
+  const applyView = (v, keepSection) => {
     setView(v); setSearch(""); setFStatus(""); setFSeg(""); setFSource(""); setFHot(false); setFCold(false);
     if (v === "lost") setFStatus("Lost");
     if (v === "today" || v === "overdue") setSort("followup");
     try { localStorage.setItem("cbm-crm-view", v); } catch (e) {}
-    setTab("leads");
+    if (!keepSection) setTab("leads");
   };
   const quickFollow = (id, days) => { const d = days === 0 ? todayISO() : addDays(days); setLeads((prev) => prev.map((x) => x.id === id ? { ...x, nextFollowUp: d, lastUpdated: t } : x)); };
   const setFollowDate = (id, d) => setLeads((prev) => prev.map((x) => x.id === id ? { ...x, nextFollowUp: d || "", lastUpdated: t } : x));
@@ -968,6 +973,7 @@ export default function App({ onLock }) {
   const TABS = [
     { k: "dash", label: "Dashboard", icon: LayoutDashboard },
     { k: "leads", label: "Contacts", icon: Users },
+    { k: "pipeline", label: "US Pipeline", icon: TrendingUp },
     { k: "invoices", label: "Invoices", icon: FileText },
     { k: "batches", label: "Batches", icon: Truck },
     { k: "follow", label: "Follow-ups", icon: CalendarClock },
@@ -1181,11 +1187,18 @@ export default function App({ onLock }) {
           </div>
         )}
 
-        {tab === "leads" && (
+        {(tab === "leads" || tab === "pipeline") && (
           <div className="space-y-3">
+            <div className="flex items-center justify-between gap-2">
+              <div>
+                <div className="text-lg font-semibold text-white">{tab === "pipeline" ? "US Pipeline" : "Contacts"}</div>
+                <div className="text-xs text-neutral-500">{tab === "pipeline" ? "US cold outreach: mining farms, hosting sites, brokers, suppliers, buyers and sellers." : "Your Canadian and existing business contacts."}</div>
+              </div>
+              {tab === "pipeline" && <button onClick={() => setEdit({ ...blankLead(), market: "US Outreach", country: "US", leadType: "Unknown" })} className="flex items-center gap-1.5 bg-red-600 text-white text-sm font-medium px-3 py-2 rounded-xl hover:bg-red-500 transition shadow-lg shadow-red-900/20"><Plus size={16} /> US prospect</button>}
+            </div>
             <div className="flex flex-wrap items-center gap-1.5">
               {VIEWS.map((v) => (
-                <button key={v.k} onClick={() => applyView(v.k)} className={`text-xs font-medium px-3 py-1.5 rounded-full border transition ${view === v.k ? "border-red-600 bg-red-600/15 text-red-400" : "border-neutral-800 bg-neutral-900 text-neutral-400 hover:text-neutral-100 hover:bg-neutral-800"}`}>
+                <button key={v.k} onClick={() => applyView(v.k, true)} className={`text-xs font-medium px-3 py-1.5 rounded-full border transition ${view === v.k ? "border-red-600 bg-red-600/15 text-red-400" : "border-neutral-800 bg-neutral-900 text-neutral-400 hover:text-neutral-100 hover:bg-neutral-800"}`}>
                   {v.label}{counts[v.k] != null && counts[v.k] > 0 && <span className="ml-1.5 text-[10px] text-neutral-500">{counts[v.k]}</span>}
                 </button>
               ))}
@@ -1194,7 +1207,7 @@ export default function App({ onLock }) {
             {showMoreFilters && (
               <div className="flex flex-wrap gap-1.5 bg-neutral-950 border border-neutral-800 rounded-2xl p-2">
                 {MORE_VIEWS.map((v) => (
-                  <button key={v.k} onClick={() => applyView(v.k)} className={`text-xs font-medium px-3 py-1.5 rounded-full border transition ${view === v.k ? "border-red-600 bg-red-600/15 text-red-400" : "border-neutral-800 bg-neutral-900 text-neutral-400 hover:text-neutral-100 hover:bg-neutral-800"}`}>
+                  <button key={v.k} onClick={() => applyView(v.k, true)} className={`text-xs font-medium px-3 py-1.5 rounded-full border transition ${view === v.k ? "border-red-600 bg-red-600/15 text-red-400" : "border-neutral-800 bg-neutral-900 text-neutral-400 hover:text-neutral-100 hover:bg-neutral-800"}`}>
                     {v.label}{counts[v.k] != null && counts[v.k] > 0 && <span className="ml-1.5 text-[10px] text-neutral-500">{counts[v.k]}</span>}
                   </button>
                 ))}
