@@ -737,6 +737,11 @@ export default function App({ onLock }) {
 
   const saveLead = (l) => { l.lastUpdated = t; setLeads((prev) => { const i = prev.findIndex((x) => x.id === l.id); if (i >= 0) { const c = [...prev]; c[i] = l; return c; } return [l, ...prev]; }); setEdit(null); };
   const saveInv = (iv) => { setInvoices((prev) => { const i = prev.findIndex((x) => x.id === iv.id); if (i >= 0) { const c = [...prev]; c[i] = iv; return c; } return [iv, ...prev]; }); setInvForm(null); };
+  const toggleInvoicePaid = (id) => setInvoices((prev) => prev.map((x) => {
+    if (x.id !== id) return x;
+    const nowPaid = !(norm(x.status) === "paid");
+    return { ...x, status: nowPaid ? "Paid" : "Unpaid", historical: false, paymentDate: nowPaid ? (x.paymentDate || todayISO()) : "" };
+  }));
   const delInv = (id) => { setInvoices((prev) => prev.filter((x) => x.id !== id)); setInvForm(null); };
   const saveBatch = (b) => { setBatches((prev) => { const i = prev.findIndex((x) => x.id === b.id); if (i >= 0) { const c = [...prev]; c[i] = b; return c; } return [b, ...prev]; }); setBatchForm(null); };
   const delBatch = (id) => { setBatches((prev) => prev.filter((x) => x.id !== id)); setBatchForm(null); };
@@ -1343,7 +1348,7 @@ export default function App({ onLock }) {
                       <td className={`px-3 py-3 text-right ${isUnpaid ? "text-red-400 font-medium" : "text-neutral-200"}`}>{iv.amount !== "" && iv.amount != null ? cad(numVal(iv.amount)) : "—"}</td>
                       <td className={`px-3 py-3 hidden md:table-cell ${overdue ? "text-red-400" : "text-neutral-400"}`}>{iv.dueDate || "—"}</td>
                       <td className="px-3 py-3">{ageBadge ? <span className={`text-[10px] px-1.5 py-0.5 rounded-full ${age >= 60 ? "bg-red-500/20 text-red-300" : age >= 30 ? "bg-amber-500/20 text-amber-300" : "bg-neutral-800 text-neutral-400"}`}>{ageBadge}d</span> : <span className="text-neutral-700">—</span>}</td>
-                      <td className="px-3 py-3"><div className="flex items-center gap-1.5"><InvPill status={overdue ? "Overdue" : iv.status} />{iv.historical && <span className="text-[10px] text-neutral-600">history</span>}</div></td>
+                      <td className="px-3 py-3"><div className="flex items-center gap-1.5 flex-wrap"><InvPill status={overdue ? "Overdue" : iv.status} />{iv.historical && <span className="text-[10px] text-neutral-600">history</span>}<button onClick={(e) => { e.stopPropagation(); toggleInvoicePaid(iv.id); }} className={`text-[11px] font-medium px-2 py-1 rounded-lg transition ${norm(iv.status) === "paid" ? "bg-neutral-800 hover:bg-neutral-700 text-neutral-300" : "bg-emerald-600 hover:bg-emerald-500 text-white"}`}>{norm(iv.status) === "paid" ? "Mark unpaid" : "Mark paid"}</button></div></td>
                     </tr>
                   ); })}
                   {invoices.length === 0 && <tr><td colSpan={7} className="px-3 py-8 text-center text-neutral-600">No invoices yet. Tap Invoice to add one.</td></tr>}
