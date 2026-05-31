@@ -654,17 +654,42 @@ export default function App({ onLock }) {
       <style>{`
         .light .bg-black{background:#eef0f3 !important;}
         .light .bg-neutral-950{background:#ffffff !important;}
+        .light .bg-neutral-950\\/95{background:#ffffff !important;}
         .light .bg-neutral-900{background:#f3f4f6 !important;}
+        .light .bg-neutral-900\\/95{background:#ffffff !important;}
+        .light .bg-neutral-900\\/70{background:#f3f4f6 !important;}
+        .light .bg-neutral-900\\/60{background:#f3f4f6 !important;}
+        .light .bg-neutral-900\\/40{background:#eef0f3 !important;}
         .light .bg-neutral-800{background:#e5e7eb !important;}
+        .light .bg-neutral-800\\/40{background:#eaecef !important;}
+        .light .bg-red-950\\/40{background:#fee2e2 !important;}
         .light .hover\\:bg-neutral-800:hover{background:#e5e7eb !important;}
         .light .hover\\:bg-neutral-700:hover{background:#d1d5db !important;}
         .light .hover\\:bg-neutral-900:hover{background:#f3f4f6 !important;}
-        .light .border-neutral-800{border-color:#e5e7eb !important;}
+        .light .hover\\:bg-neutral-900\\/60:hover{background:#eef0f3 !important;}
+        .light .hover\\:bg-neutral-900\\/70:hover{background:#eef0f3 !important;}
+        .light .hover\\:bg-red-950\\/40:hover{background:#fee2e2 !important;}
+        .light .border-neutral-800{border-color:#e2e5e9 !important;}
+        .light .border-neutral-800\\/60{border-color:#e2e5e9 !important;}
+        .light .border-neutral-800\\/50{border-color:#e8eaed !important;}
         .light .border-neutral-700{border-color:#d1d5db !important;}
+        .light .border-neutral-700\\/70{border-color:#d6d9de !important;}
         .light .text-white{color:#111827 !important;}
         .light .text-slate-200,.light .text-neutral-100,.light .text-neutral-200,.light .text-neutral-300{color:#1f2937 !important;}
         .light .text-neutral-400,.light .text-neutral-500{color:#6b7280 !important;}
         .light .text-neutral-600,.light .text-neutral-700{color:#9ca3af !important;}
+        .light input,.light select,.light textarea{color:#111827 !important;}
+        .light input::placeholder,.light textarea::placeholder{color:#9ca3af !important;}
+        /* keep colored accents readable on white */
+        .light .text-red-300,.light .text-red-400{color:#dc2626 !important;}
+        .light .text-emerald-300,.light .text-emerald-400{color:#047857 !important;}
+        .light .text-amber-300,.light .text-amber-400{color:#b45309 !important;}
+        .light .text-blue-300,.light .text-blue-400{color:#1d4ed8 !important;}
+        .light .text-sky-300{color:#0369a1 !important;}
+        .light .text-violet-300{color:#6d28d9 !important;}
+        .light .text-green-300{color:#15803d !important;}
+        /* primary red buttons keep white text on red (overrides text-white remap) */
+        .light .bg-red-600{color:#ffffff !important;}
       `}</style>
       <div className="min-h-screen bg-black text-slate-200" style={{ fontFamily: "system-ui, sans-serif" }}>
       <div className="bg-neutral-950/95 backdrop-blur border-b border-neutral-800 sticky top-0 z-20">
