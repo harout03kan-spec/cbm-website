@@ -371,9 +371,9 @@ const isWarmActive = (s) => { const n = norm(s); return n.includes("warm") || n.
 
 function SEED_TEMPLATES() {
   return [
-    { id: uid("T"), title: "Bulk pricing reply", body: "Hi [name],\n\nThanks for reaching out. We have [model] in stock, tested and working. Price is [price] CAD per unit. For 10 or more units I can do a better rate.\n\nWe ship across Canada. Let me know how many you need and I will send the full details.\n\nThanks,\n[Your Name]\n[Your Company]\n[Your Website]\n[Your Phone]" },
-    { id: uid("T"), title: "Follow up", body: "Hi [name],\n\nJust following up on the miners you asked about. Still have them ready to go. Let me know if you want to move forward.\n\nThanks,\n[Your Name]" },
-    { id: uid("T"), title: "Repair intake", body: "Hi [name],\n\nWe can repair that hashboard. Send it to our Montreal shop and we will test it and give you a quote before any work is done. Most repairs are finished within a few days.\n\nShip to: [Your Shipping Address]\n\nThanks,\n[Your Name]\n[Your Company]" },
+    { id: uid("T"), category: "Sales", title: "Bulk pricing reply", body: "Hi [name],\n\nThanks for reaching out. We have [model] in stock, tested and working. Price is [price] CAD per unit. For 10 or more units I can do a better rate.\n\nWe ship across Canada. Let me know how many you need and I will send the full details.\n\nThanks,\n[Your Name]\n[Your Company]\n[Your Website]\n[Your Phone]" },
+    { id: uid("T"), category: "Follow up", title: "Follow up", body: "Hi [name],\n\nJust following up on the miners you asked about. Still have them ready to go. Let me know if you want to move forward.\n\nThanks,\n[Your Name]" },
+    { id: uid("T"), category: "Repair", title: "Repair intake", body: "Hi [name],\n\nWe can repair that hashboard. Send it to our Montreal shop and we will test it and give you a quote before any work is done. Most repairs are finished within a few days.\n\nShip to: [Your Shipping Address]\n\nThanks,\n[Your Name]\n[Your Company]" },
   ];
 }
 
@@ -473,6 +473,9 @@ export default function App({ onLock }) {
   const [actForm, setActForm] = useState(null);
   const [menu, setMenu] = useState(false);
   const [view, setView] = useState(() => { try { return localStorage.getItem("cbm-crm-view") || "all"; } catch (e) { return "all"; } });
+  const [showAllToday, setShowAllToday] = useState(false);
+  const [importPrev, setImportPrev] = useState(null);
+  const [tplPreview, setTplPreview] = useState(null);
 
   const save = async (l, a, inv, bat, tpl) => { try { await crmStorage.set(STORE_KEY, JSON.stringify({ leads: l, activities: a, invoices: inv, batches: bat, templates: tpl, v: 4, wl: true, iv2: true, clean1: true, clean2: true, inv3: true, tpl1: true, qb1: true, qbs1: true, clean3: true, qbs2: true, qbs3: true, qbs4: true, qbs5: true, inv4: true, inv5: true, man1: true, inv6: true, inv7: true, man2: true, man3: true, man4: true, man5: true, man6: true, inv8: true }), false); } catch (e) {} };
 
@@ -542,7 +545,7 @@ export default function App({ onLock }) {
           return i;
         });
       }
-      const tpls = (tpl1 && savedTpl) ? savedTpl : SEED_TEMPLATES();
+      const tpls = ((tpl1 && savedTpl) ? savedTpl : SEED_TEMPLATES()).map((tp) => ({ category: "General", ...tp }));
       setLeads(list); setActs(acts0); setInvoices(invs); setBatches(savedBat || []); setTemplates(tpls); setLoaded(true);
       setNote(`${list.length} contacts total.`);
       try { await crmStorage.set(STORE_KEY, JSON.stringify({ leads: list, activities: acts0, invoices: invs, batches: savedBat || [], templates: tpls, v: 4, wl: true, iv2: true, clean1: true, clean2: true, inv3: true, tpl1: true, qb1: true, qbs1: true, clean3: true, qbs2: true, qbs3: true, qbs4: true, qbs5: true, inv4: true, inv5: true, man1: true, inv6: true, inv7: true, man2: true, man3: true, man4: true, man5: true, man6: true, inv8: true }), false); } catch (e) {}
@@ -681,6 +684,100 @@ export default function App({ onLock }) {
   const saveTpl = (tp) => { setTemplates((prev) => { const i = prev.findIndex((x) => x.id === tp.id); if (i >= 0) { const c = [...prev]; c[i] = tp; return c; } return [tp, ...prev]; }); setTplForm(null); };
   const delTpl = (id) => { setTemplates((prev) => prev.filter((x) => x.id !== id)); setTplForm(null); };
   const copyTpl = (tp) => { try { navigator.clipboard.writeText(tp.body); } catch (e) {} setCopiedId(tp.id); setTimeout(() => setCopiedId(""), 1500); };
+
+  // ---- invoice aging ----
+  const aging = useMemo(() => {
+    const buckets = { current: 0, d30: 0, d60: 0, d90: 0, d90plus: 0 };
+    let totalUnpaid = 0, overdue = 0;
+    const byClient = {};
+    invoices.forEach((iv) => {
+      const st = norm(iv.status);
+      if (st !== "unpaid" && st !== "overdue") return;
+      const amt = numVal(iv.amount);
+      totalUnpaid += amt;
+      const ref = iv.dueDate || iv.date;
+      const age = ref ? (daysSince(ref) || 0) : 0;
+      const past = iv.dueDate && iv.dueDate < t;
+      if (past) overdue += amt;
+      if (!past || age <= 0) buckets.current += amt;
+      else if (age <= 30) buckets.d30 += amt;
+      else if (age <= 60) buckets.d60 += amt;
+      else if (age <= 90) buckets.d90 += amt;
+      else buckets.d90plus += amt;
+      const key = iv.contact || iv.leadId || "Unknown";
+      if (!byClient[key]) byClient[key] = { contact: iv.contact || "Unknown", leadId: iv.leadId || "", amount: 0, oldest: age, count: 0 };
+      byClient[key].amount += amt; byClient[key].count += 1; byClient[key].oldest = Math.max(byClient[key].oldest, age);
+    });
+    const clients = Object.values(byClient).sort((a, b) => b.amount - a.amount);
+    return { buckets, totalUnpaid, overdue, clients };
+  }, [invoices, t]);
+
+  // ---- duplicate finder: same email / phone / company / similar name ----
+  const norm2 = (x) => norm(x);
+  const dupGroups = useMemo(() => {
+    const groups = []; const seen = new Set();
+    const push = (reason, arr) => {
+      if (arr.length < 2) return;
+      const sig = reason + ":" + arr.map((l) => l.id).sort().join("|");
+      if (seen.has(sig)) return; seen.add(sig);
+      groups.push({ reason, leads: arr });
+    };
+    const byEmail = {}, byPhone = {}, byCompany = {}, byName = {};
+    leads.forEach((l) => {
+      const e = (l.email && l.email.includes("@")) ? norm2(l.email) : "";
+      const p = phoneKey(l.phone);
+      const co = norm2(l.company);
+      const nm = norm2(l.contactName);
+      if (e) (byEmail[e] = byEmail[e] || []).push(l);
+      if (p.length >= 10) (byPhone[p] = byPhone[p] || []).push(l);
+      if (co && co.length >= 3) (byCompany[co] = byCompany[co] || []).push(l);
+      if (nm && nm.length >= 4) (byName[nm] = byName[nm] || []).push(l);
+    });
+    Object.values(byEmail).forEach((a) => push("Same email", a));
+    Object.values(byPhone).forEach((a) => push("Same phone", a));
+    Object.values(byCompany).forEach((a) => push("Same company", a));
+    Object.values(byName).forEach((a) => push("Same name", a));
+    let ignored = {}; try { ignored = JSON.parse(localStorage.getItem("cbm-crm-dupe-ignored") || "{}"); } catch (e) {}
+    return groups.filter((g) => !ignored[g.reason + ":" + g.leads.map((l) => l.id).sort().join("|")]);
+  }, [leads]);
+  const ignoreDupe = (g) => { try { const k = "cbm-crm-dupe-ignored"; const cur = JSON.parse(localStorage.getItem(k) || "{}"); cur[g.reason + ":" + g.leads.map((l) => l.id).sort().join("|")] = 1; localStorage.setItem(k, JSON.stringify(cur)); setLeads((p) => [...p]); } catch (e) {} };
+
+  // ---- import preview (parse only, then confirm) ----
+  const previewImport = async (file) => {
+    if (!file) return;
+    setImportNote("Reading file...");
+    try {
+      const isCsv = /\.csv$/i.test(file.name);
+      const buf = await file.arrayBuffer();
+      const wb = isCsv ? XLSX.read(new TextDecoder().decode(new Uint8Array(buf)), { type: "string" }) : XLSX.read(new Uint8Array(buf), { type: "array" });
+      const ws = wb.Sheets[wb.SheetNames[0]];
+      const rows = XLSX.utils.sheet_to_json(ws, { defval: "" });
+      const headers = Object.keys(rows[0] || {});
+      const mapped = headers.map((h) => ({ header: h, field: headerToField[norm(h)] || null }));
+      const haveP = new Set(leads.map((l) => phoneKey(l.phone)).filter((x) => x.length >= 10));
+      const haveE = new Set(leads.filter((l) => l.email && l.email.includes("@")).map((l) => norm(l.email)));
+      let toAdd = 0, dup = 0, missing = 0; const parsed = [];
+      rows.forEach((row) => {
+        const nl = rowToLead(row); if (!nl) return;
+        const pk = phoneKey(nl.phone), ek = nl.email && nl.email.includes("@") ? norm(nl.email) : "";
+        const isDup = (pk.length >= 10 && haveP.has(pk)) || (ek && haveE.has(ek));
+        const noContact = pk.length < 10 && !ek;
+        if (isDup) dup++; else { toAdd++; if (pk.length >= 10) haveP.add(pk); if (ek) haveE.add(ek); }
+        if (noContact) missing++;
+        parsed.push({ nl, isDup, noContact });
+      });
+      setImportNote("");
+      setImportPrev({ fileName: file.name, total: rows.length, toAdd, dup, missing, mapped, parsed });
+    } catch (e) { setImportNote("Could not read that file. Make sure it is a CSV or Excel file with a header row."); }
+  };
+  const confirmImport = () => {
+    if (!importPrev) return;
+    const next = [...leads]; let added = 0;
+    importPrev.parsed.forEach(({ nl, isDup }) => { if (isDup) return; nl.status = "Nurture"; nl.leadSource = nl.leadSource || ""; next.unshift(nl); added++; });
+    setLeads(next);
+    setImportNote(`Added ${added} new contact${added === 1 ? "" : "s"}. Skipped ${importPrev.dup} duplicate${importPrev.dup === 1 ? "" : "s"}.`);
+    setImportPrev(null);
+  };
   const importContacts = async (file) => {
     if (!file) return;
     setImportNote("Reading file...");
@@ -719,6 +816,7 @@ export default function App({ onLock }) {
     { k: "batches", label: "Batches", icon: Truck },
     { k: "follow", label: "Follow-ups", icon: CalendarClock },
     { k: "templates", label: "Templates", icon: MessageSquare },
+    { k: "dupes", label: "Duplicates", icon: AlertTriangle },
     { k: "log", label: "Activity Log", icon: Activity },
   ];
 
@@ -768,7 +866,7 @@ export default function App({ onLock }) {
         <div className="hidden md:flex flex-col w-56 shrink-0 border-r border-neutral-800 bg-neutral-950 sticky top-0 h-screen">
           <div className="flex items-center gap-2.5 px-4 py-4 border-b border-neutral-800">
             <div className="w-9 h-9 rounded-xl bg-red-600 text-white font-bold flex items-center justify-center text-sm shadow-lg shadow-red-900/30">CBM</div>
-            <div className="min-w-0"><div className="font-semibold text-white text-sm leading-tight">Canada Bitcoin</div><div className="text-xs text-neutral-500">Miners CRM</div></div>
+            <div className="min-w-0"><div className="font-semibold text-white text-sm leading-tight">Canada Bitcoin Miners</div><div className="text-[11px] uppercase tracking-widest text-red-500 font-medium">CRM</div></div>
           </div>
           <nav className="flex-1 overflow-y-auto py-2 px-2 space-y-0.5">
             {TABS.map(({ k, label, icon: I }) => (
@@ -813,9 +911,9 @@ export default function App({ onLock }) {
           <div className="max-w-6xl w-full mx-auto px-4 py-5">
         {tab === "dash" && (
           <div className="space-y-5">
-            <div>
+            <div className="flex items-baseline justify-between gap-2">
               <div className="text-lg font-semibold text-white">Today</div>
-              <div className="text-xs text-neutral-500">Here is what needs your attention. Click any tile to jump in.</div>
+              <div className="text-sm text-neutral-500">{new Date().toLocaleDateString(undefined, { weekday: "long", month: "long", day: "numeric", year: "numeric" })}</div>
             </div>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
               <Card label="Due Today" value={m.dueToday} accent="amber" icon={CalendarClock} onClick={() => applyView("today")} />
@@ -833,7 +931,7 @@ export default function App({ onLock }) {
                 </div>
                 {toContact.length === 0 ? <div className="text-sm text-neutral-500 py-6 text-center">Nothing pending. You are all caught up.</div> : (
                   <div className="space-y-1">
-                    {toContact.slice(0, 12).map(({ l, why }) => { const ph = digits(l.phone); const em = l.email && l.email.includes("@") ? l.email : ""; return (
+                    {toContact.slice(0, showAllToday ? 12 : 5).map(({ l, why }) => { const ph = digits(l.phone); const em = l.email && l.email.includes("@") ? l.email : ""; return (
                       <div key={l.id} className="group flex items-center gap-2 px-2 py-2 rounded-xl hover:bg-neutral-900 transition">
                         <span className={`shrink-0 text-[10px] font-medium px-1.5 py-0.5 rounded-full ${why === "Overdue" ? "bg-red-500/20 text-red-300" : why === "Due today" ? "bg-amber-500/20 text-amber-300" : "bg-neutral-800 text-neutral-400"}`}>{why}</span>
                         <button onClick={() => setEdit(l)} className="text-sm text-neutral-200 truncate text-left flex-1 min-w-0">{l.contactName || l.company || l.phone || "Unnamed"}<span className="text-xs text-neutral-600 ml-2">{l.asicModel || l.segment || ""}</span></button>
@@ -845,7 +943,9 @@ export default function App({ onLock }) {
                         </div>
                       </div>
                     ); })}
-                    {toContact.length > 12 && <button onClick={() => applyView("cold")} className="text-xs text-red-400 hover:text-red-300 mt-1">+{toContact.length - 12} more · view all going cold</button>}
+                    {toContact.length > 5 && !showAllToday && <button onClick={() => setShowAllToday(true)} className="text-xs text-red-400 hover:text-red-300 mt-1">View more ({toContact.length - 5})</button>}
+                    {showAllToday && toContact.length > 12 && <button onClick={() => applyView("cold")} className="text-xs text-red-400 hover:text-red-300 mt-1">See all going cold ({toContact.length})</button>}
+                    {showAllToday && toContact.length > 5 && <button onClick={() => setShowAllToday(false)} className="text-xs text-neutral-500 hover:text-neutral-300 mt-1 ml-3">Show less</button>}
                   </div>
                 )}
               </div>
@@ -910,9 +1010,9 @@ export default function App({ onLock }) {
 
         {tab === "leads" && (
           <div className="space-y-3">
-            <div className="flex gap-1.5 overflow-x-auto pb-1">
+            <div className="flex flex-wrap gap-1.5">
               {VIEWS.map((v) => (
-                <button key={v.k} onClick={() => applyView(v.k)} className={`shrink-0 text-xs font-medium px-3 py-1.5 rounded-full border transition ${view === v.k ? "border-red-600 bg-red-600/15 text-red-400" : "border-neutral-800 bg-neutral-900 text-neutral-400 hover:text-neutral-100 hover:bg-neutral-800"}`}>
+                <button key={v.k} onClick={() => applyView(v.k)} className={`text-xs font-medium px-3 py-1.5 rounded-full border transition ${view === v.k ? "border-red-600 bg-red-600/15 text-red-400" : "border-neutral-800 bg-neutral-900 text-neutral-400 hover:text-neutral-100 hover:bg-neutral-800"}`}>
                   {v.label}{counts[v.k] != null && counts[v.k] > 0 && <span className="ml-1.5 text-[10px] text-neutral-500">{counts[v.k]}</span>}
                 </button>
               ))}
@@ -926,7 +1026,7 @@ export default function App({ onLock }) {
               <select value={fSeg} onChange={(e) => setFSeg(e.target.value)} className="px-2.5 py-2 rounded-xl border border-neutral-800 bg-neutral-900 text-neutral-200 text-sm outline-none focus:border-red-600"><option value="">All opportunities</option>{segments.map((s) => <option key={s}>{s}</option>)}</select>
               <select value={sort} onChange={(e) => setSort(e.target.value)} className="px-2.5 py-2 rounded-xl border border-neutral-800 bg-neutral-900 text-neutral-200 text-sm outline-none focus:border-red-600"><option value="updated">Recently updated</option><option value="followup">Follow-up date</option><option value="name">Name</option></select>
               <button onClick={() => setFCold(!fCold)} className={`px-3 py-2 rounded-xl border text-sm transition ${fCold ? "border-red-700 bg-red-950/40 text-red-300" : "border-neutral-800 bg-neutral-900 text-neutral-300 hover:bg-neutral-800"}`}>Going cold</button>
-              <label className="px-3 py-2 rounded-xl border border-neutral-800 bg-neutral-900 text-neutral-300 text-sm cursor-pointer hover:bg-neutral-800 flex items-center gap-1.5 transition"><Download size={14} /> Import<input type="file" accept=".csv,.xlsx,.xls" className="hidden" onChange={(e) => { const file = e.target.files && e.target.files[0]; importContacts(file); e.target.value = ""; }} /></label>
+              <label className="px-3 py-2 rounded-xl border border-neutral-800 bg-neutral-900 text-neutral-300 text-sm cursor-pointer hover:bg-neutral-800 flex items-center gap-1.5 transition"><Download size={14} /> Import<input type="file" accept=".csv,.xlsx,.xls" className="hidden" onChange={(e) => { const file = e.target.files && e.target.files[0]; previewImport(file); e.target.value = ""; }} /></label>
             </div>
             {importNote && <div className="text-xs px-3 py-2 rounded-xl bg-neutral-900 border border-neutral-800 text-neutral-300">{importNote}</div>}
             <div className="flex items-center justify-between text-xs text-neutral-500 px-1"><span>{filtered.length} of {leads.length} contacts{view !== "all" ? ` · ${(VIEWS.find((v) => v.k === view) || {}).label || ""}` : ""}</span>{(view !== "all" || fStatus || fSeg || fDir || fSource || fHot || fCold || search) && <button onClick={() => { setView("all"); try { localStorage.setItem("cbm-crm-view", "all"); } catch (e) {} setFStatus(""); setFSeg(""); setFDir(""); setFSource(""); setFHot(false); setFCold(false); setSearch(""); }} className="text-red-400 hover:text-red-300 font-medium">Clear filters</button>}</div>
@@ -983,34 +1083,66 @@ export default function App({ onLock }) {
               <button onClick={() => setInvForm({ id: uid("IV"), leadId: "", contact: "", number: "", model: "", qty: 1, amount: "", cost: "", profit: "", supplier: "", date: t, dueDate: t, status: "Unpaid", notes: "" })} className="flex items-center gap-1 bg-red-600 text-white text-sm px-3 py-2 rounded-lg hover:bg-red-500"><Plus size={16} /> Invoice</button>
             </div>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-              <Card label="Paid" value={cad(m.dealsClosed)} accent="green" />
-              <Card label="Sent" value={cad(invoices.filter((i) => norm(i.status) === "sent" && !i.historical).reduce((s, i) => s + numVal(i.amount), 0))} accent="amber" />
-              <Card label="Unpaid" value={cad(invoices.filter((i) => norm(i.status) === "unpaid").reduce((s, i) => s + numVal(i.amount), 0))} accent="red" />
+              <Card label="Paid" value={cad(m.dealsClosed)} accent="green" icon={DollarSign} />
+              <Card label="Total Unpaid" value={cad(aging.totalUnpaid)} accent="red" icon={DollarSign} />
+              <Card label="Overdue" value={cad(aging.overdue)} accent="amber" icon={AlertTriangle} />
               <Card label="Profit (paid)" value={cad(m.profit)} accent="blue" />
             </div>
-            <div className="bg-neutral-950 rounded-xl border border-neutral-800 overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead className="bg-neutral-900 text-neutral-400"><tr><th className="text-left px-3 py-2">Contact</th><th className="text-left px-3 py-2">Invoice #</th><th className="text-left px-3 py-2 hidden sm:table-cell">Model</th><th className="text-right px-3 py-2">Amount</th><th className="text-left px-3 py-2 hidden md:table-cell">Due</th><th className="text-left px-3 py-2">Status</th></tr></thead>
+            <div className="bg-neutral-950 rounded-2xl border border-neutral-800 p-4">
+              <div className="text-[11px] uppercase tracking-wider text-neutral-500 mb-3">Unpaid aging</div>
+              <div className="grid grid-cols-2 md:grid-cols-5 gap-2">
+                {[["Current", aging.buckets.current, "text-neutral-200"], ["1–30 days", aging.buckets.d30, "text-amber-300"], ["31–60 days", aging.buckets.d60, "text-amber-400"], ["61–90 days", aging.buckets.d90, "text-red-300"], ["90+ days", aging.buckets.d90plus, "text-red-400"]].map(([lab, val, cls]) => (
+                  <div key={lab} className="rounded-xl bg-neutral-900 border border-neutral-800 p-3 text-center">
+                    <div className={`text-lg font-bold ${cls}`}>{cad(val)}</div>
+                    <div className="text-[10px] text-neutral-500 mt-0.5">{lab}</div>
+                  </div>
+                ))}
+              </div>
+              {aging.clients.length > 0 && (
+                <div className="mt-4">
+                  <div className="text-[11px] uppercase tracking-wider text-neutral-500 mb-2">Clients to follow up for payment</div>
+                  <div className="space-y-1">
+                    {aging.clients.slice(0, 8).map((c, i) => (
+                      <button key={i} onClick={() => { const l = leads.find((x) => x.id === c.leadId); if (l) setEdit(l); }} className="w-full flex items-center gap-2 text-left px-2 py-1.5 rounded-lg hover:bg-neutral-900 transition text-sm">
+                        <span className="text-neutral-200 truncate flex-1">{c.contact}</span>
+                        <span className="text-xs text-neutral-500">{c.count} inv</span>
+                        {c.oldest > 0 && <span className={`text-[10px] px-1.5 py-0.5 rounded-full ${c.oldest >= 60 ? "bg-red-500/20 text-red-300" : c.oldest >= 30 ? "bg-amber-500/20 text-amber-300" : "bg-neutral-800 text-neutral-400"}`}>{c.oldest}d</span>}
+                        <span className="text-red-400 font-medium w-20 text-right">{cad(c.amount)}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+            <div className="bg-neutral-950 rounded-2xl border border-neutral-800 overflow-x-auto">
+              <table className="w-full text-sm min-w-[640px]">
+                <thead><tr className="text-left text-[11px] uppercase tracking-wider text-neutral-500 border-b border-neutral-800 bg-neutral-900/40"><th className="px-4 py-2.5 font-medium">Contact</th><th className="px-3 py-2.5 font-medium">Invoice #</th><th className="px-3 py-2.5 font-medium hidden sm:table-cell">Model</th><th className="px-3 py-2.5 font-medium text-right">Amount</th><th className="px-3 py-2.5 font-medium hidden md:table-cell">Due</th><th className="px-3 py-2.5 font-medium">Age</th><th className="px-3 py-2.5 font-medium">Status</th></tr></thead>
                 <tbody>
                   {[...invoices].sort((a, b) => {
-                    const rank = (s) => norm(s) === "unpaid" ? 0 : norm(s) === "sent" ? 1 : 2;
+                    const rank = (s) => norm(s) === "unpaid" || norm(s) === "overdue" ? 0 : norm(s) === "sent" ? 1 : 2;
                     const ra = rank(a.status), rb = rank(b.status);
                     if (ra !== rb) return ra - rb;
                     const na = /^\d+$/.test(String(a.number || "").trim()), nb = /^\d+$/.test(String(b.number || "").trim());
                     if (na && nb) return Number(b.number) - Number(a.number);
                     if (na !== nb) return na ? -1 : 1;
                     return String(b.number || "").localeCompare(String(a.number || ""));
-                  }).map((iv) => (
-                    <tr key={iv.id} onClick={() => setInvForm({ ...iv })} className="border-t border-neutral-900 hover:bg-neutral-900 cursor-pointer">
-                      <td className="px-3 py-2 text-neutral-100">{iv.contact || "—"}</td>
-                      <td className="px-3 py-2 text-neutral-400">{iv.number || "—"}</td>
-                      <td className="px-3 py-2 text-neutral-400 hidden sm:table-cell">{iv.model || "—"}</td>
-                      <td className="px-3 py-2 text-right text-neutral-200">{iv.amount !== "" && iv.amount != null ? cad(numVal(iv.amount)) : "—"}</td>
-                      <td className="px-3 py-2 text-neutral-400 hidden md:table-cell">{iv.dueDate || "—"}</td>
-                      <td className="px-3 py-2"><div className="flex items-center gap-1.5"><InvPill status={iv.status} />{iv.historical && <span className="text-[10px] text-neutral-600">history</span>}</div></td>
+                  }).map((iv) => {
+                    const isUnpaid = norm(iv.status) === "unpaid" || norm(iv.status) === "overdue";
+                    const overdue = isUnpaid && iv.dueDate && iv.dueDate < t;
+                    const age = isUnpaid ? daysSince(iv.date) : null;
+                    const ageBadge = age == null ? "" : age >= 90 ? "90+" : age >= 60 ? "60+" : age >= 30 ? "30+" : "<30";
+                    return (
+                    <tr key={iv.id} onClick={() => setInvForm({ ...iv })} className="border-b border-neutral-800/50 hover:bg-neutral-900/70 cursor-pointer transition-colors">
+                      <td className="px-4 py-3 text-neutral-100">{iv.contact || "—"}</td>
+                      <td className="px-3 py-3 text-neutral-400">{iv.number || "—"}</td>
+                      <td className="px-3 py-3 text-neutral-400 hidden sm:table-cell">{iv.model || "—"}</td>
+                      <td className={`px-3 py-3 text-right ${isUnpaid ? "text-red-400 font-medium" : "text-neutral-200"}`}>{iv.amount !== "" && iv.amount != null ? cad(numVal(iv.amount)) : "—"}</td>
+                      <td className={`px-3 py-3 hidden md:table-cell ${overdue ? "text-red-400" : "text-neutral-400"}`}>{iv.dueDate || "—"}</td>
+                      <td className="px-3 py-3">{ageBadge ? <span className={`text-[10px] px-1.5 py-0.5 rounded-full ${age >= 60 ? "bg-red-500/20 text-red-300" : age >= 30 ? "bg-amber-500/20 text-amber-300" : "bg-neutral-800 text-neutral-400"}`}>{ageBadge}d</span> : <span className="text-neutral-700">—</span>}</td>
+                      <td className="px-3 py-3"><div className="flex items-center gap-1.5"><InvPill status={overdue ? "Overdue" : iv.status} />{iv.historical && <span className="text-[10px] text-neutral-600">history</span>}</div></td>
                     </tr>
-                  ))}
-                  {invoices.length === 0 && <tr><td colSpan={6} className="px-3 py-8 text-center text-neutral-600">No invoices yet. Tap Invoice to add one.</td></tr>}
+                  ); })}
+                  {invoices.length === 0 && <tr><td colSpan={7} className="px-3 py-8 text-center text-neutral-600">No invoices yet. Tap Invoice to add one.</td></tr>}
                 </tbody>
               </table>
             </div>
@@ -1083,20 +1215,24 @@ export default function App({ onLock }) {
                 <div className="text-lg font-semibold text-white">Message templates</div>
                 <div className="text-xs text-neutral-500">Saved messages you can copy and reuse. Edit [name], [model], [price] before sending.</div>
               </div>
-              <button onClick={() => setTplForm({ id: uid("T"), title: "", body: "" })} className="flex items-center gap-1 bg-red-600 text-white text-sm px-3 py-2 rounded-lg hover:bg-red-500"><Plus size={16} /> Template</button>
+              <button onClick={() => setTplForm({ id: uid("T"), category: "General", title: "", body: "" })} className="flex items-center gap-1 bg-red-600 text-white text-sm px-3 py-2 rounded-lg hover:bg-red-500"><Plus size={16} /> Template</button>
             </div>
-            {templates.length === 0 ? <div className="text-sm text-neutral-500 bg-neutral-950 border border-neutral-800 rounded-xl p-6 text-center">No templates yet. Tap Template to save one.</div> : (
-              <div className="space-y-2">
-                {templates.map((tp) => (
-                  <div key={tp.id} className="bg-neutral-950 rounded-xl border border-neutral-800 p-3">
-                    <div className="flex items-center justify-between gap-2 mb-1">
-                      <div className="font-medium text-neutral-100">{tp.title || "Untitled"}</div>
-                      <div className="flex gap-2 shrink-0">
-                        <button onClick={() => copyTpl(tp)} className="text-xs px-2 py-1 rounded-lg bg-neutral-800 hover:bg-neutral-700 text-neutral-200">{copiedId === tp.id ? "Copied" : "Copy"}</button>
-                        <button onClick={() => setTplForm({ ...tp })} className="text-xs px-2 py-1 rounded-lg bg-neutral-800 hover:bg-neutral-700 text-neutral-200">Edit</button>
-                      </div>
+            {templates.length === 0 ? <div className="text-sm text-neutral-500 bg-neutral-950 border border-neutral-800 rounded-2xl p-8 text-center">No templates yet. Tap Template to save one.</div> : (
+              <div className="space-y-4">
+                {TPL_CATEGORIES.filter((cat) => templates.some((tp) => (tp.category || "General") === cat)).map((cat) => (
+                  <div key={cat}>
+                    <div className="text-[11px] uppercase tracking-wider text-neutral-500 mb-2">{cat}</div>
+                    <div className="grid sm:grid-cols-2 gap-2">
+                      {templates.filter((tp) => (tp.category || "General") === cat).map((tp) => (
+                        <button key={tp.id} onClick={() => setTplPreview(tp)} className="text-left bg-neutral-950 rounded-2xl border border-neutral-800 p-3 hover:border-neutral-700 transition flex flex-col">
+                          <div className="flex items-center justify-between gap-2 mb-1.5">
+                            <div className="font-medium text-neutral-100 truncate">{tp.title || "Untitled"}</div>
+                            <span className="text-[10px] text-red-400 shrink-0">Preview</span>
+                          </div>
+                          <div className="text-xs text-neutral-500 whitespace-pre-wrap line-clamp-3">{tp.body}</div>
+                        </button>
+                      ))}
                     </div>
-                    <div className="text-xs text-neutral-500 whitespace-pre-wrap line-clamp-4">{tp.body}</div>
                   </div>
                 ))}
               </div>
@@ -1104,6 +1240,35 @@ export default function App({ onLock }) {
           </div>
         )}
 
+        {tab === "dupes" && (
+          <div className="space-y-3">
+            <div><div className="text-lg font-semibold text-white">Possible duplicates</div><div className="text-xs text-neutral-500">Matched by email, phone, company, or name. Review only — nothing is merged or deleted automatically.</div></div>
+            {dupGroups.length === 0 ? <div className="text-sm text-neutral-500 bg-neutral-950 border border-neutral-800 rounded-2xl p-8 text-center">No possible duplicates found. Your contacts look clean.</div> : (
+              <div className="space-y-2">
+                {dupGroups.map((g, i) => (
+                  <div key={i} className="bg-neutral-950 rounded-2xl border border-amber-800/40 p-3">
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="text-xs text-amber-300 flex items-center gap-1.5"><AlertTriangle size={13} /> {g.leads.length} contacts · {g.reason}</div>
+                      <button onClick={() => ignoreDupe(g)} className="text-xs text-neutral-500 hover:text-neutral-300">Ignore</button>
+                    </div>
+                    <div className="space-y-1.5">
+                      {g.leads.map((l) => (
+                        <div key={l.id} className="flex items-center gap-2 px-2 py-2 rounded-xl hover:bg-neutral-900 transition">
+                          <div className="min-w-0 flex-1">
+                            <div className="text-sm text-neutral-100 truncate">{l.contactName || l.company || "Unnamed"}</div>
+                            <div className="text-xs text-neutral-500 truncate">{[l.company, l.phone, l.email].filter(Boolean).join(" · ") || "—"}</div>
+                          </div>
+                          <StatusPill s={l.status} />
+                          <button onClick={() => setEdit(l)} className="shrink-0 text-xs font-medium bg-red-600 text-white hover:bg-red-500 px-3 py-1.5 rounded-lg">Open</button>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
         {tab === "log" && (
           <div className="space-y-3">
             <button onClick={() => setActForm({ id: uid("A"), date: t, leadId: "", contact: "", type: "Call", outcome: "", notes: "" })} className="flex items-center gap-1 text-sm bg-red-600 text-white px-3 py-2 rounded-lg hover:bg-red-500"><Plus size={16} /> Log Activity</button>
@@ -1126,6 +1291,8 @@ export default function App({ onLock }) {
       {invForm && <InvoiceForm inv={invForm} leads={leads} onSave={saveInv} onDelete={delInv} onClose={() => setInvForm(null)} />}
       {batchForm && <BatchForm batch={batchForm} onSave={saveBatch} onDelete={delBatch} onClose={() => setBatchForm(null)} />}
       {tplForm && <TemplateForm tpl={tplForm} onSave={saveTpl} onDelete={delTpl} onClose={() => setTplForm(null)} />}
+      {importPrev && <ImportPreview prev={importPrev} onConfirm={confirmImport} onClose={() => setImportPrev(null)} />}
+      {tplPreview && <TemplatePreview tpl={tplPreview} onCopy={() => { copyTpl(tplPreview); }} onEdit={() => { setTplForm({ ...tplPreview }); setTplPreview(null); }} copied={copiedId === tplPreview.id} onClose={() => setTplPreview(null)} />}
       </div>
       </div>
     </div>
@@ -1421,8 +1588,58 @@ function BatchForm({ batch, onSave, onDelete, onClose }) {
   );
 }
 
+const TPL_CATEGORIES = ["Sales", "Repair", "Invoice", "Follow up", "Supplier", "Hosting", "General"];
+
+function ImportPreview({ prev, onConfirm, onClose }) {
+  return (
+    <div className="fixed inset-0 bg-black/70 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4" onClick={onClose}>
+      <div className="bg-neutral-950 border border-neutral-800 w-full sm:max-w-lg sm:rounded-2xl rounded-t-2xl max-h-[92vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+        <div className="flex items-center justify-between p-4 border-b border-neutral-800 sticky top-0 bg-neutral-950"><div className="font-semibold text-white">Import preview</div><button onClick={onClose} className="text-neutral-400 hover:text-white"><X size={20} /></button></div>
+        <div className="p-4 space-y-4">
+          <div className="text-sm text-neutral-400 truncate">File: <span className="text-neutral-200">{prev.fileName}</span></div>
+          <div className="grid grid-cols-4 gap-2 text-center">
+            <div className="bg-neutral-900 rounded-xl border border-neutral-800 p-3"><div className="text-xl font-bold text-emerald-400">{prev.toAdd}</div><div className="text-[10px] text-neutral-500 mt-0.5">New</div></div>
+            <div className="bg-neutral-900 rounded-xl border border-neutral-800 p-3"><div className="text-xl font-bold text-amber-400">{prev.dup}</div><div className="text-[10px] text-neutral-500 mt-0.5">Duplicates</div></div>
+            <div className="bg-neutral-900 rounded-xl border border-neutral-800 p-3"><div className="text-xl font-bold text-red-300">{prev.missing}</div><div className="text-[10px] text-neutral-500 mt-0.5">Missing contact</div></div>
+            <div className="bg-neutral-900 rounded-xl border border-neutral-800 p-3"><div className="text-xl font-bold text-white">{prev.total}</div><div className="text-[10px] text-neutral-500 mt-0.5">Rows read</div></div>
+          </div>
+          <div>
+            <div className="text-[11px] uppercase tracking-wider text-neutral-500 mb-1.5">Field mapping</div>
+            <div className="space-y-1 max-h-40 overflow-y-auto">
+              {prev.mapped.map((mm, i) => (
+                <div key={i} className="flex items-center gap-2 text-xs">
+                  <span className="text-neutral-400 truncate flex-1">{mm.header}</span>
+                  <ChevronRight size={12} className="text-neutral-600 shrink-0" />
+                  <span className={`truncate flex-1 ${mm.field ? "text-neutral-200" : "text-neutral-600 italic"}`}>{mm.field || "ignored"}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="text-xs text-neutral-500">{prev.toAdd} new contact{prev.toAdd === 1 ? "" : "s"} will be added. {prev.dup} duplicate{prev.dup === 1 ? "" : "s"} (same phone or email) will be skipped. Nothing is overwritten and your existing data is untouched.</div>
+        </div>
+        <div className="flex items-center justify-end gap-2 p-4 border-t border-neutral-800 sticky bottom-0 bg-neutral-950"><button onClick={onClose} className="text-sm font-medium px-4 py-2 rounded-xl border border-neutral-700 text-neutral-300 hover:bg-neutral-800 transition">Cancel</button><button onClick={onConfirm} disabled={prev.toAdd === 0} className="text-sm font-medium px-5 py-2 rounded-xl bg-red-600 text-white hover:bg-red-500 disabled:opacity-50 transition">Add {prev.toAdd} contact{prev.toAdd === 1 ? "" : "s"}</button></div>
+      </div>
+    </div>
+  );
+}
+
+function TemplatePreview({ tpl, onCopy, onEdit, copied, onClose }) {
+  return (
+    <div className="fixed inset-0 bg-black/70 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4" onClick={onClose}>
+      <div className="bg-neutral-950 border border-neutral-800 w-full sm:max-w-lg sm:rounded-2xl rounded-t-2xl max-h-[92vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+        <div className="flex items-center justify-between p-4 border-b border-neutral-800 sticky top-0 bg-neutral-950">
+          <div className="min-w-0"><div className="font-semibold text-white truncate">{tpl.title || "Template"}</div><div className="text-[11px] text-neutral-500">{tpl.category || "General"}</div></div>
+          <button onClick={onClose} className="text-neutral-400 hover:text-white"><X size={20} /></button>
+        </div>
+        <div className="p-4"><div className="text-sm text-neutral-200 whitespace-pre-wrap bg-neutral-900 border border-neutral-800 rounded-xl p-3">{tpl.body}</div></div>
+        <div className="flex items-center justify-end gap-2 p-4 border-t border-neutral-800 sticky bottom-0 bg-neutral-950"><button onClick={onEdit} className="text-sm font-medium px-4 py-2 rounded-xl border border-neutral-700 text-neutral-300 hover:bg-neutral-800 transition">Edit</button><button onClick={onCopy} className="text-sm font-medium px-5 py-2 rounded-xl bg-red-600 text-white hover:bg-red-500 transition">{copied ? "Copied!" : "Copy"}</button></div>
+      </div>
+    </div>
+  );
+}
+
 function TemplateForm({ tpl, onSave, onDelete, onClose }) {
-  const [f, setF] = useState({ ...tpl });
+  const [f, setF] = useState({ category: "General", ...tpl });
   const set = (k, v) => setF((p) => ({ ...p, [k]: v }));
   const isEdit = !!(tpl.title || tpl.body);
   return (
@@ -1430,6 +1647,7 @@ function TemplateForm({ tpl, onSave, onDelete, onClose }) {
       <div className="bg-neutral-950 border border-neutral-800 w-full sm:max-w-lg sm:rounded-2xl rounded-t-2xl max-h-[92vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
         <div className="flex items-center justify-between p-4 border-b border-neutral-800 sticky top-0 bg-neutral-950"><div className="font-semibold text-white">{isEdit ? "Edit Template" : "New Template"}</div><button onClick={onClose} className="text-neutral-400 hover:text-white"><X size={20} /></button></div>
         <div className="p-4 space-y-3">
+          <Field label="Category"><select className={inp} value={f.category} onChange={(e) => set("category", e.target.value)}>{TPL_CATEGORIES.map((c) => <option key={c}>{c}</option>)}</select></Field>
           <Field label="Title"><input className={inp} value={f.title} onChange={(e) => set("title", e.target.value)} placeholder="e.g. Bulk pricing reply" /></Field>
           <Field label="Message"><textarea className={inp} rows={10} value={f.body} onChange={(e) => set("body", e.target.value)} placeholder="Type your message. Use [name], [model], [price] as placeholders." /></Field>
         </div>
