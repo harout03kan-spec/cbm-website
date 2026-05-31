@@ -3,7 +3,7 @@
 // Type annotations are intentionally deferred to a later cleanup pass.
 import React, { useState, useEffect, useMemo } from "react";
 import * as XLSX from "xlsx";
-import { LayoutDashboard, Users, CalendarClock, Activity, Plus, Download, Search, RefreshCw, X, Phone, Mail, MessageSquare, AlertTriangle, TrendingUp, Pencil, Trash2, ChevronRight, DollarSign, FileText, Truck } from "lucide-react";
+import { LayoutDashboard, Users, CalendarClock, Activity, Plus, Download, Search, RefreshCw, X, Phone, Mail, MessageSquare, AlertTriangle, TrendingUp, Pencil, Trash2, ChevronRight, DollarSign, FileText, Truck, Lock } from "lucide-react";
 import { crmStorage } from "./crmStorage";
 
 const STORE_KEY = "cbm-crm-data-v3";
@@ -444,7 +444,7 @@ function parseExcel() {
 }
 
 // ---------- component ----------
-export default function App() {
+export default function App({ onLock }) {
   const [tab, setTab] = useState("dash");
   const [leads, setLeads] = useState([]);
   const [acts, setActs] = useState([]);
@@ -667,24 +667,25 @@ export default function App() {
         .light .text-neutral-600,.light .text-neutral-700{color:#9ca3af !important;}
       `}</style>
       <div className="min-h-screen bg-black text-slate-200" style={{ fontFamily: "system-ui, sans-serif" }}>
-      <div className="bg-neutral-950 border-b border-neutral-800 sticky top-0 z-20">
+      <div className="bg-neutral-950/95 backdrop-blur border-b border-neutral-800 sticky top-0 z-20">
         <div className="max-w-6xl mx-auto px-4 py-3 flex items-center gap-3">
-          <div className="w-9 h-9 rounded-lg bg-red-600 text-white font-bold flex items-center justify-center text-sm shrink-0">CBM</div>
-          <div className="flex-1 min-w-0"><div className="font-semibold text-white leading-tight">Canada BTC Miners CRM</div><div className="text-xs text-neutral-500 truncate">{note}</div></div>
-          <button onClick={() => setEdit(blankLead())} className="flex items-center gap-1 bg-red-600 text-white text-sm px-3 py-2 rounded-lg hover:bg-red-500"><Plus size={16} /> <span className="hidden sm:inline">Contact</span></button>
-          <button onClick={() => setLight(!light)} className="p-2 rounded-lg hover:bg-neutral-800 text-neutral-400 text-xs font-medium">{light ? "Dark" : "Light"}</button>
+          <div className="w-9 h-9 rounded-xl bg-red-600 text-white font-bold flex items-center justify-center text-sm shrink-0 shadow-lg shadow-red-900/30">CBM</div>
+          <div className="flex-1 min-w-0"><div className="font-semibold text-white leading-tight truncate">Canada Bitcoin Miners CRM</div><div className="text-xs text-neutral-500 truncate">{note}</div></div>
+          <button onClick={() => setEdit(blankLead())} className="flex items-center gap-1.5 bg-red-600 text-white text-sm font-medium px-3 py-2 rounded-xl hover:bg-red-500 transition shadow-lg shadow-red-900/20"><Plus size={16} /> <span className="hidden sm:inline">Contact</span></button>
+          <button onClick={() => setLight(!light)} title={light ? "Dark mode" : "Light mode"} className="p-2 rounded-xl hover:bg-neutral-800 text-neutral-400 text-xs font-medium">{light ? "Dark" : "Light"}</button>
           <div className="relative">
-            <button onClick={() => setMenu(!menu)} className="p-2 rounded-lg hover:bg-neutral-800 text-neutral-400"><RefreshCw size={18} /></button>
+            <button onClick={() => setMenu(!menu)} title="Data" className="p-2 rounded-xl hover:bg-neutral-800 text-neutral-400"><RefreshCw size={18} /></button>
             {menu && (
-              <div className="absolute right-0 mt-1 w-48 bg-neutral-900 border border-neutral-800 rounded-lg shadow-lg py-1 text-sm z-30">
-                <button onClick={() => { setMenu(false); reImport(); }} className="w-full text-left px-3 py-2 hover:bg-neutral-800 text-neutral-200">Re-import from Excel</button>
+              <div className="absolute right-0 mt-1 w-52 bg-neutral-900 border border-neutral-800 rounded-xl shadow-xl shadow-black/40 py-1 text-sm z-30">
+                <button onClick={() => { setMenu(false); reImport(); }} className="w-full text-left px-3 py-2 hover:bg-neutral-800 text-neutral-200 flex items-center gap-2"><RefreshCw size={14} /> Re-import from Excel</button>
                 <button onClick={() => { const wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(leads), "Leads"); XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(acts), "Activity Log"); XLSX.writeFile(wb, "Canada BTC Miners CRM.xlsx"); setMenu(false); }} className="w-full text-left px-3 py-2 hover:bg-neutral-800 text-neutral-200 flex items-center gap-2"><Download size={14} /> Export to Excel</button>
               </div>
             )}
           </div>
+          <button onClick={() => onLock && onLock()} title="Lock CRM" className="flex items-center gap-1.5 p-2 rounded-xl border border-neutral-800 hover:border-red-700 hover:bg-red-950/40 text-neutral-400 hover:text-red-300 transition"><Lock size={16} /><span className="hidden md:inline text-xs font-medium">Lock</span></button>
         </div>
         <div className="max-w-6xl mx-auto px-2 flex gap-1 overflow-x-auto">
-          {TABS.map(({ k, label, icon: I }) => (<button key={k} onClick={() => setTab(k)} className={`flex items-center gap-1.5 px-3 py-2 text-sm border-b-2 whitespace-nowrap ${tab === k ? "border-red-600 text-red-500 font-medium" : "border-transparent text-neutral-500 hover:text-neutral-200"}`}><I size={16} /> {label}</button>))}
+          {TABS.map(({ k, label, icon: I }) => (<button key={k} onClick={() => setTab(k)} className={`flex items-center gap-1.5 px-3 py-2.5 text-sm border-b-2 whitespace-nowrap transition ${tab === k ? "border-red-600 text-red-500 font-medium" : "border-transparent text-neutral-500 hover:text-neutral-200"}`}><I size={16} /> {label}</button>))}
         </div>
       </div>
 
@@ -698,16 +699,16 @@ export default function App() {
               <Card label="Hot Leads" value={m.alerts} accent="red" icon={AlertTriangle} onClick={() => { setFHot(true); setFStatus(""); setFSeg(""); setFSource(""); setSearch(""); setTab("leads"); }} />
               <Card label="Sales Closed" value={cad(m.dealsClosed)} accent="green" icon={DollarSign} onClick={() => setTab("invoices")} />
             </div>
-            <div className="bg-neutral-950 rounded-xl border border-neutral-800 p-4">
+            <div className="bg-neutral-950 rounded-2xl border border-neutral-800 p-4">
               <div className="flex items-center justify-between mb-3">
-                <div className="font-medium text-white">Who to contact today</div>
-                <div className="text-xs text-neutral-500">{toContact.length} need a touch</div>
+                <div className="font-medium text-white flex items-center gap-2"><CalendarClock size={16} className="text-red-500" /> Who to contact today</div>
+                <div className="text-xs text-neutral-500 bg-neutral-900 border border-neutral-800 rounded-full px-2 py-0.5">{toContact.length} need a touch</div>
               </div>
-              {toContact.length === 0 ? <div className="text-sm text-neutral-500">Nothing pending. You are all caught up.</div> : (
-                <div className="space-y-1.5">
+              {toContact.length === 0 ? <div className="text-sm text-neutral-500 py-3 text-center">Nothing pending. You are all caught up.</div> : (
+                <div className="space-y-1">
                   {toContact.slice(0, 15).map(({ l, why }) => (
-                    <button key={l.id} onClick={() => setEdit(l)} className="w-full flex items-center gap-2 text-left px-2 py-1.5 rounded-lg hover:bg-neutral-900">
-                      <span className={`shrink-0 text-[10px] px-1.5 py-0.5 rounded ${why === "Overdue" ? "bg-red-500/20 text-red-300" : why === "Due today" ? "bg-amber-500/20 text-amber-300" : "bg-neutral-800 text-neutral-400"}`}>{why}</span>
+                    <button key={l.id} onClick={() => setEdit(l)} className="w-full flex items-center gap-2 text-left px-2 py-2 rounded-xl hover:bg-neutral-900 transition">
+                      <span className={`shrink-0 text-[10px] font-medium px-1.5 py-0.5 rounded-full ${why === "Overdue" ? "bg-red-500/20 text-red-300" : why === "Due today" ? "bg-amber-500/20 text-amber-300" : "bg-neutral-800 text-neutral-400"}`}>{why}</span>
                       <span className="text-sm text-neutral-200 truncate">{l.contactName || l.company || l.phone || "Unnamed"}</span>
                       <span className="text-xs text-neutral-600 truncate ml-auto">{l.asicModel || l.segment || ""}</span>
                     </button>
@@ -717,7 +718,7 @@ export default function App() {
               )}
             </div>
             <div className="grid md:grid-cols-2 gap-4">
-              <div className="bg-neutral-950 rounded-xl border border-neutral-800 p-4">
+              <div className="bg-neutral-950 rounded-2xl border border-neutral-800 p-4">
                 <div className="font-medium text-white mb-3">Contacts by Status</div>
                 <div className="space-y-2">
                   {statusCounts.map(({ s, n }) => (
@@ -729,7 +730,7 @@ export default function App() {
                   ))}
                 </div>
               </div>
-              <div className="bg-neutral-950 rounded-xl border border-neutral-800 p-4">
+              <div className="bg-neutral-950 rounded-2xl border border-neutral-800 p-4">
                 <div className="font-medium text-white mb-3">Contacts by Opportunity</div>
                 {segments.length === 0 ? <div className="text-sm text-neutral-600 py-4 text-center">Nothing tagged yet.</div> : (
                   <div className="space-y-2">
@@ -741,7 +742,7 @@ export default function App() {
                   </div>
                 )}
               </div>
-              <div className="bg-neutral-950 rounded-xl border border-neutral-800 p-4 md:col-span-2">
+              <div className="bg-neutral-950 rounded-2xl border border-neutral-800 p-4 md:col-span-2">
                 <div className="font-medium text-white mb-3">Contacts by Source</div>
                 {sources.length === 0 ? <div className="text-sm text-neutral-600 py-4 text-center">No sources tagged.</div> : (
                   <div className="space-y-2">
@@ -759,40 +760,40 @@ export default function App() {
 
         {tab === "leads" && (
           <div className="space-y-3">
-            <div className="flex flex-wrap gap-2 items-center">
-              <div className="flex-1 min-w-[180px] relative">
-                <Search size={16} className="absolute left-3 top-2.5 text-neutral-500" />
-                <input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search name, phone, model, segment..." className="w-full pl-9 pr-3 py-2 rounded-lg border border-neutral-800 bg-neutral-900 text-neutral-100 placeholder-neutral-600 text-sm" />
+            <div className="bg-neutral-950 rounded-2xl border border-neutral-800 p-3 flex flex-wrap gap-2 items-center">
+              <div className="flex-1 min-w-[200px] relative">
+                <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-500" />
+                <input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search name, phone, model, segment..." className="w-full pl-9 pr-3 py-2 rounded-xl border border-neutral-800 bg-neutral-900 text-neutral-100 placeholder-neutral-600 text-sm focus:border-red-600 focus:ring-1 focus:ring-red-600/30 outline-none" />
               </div>
-              <select value={fStatus} onChange={(e) => setFStatus(e.target.value)} className="px-2 py-2 rounded-lg border border-neutral-800 bg-neutral-900 text-neutral-200 text-sm"><option value="">All status</option>{STATUS.map((s) => <option key={s}>{s}</option>)}</select>
-              <select value={fSeg} onChange={(e) => setFSeg(e.target.value)} className="px-2 py-2 rounded-lg border border-neutral-800 bg-neutral-900 text-neutral-200 text-sm"><option value="">All opportunities</option>{segments.map((s) => <option key={s}>{s}</option>)}</select>
-              <select value={sort} onChange={(e) => setSort(e.target.value)} className="px-2 py-2 rounded-lg border border-neutral-800 bg-neutral-900 text-neutral-200 text-sm"><option value="updated">Recently updated</option><option value="followup">Follow-up date</option><option value="name">Name</option></select>
-              <button onClick={() => setFCold(!fCold)} className={`px-2 py-2 rounded-lg border text-sm ${fCold ? "border-red-700 bg-red-950/40 text-red-300" : "border-neutral-800 bg-neutral-900 text-neutral-200"}`}>Going cold</button>
-              <label className="px-2 py-2 rounded-lg border border-neutral-800 bg-neutral-900 text-neutral-200 text-sm cursor-pointer hover:bg-neutral-800 flex items-center gap-1"><Download size={14} /> Import<input type="file" accept=".csv,.xlsx,.xls" className="hidden" onChange={(e) => { const file = e.target.files && e.target.files[0]; importContacts(file); e.target.value = ""; }} /></label>
+              <select value={fStatus} onChange={(e) => setFStatus(e.target.value)} className="px-2.5 py-2 rounded-xl border border-neutral-800 bg-neutral-900 text-neutral-200 text-sm outline-none focus:border-red-600"><option value="">All status</option>{STATUS.map((s) => <option key={s}>{s}</option>)}</select>
+              <select value={fSeg} onChange={(e) => setFSeg(e.target.value)} className="px-2.5 py-2 rounded-xl border border-neutral-800 bg-neutral-900 text-neutral-200 text-sm outline-none focus:border-red-600"><option value="">All opportunities</option>{segments.map((s) => <option key={s}>{s}</option>)}</select>
+              <select value={sort} onChange={(e) => setSort(e.target.value)} className="px-2.5 py-2 rounded-xl border border-neutral-800 bg-neutral-900 text-neutral-200 text-sm outline-none focus:border-red-600"><option value="updated">Recently updated</option><option value="followup">Follow-up date</option><option value="name">Name</option></select>
+              <button onClick={() => setFCold(!fCold)} className={`px-3 py-2 rounded-xl border text-sm transition ${fCold ? "border-red-700 bg-red-950/40 text-red-300" : "border-neutral-800 bg-neutral-900 text-neutral-300 hover:bg-neutral-800"}`}>Going cold</button>
+              <label className="px-3 py-2 rounded-xl border border-neutral-800 bg-neutral-900 text-neutral-300 text-sm cursor-pointer hover:bg-neutral-800 flex items-center gap-1.5 transition"><Download size={14} /> Import<input type="file" accept=".csv,.xlsx,.xls" className="hidden" onChange={(e) => { const file = e.target.files && e.target.files[0]; importContacts(file); e.target.value = ""; }} /></label>
             </div>
-            {importNote && <div className="text-xs px-3 py-2 rounded-lg bg-neutral-900 border border-neutral-800 text-neutral-300">{importNote}</div>}
-            <div className="flex items-center justify-between text-xs text-neutral-500"><span>{filtered.length} of {leads.length} contacts</span>{(fStatus || fSeg || fDir || fSource || fHot || fCold || search) && <button onClick={() => { setFStatus(""); setFSeg(""); setFDir(""); setFSource(""); setFHot(false); setFCold(false); setSearch(""); }} className="text-red-500">Clear filters</button>}</div>
-            <div className="bg-neutral-950 rounded-xl border border-neutral-800 overflow-x-auto">
+            {importNote && <div className="text-xs px-3 py-2 rounded-xl bg-neutral-900 border border-neutral-800 text-neutral-300">{importNote}</div>}
+            <div className="flex items-center justify-between text-xs text-neutral-500 px-1"><span>{filtered.length} of {leads.length} contacts</span>{(fStatus || fSeg || fDir || fSource || fHot || fCold || search) && <button onClick={() => { setFStatus(""); setFSeg(""); setFDir(""); setFSource(""); setFHot(false); setFCold(false); setSearch(""); }} className="text-red-400 hover:text-red-300 font-medium">Clear filters</button>}</div>
+            <div className="bg-neutral-950 rounded-2xl border border-neutral-800 overflow-x-auto">
               <table className="w-full text-sm min-w-[760px]">
-                <thead><tr className="text-left text-xs text-neutral-500 border-b border-neutral-800">
-                  <th className="px-3 py-2">Contact</th><th className="px-3 py-2">Opportunity</th><th className="px-3 py-2">Model</th><th className="px-3 py-2">Source</th><th className="px-3 py-2">Reach</th><th className="px-3 py-2">Status</th><th className="px-3 py-2">Follow-up</th>
+                <thead><tr className="text-left text-[11px] uppercase tracking-wider text-neutral-500 border-b border-neutral-800 bg-neutral-900/40">
+                  <th className="px-4 py-2.5 font-medium">Contact</th><th className="px-3 py-2.5 font-medium">Opportunity</th><th className="px-3 py-2.5 font-medium">Model</th><th className="px-3 py-2.5 font-medium">Source</th><th className="px-3 py-2.5 font-medium">Reach</th><th className="px-3 py-2.5 font-medium">Status</th><th className="px-3 py-2.5 font-medium">Follow-up</th>
                 </tr></thead>
                 <tbody>
                   {filtered.map((l) => {
                     const od = l.nextFollowUp && l.nextFollowUp < t && isOpen(l.status);
                     return (
-                      <tr key={l.id} className="border-b border-neutral-800/60 hover:bg-neutral-900 cursor-pointer" onClick={() => setEdit(l)}>
-                        <td className="px-3 py-2"><div className="font-medium text-neutral-100 flex items-center gap-1 flex-wrap">{l.dealAlert && <AlertTriangle size={12} className="text-red-500" />}{l.contactName || l.company || "Unnamed"}{l.customer && <span className="text-[10px] px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300">Customer</span>}{l.supplier && <span className="text-[10px] px-1.5 py-0.5 rounded bg-sky-500/20 text-sky-300">Supplier</span>}{l.repairClient && <span className="text-[10px] px-1.5 py-0.5 rounded bg-violet-500/20 text-violet-300">Repair</span>}</div>{l.phone && <div className="text-xs text-neutral-500">{l.phone}</div>}</td>
-                        <td className="px-3 py-2 text-neutral-400">{l.segment || "—"}</td>
-                        <td className="px-3 py-2 text-neutral-400">{l.asicModel || "—"}</td>
-                        <td className="px-3 py-2 text-neutral-500">{l.leadSource || "—"}</td>
-                        <td className="px-3 py-2"><Reach lead={l} /></td>
-                        <td className="px-3 py-2"><StatusPill s={l.status} /></td>
-                        <td className={`px-3 py-2 ${od ? "text-red-400 font-medium" : "text-neutral-400"}`}>{l.nextFollowUp || "—"}</td>
+                      <tr key={l.id} className="border-b border-neutral-800/50 hover:bg-neutral-900/70 cursor-pointer transition-colors" onClick={() => setEdit(l)}>
+                        <td className="px-4 py-3"><div className="font-medium text-neutral-100 flex items-center gap-1.5 flex-wrap">{l.dealAlert && <AlertTriangle size={12} className="text-red-500 shrink-0" />}{l.contactName || l.company || "Unnamed"}{l.customer && <span className="inline-flex items-center gap-1 text-[10px] px-1.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-500/20">Customer</span>}{l.supplier && <span className="inline-flex items-center gap-1 text-[10px] px-1.5 py-0.5 rounded-full bg-sky-500/15 text-sky-300 border border-sky-500/20">Supplier</span>}{l.repairClient && <span className="inline-flex items-center gap-1 text-[10px] px-1.5 py-0.5 rounded-full bg-violet-500/15 text-violet-300 border border-violet-500/20">Repair</span>}</div>{l.phone && <div className="text-xs text-neutral-500 mt-0.5">{l.phone}</div>}</td>
+                        <td className="px-3 py-3 text-neutral-400">{l.segment || "—"}</td>
+                        <td className="px-3 py-3 text-neutral-400">{l.asicModel || "—"}</td>
+                        <td className="px-3 py-3 text-neutral-500">{l.leadSource || "—"}</td>
+                        <td className="px-3 py-3"><Reach lead={l} /></td>
+                        <td className="px-3 py-3"><StatusPill s={l.status} /></td>
+                        <td className={`px-3 py-3 whitespace-nowrap ${od ? "text-red-400 font-medium" : "text-neutral-400"}`}>{od && <span className="inline-block w-1.5 h-1.5 rounded-full bg-red-500 mr-1.5 align-middle" />}{l.nextFollowUp || "—"}</td>
                       </tr>
                     );
                   })}
-                  {filtered.length === 0 && <tr><td colSpan={7} className="px-3 py-8 text-center text-neutral-600">No contacts match.</td></tr>}
+                  {filtered.length === 0 && <tr><td colSpan={7} className="px-3 py-10 text-center text-neutral-600">No contacts match.</td></tr>}
                 </tbody>
               </table>
             </div>
@@ -889,12 +890,12 @@ export default function App() {
             {followUps.map((l) => {
               const od = l.nextFollowUp < t; const due = l.nextFollowUp === t; const ds = daysSince(l.lastContacted);
               return (
-                <div key={l.id} className={`bg-neutral-950 rounded-xl border p-3 flex items-center gap-3 ${od ? "border-red-800" : due ? "border-amber-800" : "border-neutral-800"}`}>
-                  <div className={`shrink-0 text-center px-2 py-1 rounded-lg text-xs font-medium ${od ? "bg-red-500/20 text-red-300" : due ? "bg-amber-500/20 text-amber-300" : "bg-neutral-800 text-neutral-400"}`}>{od ? "OVERDUE" : due ? "TODAY" : l.nextFollowUp.slice(5)}</div>
+                <div key={l.id} className={`bg-neutral-950 rounded-2xl border p-3 flex items-center gap-3 ${od ? "border-red-800/70" : due ? "border-amber-800/70" : "border-neutral-800"}`}>
+                  <div className={`shrink-0 w-16 text-center px-2 py-1.5 rounded-xl text-[11px] font-semibold tracking-wide ${od ? "bg-red-500/20 text-red-300" : due ? "bg-amber-500/20 text-amber-300" : "bg-neutral-800 text-neutral-400"}`}>{od ? "OVERDUE" : due ? "TODAY" : l.nextFollowUp.slice(5)}</div>
                   <div className="flex-1 min-w-0"><div className="font-medium text-neutral-100 truncate">{l.contactName || l.company || "Unnamed"}</div><div className="text-xs text-neutral-500 truncate">{l.priority} priority · {l.nextAction || l.segment || l.asicModel || "no detail"}{ds != null ? ` · last contact ${ds}d ago` : ""}</div></div>
                   <Reach lead={l} />
-                  <button onClick={() => setActForm({ id: uid("A"), date: t, leadId: l.id, contact: l.contactName || l.company, type: "Call", outcome: "", notes: "" })} className="shrink-0 text-xs bg-neutral-800 hover:bg-neutral-700 text-neutral-200 px-2 py-1.5 rounded-lg">Log</button>
-                  <button onClick={() => setEdit(l)} className="shrink-0 text-xs bg-red-600 text-white hover:bg-red-500 px-2 py-1.5 rounded-lg">Open</button>
+                  <button onClick={() => setActForm({ id: uid("A"), date: t, leadId: l.id, contact: l.contactName || l.company, type: "Call", outcome: "", notes: "" })} className="shrink-0 text-xs font-medium bg-neutral-800 hover:bg-neutral-700 text-neutral-200 px-3 py-1.5 rounded-lg transition">Log</button>
+                  <button onClick={() => setEdit(l)} className="shrink-0 text-xs font-medium bg-red-600 text-white hover:bg-red-500 px-3 py-1.5 rounded-lg transition">Open</button>
                 </div>
               );
             })}
@@ -983,23 +984,28 @@ function PipeCard({ label, value, sub, accent, green }) {
 }
 
 function Card({ label, value, accent = "slate", icon: I, onClick }) {
-  const c = { slate: "text-white", red: "text-red-400", amber: "text-amber-400", green: "text-green-400", blue: "text-blue-400" }[accent];
+  const c = { slate: "text-white", red: "text-red-400", amber: "text-amber-400", green: "text-emerald-400", blue: "text-blue-400" }[accent];
+  const dot = { slate: "bg-neutral-600", red: "bg-red-500", amber: "bg-amber-500", green: "bg-emerald-500", blue: "bg-blue-500" }[accent];
   return (
-    <button onClick={onClick} className="bg-neutral-950 rounded-xl border border-neutral-800 p-3 text-left hover:border-neutral-700 transition">
-      <div className="flex items-center justify-between"><div className="text-xs text-neutral-500">{label}</div>{I && <I size={14} className="text-neutral-600" />}</div>
-      <div className={`text-2xl font-bold mt-1 ${c}`}>{value}</div>
+    <button onClick={onClick} className="group bg-neutral-950 rounded-2xl border border-neutral-800 p-4 text-left hover:border-neutral-700 hover:bg-neutral-900/60 transition">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-1.5 text-xs text-neutral-500"><span className={`w-1.5 h-1.5 rounded-full ${dot}`} />{label}</div>
+        {I && <I size={14} className="text-neutral-600 group-hover:text-neutral-400 transition" />}
+      </div>
+      <div className={`text-2xl font-bold mt-1.5 ${c}`}>{value}</div>
     </button>
   );
 }
 
 function InvPill({ status }) {
   const s = norm(status);
-  const c = s === "paid" ? "bg-emerald-500/20 text-emerald-300" : s === "sent" ? "bg-amber-500/20 text-amber-300" : s === "quote" ? "bg-neutral-700/40 text-neutral-400" : s === "refund" ? "bg-sky-500/20 text-sky-300" : "bg-red-500/20 text-red-300";
-  return <span className={`text-xs px-2 py-0.5 rounded ${c}`}>{status || "Unpaid"}</span>;
+  const dot = s === "paid" ? "bg-emerald-400" : s === "sent" ? "bg-amber-400" : s === "quote" ? "bg-neutral-400" : s === "refund" ? "bg-sky-400" : "bg-red-400";
+  return <span className="inline-flex items-center gap-1.5 text-xs px-2 py-0.5 rounded-full border border-neutral-700/70 bg-neutral-800/40 text-neutral-300 whitespace-nowrap"><span className={`w-1.5 h-1.5 rounded-full ${dot}`} />{status || "Unpaid"}</span>;
 }
 
-function StatusPill({ s }) {  const map = { "New": "bg-neutral-800 text-neutral-300", "Contacted": "bg-blue-500/20 text-blue-300", "Warm": "bg-amber-500/20 text-amber-300", "Active Deal": "bg-green-500/20 text-green-300", "Won": "bg-emerald-500/20 text-emerald-300", "Lost": "bg-red-500/20 text-red-300", "Nurture": "bg-neutral-800 text-neutral-500", "Dormant": "bg-neutral-800 text-neutral-500" };
-  return <span className={`text-xs px-2 py-0.5 rounded ${map[s] || "bg-neutral-800 text-neutral-300"}`}>{s}</span>;
+function StatusPill({ s }) {
+  const dot = { "New": "bg-neutral-400", "Contacted": "bg-blue-400", "Warm": "bg-amber-400", "Active Deal": "bg-green-400", "Won": "bg-emerald-400", "Lost": "bg-red-400", "Nurture": "bg-neutral-500", "Dormant": "bg-neutral-600" };
+  return <span className="inline-flex items-center gap-1.5 text-xs px-2 py-0.5 rounded-full border border-neutral-700/70 bg-neutral-800/40 text-neutral-300 whitespace-nowrap"><span className={`w-1.5 h-1.5 rounded-full ${dot[s] || "bg-neutral-400"}`} />{s}</span>;
 }
 
 function Field({ label, children }) { return <label className="block"><span className="text-xs text-neutral-500">{label}</span>{children}</label>; }
@@ -1015,7 +1021,7 @@ function LeadEditor({ lead, acts, leads, invoices, onSave, onDelete, onLog, onAd
   const chip = "text-xs px-2 py-1 rounded-md bg-neutral-800 hover:bg-neutral-700 text-neutral-200";
   return (
     <div className="fixed inset-0 bg-black/70 z-40 flex items-end sm:items-center justify-center p-0 sm:p-4" onClick={onClose}>
-      <div className="bg-neutral-950 border border-neutral-800 w-full sm:max-w-2xl sm:rounded-xl rounded-t-2xl max-h-[92vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+      <div className="bg-neutral-950 border border-neutral-800 w-full sm:max-w-2xl sm:rounded-2xl rounded-t-2xl max-h-[92vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
         <div className="px-4 py-3 border-b border-neutral-800 sticky top-0 bg-neutral-950 z-10">
           <div className="flex items-start justify-between gap-2">
             <div className="min-w-0">
@@ -1042,12 +1048,14 @@ function LeadEditor({ lead, acts, leads, invoices, onSave, onDelete, onLog, onAd
         )}
         {dup && <div className="mx-4 mt-3 text-xs px-3 py-2 rounded-lg bg-amber-500/15 border border-amber-600/40 text-amber-300">Possible duplicate: {dup.contactName || dup.company || "another contact"} already has this phone or email.</div>}
         <div className="p-4 grid grid-cols-2 gap-3">
+          <div className="col-span-2 text-[11px] uppercase tracking-wider text-neutral-500 border-b border-neutral-800 pb-1.5">Contact details</div>
           <Field label="Contact Name"><input className={inp} value={f.contactName} onChange={(e) => set("contactName", e.target.value)} /></Field>
           <Field label="Company"><input className={inp} value={f.company} onChange={(e) => set("company", e.target.value)} /></Field>
           <Field label="Type (individual or company)"><select className={inp} value={f.contactType} onChange={(e) => set("contactType", e.target.value)}><option value="">—</option>{TYPES.map((x) => <option key={x}>{x}</option>)}</select></Field>
           <Field label="Source (where this contact came from)"><select className={inp} value={f.leadSource} onChange={(e) => set("leadSource", e.target.value)}><option value="">—</option>{Array.from(new Set([...LEAD_SOURCES, f.leadSource].filter(Boolean))).map((x) => <option key={x}>{x}</option>)}</select></Field>
           <Field label="Phone"><input className={inp} value={f.phone} onChange={(e) => set("phone", e.target.value)} /></Field>
           <Field label="Email"><input className={inp} value={f.email} onChange={(e) => set("email", e.target.value)} /></Field>
+          <div className="col-span-2 text-[11px] uppercase tracking-wider text-neutral-500 border-b border-neutral-800 pb-1.5 mt-1">Opportunity &amp; equipment</div>
           <Field label="Opportunity (buyer, seller, repair...)"><select className={inp} value={f.segment} onChange={(e) => set("segment", e.target.value)}><option value="">—</option>{OPPORTUNITY.map((x) => <option key={x}>{x}</option>)}</select></Field>
           <Field label="Operation Size"><input className={inp} value={f.operationSize} onChange={(e) => set("operationSize", e.target.value)} placeholder="e.g. 10 miners or 2 MW" /></Field>
           <Field label="ASIC Model"><input className={inp} value={f.asicModel} onChange={(e) => set("asicModel", e.target.value)} placeholder="e.g. S19J Pro 120T" /></Field>
@@ -1055,6 +1063,7 @@ function LeadEditor({ lead, acts, leads, invoices, onSave, onDelete, onLog, onAd
           <Field label="Country"><input className={inp} value={f.country} onChange={(e) => set("country", e.target.value)} /></Field>
           <Field label="Language"><select className={inp} value={f.language} onChange={(e) => set("language", e.target.value)}><option value="">—</option>{LANGS.map((x) => <option key={x}>{x}</option>)}</select></Field>
           <div className="col-span-2"><Field label="Address"><input className={inp} value={f.address} onChange={(e) => set("address", e.target.value)} placeholder="Street, city, province, postal code" /></Field></div>
+          <div className="col-span-2 text-[11px] uppercase tracking-wider text-neutral-500 border-b border-neutral-800 pb-1.5 mt-1">Pipeline &amp; follow-up</div>
           <Field label="Status"><select className={inp} value={f.status} onChange={(e) => set("status", e.target.value)}>{STATUS.map((x) => <option key={x}>{x}</option>)}</select></Field>
           <Field label="Priority"><select className={inp} value={f.priority} onChange={(e) => set("priority", e.target.value)}>{PRIO.map((x) => <option key={x}>{x}</option>)}</select></Field>
           <Field label="Last Contacted"><input type="date" className={inp} value={f.lastContacted} onChange={(e) => set("lastContacted", e.target.value)} /></Field>
@@ -1071,6 +1080,7 @@ function LeadEditor({ lead, acts, leads, invoices, onSave, onDelete, onLog, onAd
           <Field label="Next Action"><input className={inp} value={f.nextAction} onChange={(e) => set("nextAction", e.target.value)} /></Field>
           <div className="col-span-2"><Field label="AI Summary (RingCentral call notes)"><textarea className={inp} rows={2} value={f.aiSummary} onChange={(e) => set("aiSummary", e.target.value)} placeholder="Will auto-fill from RingCentral once connected: what the caller wanted, key points discussed..." /></Field></div>
           <div className="col-span-2"><Field label="Notes"><textarea className={inp} rows={2} value={f.notes} onChange={(e) => set("notes", e.target.value)} /></Field></div>
+          <div className="col-span-2 text-[11px] uppercase tracking-wider text-neutral-500 border-b border-neutral-800 pb-1.5 mt-1">Flags</div>
           <label className="col-span-2 flex items-center gap-2 text-sm text-neutral-300"><input type="checkbox" checked={f.dealAlert} onChange={(e) => set("dealAlert", e.target.checked)} /> Flag as deal alert (hot lead)</label>
           <label className="col-span-2 flex items-center gap-2 text-sm text-neutral-300"><input type="checkbox" checked={f.customer} onChange={(e) => set("customer", e.target.checked)} /> Existing customer (has bought from us)</label>
           <label className="col-span-2 flex items-center gap-2 text-sm text-neutral-300"><input type="checkbox" checked={f.supplier} onChange={(e) => set("supplier", e.target.checked)} /> Supplier (brings me batches)</label>
@@ -1088,7 +1098,7 @@ function LeadEditor({ lead, acts, leads, invoices, onSave, onDelete, onLog, onAd
             <div className="space-y-1.5">{history.slice(0, 8).map((a) => (<div key={a.id} className="flex items-start gap-2 text-xs"><span className="px-1.5 py-0.5 rounded bg-neutral-800 text-neutral-300 shrink-0">{a.type}</span><span className="text-neutral-600 shrink-0">{a.date}</span><span className="text-neutral-300">{a.outcome || a.notes || "—"}</span></div>))}</div>
           )}
         </div>
-        <div className="flex items-center justify-between px-4 py-3 border-t border-neutral-800 sticky bottom-0 bg-neutral-950"><button onClick={() => onDelete(f.id)} className="text-sm text-red-500 flex items-center gap-1"><Trash2 size={16} /> Delete</button><div className="flex gap-2"><button onClick={onClose} className="text-sm px-3 py-2 rounded-lg border border-neutral-700 text-neutral-300">Cancel</button><button onClick={() => onSave(f)} className="text-sm px-4 py-2 rounded-lg bg-red-600 text-white hover:bg-red-500">Save</button></div></div>
+        <div className="flex items-center justify-between px-4 py-3 border-t border-neutral-800 sticky bottom-0 bg-neutral-950"><button onClick={() => onDelete(f.id)} className="text-sm text-red-500 hover:text-red-400 flex items-center gap-1.5 transition"><Trash2 size={16} /> Delete</button><div className="flex gap-2"><button onClick={onClose} className="text-sm font-medium px-4 py-2 rounded-xl border border-neutral-700 text-neutral-300 hover:bg-neutral-800 transition">Cancel</button><button onClick={() => onSave(f)} className="text-sm font-medium px-5 py-2 rounded-xl bg-red-600 text-white hover:bg-red-500 transition shadow-lg shadow-red-900/20">Save</button></div></div>
       </div>
     </div>
   );
