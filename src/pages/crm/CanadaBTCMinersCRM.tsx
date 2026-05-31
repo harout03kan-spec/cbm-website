@@ -472,6 +472,7 @@ export default function App({ onLock }) {
   const [edit, setEdit] = useState(null);
   const [actForm, setActForm] = useState(null);
   const [menu, setMenu] = useState(false);
+  const [view, setView] = useState(() => { try { return localStorage.getItem("cbm-crm-view") || "all"; } catch (e) { return "all"; } });
 
   const save = async (l, a, inv, bat, tpl) => { try { await crmStorage.set(STORE_KEY, JSON.stringify({ leads: l, activities: a, invoices: inv, batches: bat, templates: tpl, v: 4, wl: true, iv2: true, clean1: true, clean2: true, inv3: true, tpl1: true, qb1: true, qbs1: true, clean3: true, qbs2: true, qbs3: true, qbs4: true, qbs5: true, inv4: true, inv5: true, man1: true, inv6: true, inv7: true, man2: true, man3: true, man4: true, man5: true, man6: true, inv8: true }), false); } catch (e) {} };
 
@@ -569,9 +570,25 @@ export default function App({ onLock }) {
   const segments = useMemo(() => Array.from(new Set(leads.map((l) => l.segment).filter(Boolean))).sort(), [leads]);
   const sources = useMemo(() => Array.from(new Set(leads.map((l) => l.leadSource).filter(Boolean))).sort(), [leads]);
 
+  const viewMatch = (l) => {
+    switch (view) {
+      case "hot": return l.dealAlert;
+      case "today": return l.nextFollowUp === t && isOpen(l.status);
+      case "overdue": return l.nextFollowUp && l.nextFollowUp < t && isOpen(l.status);
+      case "customers": return l.customer;
+      case "suppliers": return l.supplier;
+      case "repair": return l.repairClient;
+      case "bulk": return /buyer/i.test(l.segment || "") || (l.tags || []).some((x) => /bulk/i.test(x)) || numVal(l.estValue) >= 10000;
+      case "lost": return norm(l.status) === "lost";
+      case "cold": return isCold(l);
+      case "quote": return isOpen(l.status) && ((l.tags || []).some((x) => /quote/i.test(x)) || /quote/i.test(l.lastResult || ""));
+      default: return true;
+    }
+  };
   const filtered = useMemo(() => {
     const q = norm(search);
     let r = leads.filter((l) => {
+      if (!viewMatch(l)) return false;
       if (fStatus && l.status !== fStatus) return false;
       if (fDir && l.direction !== fDir) return false;
       if (fSeg && l.segment !== fSeg) return false;
@@ -579,7 +596,7 @@ export default function App({ onLock }) {
       if (fHot && !l.dealAlert) return false;
       if (fCold && !isCold(l)) return false;
       if (!q) return true;
-      return [l.company, l.contactName, l.email, l.phone, l.asicModel, l.city, l.country, l.address, l.segment, l.notes].some((v) => norm(v).includes(q));
+      return [l.company, l.contactName, l.email, l.phone, l.asicModel, l.city, l.country, l.address, l.segment, l.notes, (l.tags || []).join(" ")].some((v) => norm(v).includes(q));
     });
     const nm = (l) => (l.contactName || l.company || "").toLowerCase();
     if (sort === "name") r = [...r].sort((a, b) => nm(a).localeCompare(nm(b)));
@@ -587,7 +604,7 @@ export default function App({ onLock }) {
     else if (sort === "followup") r = [...r].sort((a, b) => (a.nextFollowUp || "9999").localeCompare(b.nextFollowUp || "9999"));
     else r = [...r].sort((a, b) => (b.lastUpdated || "").localeCompare(a.lastUpdated || ""));
     return r;
-  }, [leads, search, fStatus, fDir, fSeg, fSource, fHot, fCold, sort]);
+  }, [leads, search, fStatus, fDir, fSeg, fSource, fHot, fCold, sort, view, t]);
 
   const followUps = useMemo(() => leads.filter((l) => l.nextFollowUp && isOpen(l.status)).sort((a, b) => a.nextFollowUp.localeCompare(b.nextFollowUp)), [leads]);
 
@@ -599,6 +616,45 @@ export default function App({ onLock }) {
     leads.filter((l) => isCold(l)).sort((a, b) => (a.lastContacted || "").localeCompare(b.lastContacted || "")).forEach((l) => add(l, "Going cold"));
     return out;
   }, [leads]);
+
+  const invMeta = useMemo(() => {
+    const unpaid = invoices.filter((i) => { const ss = norm(i.status); return ss === "unpaid" || ss === "overdue"; });
+    const overdue = unpaid.filter((i) => i.dueDate && i.dueDate < t);
+    const totalUnpaid = unpaid.reduce((acc, i) => acc + numVal(i.amount), 0);
+    const oldest = unpaid.filter((i) => i.date).sort((a, b) => (a.date || "").localeCompare(b.date || ""))[0] || null;
+    return { unpaidCount: unpaid.length, overdueCount: overdue.length, totalUnpaid, oldest };
+  }, [invoices, t]);
+
+  const counts = useMemo(() => ({
+    all: leads.length,
+    hot: leads.filter((l) => l.dealAlert).length,
+    today: leads.filter((l) => l.nextFollowUp === t && isOpen(l.status)).length,
+    overdue: leads.filter((l) => l.nextFollowUp && l.nextFollowUp < t && isOpen(l.status)).length,
+    customers: leads.filter((l) => l.customer).length,
+    suppliers: leads.filter((l) => l.supplier).length,
+    repair: leads.filter((l) => l.repairClient).length,
+    bulk: leads.filter((l) => /buyer/i.test(l.segment || "") || (l.tags || []).some((x) => /bulk/i.test(x)) || numVal(l.estValue) >= 10000).length,
+    lost: leads.filter((l) => norm(l.status) === "lost").length,
+    cold: leads.filter((l) => isCold(l)).length,
+    quote: leads.filter((l) => isOpen(l.status) && ((l.tags || []).some((x) => /quote/i.test(x)) || /quote/i.test(l.lastResult || ""))).length,
+  }), [leads, t]);
+
+  const recentActs = useMemo(() => [...acts].sort((a, b) => (b.date || "").localeCompare(a.date || "")).slice(0, 8), [acts]);
+
+  const VIEWS = [
+    { k: "all", label: "All contacts" }, { k: "hot", label: "Hot leads" }, { k: "today", label: "Follow-up today" },
+    { k: "overdue", label: "Overdue" }, { k: "quote", label: "Awaiting quote" }, { k: "unpaid", label: "Unpaid invoices" },
+    { k: "customers", label: "Customers" }, { k: "suppliers", label: "Suppliers" }, { k: "repair", label: "Repair clients" },
+    { k: "bulk", label: "Bulk buyers" }, { k: "lost", label: "Lost leads" }, { k: "cold", label: "Cold leads" },
+  ];
+  const applyView = (v) => {
+    setView(v); setSearch(""); setFStatus(""); setFSeg(""); setFSource(""); setFHot(false); setFCold(false);
+    if (v === "lost") setFStatus("Lost");
+    if (v === "today" || v === "overdue") setSort("followup");
+    try { localStorage.setItem("cbm-crm-view", v); } catch (e) {}
+    setTab(v === "unpaid" ? "invoices" : "leads");
+  };
+  const quickFollow = (id, days) => { const d = days === 0 ? todayISO() : addDays(days); setLeads((prev) => prev.map((x) => x.id === id ? { ...x, nextFollowUp: d, lastUpdated: t } : x)); };
 
   const saveLead = (l) => { l.lastUpdated = t; setLeads((prev) => { const i = prev.findIndex((x) => x.id === l.id); if (i >= 0) { const c = [...prev]; c[i] = l; return c; } return [l, ...prev]; }); setEdit(null); };
   const saveInv = (iv) => { setInvoices((prev) => { const i = prev.findIndex((x) => x.id === iv.id); if (i >= 0) { const c = [...prev]; c[i] = iv; return c; } return [iv, ...prev]; }); setInvForm(null); };
@@ -691,56 +747,108 @@ export default function App({ onLock }) {
         /* primary red buttons keep white text on red (overrides text-white remap) */
         .light .bg-red-600{color:#ffffff !important;}
       `}</style>
-      <div className="min-h-screen bg-black text-slate-200" style={{ fontFamily: "system-ui, sans-serif" }}>
-      <div className="bg-neutral-950/95 backdrop-blur border-b border-neutral-800 sticky top-0 z-20">
-        <div className="max-w-6xl mx-auto px-4 py-3 flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-red-600 text-white font-bold flex items-center justify-center text-sm shrink-0 shadow-lg shadow-red-900/30">CBM</div>
-          <div className="flex-1 min-w-0"><div className="font-semibold text-white leading-tight truncate">Canada Bitcoin Miners CRM</div><div className="text-xs text-neutral-500 truncate">{note}</div></div>
-          <button onClick={() => setEdit(blankLead())} className="flex items-center gap-1.5 bg-red-600 text-white text-sm font-medium px-3 py-2 rounded-xl hover:bg-red-500 transition shadow-lg shadow-red-900/20"><Plus size={16} /> <span className="hidden sm:inline">Contact</span></button>
-          <button onClick={() => setLight(!light)} title={light ? "Dark mode" : "Light mode"} className="p-2 rounded-xl hover:bg-neutral-800 text-neutral-400 text-xs font-medium">{light ? "Dark" : "Light"}</button>
-          <div className="relative">
-            <button onClick={() => setMenu(!menu)} title="Data" className="p-2 rounded-xl hover:bg-neutral-800 text-neutral-400"><RefreshCw size={18} /></button>
-            {menu && (
-              <div className="absolute right-0 mt-1 w-52 bg-neutral-900 border border-neutral-800 rounded-xl shadow-xl shadow-black/40 py-1 text-sm z-30">
-                <button onClick={() => { setMenu(false); reImport(); }} className="w-full text-left px-3 py-2 hover:bg-neutral-800 text-neutral-200 flex items-center gap-2"><RefreshCw size={14} /> Re-import from Excel</button>
-                <button onClick={() => { const wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(leads), "Leads"); XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(acts), "Activity Log"); XLSX.writeFile(wb, "Canada BTC Miners CRM.xlsx"); setMenu(false); }} className="w-full text-left px-3 py-2 hover:bg-neutral-800 text-neutral-200 flex items-center gap-2"><Download size={14} /> Export to Excel</button>
-              </div>
-            )}
+      <div className="min-h-screen bg-black text-slate-200 flex" style={{ fontFamily: "system-ui, sans-serif" }}>
+        <div className="hidden md:flex flex-col w-56 shrink-0 border-r border-neutral-800 bg-neutral-950 sticky top-0 h-screen">
+          <div className="flex items-center gap-2.5 px-4 py-4 border-b border-neutral-800">
+            <div className="w-9 h-9 rounded-xl bg-red-600 text-white font-bold flex items-center justify-center text-sm shadow-lg shadow-red-900/30">CBM</div>
+            <div className="min-w-0"><div className="font-semibold text-white text-sm leading-tight">Canada Bitcoin</div><div className="text-xs text-neutral-500">Miners CRM</div></div>
           </div>
-          <button onClick={() => onLock && onLock()} title="Lock CRM" className="flex items-center gap-1.5 p-2 rounded-xl border border-neutral-800 hover:border-red-700 hover:bg-red-950/40 text-neutral-400 hover:text-red-300 transition"><Lock size={16} /><span className="hidden md:inline text-xs font-medium">Lock</span></button>
+          <nav className="flex-1 overflow-y-auto py-2 px-2 space-y-0.5">
+            {TABS.map(({ k, label, icon: I }) => (
+              <button key={k} onClick={() => setTab(k)} className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-sm transition ${tab === k ? "bg-red-600/15 text-red-400 font-medium" : "text-neutral-400 hover:bg-neutral-900 hover:text-neutral-100"}`}>
+                <I size={17} /> {label}
+                {k === "invoices" && invMeta.unpaidCount > 0 && <span className="ml-auto text-[10px] px-1.5 py-0.5 rounded-full bg-red-600 text-white">{invMeta.unpaidCount}</span>}
+                {k === "follow" && (m.dueToday + m.overdue) > 0 && <span className="ml-auto text-[10px] px-1.5 py-0.5 rounded-full bg-amber-500/30 text-amber-300">{m.dueToday + m.overdue}</span>}
+              </button>
+            ))}
+          </nav>
+          <div className="p-2 border-t border-neutral-800">
+            <button onClick={() => onLock && onLock()} className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-sm text-neutral-400 hover:bg-red-950/40 hover:text-red-300 border border-neutral-800 hover:border-red-700 transition"><Lock size={16} /> Lock CRM</button>
+          </div>
         </div>
-        <div className="max-w-6xl mx-auto px-2 flex gap-1 overflow-x-auto">
-          {TABS.map(({ k, label, icon: I }) => (<button key={k} onClick={() => setTab(k)} className={`flex items-center gap-1.5 px-3 py-2.5 text-sm border-b-2 whitespace-nowrap transition ${tab === k ? "border-red-600 text-red-500 font-medium" : "border-transparent text-neutral-500 hover:text-neutral-200"}`}><I size={16} /> {label}</button>))}
-        </div>
-      </div>
 
-      <div className="max-w-6xl mx-auto px-4 py-5">
+        <div className="flex-1 min-w-0 flex flex-col">
+          <div className="bg-neutral-950/95 backdrop-blur border-b border-neutral-800 sticky top-0 z-20">
+            <div className="px-4 py-3 flex items-center gap-3">
+              <div className="md:hidden w-9 h-9 rounded-xl bg-red-600 text-white font-bold flex items-center justify-center text-sm shrink-0">CBM</div>
+              <div className="flex-1 min-w-0 relative">
+                <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-500" />
+                <input value={search} onChange={(e) => { setSearch(e.target.value); if (tab !== "leads") setTab("leads"); }} placeholder="Search contacts, phone, email, model..." className="w-full pl-9 pr-3 py-2 rounded-xl border border-neutral-800 bg-neutral-900 text-neutral-100 placeholder-neutral-600 text-sm focus:border-red-600 focus:ring-1 focus:ring-red-600/30 outline-none" />
+              </div>
+              <button onClick={() => setEdit(blankLead())} className="flex items-center gap-1.5 bg-red-600 text-white text-sm font-medium px-3 py-2 rounded-xl hover:bg-red-500 transition shadow-lg shadow-red-900/20"><Plus size={16} /> <span className="hidden sm:inline">Contact</span></button>
+              <button onClick={() => setLight(!light)} title={light ? "Dark mode" : "Light mode"} className="p-2 rounded-xl hover:bg-neutral-800 text-neutral-400 text-xs font-medium">{light ? "Dark" : "Light"}</button>
+              <div className="relative">
+                <button onClick={() => setMenu(!menu)} title="Data" className="p-2 rounded-xl hover:bg-neutral-800 text-neutral-400"><RefreshCw size={18} /></button>
+                {menu && (
+                  <div className="absolute right-0 mt-1 w-52 bg-neutral-900 border border-neutral-800 rounded-xl shadow-xl shadow-black/40 py-1 text-sm z-30">
+                    <button onClick={() => { setMenu(false); reImport(); }} className="w-full text-left px-3 py-2 hover:bg-neutral-800 text-neutral-200 flex items-center gap-2"><RefreshCw size={14} /> Re-import from Excel</button>
+                    <button onClick={() => { const wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(leads), "Leads"); XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(acts), "Activity Log"); XLSX.writeFile(wb, "Canada BTC Miners CRM.xlsx"); setMenu(false); }} className="w-full text-left px-3 py-2 hover:bg-neutral-800 text-neutral-200 flex items-center gap-2"><Download size={14} /> Export to Excel</button>
+                  </div>
+                )}
+              </div>
+              <button onClick={() => onLock && onLock()} title="Lock CRM" className="md:hidden p-2 rounded-xl border border-neutral-800 hover:border-red-700 hover:bg-red-950/40 text-neutral-400 hover:text-red-300 transition"><Lock size={16} /></button>
+            </div>
+            <div className="md:hidden px-2 pb-1 flex gap-1 overflow-x-auto">
+              {TABS.map(({ k, label, icon: I }) => (<button key={k} onClick={() => setTab(k)} className={`flex items-center gap-1.5 px-3 py-2 text-sm border-b-2 whitespace-nowrap transition ${tab === k ? "border-red-600 text-red-500 font-medium" : "border-transparent text-neutral-500 hover:text-neutral-200"}`}><I size={16} /> {label}</button>))}
+            </div>
+          </div>
+
+          <div className="max-w-6xl w-full mx-auto px-4 py-5">
         {tab === "dash" && (
           <div className="space-y-5">
-            <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
-              <Card label="Total Contacts" value={m.total} onClick={() => { setFStatus(""); setFSeg(""); setFSource(""); setFHot(false); setSearch(""); setTab("leads"); }} />
-              <Card label="Due Today" value={m.dueToday} accent="amber" onClick={() => setTab("follow")} />
-              <Card label="Overdue" value={m.overdue} accent="red" onClick={() => setTab("follow")} />
-              <Card label="Hot Leads" value={m.alerts} accent="red" icon={AlertTriangle} onClick={() => { setFHot(true); setFStatus(""); setFSeg(""); setFSource(""); setSearch(""); setTab("leads"); }} />
-              <Card label="Sales Closed" value={cad(m.dealsClosed)} accent="green" icon={DollarSign} onClick={() => setTab("invoices")} />
+            <div>
+              <div className="text-lg font-semibold text-white">Today</div>
+              <div className="text-xs text-neutral-500">Here is what needs your attention. Click any tile to jump in.</div>
             </div>
-            <div className="bg-neutral-950 rounded-2xl border border-neutral-800 p-4">
-              <div className="flex items-center justify-between mb-3">
-                <div className="font-medium text-white flex items-center gap-2"><CalendarClock size={16} className="text-red-500" /> Who to contact today</div>
-                <div className="text-xs text-neutral-500 bg-neutral-900 border border-neutral-800 rounded-full px-2 py-0.5">{toContact.length} need a touch</div>
-              </div>
-              {toContact.length === 0 ? <div className="text-sm text-neutral-500 py-3 text-center">Nothing pending. You are all caught up.</div> : (
-                <div className="space-y-1">
-                  {toContact.slice(0, 15).map(({ l, why }) => (
-                    <button key={l.id} onClick={() => setEdit(l)} className="w-full flex items-center gap-2 text-left px-2 py-2 rounded-xl hover:bg-neutral-900 transition">
-                      <span className={`shrink-0 text-[10px] font-medium px-1.5 py-0.5 rounded-full ${why === "Overdue" ? "bg-red-500/20 text-red-300" : why === "Due today" ? "bg-amber-500/20 text-amber-300" : "bg-neutral-800 text-neutral-400"}`}>{why}</span>
-                      <span className="text-sm text-neutral-200 truncate">{l.contactName || l.company || l.phone || "Unnamed"}</span>
-                      <span className="text-xs text-neutral-600 truncate ml-auto">{l.asicModel || l.segment || ""}</span>
-                    </button>
-                  ))}
-                  {toContact.length > 15 && <button onClick={() => { setFCold(true); setFStatus(""); setFSeg(""); setFSource(""); setFHot(false); setSearch(""); setTab("leads"); }} className="text-xs text-red-400 hover:text-red-300 mt-1">+{toContact.length - 15} more · view all going cold</button>}
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
+              <Card label="Due Today" value={m.dueToday} accent="amber" icon={CalendarClock} onClick={() => applyView("today")} />
+              <Card label="Overdue" value={m.overdue} accent="red" icon={CalendarClock} onClick={() => applyView("overdue")} />
+              <Card label="Hot Leads" value={m.alerts} accent="red" icon={AlertTriangle} onClick={() => applyView("hot")} />
+              <Card label="Awaiting Quote" value={counts.quote} accent="blue" icon={FileText} onClick={() => applyView("quote")} />
+              <Card label="Unpaid" value={cad(invMeta.totalUnpaid)} accent="red" icon={DollarSign} onClick={() => applyView("unpaid")} />
+              <Card label="Cold (30d+)" value={m.cold} accent="slate" icon={TrendingUp} onClick={() => applyView("cold")} />
+            </div>
+            <div className="grid lg:grid-cols-3 gap-4">
+              <div className="lg:col-span-2 bg-neutral-950 rounded-2xl border border-neutral-800 p-4">
+                <div className="flex items-center justify-between mb-3">
+                  <div className="font-medium text-white flex items-center gap-2"><CalendarClock size={16} className="text-red-500" /> Who to contact today</div>
+                  <div className="text-xs text-neutral-500 bg-neutral-900 border border-neutral-800 rounded-full px-2 py-0.5">{toContact.length} need a touch</div>
                 </div>
-              )}
+                {toContact.length === 0 ? <div className="text-sm text-neutral-500 py-6 text-center">Nothing pending. You are all caught up.</div> : (
+                  <div className="space-y-1">
+                    {toContact.slice(0, 12).map(({ l, why }) => { const ph = digits(l.phone); const em = l.email && l.email.includes("@") ? l.email : ""; return (
+                      <div key={l.id} className="group flex items-center gap-2 px-2 py-2 rounded-xl hover:bg-neutral-900 transition">
+                        <span className={`shrink-0 text-[10px] font-medium px-1.5 py-0.5 rounded-full ${why === "Overdue" ? "bg-red-500/20 text-red-300" : why === "Due today" ? "bg-amber-500/20 text-amber-300" : "bg-neutral-800 text-neutral-400"}`}>{why}</span>
+                        <button onClick={() => setEdit(l)} className="text-sm text-neutral-200 truncate text-left flex-1 min-w-0">{l.contactName || l.company || l.phone || "Unnamed"}<span className="text-xs text-neutral-600 ml-2">{l.asicModel || l.segment || ""}</span></button>
+                        <div className="flex items-center gap-1 shrink-0 opacity-70 group-hover:opacity-100 transition">
+                          {ph && <a href={`tel:${ph}`} title="Call" className="p-1.5 rounded-md bg-neutral-800 hover:bg-neutral-700 text-neutral-300"><Phone size={13} /></a>}
+                          {em && <a href={gmailUrl(em)} target="_blank" rel="noopener noreferrer" title="Email" className="p-1.5 rounded-md bg-neutral-800 hover:bg-neutral-700 text-neutral-300"><Mail size={13} /></a>}
+                          <button onClick={() => setActForm({ id: uid("A"), date: t, leadId: l.id, contact: l.contactName || l.company, type: "Call", outcome: "", notes: "" })} title="Log note" className="p-1.5 rounded-md bg-neutral-800 hover:bg-neutral-700 text-neutral-300"><Activity size={13} /></button>
+                          <button onClick={() => quickFollow(l.id, 7)} title="Follow up in 7 days" className="p-1.5 rounded-md bg-neutral-800 hover:bg-neutral-700 text-neutral-300"><CalendarClock size={13} /></button>
+                        </div>
+                      </div>
+                    ); })}
+                    {toContact.length > 12 && <button onClick={() => applyView("cold")} className="text-xs text-red-400 hover:text-red-300 mt-1">+{toContact.length - 12} more · view all going cold</button>}
+                  </div>
+                )}
+              </div>
+              <div className="bg-neutral-950 rounded-2xl border border-neutral-800 p-4">
+                <div className="font-medium text-white flex items-center gap-2 mb-3"><Activity size={16} className="text-red-500" /> Recent activity</div>
+                {recentActs.length === 0 ? <div className="text-sm text-neutral-600 py-6 text-center">No activity yet.</div> : (
+                  <div className="space-y-2.5">
+                    {recentActs.map((a) => (
+                      <div key={a.id} className="flex items-start gap-2 text-xs">
+                        <span className="px-1.5 py-0.5 rounded bg-neutral-800 text-neutral-300 shrink-0">{a.type}</span>
+                        <div className="min-w-0"><div className="text-neutral-200 truncate">{a.contact || "—"}</div><div className="text-neutral-500 truncate">{a.outcome || a.notes || ""}{(a.outcome || a.notes) ? " · " : ""}{a.date}</div></div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                <div className="mt-3 pt-3 border-t border-neutral-800 grid grid-cols-2 gap-2 text-center">
+                  <button onClick={() => setTab("invoices")} className="rounded-xl bg-neutral-900 border border-neutral-800 p-2 hover:border-neutral-700"><div className="text-base font-bold text-emerald-400">{cad(m.dealsClosed)}</div><div className="text-[10px] text-neutral-500">Sales closed</div></button>
+                  <button onClick={() => applyView("unpaid")} className="rounded-xl bg-neutral-900 border border-neutral-800 p-2 hover:border-neutral-700"><div className="text-base font-bold text-red-400">{invMeta.unpaidCount}</div><div className="text-[10px] text-neutral-500">Unpaid invoices</div></button>
+                </div>
+              </div>
             </div>
             <div className="grid md:grid-cols-2 gap-4">
               <div className="bg-neutral-950 rounded-2xl border border-neutral-800 p-4">
@@ -785,10 +893,17 @@ export default function App({ onLock }) {
 
         {tab === "leads" && (
           <div className="space-y-3">
+            <div className="flex gap-1.5 overflow-x-auto pb-1">
+              {VIEWS.map((v) => (
+                <button key={v.k} onClick={() => applyView(v.k)} className={`shrink-0 text-xs font-medium px-3 py-1.5 rounded-full border transition ${view === v.k ? "border-red-600 bg-red-600/15 text-red-400" : "border-neutral-800 bg-neutral-900 text-neutral-400 hover:text-neutral-100 hover:bg-neutral-800"}`}>
+                  {v.label}{counts[v.k] != null && counts[v.k] > 0 && <span className="ml-1.5 text-[10px] text-neutral-500">{counts[v.k]}</span>}
+                </button>
+              ))}
+            </div>
             <div className="bg-neutral-950 rounded-2xl border border-neutral-800 p-3 flex flex-wrap gap-2 items-center">
               <div className="flex-1 min-w-[200px] relative">
                 <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-500" />
-                <input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search name, phone, model, segment..." className="w-full pl-9 pr-3 py-2 rounded-xl border border-neutral-800 bg-neutral-900 text-neutral-100 placeholder-neutral-600 text-sm focus:border-red-600 focus:ring-1 focus:ring-red-600/30 outline-none" />
+                <input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search name, phone, model, segment, tag..." className="w-full pl-9 pr-3 py-2 rounded-xl border border-neutral-800 bg-neutral-900 text-neutral-100 placeholder-neutral-600 text-sm focus:border-red-600 focus:ring-1 focus:ring-red-600/30 outline-none" />
               </div>
               <select value={fStatus} onChange={(e) => setFStatus(e.target.value)} className="px-2.5 py-2 rounded-xl border border-neutral-800 bg-neutral-900 text-neutral-200 text-sm outline-none focus:border-red-600"><option value="">All status</option>{STATUS.map((s) => <option key={s}>{s}</option>)}</select>
               <select value={fSeg} onChange={(e) => setFSeg(e.target.value)} className="px-2.5 py-2 rounded-xl border border-neutral-800 bg-neutral-900 text-neutral-200 text-sm outline-none focus:border-red-600"><option value="">All opportunities</option>{segments.map((s) => <option key={s}>{s}</option>)}</select>
@@ -797,7 +912,7 @@ export default function App({ onLock }) {
               <label className="px-3 py-2 rounded-xl border border-neutral-800 bg-neutral-900 text-neutral-300 text-sm cursor-pointer hover:bg-neutral-800 flex items-center gap-1.5 transition"><Download size={14} /> Import<input type="file" accept=".csv,.xlsx,.xls" className="hidden" onChange={(e) => { const file = e.target.files && e.target.files[0]; importContacts(file); e.target.value = ""; }} /></label>
             </div>
             {importNote && <div className="text-xs px-3 py-2 rounded-xl bg-neutral-900 border border-neutral-800 text-neutral-300">{importNote}</div>}
-            <div className="flex items-center justify-between text-xs text-neutral-500 px-1"><span>{filtered.length} of {leads.length} contacts</span>{(fStatus || fSeg || fDir || fSource || fHot || fCold || search) && <button onClick={() => { setFStatus(""); setFSeg(""); setFDir(""); setFSource(""); setFHot(false); setFCold(false); setSearch(""); }} className="text-red-400 hover:text-red-300 font-medium">Clear filters</button>}</div>
+            <div className="flex items-center justify-between text-xs text-neutral-500 px-1"><span>{filtered.length} of {leads.length} contacts{view !== "all" ? ` · ${(VIEWS.find((v) => v.k === view) || {}).label || ""}` : ""}</span>{(view !== "all" || fStatus || fSeg || fDir || fSource || fHot || fCold || search) && <button onClick={() => { setView("all"); try { localStorage.setItem("cbm-crm-view", "all"); } catch (e) {} setFStatus(""); setFSeg(""); setFDir(""); setFSource(""); setFHot(false); setFCold(false); setSearch(""); }} className="text-red-400 hover:text-red-300 font-medium">Clear filters</button>}</div>
             <div className="bg-neutral-950 rounded-2xl border border-neutral-800 overflow-x-auto">
               <table className="w-full text-sm min-w-[760px]">
                 <thead><tr className="text-left text-[11px] uppercase tracking-wider text-neutral-500 border-b border-neutral-800 bg-neutral-900/40">
@@ -978,6 +1093,7 @@ export default function App({ onLock }) {
       {invForm && <InvoiceForm inv={invForm} leads={leads} onSave={saveInv} onDelete={delInv} onClose={() => setInvForm(null)} />}
       {batchForm && <BatchForm batch={batchForm} onSave={saveBatch} onDelete={delBatch} onClose={() => setBatchForm(null)} />}
       {tplForm && <TemplateForm tpl={tplForm} onSave={saveTpl} onDelete={delTpl} onClose={() => setTplForm(null)} />}
+      </div>
       </div>
     </div>
   );
