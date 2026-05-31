@@ -927,11 +927,16 @@ export default function App({ onLock }) {
     { k: "invoices", label: "Invoices", icon: FileText },
     { k: "batches", label: "Batches", icon: Truck },
     { k: "follow", label: "Follow-ups", icon: CalendarClock },
-    { k: "templates", label: "Templates", icon: MessageSquare },
-    { k: "dupes", label: "Duplicates", icon: AlertTriangle },
-    { k: "health", label: "Data Health", icon: Activity },
     { k: "log", label: "Activity Log", icon: Activity },
   ];
+  const TOOLS = [
+    { k: "templates", label: "Templates", icon: MessageSquare },
+    { k: "dupes", label: "Possible Duplicates", icon: AlertTriangle },
+    { k: "health", label: "CRM Cleanup", icon: Activity },
+    { k: "backup", label: "Backup and Restore", icon: Download },
+    { k: "import", label: "Import Data", icon: RefreshCw },
+  ];
+  const cleanupCount = health.noContact.length + health.noName.length + health.unpaidNoDue.length + health.dupPhones.length + health.dupEmails.length + health.tplNoCat.length + health.emptyNotes.length;
 
   return (
     <div className={light ? "light" : ""}>
@@ -989,6 +994,14 @@ export default function App({ onLock }) {
                 {k === "follow" && (m.dueToday + m.overdue) > 0 && <span className="ml-auto text-[10px] px-1.5 py-0.5 rounded-full bg-amber-500/30 text-amber-300">{m.dueToday + m.overdue}</span>}
               </button>
             ))}
+            <div className="px-3 pt-3 pb-1 text-[10px] uppercase tracking-widest text-neutral-600">CRM Tools</div>
+            {TOOLS.map(({ k, label, icon: I }) => (
+              <button key={k} onClick={() => setTab(k)} className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-sm transition ${tab === k ? "bg-red-600/15 text-red-400 font-medium" : "text-neutral-400 hover:bg-neutral-900 hover:text-neutral-100"}`}>
+                <I size={17} /> {label}
+                {k === "dupes" && dupGroups.length > 0 && <span className="ml-auto text-[10px] px-1.5 py-0.5 rounded-full bg-amber-500/30 text-amber-300">{dupGroups.length}</span>}
+                {k === "health" && cleanupCount > 0 && <span className="ml-auto text-[10px] px-1.5 py-0.5 rounded-full bg-amber-500/30 text-amber-300">{cleanupCount}</span>}
+              </button>
+            ))}
           </nav>
           <div className="p-2 border-t border-neutral-800">
             <button onClick={() => onLock && onLock()} className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-sm text-neutral-400 hover:bg-red-950/40 hover:text-red-300 border border-neutral-800 hover:border-red-700 transition"><Lock size={16} /> Lock CRM</button>
@@ -1013,14 +1026,14 @@ export default function App({ onLock }) {
                     <label className="w-full text-left px-3 py-2 hover:bg-neutral-800 text-neutral-200 flex items-center gap-2 cursor-pointer"><RefreshCw size={14} /> Restore from backup<input type="file" accept=".json,application/json" className="hidden" onChange={(e) => { const file = e.target.files && e.target.files[0]; setMenu(false); previewRestore(file); e.target.value = ""; }} /></label>
                     <div className="my-1 border-t border-neutral-800" />
                     <button onClick={() => { const wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(leads), "Leads"); XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(acts), "Activity Log"); XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(invoices), "Invoices"); XLSX.writeFile(wb, "Canada BTC Miners CRM.xlsx"); setMenu(false); }} className="w-full text-left px-3 py-2 hover:bg-neutral-800 text-neutral-200 flex items-center gap-2"><Download size={14} /> Export to Excel</button>
-                    <button onClick={() => { setMenu(false); setTab("health"); }} className="w-full text-left px-3 py-2 hover:bg-neutral-800 text-neutral-200 flex items-center gap-2"><Activity size={14} /> Data health</button>
+                    <button onClick={() => { setMenu(false); setTab("health"); }} className="w-full text-left px-3 py-2 hover:bg-neutral-800 text-neutral-200 flex items-center gap-2"><Activity size={14} /> CRM Cleanup</button>
                   </div>
                 )}
               </div>
               <button onClick={() => onLock && onLock()} title="Lock CRM" className="md:hidden p-2 rounded-xl border border-neutral-800 hover:border-red-700 hover:bg-red-950/40 text-neutral-400 hover:text-red-300 transition"><Lock size={16} /></button>
             </div>
             <div className="md:hidden px-2 pb-1 flex gap-1 overflow-x-auto">
-              {TABS.map(({ k, label, icon: I }) => (<button key={k} onClick={() => setTab(k)} className={`flex items-center gap-1.5 px-3 py-2 text-sm border-b-2 whitespace-nowrap transition ${tab === k ? "border-red-600 text-red-500 font-medium" : "border-transparent text-neutral-500 hover:text-neutral-200"}`}><I size={16} /> {label}</button>))}
+              {[...TABS, ...TOOLS].map(({ k, label, icon: I }) => (<button key={k} onClick={() => setTab(k)} className={`flex items-center gap-1.5 px-3 py-2 text-sm border-b-2 whitespace-nowrap transition ${tab === k ? "border-red-600 text-red-500 font-medium" : "border-transparent text-neutral-500 hover:text-neutral-200"}`}><I size={16} /> {label}</button>))}
             </div>
           </div>
 
@@ -1358,7 +1371,7 @@ export default function App({ onLock }) {
 
         {tab === "dupes" && (
           <div className="space-y-3">
-            <div><div className="text-lg font-semibold text-white">Possible duplicates</div><div className="text-xs text-neutral-500">Matched by email, phone, company, or name. Review only — nothing is merged or deleted automatically.</div></div>
+            <div><div className="text-lg font-semibold text-white">Possible Duplicates</div><div className="text-xs text-neutral-500">Repeated contacts found by same email, same phone, same company, or very similar name. Review only. Nothing is merged automatically. Nothing is deleted automatically.</div></div>
             {dupGroups.length === 0 ? <div className="text-sm text-neutral-500 bg-neutral-950 border border-neutral-800 rounded-2xl p-8 text-center">No possible duplicates found. Your contacts look clean.</div> : (
               <div className="space-y-2">
                 {dupGroups.map((g, i) => (
@@ -1387,18 +1400,18 @@ export default function App({ onLock }) {
         )}
         {tab === "health" && (
           <div className="space-y-3">
-            <div><div className="text-lg font-semibold text-white">Data health</div><div className="text-xs text-neutral-500">Records that may need attention. Click any item to open and fix it.</div></div>
+            <div><div className="text-lg font-semibold text-white">CRM Cleanup</div><div className="text-xs text-neutral-500">Issues to review and missing info in your CRM. Click any item to open and fix it.</div></div>
             {(() => {
               const sections = [
                 { key: "noContact", label: "Contacts with no phone and no email", items: health.noContact, kind: "lead" },
                 { key: "noName", label: "Contacts with missing name", items: health.noName, kind: "lead" },
                 { key: "unpaidNoDue", label: "Unpaid invoices with no due date", items: health.unpaidNoDue, kind: "invoice" },
-                { key: "tplNoCat", label: "Templates with no category", items: health.tplNoCat, kind: "template" },
-                { key: "emptyNotes", label: "Notes with empty text", items: health.emptyNotes, kind: "note" },
+                { key: "tplNoCat", label: "Templates missing a category", items: health.tplNoCat, kind: "template" },
+                { key: "emptyNotes", label: "Notes with no text", items: health.emptyNotes, kind: "note" },
               ];
               const dupCount = health.dupPhones.length + health.dupEmails.length;
               const totalIssues = sections.reduce((n, sec) => n + sec.items.length, 0) + dupCount;
-              if (totalIssues === 0) return <div className="text-sm text-neutral-500 bg-neutral-950 border border-neutral-800 rounded-2xl p-8 text-center">Everything looks healthy. No data issues found.</div>;
+              if (totalIssues === 0) return <div className="text-sm text-neutral-500 bg-neutral-950 border border-neutral-800 rounded-2xl p-8 text-center">Everything looks good. No issues to review right now.</div>;
               return (
                 <div className="space-y-3">
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
@@ -1423,13 +1436,45 @@ export default function App({ onLock }) {
                   ))}
                   {dupCount > 0 && (
                     <div className="bg-neutral-950 rounded-2xl border border-neutral-800 p-3">
-                      <div className="text-xs text-amber-300 mb-2 flex items-center gap-1.5"><AlertTriangle size={13} /> {dupCount} duplicate phone/email group(s)</div>
-                      <button onClick={() => setTab("dupes")} className="text-sm font-medium bg-neutral-800 hover:bg-neutral-700 text-neutral-200 px-3 py-1.5 rounded-lg">Review in Duplicates</button>
+                      <div className="text-xs text-amber-300 mb-2 flex items-center gap-1.5"><AlertTriangle size={13} /> {dupCount} possible duplicate group{dupCount === 1 ? "" : "s"} by phone or email</div>
+                      <button onClick={() => setTab("dupes")} className="text-sm font-medium bg-neutral-800 hover:bg-neutral-700 text-neutral-200 px-3 py-1.5 rounded-lg">Open Possible Duplicates</button>
                     </div>
                   )}
                 </div>
               );
             })()}
+          </div>
+        )}
+        {tab === "backup" && (
+          <div className="space-y-4">
+            <div><div className="text-lg font-semibold text-white">Backup and Restore</div><div className="text-xs text-neutral-500">Save a full copy of your CRM, or load a saved copy back in.</div></div>
+            <div className="bg-neutral-950 rounded-2xl border border-neutral-800 p-4 space-y-2">
+              <div className="font-medium text-white text-sm">Backup</div>
+              <div className="text-xs text-neutral-500">Downloads one file with your contacts, notes, invoices, follow ups, tags, templates, and saved settings. Keep it somewhere safe.</div>
+              <button onClick={downloadBackup} className="mt-1 flex items-center gap-1.5 bg-red-600 text-white text-sm font-medium px-3 py-2 rounded-xl hover:bg-red-500 transition"><Download size={16} /> Download backup</button>
+            </div>
+            <div className="bg-neutral-950 rounded-2xl border border-neutral-800 p-4 space-y-2">
+              <div className="font-medium text-white text-sm">Restore</div>
+              <div className="text-xs text-neutral-500">Load a backup file. You will see a preview first and must confirm. Restoring replaces your current data, so download a backup first if you are not sure.</div>
+              <label className="mt-1 inline-flex items-center gap-1.5 bg-neutral-800 hover:bg-neutral-700 text-neutral-100 text-sm font-medium px-3 py-2 rounded-xl cursor-pointer transition"><RefreshCw size={16} /> Choose backup file<input type="file" accept=".json,application/json" className="hidden" onChange={(e) => { const file = e.target.files && e.target.files[0]; previewRestore(file); e.target.value = ""; }} /></label>
+            </div>
+            {importNote && <div className="text-xs px-3 py-2 rounded-xl bg-neutral-900 border border-neutral-800 text-neutral-300">{importNote}</div>}
+          </div>
+        )}
+        {tab === "import" && (
+          <div className="space-y-4">
+            <div><div className="text-lg font-semibold text-white">Import Data</div><div className="text-xs text-neutral-500">Bring in contacts from a CSV or Excel file. You will see a preview before anything is added.</div></div>
+            <div className="bg-neutral-950 rounded-2xl border border-neutral-800 p-4 space-y-2">
+              <div className="font-medium text-white text-sm">Import contacts</div>
+              <div className="text-xs text-neutral-500">Accepts CSV or Excel. The preview shows what will be added, what looks duplicated, and what is missing info. Default is to skip duplicates. Nothing imports automatically.</div>
+              <label className="mt-1 inline-flex items-center gap-1.5 bg-red-600 text-white text-sm font-medium px-3 py-2 rounded-xl cursor-pointer hover:bg-red-500 transition"><RefreshCw size={16} /> Choose file to import<input type="file" accept=".csv,.xlsx,.xls" className="hidden" onChange={(e) => { const file = e.target.files && e.target.files[0]; previewImport(file); e.target.value = ""; }} /></label>
+            </div>
+            <div className="bg-neutral-950 rounded-2xl border border-neutral-800 p-4 space-y-2">
+              <div className="font-medium text-white text-sm">Restore a full backup instead</div>
+              <div className="text-xs text-neutral-500">If you have a CRM backup file (JSON), use Backup and Restore to bring back everything including notes, invoices, and follow ups.</div>
+              <button onClick={() => setTab("backup")} className="text-sm font-medium bg-neutral-800 hover:bg-neutral-700 text-neutral-200 px-3 py-2 rounded-xl">Go to Backup and Restore</button>
+            </div>
+            {importNote && <div className="text-xs px-3 py-2 rounded-xl bg-neutral-900 border border-neutral-800 text-neutral-300">{importNote}</div>}
           </div>
         )}
         {tab === "log" && (
