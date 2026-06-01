@@ -68,9 +68,11 @@ const HeroSection = () => {
             <p className="mt-7 font-inter text-sm text-zinc-500">{t('hero_trust')}</p>
           </motion.div>
 
-          {/* Right — animated power-on miner */}
+          {/* Right — animated power-on ASIC miner */}
           <div className="flex items-center justify-center">
-            <HeroMinerVisual />
+            <div className="w-full max-w-[360px] sm:max-w-[460px] lg:max-w-none">
+              <HeroMinerVisual />
+            </div>
           </div>
         </div>
       </div>
