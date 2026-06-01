@@ -4,7 +4,7 @@ import Footer from '../../components/feature/Footer';
 import { useTranslation } from 'react-i18next';
 import Seo, { repairServiceLd } from '../../components/feature/Seo';
 
-// Contact channels — three distinct intents (not everything is WhatsApp).
+// Contact channels. Three distinct intents (not everything is WhatsApp).
 const TEL = 'tel:+15146047050';
 const WA = 'https://wa.me/15146047050';
 const QUOTE_EMAIL =
@@ -35,20 +35,20 @@ export default function ServicesPage() {
           transition: { duration: 0.6, delay, ease: [0.22, 1, 0.36, 1] as const },
         };
 
-  // ── Premium stats (facts already in i18n, shown number-first) ──
+  // Premium metric strip (facts already in i18n; clean spacing, no dashes).
   const stats = [
     { value: '2,300+', label: 'Units Repaired', icon: 'ri-tools-fill' },
-    { value: '92%', label: 'Repair Success Rate', icon: 'ri-checkbox-circle-fill' },
-    { value: '5–12', label: 'Day Turnaround', icon: 'ri-time-fill' },
+    { value: '92%', label: 'Repair Success', icon: 'ri-checkbox-circle-fill' },
+    { value: '5 to 12', label: 'Day Turnaround', icon: 'ri-time-fill' },
     { value: 'Montreal', label: 'Repair Center', icon: 'ri-map-pin-2-fill' },
   ];
 
-  // ── Repair pricing — Level 1/2/3 only. Real prices preserved, "Starting at". ──
+  // Repair pricing. Level 1/2/3 only. Real prices preserved, shown as "Starting at".
   const repairTiers = [
     {
       level: t('srv_pricing_l1_level'),
       title: t('srv_pricing_l1_title'),
-      blurb: 'Basic hashboard repair — small parts and simple faults.',
+      blurb: 'Small parts and simple faults on the hashboard.',
       priceCad: '$60 CAD',
       priceUsd: '$45 USD',
       featured: false,
@@ -56,7 +56,7 @@ export default function ServicesPage() {
     {
       level: t('srv_pricing_l2_level'),
       title: t('srv_pricing_l2_title'),
-      blurb: 'Advanced hashboard repair for multiple chip or circuit issues.',
+      blurb: 'Multiple chip or circuit issues across the board.',
       priceCad: '$100 CAD',
       priceUsd: '$75 USD',
       featured: true,
@@ -64,35 +64,35 @@ export default function ServicesPage() {
     {
       level: t('srv_pricing_l3_level'),
       title: t('srv_pricing_l3_title'),
-      blurb: 'Complex board repair — advanced faults, deeper board work, and heavy diagnostics.',
+      blurb: 'Advanced faults, deeper board work, and heavy diagnostics.',
       priceCad: '$130 CAD',
       priceUsd: '$95 USD',
       featured: false,
     },
   ];
 
-  // ── Supporting services — 6 cards, fixed order. Prices preserved exactly. ──
+  // Supporting services. Six compact tiles, fixed order. Prices preserved exactly.
   const supportServices = [
-    { icon: 'ri-search-eye-line', name: 'Diagnostic', price: 'Starting at $35 CAD', desc: 'Inspection and fault isolation, credited toward repair if approved.' },
-    { icon: 'ri-flashlight-line', name: 'PSU Diagnosis & Replacement Support', price: 'Starting at $120 CAD', desc: 'Power issue diagnosis with replacement support, bench tested before return.' },
-    { icon: 'ri-cpu-line', name: 'Control Board Repair', price: 'Starting at $45 CAD', desc: 'Control board diagnosis, repair, and validation.' },
-    { icon: 'ri-temp-cold-line', name: 'Thermal Paste Replacement', price: 'Starting at $40 CAD', desc: 'Fresh thermal interface for better heat transfer.' },
-    { icon: 'ri-install-line', name: 'Firmware Restore', price: 'Starting at $10 CAD', desc: 'Restore or reflash firmware to recover a unit.' },
-    { icon: 'ri-brush-line', name: 'Cleaning & Maintenance', price: 'Quoted per unit', desc: 'Dust removal and preventive servicing to keep units stable.' },
+    { icon: 'ri-search-eye-line', name: 'Diagnostic', price: 'From $35 CAD' },
+    { icon: 'ri-flashlight-line', name: 'PSU Diagnosis & Replacement Support', price: 'From $120 CAD' },
+    { icon: 'ri-cpu-line', name: 'Control Board Repair', price: 'From $45 CAD' },
+    { icon: 'ri-temp-cold-line', name: 'Thermal Paste Replacement', price: 'From $40 CAD' },
+    { icon: 'ri-install-line', name: 'Firmware Restore', price: 'From $10 CAD' },
+    { icon: 'ri-brush-line', name: 'Cleaning & Maintenance', price: 'Quoted per unit' },
   ];
 
-  // ── Animated "How Repair Works" — 7 steps ──
+  // Animated "How Repair Works" process. Seven stages.
   const repairFlow = [
     { icon: 'ri-customer-service-2-line', title: 'Contact us', text: 'Send your model, symptoms, and photos.' },
     { icon: 'ri-truck-line', title: 'Drop off or ship', text: 'Drop off in Montreal or ship from anywhere in Canada.' },
-    { icon: 'ri-search-eye-line', title: 'Diagnostic', text: 'Board-level diagnosis to find the real fault.' },
+    { icon: 'ri-search-eye-line', title: 'Diagnostic', text: 'Board level diagnosis to find the real fault.' },
     { icon: 'ri-file-list-3-line', title: 'Quote approval', text: 'A clear, confirmed price before any work begins.' },
-    { icon: 'ri-tools-line', title: 'Repair', text: 'Hashboard, control board, and component-level repair.' },
-    { icon: 'ri-pulse-line', title: 'Load testing', text: 'Bench-tested under load to confirm stable hashrate.' },
+    { icon: 'ri-tools-line', title: 'Repair', text: 'Hashboard, control board, and component level repair.' },
+    { icon: 'ri-pulse-line', title: 'Load testing', text: 'Bench tested under load to confirm stable hashrate.' },
     { icon: 'ri-checkbox-circle-line', title: 'Pickup or return shipping', text: 'Collect in Montreal or have it shipped back.' },
   ];
 
-  // Reusable CTA cluster: Call / Quote / WhatsApp — three distinct channels.
+  // Reusable CTA cluster: Call / Quote / WhatsApp. Three distinct channels.
   const CtaCluster = ({ className = '' }: { className?: string }) => (
     <div className={`flex flex-col gap-3 sm:flex-row sm:flex-wrap ${className}`}>
       <a
@@ -135,7 +135,7 @@ export default function ServicesPage() {
       <Navbar />
 
       {/* ── 1. INTRO ─────────────────────────────────────────────────── */}
-      <section className="relative overflow-hidden border-b border-zinc-900 pt-24 bg-[radial-gradient(circle_at_top_left,rgba(220,38,38,0.18),transparent_36%),linear-gradient(to_bottom,rgba(16,16,16,0.9),rgba(0,0,0,1))]">
+      <section className="relative overflow-hidden pt-24 bg-[radial-gradient(circle_at_top_left,rgba(220,38,38,0.18),transparent_36%),linear-gradient(to_bottom,rgba(16,16,16,0.92),rgba(0,0,0,1))]">
         {/* faint industrial circuit grid */}
         <div
           aria-hidden="true"
@@ -150,75 +150,80 @@ export default function ServicesPage() {
         />
         <div className="relative mx-auto grid max-w-7xl items-center gap-10 px-6 py-16 sm:py-20 lg:grid-cols-[1.05fr,0.95fr] lg:py-24">
           <motion.div {...heroReveal()}>
-            <p className="inline-flex items-center gap-2 rounded-full border border-red-900/60 bg-red-950/30 px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.24em] text-red-400 sm:text-xs">
+            <span className="mb-5 inline-flex items-center gap-2 rounded-full border border-crimson-accent/30 bg-crimson-accent/10 px-4 py-1.5 font-inter text-[11px] font-bold uppercase tracking-[0.18em] text-crimson-accent">
               <i className="ri-map-pin-2-fill text-sm" aria-hidden="true" />
-              Montreal Repair Center · Canada Wide
-            </p>
-            <h1 className="mt-5 max-w-3xl text-4xl font-bold leading-[1.04] tracking-tight sm:text-5xl lg:text-6xl">
+              Montreal Repair Center
+            </span>
+
+            {/* Headline matches the homepage hero typography exactly. */}
+            <h1 className="mb-6 font-orbitron text-4xl font-bold leading-tight text-white md:text-5xl lg:text-6xl">
               ASIC Miner Repair in Canada
             </h1>
-            <p className="mt-5 max-w-xl text-base leading-7 text-zinc-300 sm:text-lg sm:leading-8">
-              Board-level diagnostics, hashboard repair, cleaning, firmware restore, and testing from our
+
+            <p className="mb-9 max-w-xl font-inter text-lg text-soft-gray md:text-xl">
+              Board level diagnostics, hashboard repair, cleaning, firmware restore, and testing from our
               Montreal repair center.
             </p>
 
-            <CtaCluster className="mt-8" />
+            <CtaCluster />
           </motion.div>
 
           <motion.div {...heroReveal(0.1)} className="relative">
-            <div className="rounded-[2rem] border border-red-950/60 bg-black/40 p-3 shadow-2xl shadow-black/50">
-              <img
-                src="/repair-lab.jpg"
-                alt="Technician repairing an ASIC miner hashboard at the Canada BTC Miners Montreal repair center"
-                loading="lazy"
-                className="h-[280px] w-full rounded-[1.5rem] border border-zinc-900 object-cover sm:h-[360px] lg:h-[460px]"
-              />
+            <div className="relative overflow-hidden rounded-[2rem] border border-red-950/60 bg-black/40 p-3 shadow-2xl shadow-black/60">
+              <div className="relative overflow-hidden rounded-[1.5rem] border border-zinc-900">
+                <img
+                  src="/repair-lab.jpg"
+                  alt="Technician repairing an ASIC miner hashboard at the Canada BTC Miners Montreal repair center"
+                  loading="lazy"
+                  className="h-[280px] w-full object-cover sm:h-[360px] lg:h-[460px]"
+                />
+                {/* dark industrial overlay so the bright lab photo fits the theme */}
+                <div
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-0"
+                  style={{
+                    background:
+                      'linear-gradient(to top, rgba(0,0,0,0.85), rgba(0,0,0,0.25) 45%, rgba(0,0,0,0.15)), radial-gradient(circle at 70% 20%, rgba(220,38,38,0.18), transparent 55%)',
+                  }}
+                />
+              </div>
             </div>
-            <div className="absolute -bottom-4 left-6 right-6 rounded-2xl border border-zinc-800 bg-black/80 px-5 py-3 backdrop-blur sm:left-10 sm:right-10">
+            <div className="absolute -bottom-4 left-6 right-6 rounded-2xl border border-zinc-800 bg-black/85 px-5 py-3 backdrop-blur sm:left-10 sm:right-10">
               <p className="text-center text-xs font-medium uppercase tracking-[0.18em] text-zinc-300">
-                Board-level repair · Bench-tested · Canada wide
+                Board level repair · Bench tested · Canada wide
               </p>
             </div>
           </motion.div>
         </div>
-      </section>
 
-      {/* ── 2. PREMIUM STATS ─────────────────────────────────────────── */}
-      <section className="border-b border-zinc-900 bg-zinc-950/70">
-        <div className="mx-auto max-w-7xl px-6 py-12 sm:py-14">
-          <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-            {stats.map((stat, idx) => (
-              <motion.div
-                key={stat.label}
-                {...reveal(idx * 0.06)}
-                className="group relative overflow-hidden rounded-3xl border border-zinc-800 bg-[linear-gradient(to_bottom,rgba(24,24,27,0.7),rgba(9,9,11,0.92))] p-6 transition-all duration-200 hover:-translate-y-1 hover:border-red-800/60"
-              >
-                {/* corner glow */}
-                <span
-                  aria-hidden="true"
-                  className="pointer-events-none absolute -right-10 -top-10 h-28 w-28 rounded-full opacity-60 blur-2xl transition-opacity duration-300 group-hover:opacity-100"
-                  style={{ background: 'radial-gradient(circle, rgba(220,38,38,0.4), transparent 70%)' }}
-                />
-                <span className="relative flex h-11 w-11 items-center justify-center rounded-2xl border border-red-900/40 bg-red-950/30 text-red-400">
-                  <i className={`${stat.icon} text-xl`} aria-hidden="true" />
+        {/* ── 2. PREMIUM METRIC STRIP (industrial status panel) ───────── */}
+        <div className="relative mx-auto mt-14 max-w-7xl px-6 pb-14">
+          <motion.div
+            {...reveal()}
+            className="grid grid-cols-2 divide-y divide-zinc-800/70 overflow-hidden rounded-2xl border border-zinc-800 bg-[linear-gradient(to_bottom,rgba(24,24,27,0.8),rgba(9,9,11,0.95))] sm:grid-cols-4 sm:divide-y-0 sm:divide-x"
+          >
+            {stats.map((stat) => (
+              <div key={stat.label} className="flex items-center gap-4 px-6 py-5">
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-red-900/40 bg-red-950/30 text-red-400">
+                  <i className={`${stat.icon} text-lg`} aria-hidden="true" />
                 </span>
-                <div className="relative mt-5 font-orbitron text-3xl font-bold tracking-tight text-white sm:text-4xl">
-                  {stat.value}
+                <div>
+                  <div className="font-orbitron text-xl font-bold leading-none text-white sm:text-2xl">{stat.value}</div>
+                  <div className="mt-1 text-xs font-medium uppercase tracking-[0.12em] text-zinc-500">{stat.label}</div>
                 </div>
-                <div className="relative mt-1 text-sm font-medium text-zinc-400">{stat.label}</div>
-              </motion.div>
+              </div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
-      {/* ── 3. REPAIR PRICING — Level 1 / 2 / 3 only ─────────────────── */}
+      {/* ── 3. REPAIR PRICING (large premium cards, Level 1/2/3 only) ─── */}
       <section id="pricing" className="mx-auto max-w-7xl px-6 py-16 sm:py-24">
         <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
           <div className="max-w-2xl">
-            <p className="text-sm font-semibold uppercase tracking-[0.22em] text-red-400">Repair Pricing</p>
-            <h2 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">Hashboard Repair by Level</h2>
-            <p className="mt-4 text-sm leading-7 text-zinc-400 sm:text-base">
+            <p className="font-inter text-sm font-semibold uppercase tracking-[0.22em] text-red-400">Repair Pricing</p>
+            <h2 className="mt-3 font-orbitron text-3xl font-bold tracking-tight sm:text-4xl">Hashboard Repair by Level</h2>
+            <p className="mt-4 font-inter text-sm leading-7 text-zinc-400 sm:text-base">
               Antminer, Whatsminer, and other supported models. Final price is confirmed after diagnosis.
             </p>
           </div>
@@ -232,21 +237,21 @@ export default function ServicesPage() {
             <motion.div
               key={tier.level}
               {...reveal(idx * 0.08)}
-              className={`group relative flex flex-col rounded-3xl border p-8 transition-all duration-200 hover:-translate-y-1 ${
+              className={`group relative flex flex-col overflow-hidden rounded-3xl border p-8 transition-all duration-200 hover:-translate-y-1 ${
                 tier.featured
-                  ? 'border-red-700/70 bg-[linear-gradient(to_bottom,rgba(127,29,29,0.26),rgba(9,9,11,0.92))] shadow-2xl shadow-red-950/40'
-                  : 'border-zinc-800 bg-[linear-gradient(to_bottom,rgba(24,24,27,0.7),rgba(9,9,11,0.9))] hover:border-zinc-700'
+                  ? 'border-red-700/70 bg-[linear-gradient(160deg,rgba(127,29,29,0.3),rgba(9,9,11,0.94))] shadow-2xl shadow-red-950/40 lg:scale-[1.03]'
+                  : 'border-zinc-800 bg-[linear-gradient(160deg,rgba(24,24,27,0.75),rgba(9,9,11,0.92))] hover:border-zinc-700'
               }`}
             >
               {tier.featured && (
                 <span
                   aria-hidden="true"
-                  className="pointer-events-none absolute -right-12 -top-12 h-36 w-36 rounded-full opacity-70 blur-3xl"
-                  style={{ background: 'radial-gradient(circle, rgba(220,38,38,0.45), transparent 70%)' }}
+                  className="pointer-events-none absolute -right-14 -top-14 h-40 w-40 rounded-full opacity-70 blur-3xl"
+                  style={{ background: 'radial-gradient(circle, rgba(220,38,38,0.5), transparent 70%)' }}
                 />
               )}
               <div className="relative flex items-center justify-between gap-3">
-                <span className="text-sm font-semibold uppercase tracking-[0.18em] text-red-400">{tier.level}</span>
+                <span className="font-inter text-sm font-semibold uppercase tracking-[0.18em] text-red-400">{tier.level}</span>
                 {tier.featured && (
                   <span className="rounded-full bg-red-600 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-white">
                     Most Common
@@ -254,13 +259,13 @@ export default function ServicesPage() {
                 )}
               </div>
 
-              <h3 className="relative mt-4 text-xl font-semibold leading-tight">{tier.title}</h3>
-              <p className="relative mt-2 text-sm leading-6 text-zinc-400">{tier.blurb}</p>
+              <h3 className="relative mt-4 font-orbitron text-lg font-bold leading-snug text-white">{tier.title}</h3>
+              <p className="relative mt-3 font-inter text-sm leading-6 text-zinc-400">{tier.blurb}</p>
 
-              <div className="relative mt-7">
-                <div className="text-[11px] uppercase tracking-[0.18em] text-zinc-500">Starting at</div>
+              <div className="relative mt-8">
+                <div className="font-inter text-[11px] uppercase tracking-[0.18em] text-zinc-500">Starting at</div>
                 <div className="mt-1 font-orbitron text-4xl font-bold text-red-400">{tier.priceCad}</div>
-                <div className="mt-1 text-sm text-zinc-500">Starting at {tier.priceUsd}</div>
+                <div className="mt-1 font-inter text-sm text-zinc-500">Starting at {tier.priceUsd}</div>
               </div>
 
               <a
@@ -276,120 +281,117 @@ export default function ServicesPage() {
             </motion.div>
           ))}
         </div>
-      </section>
 
-      {/* ── 4. SUPPORTING SERVICES — 6 cards, fixed order ────────────── */}
-      <section className="border-y border-zinc-900 bg-zinc-950/60">
-        <div className="mx-auto max-w-7xl px-6 py-16 sm:py-24">
-          <div className="max-w-2xl">
-            <p className="text-sm font-semibold uppercase tracking-[0.22em] text-red-400">Supporting Services</p>
-            <h2 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">Everything to Keep Miners Running</h2>
+        {/* ── 4. SUPPORTING SERVICES (compact tiles under pricing) ────── */}
+        <div className="mt-14">
+          <div className="flex items-center gap-3">
+            <h3 className="font-inter text-sm font-semibold uppercase tracking-[0.2em] text-zinc-300">Supporting Services</h3>
+            <span aria-hidden="true" className="h-px flex-1 bg-gradient-to-r from-zinc-800 to-transparent" />
           </div>
-
-          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {supportServices.map((svc, idx) => (
               <motion.div
                 key={svc.name}
-                {...reveal(idx * 0.05)}
-                className="group flex flex-col rounded-3xl border border-zinc-800 bg-[linear-gradient(to_bottom,rgba(24,24,27,0.7),rgba(9,9,11,0.9))] p-6 transition-all duration-200 hover:-translate-y-1 hover:border-red-900/50"
+                {...reveal(idx * 0.04)}
+                className="group flex items-center gap-3 rounded-2xl border border-zinc-800 bg-white/[0.02] px-4 py-3.5 transition-colors duration-200 hover:border-red-900/50 hover:bg-red-950/10"
               >
-                <span className="flex h-12 w-12 items-center justify-center rounded-2xl border border-red-900/30 bg-red-950/20 text-red-400">
-                  <i className={`${svc.icon} text-2xl`} aria-hidden="true" />
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-red-900/30 bg-red-950/20 text-red-400">
+                  <i className={`${svc.icon} text-base`} aria-hidden="true" />
                 </span>
-                <h3 className="mt-5 text-base font-semibold text-white">{svc.name}</h3>
-                <p className="mt-2 flex-1 text-sm leading-6 text-zinc-400">{svc.desc}</p>
-                <div className="mt-4 inline-flex w-fit items-center rounded-full border border-red-900/40 bg-red-950/20 px-3 py-1 text-xs font-semibold text-red-300">
+                <span className="min-w-0 flex-1 text-sm font-medium leading-snug text-zinc-200">{svc.name}</span>
+                <span className="shrink-0 rounded-full border border-red-900/40 bg-red-950/20 px-2.5 py-1 text-[11px] font-semibold text-red-300">
                   {svc.price}
-                </div>
+                </span>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── 5. HOW REPAIR WORKS — animated power-flow process track ───── */}
-      <section className="relative overflow-hidden py-16 sm:py-24">
+      {/* ── 5. HOW REPAIR WORKS (custom animated power-flow process) ──── */}
+      <section className="relative overflow-hidden border-y border-zinc-900 bg-zinc-950/60 py-16 sm:py-24">
         {/* ambient industrial glow */}
         <div
           aria-hidden="true"
           className="pointer-events-none absolute inset-0"
-          style={{ background: 'radial-gradient(ellipse 60% 50% at 50% 30%, rgba(220,38,38,0.08), transparent 70%)' }}
+          style={{ background: 'radial-gradient(ellipse 60% 50% at 50% 24%, rgba(220,38,38,0.1), transparent 70%)' }}
         />
         <div className="relative mx-auto max-w-7xl px-6">
           <div className="max-w-2xl">
-            <p className="text-sm font-semibold uppercase tracking-[0.22em] text-red-400">How Repair Works</p>
-            <h2 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">From First Message to Mining Again</h2>
-            <p className="mt-4 text-sm leading-7 text-zinc-400 sm:text-base">
-              A clear seven-step process. You approve the price before any repair begins.
+            <p className="font-inter text-sm font-semibold uppercase tracking-[0.22em] text-red-400">How Repair Works</p>
+            <h2 className="mt-3 font-orbitron text-3xl font-bold tracking-tight sm:text-4xl">From First Message to Mining Again</h2>
+            <p className="mt-4 font-inter text-sm leading-7 text-zinc-400 sm:text-base">
+              A clear seven step process. You approve the price before any repair begins.
             </p>
           </div>
 
-          {/* ── Desktop: horizontal animated track ── */}
+          {/* ── Desktop: horizontal animated power track ── */}
           <div className="relative mt-16 hidden lg:block">
-            {/* power line (base rail + animated red current) */}
+            {/* power rail with animated red current flowing through the steps */}
             <svg
               aria-hidden="true"
-              className="absolute left-0 right-0 top-8 h-2 w-full"
-              viewBox="0 0 1000 8"
+              className="absolute left-0 right-0 top-9 h-3 w-full"
+              viewBox="0 0 1000 12"
               preserveAspectRatio="none"
             >
-              <line x1="20" y1="4" x2="980" y2="4" stroke="#27272a" strokeWidth="2" />
+              <line x1="14" y1="6" x2="986" y2="6" stroke="#27272a" strokeWidth="2" />
               <line
-                x1="20"
-                y1="4"
-                x2="980"
-                y2="4"
+                x1="14"
+                y1="6"
+                x2="986"
+                y2="6"
                 stroke="#DC2626"
-                strokeWidth="2"
-                strokeDasharray="6 14"
+                strokeWidth="2.5"
+                strokeDasharray="5 16"
                 className={reduce ? '' : 'animate-current-flow'}
-                style={{ filter: 'drop-shadow(0 0 4px rgba(220,38,38,0.9))' }}
+                style={{ filter: 'drop-shadow(0 0 5px rgba(220,38,38,0.95))' }}
               />
             </svg>
 
             <ol className="relative grid grid-cols-7 gap-3">
               {repairFlow.map((step, idx) => (
-                <motion.li
-                  key={step.title}
-                  {...reveal(idx * 0.07)}
-                  className="group flex flex-col items-center text-center"
-                >
-                  {/* glowing node */}
-                  <span className="relative z-10 flex h-16 w-16 items-center justify-center rounded-2xl border border-red-900/40 bg-[radial-gradient(circle_at_30%_25%,rgba(127,29,29,0.55),rgba(9,9,11,0.96))] text-red-300 shadow-[0_0_0_4px_rgba(0,0,0,1)] transition-all duration-200 group-hover:-translate-y-1 group-hover:border-red-600 group-hover:text-red-200 group-hover:shadow-[0_0_24px_rgba(220,38,38,0.5),0_0_0_4px_rgba(0,0,0,1)]">
+                <motion.li key={step.title} {...reveal(idx * 0.08)} className="group flex flex-col items-center text-center">
+                  {/* glowing technical node with a subtle pulsing status light */}
+                  <span className="relative z-10 flex h-[68px] w-[68px] items-center justify-center rounded-2xl border border-red-900/50 bg-[radial-gradient(circle_at_30%_22%,rgba(127,29,29,0.6),rgba(9,9,11,0.97))] text-red-300 shadow-[0_0_0_5px_#09090b,0_10px_24px_rgba(0,0,0,0.6)] transition-all duration-200 group-hover:-translate-y-1.5 group-hover:border-red-500 group-hover:text-red-200 group-hover:shadow-[0_0_28px_rgba(220,38,38,0.55),0_0_0_5px_#09090b]">
                     <i className={`${step.icon} text-2xl`} aria-hidden="true" />
                     <span className="absolute -right-2 -top-2 flex h-6 w-6 items-center justify-center rounded-full bg-red-600 text-xs font-bold text-white shadow-md shadow-red-950/60">
                       {idx + 1}
                     </span>
+                    <span
+                      className={`absolute -bottom-1 h-1.5 w-1.5 rounded-full bg-red-500 ${reduce ? '' : 'animate-led-flicker'}`}
+                      style={{ boxShadow: '0 0 6px rgba(220,38,38,0.9)', animationDelay: `${idx * 0.25}s` }}
+                      aria-hidden="true"
+                    />
                   </span>
-                  <h3 className="mt-5 text-sm font-semibold text-white">{step.title}</h3>
-                  <p className="mt-1.5 text-xs leading-5 text-zinc-400">{step.text}</p>
+                  <h3 className="mt-5 font-inter text-sm font-semibold text-white">{step.title}</h3>
+                  <p className="mt-1.5 font-inter text-xs leading-5 text-zinc-400">{step.text}</p>
                 </motion.li>
               ))}
             </ol>
           </div>
 
-          {/* ── Mobile / tablet: vertical animated flow ── */}
-          <ol className="relative mt-12 space-y-4 lg:hidden">
-            {/* vertical power rail */}
+          {/* ── Mobile / tablet: vertical animated power flow ── */}
+          <ol className="relative mt-12 space-y-3 lg:hidden">
+            {/* vertical glowing power rail behind the nodes */}
             <span
               aria-hidden="true"
-              className="absolute bottom-6 left-[31px] top-6 w-px bg-gradient-to-b from-red-600/70 via-red-800/40 to-transparent"
+              className="absolute bottom-8 left-[34px] top-8 w-[2px] bg-gradient-to-b from-red-600/80 via-red-700/40 to-transparent"
             />
             {repairFlow.map((step, idx) => (
               <motion.li
                 key={step.title}
                 {...reveal(idx * 0.05)}
-                className="group relative flex items-start gap-4 rounded-2xl border border-zinc-800 bg-[linear-gradient(to_bottom,rgba(24,24,27,0.75),rgba(9,9,11,0.92))] p-4 transition-colors duration-200 hover:border-red-800/60"
+                className="group relative flex items-start gap-4 rounded-2xl border border-zinc-800 bg-[linear-gradient(160deg,rgba(24,24,27,0.8),rgba(9,9,11,0.94))] p-4 transition-colors duration-200 hover:border-red-800/60"
               >
-                <span className="relative z-10 flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl border border-red-900/40 bg-[radial-gradient(circle_at_30%_25%,rgba(127,29,29,0.55),rgba(9,9,11,0.96))] text-red-300">
-                  <i className={`${step.icon} text-2xl`} aria-hidden="true" />
+                <span className="relative z-10 flex h-[60px] w-[60px] shrink-0 items-center justify-center rounded-2xl border border-red-900/50 bg-[radial-gradient(circle_at_30%_22%,rgba(127,29,29,0.6),rgba(9,9,11,0.97))] text-red-300 shadow-[0_0_0_4px_#0b0b0d]">
+                  <i className={`${step.icon} text-xl`} aria-hidden="true" />
                   <span className="absolute -right-2 -top-2 flex h-6 w-6 items-center justify-center rounded-full bg-red-600 text-xs font-bold text-white">
                     {idx + 1}
                   </span>
                 </span>
                 <div className="pt-1">
-                  <h3 className="text-base font-semibold text-white">{step.title}</h3>
-                  <p className="mt-1 text-sm leading-6 text-zinc-400">{step.text}</p>
+                  <h3 className="font-inter text-base font-semibold text-white">{step.title}</h3>
+                  <p className="mt-1 font-inter text-sm leading-6 text-zinc-400">{step.text}</p>
                 </div>
               </motion.li>
             ))}
@@ -404,12 +406,11 @@ export default function ServicesPage() {
       {/* ── 6. FINAL CTA ─────────────────────────────────────────────── */}
       <section className="relative overflow-hidden border-t border-red-950/50 bg-[radial-gradient(circle_at_top,rgba(220,38,38,0.2),transparent_40%),linear-gradient(to_bottom,rgba(24,24,27,0.82),rgba(0,0,0,1))]">
         <div className="mx-auto max-w-4xl px-6 py-20 text-center sm:py-24">
-          <p className="text-sm font-semibold uppercase tracking-[0.22em] text-red-400">Get Your Miner Fixed</p>
-          <h2 className="mt-4 text-4xl font-semibold tracking-tight sm:text-5xl lg:text-6xl">Stop Losing Mining Time</h2>
-          <p className="mx-auto mt-6 max-w-2xl text-base leading-7 text-zinc-300 sm:text-lg sm:leading-8">
-            Send the issue, approve the quote, and get your miner back online.
-            <br />
-            Montreal repair center · Canada wide repair service.
+          <p className="font-inter text-sm font-semibold uppercase tracking-[0.22em] text-red-400">Get Your Miner Fixed</p>
+          <h2 className="mt-4 font-orbitron text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">Stop Losing Mining Time</h2>
+          <p className="mx-auto mt-6 max-w-2xl font-inter text-base leading-7 text-zinc-300 sm:text-lg sm:leading-8">
+            Send the issue, approve the quote, and get your miner back online from our Montreal repair center with
+            Canada wide repair service.
           </p>
           <div className="mt-10 flex justify-center">
             <CtaCluster className="justify-center" />
