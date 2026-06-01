@@ -4,6 +4,7 @@ import Navbar from '../../components/feature/Navbar';
 import Footer from '../../components/feature/Footer';
 import { useTranslation } from 'react-i18next';
 import { useRecaptcha } from '../../hooks/useRecaptcha';
+import Seo from '../../components/feature/Seo';
 
 export default function HostingPage() {
   const { t } = useTranslation();
@@ -78,6 +79,11 @@ export default function HostingPage() {
 
   return (
     <div className="min-h-screen bg-black text-white">
+      <Seo
+        title="ASIC Miner Hosting Canada | Canada BTC Miners"
+        description="ASIC miner hosting options for Canadian mining clients. Canada BTC Miners helps connect miners with hosting, repair, testing, and hardware support."
+        path="/hosting"
+      />
       <Navbar />
 
       {/* ── HERO ─────────────────────────────────────────────────────── */}
