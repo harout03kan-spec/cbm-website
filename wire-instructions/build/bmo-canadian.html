@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  @page { size: Letter; margin: 0; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    font-family: 'Inter', sans-serif;
+    color: #111111;
+    background: #ffffff;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .sheet {
+    position: relative;
+    width: 8.5in;
+    height: 11in;
+    background: #ffffff;
+    padding: 0.8in 0.9in 1.2in 0.9in;
+  }
+
+  /* ---------- Brand header (company logo wordmark) ---------- */
+  .brand { line-height: 1; }
+  .brand .name {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    font-size: 27pt;
+    letter-spacing: 1pt;
+    color: #111111;
+  }
+  .brand .tagline {
+    margin-top: 7pt;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 11pt;
+    letter-spacing: 3pt;
+    text-transform: uppercase;
+    color: #DC2626;
+  }
+
+  .rule { margin-top: 16pt; height: 2.5pt; background: #DC2626; width: 100%; }
+  .rule-soft { margin-top: 2.5pt; height: 0.75pt; background: #E5E7EB; width: 100%; }
+
+  /* ---------- Title ---------- */
+  .title-block { margin-top: 30pt; }
+  h1 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 20pt;
+    font-weight: 700;
+    letter-spacing: 0.3pt;
+    color: #111111;
+  }
+  .subtitle {
+    margin-top: 8pt;
+    font-size: 10pt;
+    letter-spacing: 1.5pt;
+    color: #DC2626;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+
+  /* ---------- Source note (only used where the source has one) ---------- */
+  .source-note {
+    margin-top: 16pt;
+    font-size: 10pt;
+    line-height: 1.5;
+    color: #374151;
+    border-left: 3pt solid #DC2626;
+    padding: 4pt 0 4pt 12pt;
+    max-width: 6.0in;
+  }
+  .source-note strong { color: #111111; font-weight: 700; }
+
+  /* ---------- Details card ---------- */
+  .card {
+    margin-top: 26pt;
+    border: 0.75pt solid #E5E7EB;
+    border-left: 3pt solid #DC2626;
+    border-radius: 2pt;
+    overflow: hidden;
+  }
+  .card-head {
+    font-size: 8.5pt;
+    font-weight: 700;
+    letter-spacing: 2pt;
+    text-transform: uppercase;
+    color: #6B7280;
+    padding: 13pt 20pt 1pt 20pt;
+  }
+  table { width: 100%; border-collapse: collapse; }
+  td { padding: 11pt 20pt; vertical-align: top; font-size: 10.5pt; }
+  tr + tr td { border-top: 0.75pt solid #F2F2F2; }
+  td.label {
+    width: 44%;
+    color: #6B7280;
+    font-weight: 600;
+    letter-spacing: 0.2pt;
+  }
+  td.value { color: #111111; font-weight: 700; line-height: 1.45; }
+  td.value .mono {
+    font-family: 'DejaVu Sans Mono', monospace;
+    font-size: 11pt;
+    letter-spacing: 0.5pt;
+  }
+
+  /* ---------- Footer ---------- */
+  .footer {
+    position: absolute;
+    left: 0.9in;
+    right: 0.9in;
+    bottom: 0.55in;
+    border-top: 0.75pt solid #E5E7EB;
+    padding-top: 9pt;
+    font-size: 8.5pt;
+    line-height: 1.6;
+    color: #6B7280;
+  }
+  .footer .partner { color: #111111; font-weight: 700; }
+  .footer .partner .accent { color: #DC2626; }
+</style>
+</head>
+<body>
+  <div class="sheet">
+    <div class="brand">
+      <div class="name">Canada BTC Miners</div>
+      <div class="tagline">Premium Mining Hardware</div>
+    </div>
+    <div class="rule"></div>
+    <div class="rule-soft"></div>
+
+    <div class="title-block">
+      <h1>Canadian Payment Instructions</h1>
+      <div class="subtitle">Wire in CAD and other</div>
+    </div>
+
+    <div class="card">
+      <div class="card-head">Beneficiary &amp; Account Details</div>
+      <table>
+        <tr>
+          <td class="label">SWIFT code (BMO)</td>
+          <td class="value"><span class="mono">BOFMCAM2</span></td>
+        </tr>
+        <tr>
+          <td class="label">Bank Address</td>
+          <td class="value">Bank of Montreal<br>3300 Boulevard de la Côte-Vertu, Saint-Laurent, QC, H4R 2B7</td>
+        </tr>
+        <tr>
+          <td class="label">Beneficiary's Name</td>
+          <td class="value">9511-1472 QUEBEC INC<br>MINEURS DE BITCOIN CANADA</td>
+        </tr>
+        <tr>
+          <td class="label">Beneficiary's Address</td>
+          <td class="value">6500 RTE TRANSCANADIENNE, SAINT-LAURENT, QC, H4T 1X4</td>
+        </tr>
+        <tr>
+          <td class="label">Branch</td>
+          <td class="value"><span class="mono">38951</span></td>
+        </tr>
+        <tr>
+          <td class="label">Bank</td>
+          <td class="value"><span class="mono">001</span></td>
+        </tr>
+        <tr>
+          <td class="label">Account</td>
+          <td class="value"><span class="mono">1950195</span></td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="footer">
+      <div class="partner">Banking partner: <span class="accent">BMO Bank of Montreal</span></div>
+      <div>These details are provided for wire payment only.</div>
+    </div>
+  </div>
+</body>
+</html>
