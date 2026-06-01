@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import Navbar from '../../components/feature/Navbar';
 import Footer from '../../components/feature/Footer';
+import Seo, { localBusinessLd } from '../../components/feature/Seo';
 
 const PHONE = '+1 (514) 604-7050';
 
@@ -59,6 +60,12 @@ export default function AboutPage() {
 
   return (
     <div className="min-h-screen bg-black text-white font-sans">
+      <Seo
+        title="About Canada BTC Miners | Montreal ASIC Miner Sales and Repair"
+        description="Canada BTC Miners is a Montreal based ASIC miner sales and repair company serving Canada with mining hardware, diagnostics, maintenance, and Canada wide shipping."
+        path="/about"
+        jsonLd={[localBusinessLd]}
+      />
       <Navbar />
 
       {/* ── HERO ── */}

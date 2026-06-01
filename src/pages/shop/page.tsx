@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useProducts } from '../../hooks/useProducts';
 import { useTranslation } from 'react-i18next';
+import Seo from '../../components/feature/Seo';
 
 const ShopPage = () => {
   const { t } = useTranslation();
@@ -51,6 +52,11 @@ const ShopPage = () => {
 
   return (
     <div className="min-h-screen bg-[#0A0A0A]">
+      <Seo
+        title="Buy ASIC Miners in Canada | Canada BTC Miners"
+        description="Shop new and used ASIC miners in Canada, including Antminer and Whatsminer models. Canada BTC Miners offers tested mining hardware, Montreal pickup, and Canada wide shipping."
+        path="/shop"
+      />
       <Navbar />
 
       <section className="pt-32 pb-16 bg-[#0A0A0A] relative overflow-hidden">

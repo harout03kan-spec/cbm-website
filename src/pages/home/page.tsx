@@ -12,10 +12,17 @@ import SellMinersSection from './components/SellMinersSection';
 import FAQSection from './components/FAQSection';
 import FinalCTA from './components/FinalCTA';
 import DiscountPopup from './components/DiscountPopup';
+import Seo, { organizationLd, websiteLd, localBusinessLd } from '../../components/feature/Seo';
 
 export default function HomePage() {
   return (
     <div className="min-h-screen bg-midnight">
+      <Seo
+        title="Canada BTC Miners | ASIC Miner Sales and Repair in Canada"
+        description="Buy new and used ASIC miners in Canada. Canada BTC Miners is a Montreal based ASIC miner sales and repair company offering diagnostics, hashboard repair, maintenance, testing, and Canada wide shipping."
+        path="/"
+        jsonLd={[organizationLd, websiteLd, localBusinessLd]}
+      />
       <Navbar />
 
       {/* 1. Hero */}

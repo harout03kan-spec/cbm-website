@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import Navbar from '../../components/feature/Navbar';
 import Footer from '../../components/feature/Footer';
 import { useTranslation } from 'react-i18next';
+import Seo, { repairServiceLd } from '../../components/feature/Seo';
 
 const WA = 'https://wa.me/15146047050';
 
@@ -77,6 +78,12 @@ export default function ServicesPage() {
 
   return (
     <div className="min-h-screen bg-black text-white font-sans antialiased">
+      <Seo
+        title="ASIC Miner Repair Canada | Hashboard Diagnostics and Maintenance"
+        description="ASIC miner repair services in Canada from Canada BTC Miners. We offer diagnostics, hashboard repair, control board support, cleaning, maintenance, thermal paste replacement, firmware restore, and testing."
+        path="/services"
+        jsonLd={[repairServiceLd]}
+      />
       <Navbar />
 
       {/* ── HERO ─────────────────────────────────────────────────────── */}
