@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+
+# Non-indexable / private app routes
+Disallow: /crm
+Disallow: /cart
+Disallow: /checkout
+Disallow: /order-success
+
+Sitemap: https://canadabtcminers.ca/sitemap.xml
