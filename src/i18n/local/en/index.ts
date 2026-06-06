@@ -317,6 +317,17 @@ const en = {
   srv_faq_q4: 'Do you offer warranty on repairs?',
   srv_faq_a4: 'Yes. Repair work includes a 30 day repair warranty on the repaired issue unless otherwise stated.',
 
+  // ── SERVICES — REPAIR WORKFLOW GRAPHIC ─────────────
+  srv_graphic_tag: 'Our Repair Approach',
+  srv_graphic_title: 'Diagnostic, Repair, Maintenance',
+  srv_graphic_sub: 'Every ASIC miner moves through the same proven three stage workflow at our Montreal repair center.',
+  srv_graphic_1: 'Diagnostic',
+  srv_graphic_1_desc: 'Full board level inspection to pinpoint the exact fault before any work begins.',
+  srv_graphic_2: 'Repair',
+  srv_graphic_2_desc: 'Hashboard, PSU, and control board repairs handled in house with quality parts.',
+  srv_graphic_3: 'Maintenance',
+  srv_graphic_3_desc: 'Cleaning, thermal paste, and preventive servicing to keep units running longer.',
+
   // ── HOSTING PAGE ───────────────────────────────────
   host_hero_tag: 'ASIC Hosting',
   host_hero_title: 'Bitcoin Miner Hosting',

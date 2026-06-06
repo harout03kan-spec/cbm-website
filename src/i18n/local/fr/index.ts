@@ -317,6 +317,17 @@ const fr = {
   srv_faq_q4: 'Offrez-vous une garantie sur les réparations?',
   srv_faq_a4: 'Oui. Les travaux de réparation incluent une garantie de réparation de 30 jours sur le problème réparé, sauf indication contraire.',
 
+  // ── SERVICES — GRAPHIQUE DU FLUX DE RÉPARATION ─────
+  srv_graphic_tag: 'Notre Approche de Réparation',
+  srv_graphic_title: 'Diagnostic, Réparation, Maintenance',
+  srv_graphic_sub: 'Chaque mineur ASIC suit le même flux de travail éprouvé en trois étapes à notre centre de réparation de Montréal.',
+  srv_graphic_1: 'Diagnostic',
+  srv_graphic_1_desc: 'Inspection complète au niveau des cartes pour identifier la panne exacte avant tout travail.',
+  srv_graphic_2: 'Réparation',
+  srv_graphic_2_desc: 'Réparations de hashboard, PSU et carte de contrôle effectuées en interne avec des pièces de qualité.',
+  srv_graphic_3: 'Maintenance',
+  srv_graphic_3_desc: 'Nettoyage, pâte thermique et entretien préventif pour prolonger la durée de vie des unités.',
+
   // ── HOSTING PAGE ───────────────────────────────────
   host_hero_tag: 'Hébergement ASIC',
   host_hero_title: 'Hébergement de Mineurs Bitcoin',
