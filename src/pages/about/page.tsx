@@ -4,7 +4,7 @@ import Navbar from '../../components/feature/Navbar';
 import Footer from '../../components/feature/Footer';
 import Seo, { localBusinessLd } from '../../components/feature/Seo';
 
-const PHONE = '+1 (514) 604-7050';
+const CALL_LABEL = 'Call +1 514 604 7050';
 
 
 const StarRating = ({ count = 5 }: { count?: number }) => (
@@ -124,14 +124,14 @@ export default function AboutPage() {
           {/* Hero CTAs */}
           <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
             <a
-              href="https://wa.me/15146047050" target="_blank" rel="noopener noreferrer"
+              href="tel:+15146047050"
               className="inline-flex items-center justify-center gap-2 rounded-xl bg-red-600 px-7 py-4 font-semibold hover:bg-red-500 transition-colors text-base"
               aria-label="Call Canada BTC Miners"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
               </svg>
-              {PHONE}
+              {CALL_LABEL}
             </a>
             <Link
               to="/shop"
@@ -161,11 +161,11 @@ export default function AboutPage() {
         <div className="mx-auto max-w-6xl flex flex-col sm:flex-row items-center justify-between gap-3 text-sm">
           <span className="text-zinc-300">Questions about buying, repairing or hosting ASIC miners?</span>
           <div className="flex gap-6 items-center flex-wrap justify-center">
-            <a href="https://wa.me/15146047050" target="_blank" rel="noopener noreferrer" className="font-semibold text-white hover:text-red-400 transition-colors flex items-center gap-1.5">
+            <a href="tel:+15146047050" className="font-semibold text-white hover:text-red-400 transition-colors flex items-center gap-1.5">
               <svg className="w-4 h-4 text-red-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
               </svg>
-              {PHONE}
+              {CALL_LABEL}
             </a>
             <a href="mailto:info@canadabtcminers.ca" className="font-semibold text-red-500 hover:text-red-400 transition-colors">
               info@canadabtcminers.ca
@@ -258,7 +258,7 @@ export default function AboutPage() {
               <svg className="w-5 h-5 text-red-500 flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
               </svg>
-              <a href="https://wa.me/15146047050" target="_blank" rel="noopener noreferrer" className="font-semibold text-white hover:text-red-400 transition-colors">{PHONE}</a>
+              <a href="tel:+15146047050" className="font-semibold text-white hover:text-red-400 transition-colors">{CALL_LABEL}</a>
             </p>
             <p className="flex items-center gap-2">
               <svg className="w-5 h-5 text-red-500 flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
@@ -402,13 +402,13 @@ export default function AboutPage() {
           </p>
           <div className="mt-8 flex flex-col sm:flex-row justify-center gap-4">
             <a
-              href="https://wa.me/15146047050" target="_blank" rel="noopener noreferrer"
+              href="tel:+15146047050"
               className="inline-flex items-center justify-center gap-2 rounded-xl bg-red-600 px-8 py-4 font-semibold hover:bg-red-500 transition-colors text-lg"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
               </svg>
-              {PHONE}
+              {CALL_LABEL}
             </a>
             <Link to="/services" className="inline-flex items-center justify-center gap-2 rounded-xl border border-zinc-700 px-8 py-4 font-semibold hover:bg-zinc-900 transition-colors">
               View Services
