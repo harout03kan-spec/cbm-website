@@ -1,7 +1,7 @@
 import Navbar from '../../components/feature/Navbar';
 import Footer from '../../components/feature/Footer';
 import { motion } from 'framer-motion';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useProducts } from '../../hooks/useProducts';
 import { useTranslation } from 'react-i18next';
@@ -12,18 +12,8 @@ const ShopPage = () => {
   const { t } = useTranslation();
   const [activeCategory, setActiveCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
-  const [sortBy, setSortBy] = useState('recommended');
-  const [isNarrow, setIsNarrow] = useState(false);
+  const [sortBy, setSortBy] = useState('');
   const { products, loading } = useProducts();
-
-  // Shorter placeholder on phones so the search text never gets cut off.
-  useEffect(() => {
-    const mq = window.matchMedia('(max-width: 639px)');
-    const update = () => setIsNarrow(mq.matches);
-    update();
-    mq.addEventListener('change', update);
-    return () => mq.removeEventListener('change', update);
-  }, []);
 
   const categories = [
     { id: 'all',        label: 'All ASIC Miners' },
@@ -63,11 +53,11 @@ const ShopPage = () => {
       })
     : categoryFiltered;
 
-  // 3) Sort. "recommended" keeps default order; missing values sort to the end.
+  // 3) Sort. Empty value keeps default order; missing values sort to the end.
   const filteredProducts = (() => {
-    if (sortBy === 'recommended') return searchedProducts;
-    const key: 'price' | 'hashrate' = sortBy === 'hash_desc' ? 'hashrate' : 'price';
-    const dir: 'asc' | 'desc' = sortBy === 'price_asc' ? 'asc' : 'desc';
+    if (!sortBy) return searchedProducts;
+    const key: 'price' | 'hashrate' = sortBy.startsWith('hash') ? 'hashrate' : 'price';
+    const dir: 'asc' | 'desc' = sortBy.endsWith('asc') ? 'asc' : 'desc';
     const val = (p: Product) => toNumber(key === 'price' ? p.price : p.hashrate);
     return [...searchedProducts].sort((a, b) => {
       const av = val(a); const bv = val(b);
@@ -119,52 +109,9 @@ const ShopPage = () => {
         </div>
       </section>
 
-      <section className="relative z-20 py-6 bg-[#141414] border-y border-white/10">
-        <div className="max-w-3xl mx-auto px-6 space-y-4">
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-            {/* Search — magnifier icon on the left (inline SVG so it always renders) */}
-            <div className="relative z-20 flex-1">
-              <svg
-                className="pointer-events-none absolute left-3.5 top-1/2 h-5 w-5 -translate-y-1/2 text-zinc-300"
-                viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
-                strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"
-              >
-                <circle cx="11" cy="11" r="7" />
-                <line x1="21" y1="21" x2="16.65" y2="16.65" />
-              </svg>
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder={isNarrow ? t('shop_search_ph_short') : t('shop_search_ph')}
-                aria-label={t('shop_search_ph')}
-                className="relative z-20 w-full min-h-[44px] rounded-lg border border-white/15 bg-[#0A0A0A] py-3 pl-11 pr-4 font-inter text-base sm:text-sm text-white placeholder-soft-gray transition-colors focus:border-crimson-accent focus:outline-none"
-              />
-            </div>
-            {/* Sort — label on the left, native select box, visible caret on the right */}
-            <div className="flex items-center gap-2 self-start sm:self-auto shrink-0">
-              <label htmlFor="shop-sort" className="font-inter text-sm text-soft-gray whitespace-nowrap">{t('shop_sort_label')}</label>
-              <div className="relative z-20">
-                <select
-                  id="shop-sort"
-                  value={sortBy}
-                  onChange={(e) => setSortBy(e.target.value)}
-                  className="relative z-20 block w-auto max-w-[60vw] appearance-none cursor-pointer rounded-lg border border-white/15 bg-[#0A0A0A] pl-3 pr-10 py-3 min-h-[44px] font-inter text-base sm:text-sm text-white focus:border-crimson-accent focus:outline-none"
-                >
-                  <option value="recommended">{t('shop_sort_recommended')}</option>
-                  <option value="price_asc">{t('shop_sort_price_asc')}</option>
-                  <option value="price_desc">{t('shop_sort_price_desc')}</option>
-                  <option value="hash_desc">{t('shop_sort_hash_desc')}</option>
-                </select>
-                <svg
-                  className="pointer-events-none absolute right-3 top-1/2 h-3 w-3 -translate-y-1/2 text-zinc-300"
-                  viewBox="0 0 10 6" fill="currentColor" aria-hidden="true"
-                >
-                  <path d="M0 0h10L5 6z" />
-                </svg>
-              </div>
-            </div>
-          </div>
+      {/* ── Category filter block (alone) ── */}
+      <section className="py-6 bg-[#141414] border-y border-white/10">
+        <div className="max-w-3xl mx-auto px-6">
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
             {categories.map((category) => (
               <button key={category.id} onClick={() => setActiveCategory(category.id)}
@@ -181,12 +128,60 @@ const ShopPage = () => {
 
       <section className="py-16 bg-[#0A0A0A]">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="mb-8 text-soft-gray font-inter text-sm">
-            {loading ? (
-              <span className="animate-pulse">{t('shop_loading')}</span>
-            ) : (
-              <>{t('shop_showing_label')} <span className="text-white font-semibold">{filteredProducts.length}</span> {t('shop_showing_suffix')}</>
-            )}
+          {/* ── Results toolbar: count + search + sort, directly above the cards ── */}
+          <div className="relative z-20 mb-8 flex flex-col gap-4 rounded-xl border border-white/10 bg-[#141414] p-4 lg:flex-row lg:items-center lg:justify-between">
+            <div className="text-soft-gray font-inter text-sm">
+              {loading ? (
+                <span className="animate-pulse">{t('shop_loading')}</span>
+              ) : (
+                <>{t('shop_showing_label')} <span className="text-white font-semibold">{filteredProducts.length}</span> {t('shop_showing_suffix')}</>
+              )}
+            </div>
+
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+              {/* Search — magnifier on the left (inline SVG so it always renders) */}
+              <div className="relative z-20 sm:w-72 lg:w-80">
+                <svg
+                  className="pointer-events-none absolute left-3.5 top-1/2 h-5 w-5 -translate-y-1/2 text-zinc-300"
+                  viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
+                  strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"
+                >
+                  <circle cx="11" cy="11" r="7" />
+                  <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                </svg>
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder={t('shop_search_ph')}
+                  aria-label={t('shop_search_ph')}
+                  className="relative z-20 w-full min-h-[44px] rounded-lg border border-white/15 bg-[#0A0A0A] py-3 pl-11 pr-4 font-inter text-base sm:text-sm text-white placeholder-soft-gray transition-colors focus:border-crimson-accent focus:outline-none"
+                />
+              </div>
+
+              {/* Sort — native select; closed box shows "Sort by"; visible caret on the right */}
+              <div className="relative z-20 self-start sm:self-auto shrink-0">
+                <label htmlFor="shop-sort" className="sr-only">{t('shop_sort_label')}</label>
+                <select
+                  id="shop-sort"
+                  value={sortBy}
+                  onChange={(e) => setSortBy(e.target.value)}
+                  className="relative z-20 block w-auto max-w-[70vw] appearance-none cursor-pointer rounded-lg border border-white/15 bg-[#0A0A0A] pl-3 pr-10 py-3 min-h-[44px] font-inter text-base sm:text-sm text-white focus:border-crimson-accent focus:outline-none"
+                >
+                  <option value="">{t('shop_sort_label')}</option>
+                  <option value="price_asc">{t('shop_sort_price_asc')}</option>
+                  <option value="price_desc">{t('shop_sort_price_desc')}</option>
+                  <option value="hash_asc">{t('shop_sort_hash_asc')}</option>
+                  <option value="hash_desc">{t('shop_sort_hash_desc')}</option>
+                </select>
+                <svg
+                  className="pointer-events-none absolute right-3 top-1/2 h-3 w-3 -translate-y-1/2 text-zinc-300"
+                  viewBox="0 0 10 6" fill="currentColor" aria-hidden="true"
+                >
+                  <path d="M0 0h10L5 6z" />
+                </svg>
+              </div>
+            </div>
           </div>
 
           {!loading && filteredProducts.length === 0 ? (
