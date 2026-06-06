@@ -187,6 +187,11 @@ const en = {
   footer_rights: '© 2026 Canada BTC Miners. All rights reserved.',
   footer_privacy: 'Privacy Policy',
   footer_terms: 'Terms of Service',
+  footer_payment_title: 'Payment methods accepted:',
+  footer_pay_credit: 'Credit card',
+  footer_pay_debit: 'Debit card',
+  footer_pay_crypto: 'Crypto',
+  footer_pay_cash: 'Cash',
 
   // ── NOT FOUND (404) PAGE ───────────────────────────
   nf_title: 'Page Not Found',
