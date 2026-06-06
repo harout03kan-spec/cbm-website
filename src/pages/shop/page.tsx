@@ -6,10 +6,13 @@ import { Link } from 'react-router-dom';
 import { useProducts } from '../../hooks/useProducts';
 import { useTranslation } from 'react-i18next';
 import Seo from '../../components/feature/Seo';
+import type { Product } from '../../lib/api';
 
 const ShopPage = () => {
   const { t } = useTranslation();
   const [activeCategory, setActiveCategory] = useState('all');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [sortBy, setSortBy] = useState('recommended');
   const { products, loading } = useProducts();
 
   const categories = [
@@ -21,14 +24,48 @@ const ShopPage = () => {
     { id: 'home',       label: 'Home Mining' },
   ];
 
-  const filteredProducts = (() => {
-    if (activeCategory === 'all')        return products;
+  // Pull a usable number out of values like "$3,200", "335", or "335 TH/s".
+  const toNumber = (v: unknown): number | null => {
+    if (v === null || v === undefined) return null;
+    const n = parseFloat(String(v).replace(/[^0-9.]/g, ''));
+    return Number.isNaN(n) ? null : n;
+  };
+
+  // 1) Category filter (unchanged behaviour).
+  const categoryFiltered = (() => {
     if (activeCategory === 'antminer')   return products.filter(p => p.name.toLowerCase().includes('antminer'));
     if (activeCategory === 'whatsminer') return products.filter(p => p.name.toLowerCase().includes('whatsminer'));
     if (activeCategory === 'scrypt')     return products.filter(p => p.algorithm?.toLowerCase() === 'scrypt');
     if (activeCategory === 'hydro')      return products.filter(p => p.cooling === 'Hydro');
     if (activeCategory === 'home')       return products.filter(p => parseInt(p.power) < 3000);
     return products;
+  })();
+
+  // 2) Free-text search across model/brand/algorithm/hashrate/etc.
+  const query = searchQuery.trim().toLowerCase();
+  const searchedProducts = query
+    ? categoryFiltered.filter((p) => {
+        const haystack = [p.name, p.algorithm, p.cooling, p.condition, p.hashrate, p.power, p.efficiency, p.short_description, p.badge]
+          .filter(Boolean)
+          .join(' ')
+          .toLowerCase();
+        return haystack.includes(query);
+      })
+    : categoryFiltered;
+
+  // 3) Sort. "recommended" keeps default order; missing values sort to the end.
+  const filteredProducts = (() => {
+    if (sortBy === 'recommended') return searchedProducts;
+    const key: 'price' | 'hashrate' = sortBy === 'hash_desc' ? 'hashrate' : 'price';
+    const dir: 'asc' | 'desc' = sortBy === 'price_asc' ? 'asc' : 'desc';
+    const val = (p: Product) => toNumber(key === 'price' ? p.price : p.hashrate);
+    return [...searchedProducts].sort((a, b) => {
+      const av = val(a); const bv = val(b);
+      if (av === null && bv === null) return 0;
+      if (av === null) return 1;
+      if (bv === null) return -1;
+      return dir === 'asc' ? av - bv : bv - av;
+    });
   })();
 
   const trustSignals = [
@@ -73,14 +110,25 @@ const ShopPage = () => {
       </section>
 
       <section className="py-6 bg-[#141414] border-y border-white/10">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="flex flex-wrap items-center justify-center gap-3">
+        <div className="max-w-3xl mx-auto px-6 space-y-4">
+          <div className="relative">
+            <i className="ri-search-line pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-soft-gray text-lg" aria-hidden="true"></i>
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder={t('shop_search_ph')}
+              aria-label={t('shop_search_ph')}
+              className="w-full rounded-lg border border-white/15 bg-[#0A0A0A] py-2.5 pl-11 pr-4 font-inter text-sm text-white placeholder-soft-gray transition-colors focus:border-crimson-accent focus:outline-none"
+            />
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
             {categories.map((category) => (
               <button key={category.id} onClick={() => setActiveCategory(category.id)}
-                className={`px-5 py-2.5 rounded-lg font-inter text-sm transition-all cursor-pointer whitespace-nowrap ${
+                className={`w-full px-4 py-2.5 text-center rounded-lg font-inter text-sm transition-all cursor-pointer border ${
                   activeCategory === category.id
-                    ? 'bg-crimson-accent text-white font-semibold'
-                    : 'bg-transparent text-white/80 hover:text-white hover:bg-white/10'
+                    ? 'bg-crimson-accent border-crimson-accent text-white font-semibold'
+                    : 'bg-transparent border-white/15 text-white/80 hover:text-white hover:bg-white/10'
                 }`}
               >{category.label}</button>
             ))}
@@ -90,14 +138,43 @@ const ShopPage = () => {
 
       <section className="py-16 bg-[#0A0A0A]">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="mb-8 text-soft-gray font-inter text-sm">
-            {loading ? (
-              <span className="animate-pulse">Loading miners...</span>
-            ) : (
-              <>Showing <span className="text-white font-semibold">{filteredProducts.length}</span> miners</>
-            )}
+          <div className="mb-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <div className="text-soft-gray font-inter text-sm">
+              {loading ? (
+                <span className="animate-pulse">{t('shop_loading')}</span>
+              ) : (
+                <>{t('shop_showing_label')} <span className="text-white font-semibold">{filteredProducts.length}</span> {t('shop_showing_suffix')}</>
+              )}
+            </div>
+            <div className="flex items-center gap-2">
+              <label htmlFor="shop-sort" className="text-soft-gray font-inter text-sm whitespace-nowrap">{t('shop_sort_label')}</label>
+              <select
+                id="shop-sort"
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value)}
+                className="rounded-lg border border-white/15 bg-[#141414] px-3 py-2 font-inter text-sm text-white transition-colors cursor-pointer focus:border-crimson-accent focus:outline-none"
+              >
+                <option value="recommended">{t('shop_sort_recommended')}</option>
+                <option value="price_asc">{t('shop_sort_price_asc')}</option>
+                <option value="price_desc">{t('shop_sort_price_desc')}</option>
+                <option value="hash_desc">{t('shop_sort_hash_desc')}</option>
+              </select>
+            </div>
           </div>
 
+          {!loading && filteredProducts.length === 0 ? (
+            <div className="mx-auto max-w-xl py-16 text-center">
+              <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full border border-crimson-accent/30 bg-crimson-accent/10">
+                <i className="ri-search-eye-line text-3xl text-crimson-accent" aria-hidden="true"></i>
+              </div>
+              <h3 className="font-orbitron font-bold text-2xl text-white mb-3">{t('shop_empty_title')}</h3>
+              <p className="text-soft-gray font-inter text-base leading-7 mb-8">{t('shop_empty_desc')}</p>
+              <Link to="/contact#contact-form" className="inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-crimson-accent text-white font-inter font-semibold rounded-lg hover:bg-red-700 transition-colors">
+                <i className="ri-customer-service-2-line text-lg" aria-hidden="true"></i>
+                {t('shop_empty_cta')}
+              </Link>
+            </div>
+          ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {loading ? (
               [...Array(6)].map((_, i) => <SkeletonCard key={i} />)
@@ -164,6 +241,7 @@ const ShopPage = () => {
               </motion.div>
             ))}
           </div>
+          )}
         </div>
       </section>
 
@@ -190,8 +268,7 @@ const ShopPage = () => {
             <h2 className="font-orbitron font-bold text-4xl text-white mb-4">Need Help Choosing?</h2>
             <p className="text-soft-gray font-inter text-lg mb-8">Our team can help you select the right miner for your requirements.</p>
             <div className="flex flex-wrap justify-center gap-4">
-              <Link to="/about" className="px-8 py-4 bg-crimson-accent text-white font-inter font-semibold rounded-lg hover:bg-red-700 transition-colors cursor-pointer whitespace-nowrap">Contact Our Team</Link>
-              <Link to="/#calculator" className="px-8 py-4 border border-white/30 text-white font-inter font-semibold rounded-lg hover:bg-white/10 transition-all cursor-pointer whitespace-nowrap">Calculate ROI</Link>
+              <Link to="/contact#contact-form" className="px-8 py-4 bg-crimson-accent text-white font-inter font-semibold rounded-lg hover:bg-red-700 transition-colors cursor-pointer whitespace-nowrap">Contact Our Team</Link>
             </div>
           </motion.div>
         </div>
