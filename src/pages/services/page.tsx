@@ -35,12 +35,12 @@ export default function ServicesPage() {
           transition: { duration: 0.6, delay, ease: [0.22, 1, 0.36, 1] as const },
         };
 
-  // Premium metric strip (facts already in i18n; clean spacing, no dashes).
+  // Premium metric strip. Values + labels translated so the French site reads natively.
   const stats = [
-    { value: '2,300+', label: 'Units Repaired', icon: 'ri-tools-fill' },
-    { value: '92%', label: 'Repair Success', icon: 'ri-checkbox-circle-fill' },
-    { value: '5 to 12', label: 'Day Turnaround', icon: 'ri-time-fill' },
-    { value: 'Montreal', label: 'Repair Center', icon: 'ri-map-pin-2-fill' },
+    { value: t('srv2_stat1_value'), label: t('srv2_stat1_label'), icon: 'ri-tools-fill' },
+    { value: t('srv2_stat2_value'), label: t('srv2_stat2_label'), icon: 'ri-checkbox-circle-fill' },
+    { value: t('srv2_stat3_value'), label: t('srv2_stat3_label'), icon: 'ri-time-fill' },
+    { value: t('srv2_stat4_value'), label: t('srv2_stat4_label'), icon: 'ri-map-pin-2-fill' },
   ];
 
   // Repair pricing. Level 1/2/3 only. Real prices preserved, shown as "Starting at".
@@ -48,7 +48,7 @@ export default function ServicesPage() {
     {
       level: t('srv_pricing_l1_level'),
       title: t('srv_pricing_l1_title'),
-      blurb: 'Small parts and simple faults on the hashboard.',
+      blurb: t('srv2_l1_blurb'),
       priceCad: '$60 CAD',
       priceUsd: '$45 USD',
       featured: false,
@@ -56,7 +56,7 @@ export default function ServicesPage() {
     {
       level: t('srv_pricing_l2_level'),
       title: t('srv_pricing_l2_title'),
-      blurb: 'Multiple chip or circuit issues across the board.',
+      blurb: t('srv2_l2_blurb'),
       priceCad: '$100 CAD',
       priceUsd: '$75 USD',
       featured: true,
@@ -64,7 +64,7 @@ export default function ServicesPage() {
     {
       level: t('srv_pricing_l3_level'),
       title: t('srv_pricing_l3_title'),
-      blurb: 'Advanced faults, deeper board work, and heavy diagnostics.',
+      blurb: t('srv2_l3_blurb'),
       priceCad: '$130 CAD',
       priceUsd: '$95 USD',
       featured: false,
@@ -73,23 +73,23 @@ export default function ServicesPage() {
 
   // Supporting services. Six compact tiles, fixed order. Prices preserved exactly.
   const supportServices = [
-    { icon: 'ri-search-eye-line', name: 'Diagnostic', price: 'From $35 CAD' },
-    { icon: 'ri-flashlight-line', name: 'PSU Diagnosis & Replacement Support', price: 'From $120 CAD' },
-    { icon: 'ri-cpu-line', name: 'Control Board Repair', price: 'From $45 CAD' },
-    { icon: 'ri-temp-cold-line', name: 'Thermal Paste Replacement', price: 'From $40 CAD' },
-    { icon: 'ri-install-line', name: 'Firmware Restore', price: 'From $10 CAD' },
-    { icon: 'ri-brush-line', name: 'Cleaning & Maintenance', price: 'Quoted per unit' },
+    { icon: 'ri-search-eye-line', name: t('srv2_sup1_name'), price: t('srv2_sup1_price') },
+    { icon: 'ri-flashlight-line', name: t('srv2_sup2_name'), price: t('srv2_sup2_price') },
+    { icon: 'ri-cpu-line', name: t('srv2_sup3_name'), price: t('srv2_sup3_price') },
+    { icon: 'ri-temp-cold-line', name: t('srv2_sup4_name'), price: t('srv2_sup4_price') },
+    { icon: 'ri-install-line', name: t('srv2_sup5_name'), price: t('srv2_sup5_price') },
+    { icon: 'ri-brush-line', name: t('srv2_sup6_name'), price: t('srv2_sup6_price') },
   ];
 
   // Animated "How Repair Works" process. Seven stages.
   const repairFlow = [
-    { icon: 'ri-customer-service-2-line', title: 'Contact us', text: 'Send your model, symptoms, and photos.' },
-    { icon: 'ri-truck-line', title: 'Drop off or ship', text: 'Drop off in Montreal or ship from anywhere in Canada.' },
-    { icon: 'ri-search-eye-line', title: 'Diagnostic', text: 'Board level diagnosis to find the real fault.' },
-    { icon: 'ri-file-list-3-line', title: 'Quote approval', text: 'A clear, confirmed price before any work begins.' },
-    { icon: 'ri-tools-line', title: 'Repair', text: 'Hashboard, control board, and component level repair.' },
-    { icon: 'ri-pulse-line', title: 'Load testing', text: 'Bench tested under load to confirm stable hashrate.' },
-    { icon: 'ri-checkbox-circle-line', title: 'Pickup or return shipping', text: 'Collect in Montreal or have it shipped back.' },
+    { icon: 'ri-customer-service-2-line', title: t('srv2_flow1_title'), text: t('srv2_flow1_text') },
+    { icon: 'ri-truck-line', title: t('srv2_flow2_title'), text: t('srv2_flow2_text') },
+    { icon: 'ri-search-eye-line', title: t('srv2_flow3_title'), text: t('srv2_flow3_text') },
+    { icon: 'ri-file-list-3-line', title: t('srv2_flow4_title'), text: t('srv2_flow4_text') },
+    { icon: 'ri-tools-line', title: t('srv2_flow5_title'), text: t('srv2_flow5_text') },
+    { icon: 'ri-pulse-line', title: t('srv2_flow6_title'), text: t('srv2_flow6_text') },
+    { icon: 'ri-checkbox-circle-line', title: t('srv2_flow7_title'), text: t('srv2_flow7_text') },
   ];
 
   // High level service pillars: Diagnostic / Repair / Maintenance.
@@ -104,29 +104,29 @@ export default function ServicesPage() {
     <div className={`flex flex-col gap-3 sm:flex-row sm:flex-wrap ${className}`}>
       <a
         href={TEL}
-        aria-label="Call Canada BTC Miners now at +1 514 604 7050"
+        aria-label={t('srv2_cta_call_aria')}
         className="inline-flex min-h-[52px] items-center justify-center gap-2 rounded-xl bg-red-600 px-7 text-base font-semibold text-white shadow-lg shadow-red-900/30 transition-colors duration-200 hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-400"
       >
         <i className="ri-phone-fill text-lg" aria-hidden="true" />
-        Call Now
+        {t('srv2_cta_call')}
       </a>
       <a
         href={QUOTE_EMAIL}
-        aria-label="Request a repair quote by email"
+        aria-label={t('srv2_cta_quote_aria')}
         className="inline-flex min-h-[52px] items-center justify-center gap-2 rounded-xl border border-zinc-700 bg-white/[0.03] px-7 text-base font-semibold text-white transition-colors duration-200 hover:border-zinc-500 hover:bg-white/[0.07] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-400"
       >
         <i className="ri-mail-send-line text-lg" aria-hidden="true" />
-        Request Repair Quote
+        {t('srv2_cta_quote')}
       </a>
       <a
         href={WA}
         target="_blank"
         rel="noopener noreferrer"
-        aria-label="Message us on WhatsApp"
+        aria-label={t('srv2_cta_whatsapp_aria')}
         className="inline-flex min-h-[52px] items-center justify-center gap-2 rounded-xl border border-zinc-700 bg-white/[0.03] px-7 text-base font-semibold text-zinc-200 transition-colors duration-200 hover:border-green-700/60 hover:bg-green-950/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-400"
       >
         <i className="ri-whatsapp-fill text-lg text-green-400" aria-hidden="true" />
-        Message on WhatsApp
+        {t('srv2_cta_whatsapp')}
       </a>
     </div>
   );
@@ -159,17 +159,16 @@ export default function ServicesPage() {
           <motion.div {...heroReveal()}>
             <span className="mb-5 inline-flex items-center gap-2 rounded-full border border-crimson-accent/30 bg-crimson-accent/10 px-4 py-1.5 font-inter text-[11px] font-bold uppercase tracking-[0.18em] text-crimson-accent">
               <i className="ri-map-pin-2-fill text-sm" aria-hidden="true" />
-              Montreal Repair Center
+              {t('srv2_hero_badge')}
             </span>
 
             {/* Headline matches the homepage hero typography exactly. */}
             <h1 className="mb-6 font-orbitron text-4xl font-bold leading-tight text-white md:text-5xl lg:text-6xl">
-              ASIC Miner Repair in Canada
+              {t('srv2_hero_title')}
             </h1>
 
             <p className="mb-9 max-w-xl font-inter text-lg text-soft-gray md:text-xl">
-              Board level diagnostics, hashboard repair, cleaning, firmware restore, and testing from our
-              Montreal repair center.
+              {t('srv2_hero_sub')}
             </p>
 
             <CtaCluster />
@@ -180,7 +179,7 @@ export default function ServicesPage() {
               <div className="relative overflow-hidden rounded-[1.5rem] border border-zinc-900">
                 <img
                   src="/repair-lab.jpg"
-                  alt="Technician repairing an ASIC miner hashboard at the Canada BTC Miners Montreal repair center"
+                  alt={t('srv2_hero_img_alt')}
                   loading="lazy"
                   className="h-[280px] w-full object-cover sm:h-[360px] lg:h-[460px]"
                 />
@@ -197,7 +196,7 @@ export default function ServicesPage() {
             </div>
             <div className="absolute -bottom-4 left-6 right-6 rounded-2xl border border-zinc-800 bg-black/85 px-5 py-3 backdrop-blur sm:left-10 sm:right-10">
               <p className="text-center text-xs font-medium uppercase tracking-[0.18em] text-zinc-300">
-                Board level repair · Bench tested · Canada wide
+                {t('srv2_hero_caption')}
               </p>
             </div>
           </motion.div>
@@ -256,14 +255,14 @@ export default function ServicesPage() {
       <section id="pricing" className="mx-auto max-w-7xl px-6 py-16 sm:py-24">
         <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
           <div className="max-w-2xl">
-            <p className="font-inter text-sm font-semibold uppercase tracking-[0.22em] text-red-400">Repair Pricing</p>
-            <h2 className="mt-3 font-orbitron text-3xl font-bold tracking-tight sm:text-4xl">Hashboard Repair by Level</h2>
+            <p className="font-inter text-sm font-semibold uppercase tracking-[0.22em] text-red-400">{t('srv2_pricing_eyebrow')}</p>
+            <h2 className="mt-3 font-orbitron text-3xl font-bold tracking-tight sm:text-4xl">{t('srv2_pricing_title')}</h2>
             <p className="mt-4 font-inter text-sm leading-7 text-zinc-400 sm:text-base">
-              Antminer, Whatsminer, and other supported models. Final price is confirmed after diagnosis.
+              {t('srv2_pricing_sub')}
             </p>
           </div>
           <div className="rounded-xl border border-zinc-800 bg-white/[0.02] px-4 py-3 text-sm text-zinc-400">
-            Diagnostic fee credited toward repair
+            {t('srv2_pricing_note')}
           </div>
         </div>
 
@@ -289,7 +288,7 @@ export default function ServicesPage() {
                 <span className="font-inter text-sm font-semibold uppercase tracking-[0.18em] text-red-400">{tier.level}</span>
                 {tier.featured && (
                   <span className="rounded-full bg-red-600 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-white">
-                    Most Common
+                    {t('srv2_pricing_badge')}
                   </span>
                 )}
               </div>
@@ -298,9 +297,9 @@ export default function ServicesPage() {
               <p className="relative mt-3 font-inter text-sm leading-6 text-zinc-400">{tier.blurb}</p>
 
               <div className="relative mt-8">
-                <div className="font-inter text-[11px] uppercase tracking-[0.18em] text-zinc-500">Starting at</div>
+                <div className="font-inter text-[11px] uppercase tracking-[0.18em] text-zinc-500">{t('srv2_pricing_startingat')}</div>
                 <div className="mt-1 font-orbitron text-4xl font-bold text-red-400">{tier.priceCad}</div>
-                <div className="mt-1 font-inter text-sm text-zinc-500">Starting at {tier.priceUsd}</div>
+                <div className="mt-1 font-inter text-sm text-zinc-500">{t('srv2_pricing_startingat')} {tier.priceUsd}</div>
               </div>
 
               <a
@@ -311,7 +310,7 @@ export default function ServicesPage() {
                     : 'border border-zinc-700 text-zinc-200 hover:border-zinc-500 hover:bg-white/5'
                 }`}
               >
-                Request Repair Quote
+                {t('srv2_cta_quote')}
               </a>
             </motion.div>
           ))}
@@ -320,7 +319,7 @@ export default function ServicesPage() {
         {/* ── 4. SUPPORTING SERVICES (compact tiles under pricing) ────── */}
         <div className="mt-14">
           <div className="flex items-center gap-3">
-            <h3 className="font-inter text-sm font-semibold uppercase tracking-[0.2em] text-zinc-300">Supporting Services</h3>
+            <h3 className="font-inter text-sm font-semibold uppercase tracking-[0.2em] text-zinc-300">{t('srv2_support_title')}</h3>
             <span aria-hidden="true" className="h-px flex-1 bg-gradient-to-r from-zinc-800 to-transparent" />
           </div>
           <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -353,10 +352,10 @@ export default function ServicesPage() {
         />
         <div className="relative mx-auto max-w-7xl px-6">
           <div className="max-w-2xl">
-            <p className="font-inter text-sm font-semibold uppercase tracking-[0.22em] text-red-400">How Repair Works</p>
-            <h2 className="mt-3 font-orbitron text-3xl font-bold tracking-tight sm:text-4xl">From First Message to Mining Again</h2>
+            <p className="font-inter text-sm font-semibold uppercase tracking-[0.22em] text-red-400">{t('srv2_how_eyebrow')}</p>
+            <h2 className="mt-3 font-orbitron text-3xl font-bold tracking-tight sm:text-4xl">{t('srv2_how_title')}</h2>
             <p className="mt-4 font-inter text-sm leading-7 text-zinc-400 sm:text-base">
-              A clear seven step process. You approve the price before any repair begins.
+              {t('srv2_how_sub')}
             </p>
           </div>
 
@@ -441,11 +440,10 @@ export default function ServicesPage() {
       {/* ── 6. FINAL CTA ─────────────────────────────────────────────── */}
       <section className="relative overflow-hidden border-t border-red-950/50 bg-[radial-gradient(circle_at_top,rgba(220,38,38,0.2),transparent_40%),linear-gradient(to_bottom,rgba(24,24,27,0.82),rgba(0,0,0,1))]">
         <div className="mx-auto max-w-4xl px-6 py-20 text-center sm:py-24">
-          <p className="font-inter text-sm font-semibold uppercase tracking-[0.22em] text-red-400">Get Your Miner Fixed</p>
-          <h2 className="mt-4 font-orbitron text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">Stop Losing Mining Time</h2>
+          <p className="font-inter text-sm font-semibold uppercase tracking-[0.22em] text-red-400">{t('srv2_final_eyebrow')}</p>
+          <h2 className="mt-4 font-orbitron text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">{t('srv2_final_title')}</h2>
           <p className="mx-auto mt-6 max-w-2xl font-inter text-base leading-7 text-zinc-300 sm:text-lg sm:leading-8">
-            Send the issue, approve the quote, and get your miner back online from our Montreal repair center with
-            Canada wide repair service.
+            {t('srv2_final_sub')}
           </p>
           <div className="mt-10 flex justify-center">
             <CtaCluster className="justify-center" />
