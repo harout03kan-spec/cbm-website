@@ -285,7 +285,7 @@ export default function ServicesPage() {
               <h3 className="relative mt-4 font-orbitron text-lg font-bold leading-snug text-white">{tier.title}</h3>
               <p className="relative mt-3 font-inter text-sm leading-6 text-zinc-400">{tier.blurb}</p>
 
-              <div className="relative mt-8">
+              <div className="relative mt-auto pt-8">
                 <div className="font-inter text-[11px] uppercase tracking-[0.18em] text-zinc-500">{t('srv2_pricing_startingat')}</div>
                 <div className="mt-1 font-orbitron text-4xl font-bold text-red-400">{tier.priceCad}</div>
                 <div className="mt-1 font-inter text-sm text-zinc-500">{t('srv2_pricing_startingat')} {tier.priceUsd}</div>

@@ -268,8 +268,7 @@ const ShopPage = () => {
             <h2 className="font-orbitron font-bold text-4xl text-white mb-4">Need Help Choosing?</h2>
             <p className="text-soft-gray font-inter text-lg mb-8">Our team can help you select the right miner for your requirements.</p>
             <div className="flex flex-wrap justify-center gap-4">
-              <Link to="/about" className="px-8 py-4 bg-crimson-accent text-white font-inter font-semibold rounded-lg hover:bg-red-700 transition-colors cursor-pointer whitespace-nowrap">Contact Our Team</Link>
-              <Link to="/#calculator" className="px-8 py-4 border border-white/30 text-white font-inter font-semibold rounded-lg hover:bg-white/10 transition-all cursor-pointer whitespace-nowrap">Calculate ROI</Link>
+              <Link to="/contact#contact-form" className="px-8 py-4 bg-crimson-accent text-white font-inter font-semibold rounded-lg hover:bg-red-700 transition-colors cursor-pointer whitespace-nowrap">Contact Our Team</Link>
             </div>
           </motion.div>
         </div>
