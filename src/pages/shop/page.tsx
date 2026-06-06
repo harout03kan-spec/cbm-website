@@ -1,7 +1,7 @@
 import Navbar from '../../components/feature/Navbar';
 import Footer from '../../components/feature/Footer';
 import { motion } from 'framer-motion';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useProducts } from '../../hooks/useProducts';
 import { useTranslation } from 'react-i18next';
@@ -13,7 +13,17 @@ const ShopPage = () => {
   const [activeCategory, setActiveCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState('recommended');
+  const [isNarrow, setIsNarrow] = useState(false);
   const { products, loading } = useProducts();
+
+  // Shorter placeholder on phones so the search text never gets cut off.
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 639px)');
+    const update = () => setIsNarrow(mq.matches);
+    update();
+    mq.addEventListener('change', update);
+    return () => mq.removeEventListener('change', update);
+  }, []);
 
   const categories = [
     { id: 'all',        label: 'All ASIC Miners' },
@@ -112,15 +122,15 @@ const ShopPage = () => {
       <section className="py-6 bg-[#141414] border-y border-white/10">
         <div className="max-w-3xl mx-auto px-6 space-y-4">
           <div className="relative z-10">
-            <i className="ri-search-line pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-soft-gray text-lg z-10" aria-hidden="true"></i>
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder={t('shop_search_ph')}
+              placeholder={isNarrow ? t('shop_search_ph_short') : t('shop_search_ph')}
               aria-label={t('shop_search_ph')}
-              className="relative z-10 w-full min-h-[44px] rounded-lg border border-white/15 bg-[#0A0A0A] py-3 pl-11 pr-4 font-inter text-base sm:text-sm text-white placeholder-soft-gray transition-colors focus:border-crimson-accent focus:outline-none"
+              className="relative z-10 w-full min-h-[44px] rounded-lg border border-white/15 bg-[#0A0A0A] py-3 pl-4 pr-11 font-inter text-base sm:text-sm text-white placeholder-soft-gray transition-colors focus:border-crimson-accent focus:outline-none"
             />
+            <i className="ri-search-line pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2 text-soft-gray text-lg" aria-hidden="true"></i>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
             {categories.map((category) => (
@@ -148,19 +158,19 @@ const ShopPage = () => {
             </div>
             <div className="flex items-center gap-2">
               <label htmlFor="shop-sort" className="text-soft-gray font-inter text-sm whitespace-nowrap">{t('shop_sort_label')}</label>
-              <div className="relative z-10">
-              <select
-                id="shop-sort"
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
-                className="relative z-10 appearance-none cursor-pointer rounded-lg border border-white/15 bg-[#141414] pl-3 pr-9 py-2.5 min-h-[44px] font-inter text-base sm:text-sm text-white transition-colors focus:border-crimson-accent focus:outline-none"
-              >
-                <option value="recommended">{t('shop_sort_recommended')}</option>
-                <option value="price_asc">{t('shop_sort_price_asc')}</option>
-                <option value="price_desc">{t('shop_sort_price_desc')}</option>
-                <option value="hash_desc">{t('shop_sort_hash_desc')}</option>
-              </select>
-              <i className="ri-arrow-down-s-line pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 text-soft-gray text-lg" aria-hidden="true"></i>
+              <div className="relative z-10 inline-block">
+                <select
+                  id="shop-sort"
+                  value={sortBy}
+                  onChange={(e) => setSortBy(e.target.value)}
+                  className="relative z-10 block w-auto max-w-[60vw] appearance-none cursor-pointer rounded-lg border border-white/15 bg-[#141414] pl-3 pr-9 py-2.5 min-h-[44px] font-inter text-base sm:text-sm text-white focus:border-crimson-accent focus:outline-none"
+                >
+                  <option value="recommended">{t('shop_sort_recommended')}</option>
+                  <option value="price_asc">{t('shop_sort_price_asc')}</option>
+                  <option value="price_desc">{t('shop_sort_price_desc')}</option>
+                  <option value="hash_desc">{t('shop_sort_hash_desc')}</option>
+                </select>
+                <i className="ri-arrow-down-s-line pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 text-soft-gray text-lg" aria-hidden="true"></i>
               </div>
             </div>
           </div>
