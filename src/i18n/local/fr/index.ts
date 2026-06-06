@@ -5,6 +5,7 @@ const fr = {
   nav_services: 'Services',
   nav_hosting: 'Hébergement',
   nav_about: 'À propos',
+  nav_contact: 'Contact',
   nav_shopMiners: 'Acheter',
   nav_lang: 'EN',
 
