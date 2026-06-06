@@ -33,8 +33,8 @@ export default function NotFound() {
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {[
                   { to: '/shop', icon: 'ri-shopping-cart-line', label: 'Shop' },
-                  { to: '/hosting', icon: 'ri-server-line', label: 'Hosting' },
                   { to: '/services', icon: 'ri-tools-line', label: 'Services' },
+                  { to: '/hosting', icon: 'ri-server-line', label: 'Hosting' },
                   { to: '/about', icon: 'ri-information-line', label: 'About' }
                 ].map((item) => (
                   <Link key={item.label} to={item.to} className="flex flex-col items-center gap-3 p-4 bg-midnight rounded-xl hover:bg-midnight/50 transition-colors cursor-pointer">
@@ -48,10 +48,10 @@ export default function NotFound() {
             </div>
 
             <div className="mt-12">
-              <p className="text-soft-gray font-inter text-sm mb-4">Need assistance? Our team is here to help 24/7</p>
+              <p className="text-soft-gray font-inter text-sm mb-4">Need assistance? Our team is here to help.</p>
               <div className="flex flex-wrap justify-center gap-6">
-                <a href="tel:+14165550123" className="flex items-center gap-2 text-crimson-accent font-inter hover:underline cursor-pointer whitespace-nowrap"><i className="ri-phone-line"></i><span>(416) 555-0123</span></a>
-                <a href="mailto:support@canadabtcminers.com" className="flex items-center gap-2 text-crimson-accent font-inter hover:underline cursor-pointer whitespace-nowrap"><i className="ri-mail-line"></i><span>support@canadabtcminers.com</span></a>
+                <a href="tel:+15146047050" className="flex items-center gap-2 text-crimson-accent font-inter hover:underline cursor-pointer whitespace-nowrap"><i className="ri-phone-line"></i><span>+1 514 604 7050</span></a>
+                <a href="mailto:info@canadabtcminers.ca" className="flex items-center gap-2 text-crimson-accent font-inter hover:underline cursor-pointer whitespace-nowrap"><i className="ri-mail-line"></i><span>info@canadabtcminers.ca</span></a>
               </div>
             </div>
           </motion.div>
