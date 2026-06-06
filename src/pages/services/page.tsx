@@ -76,6 +76,12 @@ export default function ServicesPage() {
 
   const heroTrustItems = [t('srv_trust_1'), t('srv_trust_2'), t('srv_trust_3'), t('srv_trust_4')];
 
+  const repairStages: [string, string, string, string][] = [
+    ['ri-search-eye-line', '01', t('srv_graphic_1'), t('srv_graphic_1_desc')],
+    ['ri-tools-fill',      '02', t('srv_graphic_2'), t('srv_graphic_2_desc')],
+    ['ri-settings-4-line',  '03', t('srv_graphic_3'), t('srv_graphic_3_desc')],
+  ];
+
   return (
     <div className="min-h-screen bg-black text-white font-sans antialiased">
       <Seo
@@ -181,6 +187,50 @@ export default function ServicesPage() {
                 </motion.div>
               ))}
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── REPAIR WORKFLOW GRAPHIC (Diagnostic · Repair · Maintenance) ─ */}
+      <section className="border-b border-zinc-900 bg-black">
+        <div className="mx-auto max-w-7xl px-6 py-16 sm:py-20">
+          <div className="mx-auto max-w-2xl text-center">
+            <p className="text-sm font-semibold uppercase tracking-[0.22em] text-red-400">
+              {t('srv_graphic_tag')}
+            </p>
+            <h2 className="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl lg:text-5xl">
+              {t('srv_graphic_title')}
+            </h2>
+            <p className="mt-4 text-sm leading-7 text-zinc-400 sm:text-base">
+              {t('srv_graphic_sub')}
+            </p>
+          </div>
+
+          <div className="relative mt-12 grid gap-5 sm:gap-6 lg:grid-cols-3">
+            {/* Connecting line on desktop */}
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute left-0 right-0 top-[3.25rem] hidden h-px bg-gradient-to-r from-transparent via-red-900/50 to-transparent lg:block"
+            />
+            {repairStages.map(([icon, num, title, desc], idx) => (
+              <motion.div
+                key={num}
+                initial={{ opacity: 0, y: 18 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: idx * 0.1 }}
+                className="relative flex flex-col items-center rounded-[2rem] border border-zinc-900 bg-zinc-950/70 px-6 py-8 text-center transition hover:border-red-900/60"
+              >
+                <div className="relative flex h-16 w-16 items-center justify-center rounded-2xl border border-red-900/50 bg-red-950/30">
+                  <i className={`${icon} text-3xl text-red-400`} aria-hidden="true" />
+                  <span className="absolute -right-2 -top-2 flex h-6 w-6 items-center justify-center rounded-full bg-red-600 text-[11px] font-semibold text-white">
+                    {num}
+                  </span>
+                </div>
+                <h3 className="mt-6 text-xl font-semibold text-white">{title}</h3>
+                <p className="mt-3 text-sm leading-6 text-zinc-400">{desc}</p>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
