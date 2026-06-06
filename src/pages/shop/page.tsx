@@ -111,24 +111,24 @@ const ShopPage = () => {
 
       <section className="py-6 bg-[#141414] border-y border-white/10">
         <div className="max-w-3xl mx-auto px-6 space-y-4">
-          <div className="relative">
-            <i className="ri-search-line pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-soft-gray text-lg" aria-hidden="true"></i>
+          <div className="relative z-10">
+            <i className="ri-search-line pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-soft-gray text-lg z-10" aria-hidden="true"></i>
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder={t('shop_search_ph')}
               aria-label={t('shop_search_ph')}
-              className="w-full rounded-lg border border-white/15 bg-[#0A0A0A] py-2.5 pl-11 pr-4 font-inter text-sm text-white placeholder-soft-gray transition-colors focus:border-crimson-accent focus:outline-none"
+              className="relative z-10 w-full min-h-[44px] rounded-lg border border-white/15 bg-[#0A0A0A] py-3 pl-11 pr-4 font-inter text-base sm:text-sm text-white placeholder-soft-gray transition-colors focus:border-crimson-accent focus:outline-none"
             />
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
             {categories.map((category) => (
               <button key={category.id} onClick={() => setActiveCategory(category.id)}
-                className={`w-full px-4 py-2.5 text-center rounded-lg font-inter text-sm transition-all cursor-pointer border ${
+                className={`relative z-10 w-full min-h-[44px] px-4 py-2.5 text-center rounded-lg font-inter text-sm transition-all cursor-pointer border active:scale-[0.98] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-crimson-accent ${
                   activeCategory === category.id
                     ? 'bg-crimson-accent border-crimson-accent text-white font-semibold'
-                    : 'bg-transparent border-white/15 text-white/80 hover:text-white hover:bg-white/10'
+                    : 'bg-transparent border-white/15 text-white/80 hover:text-white hover:bg-white/10 active:bg-white/15'
                 }`}
               >{category.label}</button>
             ))}
@@ -148,17 +148,20 @@ const ShopPage = () => {
             </div>
             <div className="flex items-center gap-2">
               <label htmlFor="shop-sort" className="text-soft-gray font-inter text-sm whitespace-nowrap">{t('shop_sort_label')}</label>
+              <div className="relative z-10">
               <select
                 id="shop-sort"
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="rounded-lg border border-white/15 bg-[#141414] px-3 py-2 font-inter text-sm text-white transition-colors cursor-pointer focus:border-crimson-accent focus:outline-none"
+                className="relative z-10 appearance-none cursor-pointer rounded-lg border border-white/15 bg-[#141414] pl-3 pr-9 py-2.5 min-h-[44px] font-inter text-base sm:text-sm text-white transition-colors focus:border-crimson-accent focus:outline-none"
               >
                 <option value="recommended">{t('shop_sort_recommended')}</option>
                 <option value="price_asc">{t('shop_sort_price_asc')}</option>
                 <option value="price_desc">{t('shop_sort_price_desc')}</option>
                 <option value="hash_desc">{t('shop_sort_hash_desc')}</option>
               </select>
+              <i className="ri-arrow-down-s-line pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 text-soft-gray text-lg" aria-hidden="true"></i>
+              </div>
             </div>
           </div>
 
@@ -169,7 +172,7 @@ const ShopPage = () => {
               </div>
               <h3 className="font-orbitron font-bold text-2xl text-white mb-3">{t('shop_empty_title')}</h3>
               <p className="text-soft-gray font-inter text-base leading-7 mb-8">{t('shop_empty_desc')}</p>
-              <Link to="/contact#contact-form" className="inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-crimson-accent text-white font-inter font-semibold rounded-lg hover:bg-red-700 transition-colors">
+              <Link to="/contact#contact-form" className="relative z-10 inline-flex min-h-[44px] items-center justify-center gap-2 px-8 py-3.5 bg-crimson-accent text-white font-inter font-semibold rounded-lg hover:bg-red-700 active:bg-red-800 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-crimson-accent">
                 <i className="ri-customer-service-2-line text-lg" aria-hidden="true"></i>
                 {t('shop_empty_cta')}
               </Link>
@@ -228,13 +231,13 @@ const ShopPage = () => {
                     )}
                   </div>
                   <div className="flex gap-3">
-                    <button className="flex-1 py-3 bg-crimson-accent text-white font-inter font-semibold rounded-lg hover:bg-red-700 transition-colors cursor-pointer whitespace-nowrap"
+                    <button className="relative z-10 flex-1 min-h-[44px] py-3 bg-crimson-accent text-white font-inter font-semibold rounded-lg hover:bg-red-700 active:bg-red-800 transition-colors cursor-pointer whitespace-nowrap focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-crimson-accent disabled:opacity-60 disabled:cursor-not-allowed"
                       disabled={product.stock_status === 'outofstock'}
                     >
                       {product.stock_status === 'outofstock' ? t('shop_out_stock') : t('shop_add_cart')}
                     </button>
                     <Link to={`/product?id=${product.id}`}
-                      className="flex-1 py-3 bg-transparent border border-white/30 text-white font-inter font-normal rounded-lg hover:bg-white/10 transition-colors cursor-pointer whitespace-nowrap text-center"
+                      className="relative z-10 flex-1 min-h-[44px] flex items-center justify-center py-3 bg-transparent border border-white/30 text-white font-inter font-normal rounded-lg hover:bg-white/10 active:bg-white/15 transition-colors cursor-pointer whitespace-nowrap text-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/40"
                     >{t('fp_view')}</Link>
                   </div>
                 </div>
@@ -268,7 +271,7 @@ const ShopPage = () => {
             <h2 className="font-orbitron font-bold text-4xl text-white mb-4">Need Help Choosing?</h2>
             <p className="text-soft-gray font-inter text-lg mb-8">Our team can help you select the right miner for your requirements.</p>
             <div className="flex flex-wrap justify-center gap-4">
-              <Link to="/contact#contact-form" className="px-8 py-4 bg-crimson-accent text-white font-inter font-semibold rounded-lg hover:bg-red-700 transition-colors cursor-pointer whitespace-nowrap">Contact Our Team</Link>
+              <Link to="/contact#contact-form" className="relative z-10 inline-flex min-h-[44px] items-center justify-center px-8 py-4 bg-crimson-accent text-white font-inter font-semibold rounded-lg hover:bg-red-700 active:bg-red-800 transition-colors cursor-pointer whitespace-nowrap focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-crimson-accent">Contact Our Team</Link>
             </div>
           </motion.div>
         </div>

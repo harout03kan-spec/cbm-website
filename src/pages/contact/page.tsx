@@ -64,7 +64,7 @@ export default function ContactPage() {
   };
 
   const inputCls =
-    'w-full rounded-xl border border-zinc-800 bg-zinc-950 px-4 py-3 text-sm text-white placeholder-zinc-500 outline-none transition focus:border-red-600 focus:ring-1 focus:ring-red-600/40';
+    'relative z-10 w-full rounded-xl border border-zinc-800 bg-zinc-950 px-4 py-3 text-base sm:text-sm text-white placeholder-zinc-500 outline-none transition focus:border-red-600 focus:ring-1 focus:ring-red-600/40';
   const labelCls = 'mb-1.5 block text-sm font-medium text-zinc-300';
 
   return (
@@ -118,7 +118,7 @@ export default function ContactPage() {
             {/* Phone (direct call) */}
             <a
               href={`tel:${TEL}`}
-              className="group flex items-center gap-4 rounded-2xl border border-zinc-900 bg-zinc-950/70 px-5 py-4 transition hover:border-red-900/60"
+              className="group relative z-10 flex items-center gap-4 rounded-2xl border border-zinc-900 bg-zinc-950/70 px-5 py-4 transition hover:border-red-900/60 active:bg-zinc-900"
             >
               <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-red-900/50 bg-red-950/30 text-red-400">
                 <i className="ri-phone-fill text-xl" aria-hidden="true" />
@@ -132,7 +132,7 @@ export default function ContactPage() {
             {/* Email */}
             <a
               href={`mailto:${EMAIL}`}
-              className="group flex items-center gap-4 rounded-2xl border border-zinc-900 bg-zinc-950/70 px-5 py-4 transition hover:border-red-900/60"
+              className="group relative z-10 flex items-center gap-4 rounded-2xl border border-zinc-900 bg-zinc-950/70 px-5 py-4 transition hover:border-red-900/60 active:bg-zinc-900"
             >
               <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-red-900/50 bg-red-950/30 text-red-400">
                 <i className="ri-mail-fill text-xl" aria-hidden="true" />
@@ -157,7 +157,7 @@ export default function ContactPage() {
             {/* Call CTA */}
             <a
               href={`tel:${TEL}`}
-              className="inline-flex items-center justify-center gap-2 rounded-xl bg-red-600 px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-red-500"
+              className="relative z-10 inline-flex min-h-[44px] items-center justify-center gap-2 rounded-xl bg-red-600 px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-red-500 active:bg-red-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-400"
             >
               <i className="ri-phone-fill text-base" aria-hidden="true" />
               {t('ct_call_btn')}
@@ -258,7 +258,7 @@ export default function ContactPage() {
                 <button
                   type="submit"
                   disabled={status === 'sending'}
-                  className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-red-600 px-6 py-4 text-base font-semibold text-white shadow-lg shadow-red-900/30 transition hover:bg-red-500 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
+                  className="relative z-10 inline-flex w-full min-h-[44px] items-center justify-center gap-2 rounded-xl bg-red-600 px-6 py-4 text-base font-semibold text-white shadow-lg shadow-red-900/30 transition hover:bg-red-500 active:bg-red-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-400 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
                 >
                   {status === 'sending' ? t('ct_sending') : t('ct_submit')}
                 </button>

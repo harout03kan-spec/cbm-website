@@ -8,7 +8,7 @@ const HeroSection = () => {
   return (
     <section className="relative flex min-h-screen items-center overflow-hidden bg-black">
       {/* Backdrop — pure CSS (no external image): deep gradient + tech grid + crimson glow */}
-      <div className="absolute inset-0">
+      <div className="absolute inset-0 pointer-events-none">
         <div
           className="absolute inset-0"
           style={{ background: 'radial-gradient(ellipse 80% 60% at 70% 35%, rgba(220,38,38,0.12), transparent 60%), linear-gradient(180deg, #050505 0%, #0a0a0a 60%, #050505 100%)' }}
@@ -50,13 +50,13 @@ const HeroSection = () => {
             <div className="flex flex-col items-center gap-4 sm:flex-row lg:items-start lg:justify-start">
               <Link
                 to="/shop"
-                className="inline-flex min-h-[56px] w-full items-center justify-center rounded-xl bg-crimson-accent px-10 font-inter text-lg font-semibold text-white transition-colors hover:bg-red-700 sm:w-auto"
+                className="relative z-10 inline-flex min-h-[56px] w-full items-center justify-center rounded-xl bg-crimson-accent px-10 font-inter text-lg font-semibold text-white transition-colors hover:bg-red-700 active:bg-red-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-crimson-accent sm:w-auto"
               >
                 {t('hero_cta')}
               </Link>
               <a
                 href="tel:+15146047050"
-                className="inline-flex min-h-[56px] w-full items-center justify-center gap-2 rounded-xl border border-white/20 bg-white/[0.03] px-10 font-inter text-lg font-semibold text-white transition-colors hover:bg-white/[0.08] sm:w-auto"
+                className="relative z-10 inline-flex min-h-[56px] w-full items-center justify-center gap-2 rounded-xl border border-white/20 bg-white/[0.03] px-10 font-inter text-lg font-semibold text-white transition-colors hover:bg-white/[0.08] active:bg-white/[0.12] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/40 sm:w-auto"
               >
                 <i className="ri-phone-fill text-xl text-crimson-accent" aria-hidden="true" />
                 {t('hero_cta2')}

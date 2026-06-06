@@ -82,7 +82,7 @@ const OrderSuccessPage = () => {
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.9 }} className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
             {[
-              { icon: 'ri-customer-service-2-line', title: '24/7 Support', desc: 'Questions about your order?', link: 'tel:+14165550123', linkText: '(416) 555-0123' },
+              { icon: 'ri-customer-service-2-line', title: 'Support', desc: 'Questions about your order?', link: 'tel:+15146047050', linkText: '+1 514 604 7050' },
               { icon: 'ri-book-open-line', title: 'Setup Guides', desc: 'Access detailed installation guides.', link: '/services', linkText: 'View Resources' },
               { icon: 'ri-shield-check-line', title: 'Warranty Info', desc: 'All products include warranty.', link: '/about', linkText: 'Learn More' }
             ].map((item) => (
@@ -103,7 +103,7 @@ const OrderSuccessPage = () => {
           </motion.div>
 
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.3 }} className="mt-12 text-center">
-            <p className="text-soft-gray font-inter text-sm">Need to make changes to your order? Contact us within 24 hours at <a href="mailto:orders@canadabtcminers.com" className="text-crimson-accent hover:underline cursor-pointer">orders@canadabtcminers.com</a></p>
+            <p className="text-soft-gray font-inter text-sm">Need to make changes to your order? Contact us within 24 hours at <a href="mailto:info@canadabtcminers.ca" className="text-crimson-accent hover:underline cursor-pointer">info@canadabtcminers.ca</a></p>
           </motion.div>
         </div>
       </section>
