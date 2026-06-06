@@ -150,8 +150,8 @@ const ShopPage = () => {
                   className="relative z-20 w-full min-h-[44px] rounded-lg border border-white/15 bg-[#0A0A0A] py-3 pl-4 pr-11 font-inter text-base sm:text-sm text-white placeholder-soft-gray transition-colors focus:border-crimson-accent focus:outline-none"
                 />
                 <svg
-                  className="pointer-events-none absolute right-3.5 top-1/2 h-5 w-5 -translate-y-1/2 text-zinc-300"
-                  viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
+                  className="pointer-events-none absolute right-3.5 top-1/2 h-5 w-5 -translate-y-1/2"
+                  viewBox="0 0 24 24" fill="none" stroke="#DC2626" strokeWidth="2"
                   strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"
                 >
                   <circle cx="11" cy="11" r="7" />
@@ -175,8 +175,8 @@ const ShopPage = () => {
                   <option value="hash_desc">{t('shop_sort_hash_desc')}</option>
                 </select>
                 <svg
-                  className="pointer-events-none absolute right-3 top-1/2 h-3 w-3 -translate-y-1/2 text-zinc-300"
-                  viewBox="0 0 10 6" fill="currentColor" aria-hidden="true"
+                  className="pointer-events-none absolute right-3 top-1/2 h-3 w-3 -translate-y-1/2"
+                  viewBox="0 0 10 6" fill="#DC2626" aria-hidden="true"
                 >
                   <path d="M0 0h10L5 6z" />
                 </svg>

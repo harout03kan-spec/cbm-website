@@ -38,8 +38,10 @@ export default function WhatsAppChat() {
         />
       )}
 
-      {/* Widget container */}
-      <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3">
+      {/* Widget container — pointer-events-none so its (mostly empty) bounding box
+          never blocks taps on page controls beneath it; only the real children
+          (FAB + open modal) re-enable pointer events. */}
+      <div className="pointer-events-none fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3">
 
         {/* Chat modal */}
         <div
@@ -120,7 +122,7 @@ export default function WhatsAppChat() {
         <button
           onClick={() => { setOpen(!open); setPulse(false); }}
           aria-label="Chat on WhatsApp"
-          className="relative w-14 h-14 bg-green-500 hover:bg-green-400 rounded-full shadow-lg shadow-green-900/40 flex items-center justify-center transition-all duration-200 hover:scale-110 active:scale-95"
+          className="pointer-events-auto relative w-14 h-14 bg-green-500 hover:bg-green-400 rounded-full shadow-lg shadow-green-900/40 flex items-center justify-center transition-all duration-200 hover:scale-110 active:scale-95"
         >
           {/* Pulse ring */}
           {pulse && !open && (
