@@ -141,22 +141,22 @@ const ShopPage = () => {
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
               {/* Search — magnifier on the left (inline SVG so it always renders) */}
               <div className="relative z-20 sm:w-72 lg:w-80">
-                <svg
-                  className="pointer-events-none absolute left-3.5 top-1/2 h-5 w-5 -translate-y-1/2 text-zinc-300"
-                  viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
-                  strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"
-                >
-                  <circle cx="11" cy="11" r="7" />
-                  <line x1="21" y1="21" x2="16.65" y2="16.65" />
-                </svg>
                 <input
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder={t('shop_search_ph')}
                   aria-label={t('shop_search_ph')}
-                  className="relative z-20 w-full min-h-[44px] rounded-lg border border-white/15 bg-[#0A0A0A] py-3 pl-11 pr-4 font-inter text-base sm:text-sm text-white placeholder-soft-gray transition-colors focus:border-crimson-accent focus:outline-none"
+                  className="relative z-20 w-full min-h-[44px] rounded-lg border border-white/15 bg-[#0A0A0A] py-3 pl-4 pr-11 font-inter text-base sm:text-sm text-white placeholder-soft-gray transition-colors focus:border-crimson-accent focus:outline-none"
                 />
+                <svg
+                  className="pointer-events-none absolute right-3.5 top-1/2 h-5 w-5 -translate-y-1/2 text-zinc-300"
+                  viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
+                  strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"
+                >
+                  <circle cx="11" cy="11" r="7" />
+                  <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                </svg>
               </div>
 
               {/* Sort — native select; closed box shows "Sort by"; visible caret on the right */}
@@ -166,7 +166,7 @@ const ShopPage = () => {
                   id="shop-sort"
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value)}
-                  className="relative z-20 block w-auto max-w-[70vw] appearance-none cursor-pointer rounded-lg border border-white/15 bg-[#0A0A0A] pl-3 pr-10 py-3 min-h-[44px] font-inter text-base sm:text-sm text-white focus:border-crimson-accent focus:outline-none"
+                  className="relative z-20 w-fit max-w-full appearance-none cursor-pointer rounded-lg border border-white/15 bg-[#0A0A0A] pl-3 pr-9 py-3 min-h-[44px] font-inter text-base sm:text-sm text-white focus:border-crimson-accent focus:outline-none"
                 >
                   <option value="">{t('shop_sort_label')}</option>
                   <option value="price_asc">{t('shop_sort_price_asc')}</option>
