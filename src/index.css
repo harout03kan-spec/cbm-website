@@ -2,6 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Site-wide guard against horizontal scrolling / white side strips.
+   Decorative absolute and animated elements can extend past the viewport;
+   lock the page horizontally and keep the background black so no white
+   shows on the sides during scroll/swipe. Vertical scrolling is unaffected. */
+html, body, #root {
+  overflow-x: hidden;
+  background-color: #000000;
+  max-width: 100%;
+}
+
 /* Hero visual: honor reduced-motion by freezing continuous animation
    while keeping the final "powered on" state visible. */
 @media (prefers-reduced-motion: reduce) {

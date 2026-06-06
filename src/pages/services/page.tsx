@@ -1,14 +1,13 @@
 import { motion, useReducedMotion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import Navbar from '../../components/feature/Navbar';
 import Footer from '../../components/feature/Footer';
 import { useTranslation } from 'react-i18next';
 import Seo, { repairServiceLd } from '../../components/feature/Seo';
 
-// Contact channels. Three distinct intents (not everything is WhatsApp).
+// Contact channels. Direct phone call, plus the on-site contact form for quotes.
 const TEL = 'tel:+15146047050';
-const WA = 'https://wa.me/15146047050';
-const QUOTE_EMAIL =
-  'mailto:info@canadabtcminers.ca?subject=ASIC%20Repair%20Quote%20Request&body=Miner%20model%3A%0AIssue%2Fsymptoms%3A%0AQuantity%3A%0APreferred%20option%20(drop-off%20in%20Montreal%20or%20ship)%3A';
+const QUOTE_LINK = '/contact#contact-form';
 
 export default function ServicesPage() {
   const { t } = useTranslation();
@@ -99,7 +98,7 @@ export default function ServicesPage() {
     { icon: 'ri-settings-4-line', num: '03', title: t('srv_graphic_3'), desc: t('srv_graphic_3_desc') },
   ];
 
-  // Reusable CTA cluster: Call / Quote / WhatsApp. Three distinct channels.
+  // Reusable CTA cluster: direct phone call + repair quote (contact form).
   const CtaCluster = ({ className = '' }: { className?: string }) => (
     <div className={`flex flex-col gap-3 sm:flex-row sm:flex-wrap ${className}`}>
       <a
@@ -110,24 +109,14 @@ export default function ServicesPage() {
         <i className="ri-phone-fill text-lg" aria-hidden="true" />
         {t('srv2_cta_call')}
       </a>
-      <a
-        href={QUOTE_EMAIL}
+      <Link
+        to={QUOTE_LINK}
         aria-label={t('srv2_cta_quote_aria')}
         className="inline-flex min-h-[52px] items-center justify-center gap-2 rounded-xl border border-zinc-700 bg-white/[0.03] px-7 text-base font-semibold text-white transition-colors duration-200 hover:border-zinc-500 hover:bg-white/[0.07] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-400"
       >
         <i className="ri-mail-send-line text-lg" aria-hidden="true" />
         {t('srv2_cta_quote')}
-      </a>
-      <a
-        href={WA}
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label={t('srv2_cta_whatsapp_aria')}
-        className="inline-flex min-h-[52px] items-center justify-center gap-2 rounded-xl border border-zinc-700 bg-white/[0.03] px-7 text-base font-semibold text-zinc-200 transition-colors duration-200 hover:border-green-700/60 hover:bg-green-950/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-400"
-      >
-        <i className="ri-whatsapp-fill text-lg text-green-400" aria-hidden="true" />
-        {t('srv2_cta_whatsapp')}
-      </a>
+      </Link>
     </div>
   );
 
@@ -302,8 +291,8 @@ export default function ServicesPage() {
                 <div className="mt-1 font-inter text-sm text-zinc-500">{t('srv2_pricing_startingat')} {tier.priceUsd}</div>
               </div>
 
-              <a
-                href={QUOTE_EMAIL}
+              <Link
+                to={QUOTE_LINK}
                 className={`relative mt-8 inline-flex min-h-[48px] items-center justify-center rounded-xl px-5 text-sm font-semibold transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-400 ${
                   tier.featured
                     ? 'bg-red-600 text-white hover:bg-red-500'
@@ -311,7 +300,7 @@ export default function ServicesPage() {
                 }`}
               >
                 {t('srv2_cta_quote')}
-              </a>
+              </Link>
             </motion.div>
           ))}
         </div>

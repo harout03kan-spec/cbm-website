@@ -166,10 +166,11 @@ export default function ContactPage() {
 
           {/* Form column */}
           <motion.div
+            id="contact-form"
             initial={{ opacity: 0, x: 16 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="rounded-[2rem] border border-zinc-900 bg-zinc-950/60 p-6 shadow-2xl shadow-black/40 sm:p-8"
+            className="scroll-mt-28 rounded-[2rem] border border-zinc-900 bg-zinc-950/60 p-6 shadow-2xl shadow-black/40 sm:p-8"
           >
             {status === 'sent' ? (
               <div className="flex min-h-[420px] flex-col items-center justify-center text-center">

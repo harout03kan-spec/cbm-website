@@ -74,13 +74,13 @@ const ShopPage = () => {
 
       <section className="py-6 bg-[#141414] border-y border-white/10">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="flex flex-wrap items-center justify-center gap-3">
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 max-w-3xl mx-auto">
             {categories.map((category) => (
               <button key={category.id} onClick={() => setActiveCategory(category.id)}
-                className={`px-5 py-2.5 rounded-lg font-inter text-sm transition-all cursor-pointer whitespace-nowrap ${
+                className={`w-full px-4 py-2.5 text-center rounded-lg font-inter text-sm transition-all cursor-pointer border ${
                   activeCategory === category.id
-                    ? 'bg-crimson-accent text-white font-semibold'
-                    : 'bg-transparent text-white/80 hover:text-white hover:bg-white/10'
+                    ? 'bg-crimson-accent border-crimson-accent text-white font-semibold'
+                    : 'bg-transparent border-white/15 text-white/80 hover:text-white hover:bg-white/10'
                 }`}
               >{category.label}</button>
             ))}
