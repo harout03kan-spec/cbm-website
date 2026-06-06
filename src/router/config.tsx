@@ -7,6 +7,7 @@ const Product = lazy(() => import('../pages/product/page'));
 const Hosting = lazy(() => import('../pages/hosting/page'));
 const Services = lazy(() => import('../pages/services/page'));
 const About = lazy(() => import('../pages/about/page'));
+const Contact = lazy(() => import('../pages/contact/page'));
 const Cart = lazy(() => import('../pages/cart/page'));
 const Checkout = lazy(() => import('../pages/checkout/page'));
 const OrderSuccess = lazy(() => import('../pages/order-success/page'));
@@ -37,6 +38,10 @@ const routes: RouteObject[] = [
   {
     path: '/about',
     element: <About />,
+  },
+  {
+    path: '/contact',
+    element: <Contact />,
   },
   {
     path: '/cart',

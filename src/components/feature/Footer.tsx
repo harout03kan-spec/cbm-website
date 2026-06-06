@@ -13,9 +13,13 @@ export default function Footer() {
               <p className="text-xs text-crimson-accent font-inter tracking-wide">Premium Mining Hardware</p>
             </div>
             <p className="text-gray-400 text-sm max-w-xs mb-4">{t('footer_desc')}</p>
-            <a href="https://wa.me/15146047050" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-white font-semibold text-sm mb-5 hover:text-green-400 transition-colors">
-              <i className="ri-whatsapp-fill text-lg text-green-400"></i>
+            <a href="tel:+15146047050" className="flex items-center gap-2 text-white font-semibold text-sm mb-2 hover:text-crimson-accent transition-colors" aria-label="Call +1 514 604 7050">
+              <i className="ri-phone-fill text-lg text-crimson-accent"></i>
               +1 (514) 604-7050
+            </a>
+            <a href="mailto:info@canadabtcminers.ca" className="flex items-center gap-2 text-gray-300 text-sm mb-5 hover:text-white transition-colors">
+              <i className="ri-mail-fill text-lg text-crimson-accent"></i>
+              info@canadabtcminers.ca
             </a>
             <div className="flex items-center gap-3">
               <a href="https://t.me/CanadaBTCMiners" target="_blank" rel="noopener noreferrer nofollow" className="w-10 h-10 flex items-center justify-center bg-white/5 rounded-lg hover:bg-white/10 transition-colors" aria-label="Telegram"><i className="ri-telegram-fill text-lg text-white"></i></a>
@@ -41,7 +45,7 @@ export default function Footer() {
             <h3 className="text-white font-semibold mb-4">{t('footer_company')}</h3>
             <ul className="space-y-3">
               <li><Link to="/about" className="text-gray-400 hover:text-white transition-colors">{t('footer_about')}</Link></li>
-              <li><a href="mailto:info@canadabtcminers.ca" className="text-gray-400 hover:text-white transition-colors">{t('footer_contact')}</a></li>
+              <li><Link to="/contact" className="text-gray-400 hover:text-white transition-colors">{t('footer_contact')}</Link></li>
               <li><Link to="/services" className="text-gray-400 hover:text-white transition-colors">{t('footer_warranty')}</Link></li>
             </ul>
           </div>

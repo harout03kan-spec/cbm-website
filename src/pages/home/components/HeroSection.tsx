@@ -55,12 +55,10 @@ const HeroSection = () => {
                 {t('hero_cta')}
               </Link>
               <a
-                href="https://wa.me/15146047050"
-                target="_blank"
-                rel="noopener noreferrer"
+                href="tel:+15146047050"
                 className="inline-flex min-h-[56px] w-full items-center justify-center gap-2 rounded-xl border border-white/20 bg-white/[0.03] px-10 font-inter text-lg font-semibold text-white transition-colors hover:bg-white/[0.08] sm:w-auto"
               >
-                <i className="ri-whatsapp-fill text-xl text-green-400" aria-hidden="true" />
+                <i className="ri-phone-fill text-xl text-crimson-accent" aria-hidden="true" />
                 {t('hero_cta2')}
               </a>
             </div>

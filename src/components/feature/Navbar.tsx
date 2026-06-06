@@ -60,13 +60,11 @@ const Navbar = () => {
 
           <div className="flex items-center gap-3">
             <a
-              href="https://wa.me/15146047050"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="tel:+15146047050"
               className="hidden lg:flex items-center gap-1.5 text-xs font-semibold text-zinc-300 hover:text-white transition-colors whitespace-nowrap"
-              aria-label="WhatsApp us"
+              aria-label="Call +1 514 604 7050"
             >
-              <i className="ri-whatsapp-fill text-base text-green-400"></i>
+              <i className="ri-phone-fill text-base text-crimson-accent"></i>
               +1 (514) 604-7050
             </a>
             <button onClick={toggleLang} className="px-3 py-1.5 text-xs font-bold font-inter tracking-widest border border-white/20 text-white rounded-lg hover:border-crimson-accent hover:text-crimson-accent transition-colors">
@@ -88,8 +86,8 @@ const Navbar = () => {
                 {link.label}
               </Link>
             ))}
-            <a href="https://wa.me/15146047050" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-white font-medium text-base">
-              <i className="ri-whatsapp-fill text-lg text-green-400"></i>
+            <a href="tel:+15146047050" className="flex items-center gap-2 text-white font-medium text-base" aria-label="Call +1 514 604 7050">
+              <i className="ri-phone-fill text-lg text-crimson-accent"></i>
               +1 (514) 604-7050
             </a>
             <Link to="/shop" className="mt-2 px-6 py-3 bg-gradient-crimson text-white font-inter font-semibold rounded-lg text-center">{t('nav_shopMiners')}</Link>
