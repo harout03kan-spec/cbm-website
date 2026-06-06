@@ -188,6 +188,15 @@ const en = {
   footer_privacy: 'Privacy Policy',
   footer_terms: 'Terms of Service',
 
+  // ── NOT FOUND (404) PAGE ───────────────────────────
+  nf_title: 'Page Not Found',
+  nf_desc: 'The page you are looking for does not exist or has been moved.',
+  nf_back_home: 'Back to Home',
+  nf_browse_shop: 'Browse Shop',
+  nf_popular: 'Popular Pages',
+  nf_help: 'Need assistance? Our team is here to help.',
+  nf_call: 'Call +1 514 604 7050',
+
   // ── ABOUT PAGE ─────────────────────────────────────
   about_hero_tag: 'About Us',
   about_hero_title: 'Built For Canadian Bitcoin Mining Operations',

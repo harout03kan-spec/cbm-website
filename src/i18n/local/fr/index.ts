@@ -188,6 +188,15 @@ const fr = {
   footer_privacy: 'Politique de Confidentialité',
   footer_terms: 'Conditions d\'Utilisation',
 
+  // ── NOT FOUND (404) PAGE ───────────────────────────
+  nf_title: 'Page introuvable',
+  nf_desc: 'La page que vous recherchez n’existe pas ou a été déplacée.',
+  nf_back_home: 'Retour à l’accueil',
+  nf_browse_shop: 'Voir la boutique',
+  nf_popular: 'Pages populaires',
+  nf_help: 'Besoin d’aide? Notre équipe est là pour vous aider.',
+  nf_call: 'Appeler +1 514 604 7050',
+
   // ── ABOUT PAGE ─────────────────────────────────────
   about_hero_tag: 'À Propos de Nous',
   about_hero_title: 'Conçu pour les Opérations de Minage Bitcoin Canadiennes',
