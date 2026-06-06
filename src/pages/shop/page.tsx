@@ -119,18 +119,37 @@ const ShopPage = () => {
         </div>
       </section>
 
-      <section className="py-6 bg-[#141414] border-y border-white/10">
+      <section className="relative z-20 py-6 bg-[#141414] border-y border-white/10">
         <div className="max-w-3xl mx-auto px-6 space-y-4">
-          <div className="relative z-10">
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder={isNarrow ? t('shop_search_ph_short') : t('shop_search_ph')}
-              aria-label={t('shop_search_ph')}
-              className="relative z-10 w-full min-h-[44px] rounded-lg border border-white/15 bg-[#0A0A0A] py-3 pl-4 pr-11 font-inter text-base sm:text-sm text-white placeholder-soft-gray transition-colors focus:border-crimson-accent focus:outline-none"
-            />
-            <i className="ri-search-line pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2 text-soft-gray text-lg" aria-hidden="true"></i>
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+            {/* Search */}
+            <div className="relative z-20 flex-1">
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder={isNarrow ? t('shop_search_ph_short') : t('shop_search_ph')}
+                aria-label={t('shop_search_ph')}
+                className="relative z-20 w-full min-h-[44px] rounded-lg border border-white/15 bg-[#0A0A0A] py-3 pl-4 pr-11 font-inter text-base sm:text-sm text-white placeholder-soft-gray transition-colors focus:border-crimson-accent focus:outline-none"
+              />
+              <i className="ri-search-line pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2 text-zinc-300 text-xl" aria-hidden="true"></i>
+            </div>
+            {/* Sort */}
+            <div className="relative z-20 self-start sm:self-auto shrink-0">
+              <label htmlFor="shop-sort" className="sr-only">{t('shop_sort_label')}</label>
+              <select
+                id="shop-sort"
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value)}
+                className="relative z-20 block w-auto max-w-[70vw] appearance-none cursor-pointer rounded-lg border border-white/15 bg-[#0A0A0A] pl-3 pr-10 py-3 min-h-[44px] font-inter text-base sm:text-sm text-white focus:border-crimson-accent focus:outline-none"
+              >
+                <option value="recommended">{t('shop_sort_recommended')}</option>
+                <option value="price_asc">{t('shop_sort_price_asc')}</option>
+                <option value="price_desc">{t('shop_sort_price_desc')}</option>
+                <option value="hash_desc">{t('shop_sort_hash_desc')}</option>
+              </select>
+              <i className="ri-arrow-down-s-line pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-zinc-300 text-xl" aria-hidden="true"></i>
+            </div>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
             {categories.map((category) => (
@@ -148,31 +167,12 @@ const ShopPage = () => {
 
       <section className="py-16 bg-[#0A0A0A]">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="mb-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <div className="text-soft-gray font-inter text-sm">
-              {loading ? (
-                <span className="animate-pulse">{t('shop_loading')}</span>
-              ) : (
-                <>{t('shop_showing_label')} <span className="text-white font-semibold">{filteredProducts.length}</span> {t('shop_showing_suffix')}</>
-              )}
-            </div>
-            <div className="flex items-center gap-2">
-              <label htmlFor="shop-sort" className="text-soft-gray font-inter text-sm whitespace-nowrap">{t('shop_sort_label')}</label>
-              <div className="relative z-10 inline-block">
-                <select
-                  id="shop-sort"
-                  value={sortBy}
-                  onChange={(e) => setSortBy(e.target.value)}
-                  className="relative z-10 block w-auto max-w-[60vw] appearance-none cursor-pointer rounded-lg border border-white/15 bg-[#141414] pl-3 pr-9 py-2.5 min-h-[44px] font-inter text-base sm:text-sm text-white focus:border-crimson-accent focus:outline-none"
-                >
-                  <option value="recommended">{t('shop_sort_recommended')}</option>
-                  <option value="price_asc">{t('shop_sort_price_asc')}</option>
-                  <option value="price_desc">{t('shop_sort_price_desc')}</option>
-                  <option value="hash_desc">{t('shop_sort_hash_desc')}</option>
-                </select>
-                <i className="ri-arrow-down-s-line pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 text-soft-gray text-lg" aria-hidden="true"></i>
-              </div>
-            </div>
+          <div className="mb-8 text-soft-gray font-inter text-sm">
+            {loading ? (
+              <span className="animate-pulse">{t('shop_loading')}</span>
+            ) : (
+              <>{t('shop_showing_label')} <span className="text-white font-semibold">{filteredProducts.length}</span> {t('shop_showing_suffix')}</>
+            )}
           </div>
 
           {!loading && filteredProducts.length === 0 ? (
