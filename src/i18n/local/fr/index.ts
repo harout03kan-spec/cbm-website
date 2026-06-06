@@ -537,7 +537,7 @@ const fr = {
   ct_f_inquiry: 'Type de demande',
   ct_f_inquiry_ph: 'Sélectionnez une option',
   ct_f_message: 'Message',
-  ct_f_message_ph: 'Dites-nous ce dont vous avez besoin — modèles, quantité, problème ou question.',
+  ct_f_message_ph: 'Dites-nous ce dont vous avez besoin : modèles, quantité, problème ou question.',
   ct_inq_buy: 'Acheter des mineurs',
   ct_inq_sell: 'Vendre des mineurs',
   ct_inq_repair: 'Service de réparation',

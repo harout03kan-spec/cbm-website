@@ -537,7 +537,7 @@ const en = {
   ct_f_inquiry: 'Inquiry type',
   ct_f_inquiry_ph: 'Select an option',
   ct_f_message: 'Message',
-  ct_f_message_ph: 'Tell us what you need — models, quantity, issue, or question.',
+  ct_f_message_ph: 'Tell us what you need, models, quantity, issue, or question.',
   ct_inq_buy: 'Buy miners',
   ct_inq_sell: 'Sell miners',
   ct_inq_repair: 'Repair service',

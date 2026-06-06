@@ -49,7 +49,7 @@ export default function FeaturedProducts() {
             const isDeal = key === 'Deals';
             return (
               <button key={key} onClick={() => setActiveFilter(key)}
-                className={`px-8 py-3 font-inter font-semibold rounded-lg transition-colors cursor-pointer whitespace-nowrap border-2 ${
+                className={`px-8 py-3 min-w-[150px] text-center font-inter font-semibold rounded-lg transition-colors cursor-pointer whitespace-nowrap border-2 ${
                   isActive
                     ? isDeal ? 'bg-crimson-accent/20 border-crimson-accent text-crimson-accent' : 'bg-white/15 border-white text-white'
                     : isDeal ? 'bg-transparent border-crimson-accent text-crimson-accent hover:bg-crimson-accent/10' : 'bg-transparent border-white/30 text-white hover:bg-white/10'
