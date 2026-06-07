@@ -190,6 +190,8 @@ const en = {
   footer_payment_title: 'Payment methods accepted:',
   footer_pay_credit: 'Credit card',
   footer_pay_debit: 'Debit card',
+  footer_pay_etransfer: 'E transfer',
+  footer_pay_wire: 'Wire transfer',
   footer_pay_crypto: 'Crypto',
   footer_pay_cash: 'Cash',
 
