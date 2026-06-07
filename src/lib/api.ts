@@ -7,6 +7,7 @@ export interface Product {
   id: number;
   name: string;
   slug: string;
+  sku?: string;
   price: string;           // regular_price from WC
   sale_price: string;
   stock_status: string;    // 'instock' | 'outofstock' | 'onbackorder'
@@ -15,8 +16,10 @@ export interface Product {
   cooling: string;         // Air | Hydro | Immersion
   algorithm: string;       // SHA-256 | Scrypt
   hashrate: string;        // TH/s
+  hashrate_unit?: string;  // display unit for hashrate (TH/s, GH/s, MH/s)
   power: string;           // Watts
   efficiency: string;      // J/TH
+  efficiency_unit?: string; // display unit for efficiency (J/TH, J/GH, J/MH)
   image: string;           // first image src
   images: string[];        // all image srcs
   badge: string;

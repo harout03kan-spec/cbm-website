@@ -142,19 +142,14 @@ const ProductPage = () => {
             <div>
               <div className="flex flex-wrap items-center gap-3 mb-4">
                 <h1 className="font-inter font-bold text-4xl text-white">{product.name}</h1>
-                <span className="px-3 py-1 bg-white/20 text-white rounded-full text-sm font-inter font-semibold">{product.condition}</span>
-                <span className="px-3 py-1 bg-white/20 text-white rounded-full text-sm font-inter font-semibold">{product.cooling}</span>
+                {product.condition && <span className="px-3 py-1 bg-white/20 text-white rounded-full text-sm font-inter font-semibold">{product.condition}</span>}
+                {product.cooling && <span className="px-3 py-1 bg-white/20 text-white rounded-full text-sm font-inter font-semibold">{product.cooling}</span>}
               </div>
 
               <div className="mb-6 pb-6 border-b border-white/10">
                 <div className="flex items-baseline gap-3 mb-2">
                   <span className="text-crimson-accent font-inter font-bold text-5xl">${Number(product.price).toLocaleString()}</span>
                   <span className="text-soft-gray font-inter text-xl">CAD</span>
-                  {product.stock_status !== 'instock' && (
-                    <span className="ml-2 px-3 py-1 bg-amber-500/20 border border-amber-500/50 text-amber-400 text-sm rounded-full font-inter">
-                      {product.stock_status === 'outofstock' ? 'Out of Stock' : 'Pre-Order'}
-                    </span>
-                  )}
                 </div>
                 {product.short_description && (
                   <p className="text-soft-gray font-inter text-sm mt-2">{product.short_description}</p>
@@ -165,10 +160,10 @@ const ProductPage = () => {
                 <h3 className="text-white font-inter font-bold text-xl mb-4">Technical Specifications</h3>
                 <div className="grid grid-cols-3 gap-4">
                   {[
-                    { icon: 'ri-speed-fill',     value: product.hashrate, unit: 'TH/s Hashrate' },
+                    { icon: 'ri-speed-fill',     value: product.hashrate, unit: `${product.hashrate_unit || 'TH/s'} Hashrate` },
                     { icon: 'ri-flashlight-fill', value: product.power,    unit: 'Watts Power' },
-                    { icon: 'ri-leaf-fill',       value: product.efficiency, unit: 'J/TH Efficiency' },
-                  ].map(s => (
+                    { icon: 'ri-leaf-fill',       value: product.efficiency, unit: `${product.efficiency_unit || 'J/TH'} Efficiency` },
+                  ].filter(s => s.value && String(s.value).trim()).map(s => (
                     <div key={s.unit} className="bg-gradient-to-br from-graphite to-midnight border border-crimson-accent/30 rounded-xl p-4">
                       <div className="w-10 h-10 flex items-center justify-center mb-3">
                         <i className={`${s.icon} text-crimson-accent text-3xl`}></i>
@@ -213,11 +208,11 @@ const ProductPage = () => {
               </div>
 
               <div className="flex gap-4 mb-6">
-                <button onClick={handleAddToCart} disabled={product.stock_status === 'outofstock'}
-                  className="flex-1 py-4 bg-gradient-crimson text-white font-inter font-bold text-lg rounded-xl hover:scale-105 transition-transform cursor-pointer whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed disabled:scale-100"
+                <button onClick={handleAddToCart}
+                  className="flex-1 py-4 bg-gradient-crimson text-white font-inter font-bold text-lg rounded-xl hover:scale-105 transition-transform cursor-pointer whitespace-nowrap"
                 >
                   <i className="ri-shopping-cart-fill mr-2"></i>
-                  {product.stock_status === 'outofstock' ? t('shop_out_stock') : t('product_add_cart')}
+                  {t('product_add_cart')}
                 </button>
                 <button className="w-16 h-16 flex items-center justify-center border-2 border-white/30 text-white rounded-xl hover:bg-white hover:text-midnight transition-colors cursor-pointer">
                   <i className="ri-heart-line text-2xl"></i>
@@ -261,11 +256,11 @@ const ProductPage = () => {
               <h3 className="text-crimson-accent font-inter font-bold text-xl mb-4">Performance</h3>
               <div className="space-y-3">
                 {[
-                  ['Algorithm',         product.algorithm || 'SHA-256'],
-                  ['Hashrate',          `${product.hashrate} TH/s ±5%`],
-                  ['Power Consumption', `${product.power}W ±10%`],
-                  ['Energy Efficiency', `${product.efficiency} J/TH`],
-                ].map(([k, v]) => (
+                  ['Algorithm',         product.algorithm],
+                  ['Hashrate',          product.hashrate ? `${product.hashrate} ${product.hashrate_unit || 'TH/s'}` : ''],
+                  ['Power Consumption', product.power ? `${product.power}W` : ''],
+                  ['Energy Efficiency', product.efficiency ? `${product.efficiency} ${product.efficiency_unit || 'J/TH'}` : ''],
+                ].filter(([, v]) => v && String(v).trim()).map(([k, v]) => (
                   <div key={k} className="flex justify-between items-center py-2 border-b border-white/5 last:border-0">
                     <span className="text-soft-gray font-inter">{k}</span>
                     <span className="text-white font-inter font-semibold">{v}</span>
@@ -279,9 +274,8 @@ const ProductPage = () => {
                 {[
                   ['Condition',   product.condition],
                   ['Cooling',     product.cooling],
-                  ['Stock',       product.stock_status === 'instock' ? 'In Stock' : product.stock_status === 'outofstock' ? 'Out of Stock' : 'Pre-Order'],
-                  ['Warranty',    product.condition === 'New' ? 'Manufacturer warranty' : '30-day repair warranty'],
-                ].map(([k, v]) => (
+                  ['Warranty',    product.condition === 'New' ? 'Manufacturer warranty' : product.condition ? '30-day repair warranty' : ''],
+                ].filter(([, v]) => v && String(v).trim()).map(([k, v]) => (
                   <div key={k} className="flex justify-between items-center py-2 border-b border-white/5 last:border-0">
                     <span className="text-soft-gray font-inter">{k}</span>
                     <span className="text-white font-inter font-semibold">{v}</span>
@@ -318,9 +312,9 @@ const ProductPage = () => {
                         <span className="text-soft-gray font-inter text-sm">CAD</span>
                       </div>
                       <div className="grid grid-cols-3 gap-2 text-center">
-                        <div><div className="text-white font-inter font-bold text-lg">{p.hashrate}</div><div className="text-soft-gray font-inter text-xs">TH/s</div></div>
-                        <div><div className="text-white font-inter font-bold text-lg">{p.power}</div><div className="text-soft-gray font-inter text-xs">Watts</div></div>
-                        <div><div className="text-white font-inter font-bold text-lg">{p.efficiency}</div><div className="text-soft-gray font-inter text-xs">J/TH</div></div>
+                        <div><div className="text-white font-inter font-bold text-lg">{p.hashrate || '—'}</div><div className="text-soft-gray font-inter text-xs">{p.hashrate_unit || 'TH/s'}</div></div>
+                        <div><div className="text-white font-inter font-bold text-lg">{p.power || '—'}</div><div className="text-soft-gray font-inter text-xs">Watts</div></div>
+                        <div><div className="text-white font-inter font-bold text-lg">{p.efficiency || '—'}</div><div className="text-soft-gray font-inter text-xs">{p.efficiency_unit || 'J/TH'}</div></div>
                       </div>
                     </div>
                   </Link>

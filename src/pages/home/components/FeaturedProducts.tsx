@@ -95,17 +95,17 @@ export default function FeaturedProducts() {
                 <div className="p-[26px] flex flex-col flex-1">
                   <h3 className="text-white font-inter font-extrabold text-[27px] mb-[10px] leading-tight">{product.name}</h3>
                   <p className="text-[#b8c0cc] font-inter text-[15px] mb-[18px]">
-                    {product.hashrate} TH/s &nbsp;•&nbsp; {product.power} W &nbsp;•&nbsp; {product.efficiency} J/TH
+                    {[
+                      product.hashrate && `${product.hashrate} ${product.hashrate_unit || 'TH/s'}`,
+                      product.power && `${product.power} W`,
+                      product.efficiency && `${product.efficiency} ${product.efficiency_unit || 'J/TH'}`,
+                    ].filter(Boolean).join('  •  ')}
                   </p>
                   <div className="flex items-end gap-[10px] mb-[18px]">
                     <span className="text-white font-inter font-black text-[58px] leading-none">${Number(product.price).toLocaleString()}</span>
                     <span className="text-[#94a3b8] font-inter font-bold text-[18px] mb-2">CAD</span>
                   </div>
                   <div className="flex flex-col gap-[7px] mb-[22px]">
-                    <div className="text-[#e5e7eb] font-inter text-[14px]">
-                      <span className="inline-block h-1.5 w-1.5 rounded-full bg-red-500 mr-2 mb-0.5 shrink-0"></span>
-                      {product.stock_status === 'instock' ? t('fp_instock') : product.stock_status === 'onbackorder' ? t('fp_preorder') : t('fp_contact')}
-                    </div>
                     {product.condition === 'New' && (
                       <div className="text-[#e5e7eb] font-inter text-[14px]">
                         <span className="inline-block h-1.5 w-1.5 rounded-full bg-red-500 mr-2 mb-0.5 shrink-0"></span>
