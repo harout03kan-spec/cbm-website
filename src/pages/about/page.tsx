@@ -91,12 +91,12 @@ export default function AboutPage() {
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/60 pointer-events-none" />
 
         <div className="relative z-10 mx-auto max-w-4xl px-5 py-20 sm:px-6 sm:py-28 lg:py-32 text-center">
-          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-red-500 sm:text-sm">
+          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-crimson-accent sm:text-sm">
             About Canada BTC Miners
           </p>
           <h1 className="mt-5 text-4xl font-semibold leading-tight sm:text-5xl lg:text-[3.4rem] lg:leading-[1.1]">
             Canada's ASIC Miner{' '}
-            <span className="text-red-500">Supplier,</span>{' '}
+            <span className="text-crimson-accent">Supplier,</span>{' '}
             Repair &amp; Hosting Team
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-sm leading-7 text-zinc-300 sm:text-base sm:leading-8">
@@ -148,7 +148,7 @@ export default function AboutPage() {
         <div className="mx-auto grid max-w-6xl grid-cols-2 gap-4 px-5 py-10 sm:px-6 sm:gap-6 sm:py-12 lg:grid-cols-4">
           {stats.map((item) => (
             <div key={item.label} className="rounded-2xl border border-zinc-800 bg-black/40 px-4 py-5 text-center sm:px-5 sm:py-6 hover:border-red-800 transition-colors">
-              <div className="text-2xl font-semibold text-red-500 sm:text-3xl lg:text-4xl">{item.value}</div>
+              <div className="text-2xl font-semibold text-crimson-accent sm:text-3xl lg:text-4xl">{item.value}</div>
               <div className="mt-2 text-xs text-zinc-200 font-medium sm:text-sm">{item.label}</div>
               <div className="mt-1 text-xs text-zinc-500">{item.sub}</div>
             </div>
@@ -162,12 +162,12 @@ export default function AboutPage() {
           <span className="text-zinc-300">Questions about buying, repairing or hosting ASIC miners?</span>
           <div className="flex gap-6 items-center flex-wrap justify-center">
             <a href="tel:+15146047050" className="font-semibold text-white hover:text-crimson-accent transition-colors flex items-center gap-1.5">
-              <svg className="w-4 h-4 text-red-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+              <svg className="w-4 h-4 text-crimson-accent" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
               </svg>
               {CALL_LABEL}
             </a>
-            <a href="mailto:info@canadabtcminers.ca" className="font-semibold text-red-500 hover:text-crimson-accent transition-colors">
+            <a href="mailto:info@canadabtcminers.ca" className="font-semibold text-crimson-accent hover:text-crimson-accent transition-colors">
               info@canadabtcminers.ca
             </a>
           </div>
@@ -177,7 +177,7 @@ export default function AboutPage() {
       {/* ── LEADERSHIP ── */}
       <section className="border-y border-zinc-900 bg-zinc-950/60">
         <div className="mx-auto max-w-5xl px-5 py-16 text-center sm:px-6 sm:py-20">
-          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-red-500 sm:text-sm">Leadership</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-crimson-accent sm:text-sm">Leadership</p>
           <h2 className="mt-4 text-3xl font-semibold sm:text-4xl">The Operators Behind The Business</h2>
           <p className="mx-auto mt-4 max-w-2xl text-sm text-zinc-400">
             You deal directly with the people who run the operation — not a call center.
@@ -202,7 +202,7 @@ export default function AboutPage() {
                   href="https://linkedin.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-5 inline-flex items-center gap-1.5 text-sm font-medium text-red-500 hover:text-crimson-accent transition-colors"
+                  className="mt-5 inline-flex items-center gap-1.5 text-sm font-medium text-crimson-accent hover:text-crimson-accent transition-colors"
                 >
                   <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
@@ -218,7 +218,7 @@ export default function AboutPage() {
       {/* ── WHY + DIFFERENTIATORS ── */}
       <section className="mx-auto max-w-7xl px-5 py-16 sm:px-6 sm:py-20 flex flex-col gap-6">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-red-500 sm:text-sm">Why We Built This</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-crimson-accent sm:text-sm">Why We Built This</p>
           <h2 className="mt-4 text-3xl font-semibold leading-tight sm:text-4xl lg:text-5xl">
             Reliable ASIC Support In Canada<br className="hidden lg:block" /> Should Not Be Hard To Find
           </h2>
@@ -229,7 +229,7 @@ export default function AboutPage() {
           </p>
         </div>
         <div className="rounded-[2rem] border border-red-950/60 bg-zinc-950 p-6 sm:p-8">
-          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-red-500 sm:text-sm mb-6">What Makes Us Different</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-crimson-accent sm:text-sm mb-6">What Makes Us Different</p>
           <div className="grid gap-4 sm:grid-cols-2">
             {differentiators.map((item) => (
               <div key={item.text} className="flex items-center gap-3 rounded-2xl border border-zinc-800 bg-black/50 px-4 py-5 text-sm font-medium text-zinc-200 sm:text-base hover:border-zinc-600 transition-colors">
@@ -243,25 +243,25 @@ export default function AboutPage() {
       {/* ── LOCATION + MAP ── */}
       <section className="mx-auto max-w-7xl px-5 py-16 sm:px-6 sm:py-20 flex flex-col gap-6">
         <div className="rounded-[2rem] border border-zinc-800 bg-zinc-950 p-6 sm:p-8">
-          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-red-500 sm:text-sm">Location</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-crimson-accent sm:text-sm">Location</p>
           <h2 className="mt-4 text-3xl font-semibold leading-tight sm:text-4xl">Montreal Repair Center</h2>
           <div className="mt-6 space-y-3 text-sm leading-7 text-zinc-300 sm:text-base sm:leading-8">
             <p>{t('about_location_p1')}</p>
             <p className="flex items-start gap-2">
-              <svg className="w-5 h-5 text-red-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+              <svg className="w-5 h-5 text-crimson-accent mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                 <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
               </svg>
               <span>6500 Route Transcanadienne, Suite 209, Saint-Laurent, Quebec H4T 1X4</span>
             </p>
             <p className="flex items-center gap-2">
-              <svg className="w-5 h-5 text-red-500 flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+              <svg className="w-5 h-5 text-crimson-accent flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
               </svg>
               <a href="tel:+15146047050" className="font-semibold text-white hover:text-crimson-accent transition-colors">{CALL_LABEL}</a>
             </p>
             <p className="flex items-center gap-2">
-              <svg className="w-5 h-5 text-red-500 flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+              <svg className="w-5 h-5 text-crimson-accent flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
               </svg>
               <a href="mailto:info@canadabtcminers.ca" className="font-semibold text-white hover:text-crimson-accent transition-colors">info@canadabtcminers.ca</a>
@@ -289,7 +289,7 @@ export default function AboutPage() {
         <div className="mx-auto max-w-7xl px-5 py-16 sm:px-6 sm:py-20">
           <div className="flex flex-col gap-6">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-red-500 sm:text-sm">Where We Sell</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-crimson-accent sm:text-sm">Where We Sell</p>
               <h2 className="mt-4 text-3xl font-semibold sm:text-4xl">Serving Clients Across Multiple Markets</h2>
               <p className="mt-6 max-w-2xl text-sm leading-7 text-zinc-300 sm:text-base sm:leading-8">
                 Based in Montreal, we ship ASIC miners and provide repair services to clients across
@@ -313,7 +313,7 @@ export default function AboutPage() {
       <section className="mx-auto max-w-7xl px-5 py-16 sm:px-6 sm:py-20">
         <div className="flex flex-col gap-6">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-red-500 sm:text-sm">Who We Work With</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-crimson-accent sm:text-sm">Who We Work With</p>
             <h2 className="mt-4 text-3xl font-semibold sm:text-4xl">Support For Every Type of Mining Client</h2>
             <p className="mt-6 max-w-xl text-sm leading-7 text-zinc-300 sm:text-base sm:leading-8">{t('about_who_desc')}</p>
           </div>
@@ -335,7 +335,7 @@ export default function AboutPage() {
       <section className="border-y border-zinc-900 bg-zinc-950">
         <div className="mx-auto max-w-7xl px-5 py-16 sm:px-6 sm:py-20">
           <div className="mx-auto max-w-3xl text-center">
-            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-red-500 sm:text-sm">Core Values</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-crimson-accent sm:text-sm">Core Values</p>
             <h2 className="mt-4 text-3xl font-semibold sm:text-4xl lg:text-5xl">Built On Practical Standards</h2>
           </div>
           <div className="mt-10 grid gap-5 sm:mt-12 sm:grid-cols-2 lg:grid-cols-4 sm:gap-6">
@@ -353,7 +353,7 @@ export default function AboutPage() {
       {/* ── REVIEWS ── */}
       <section className="mx-auto max-w-7xl px-5 py-16 sm:px-6 sm:py-20">
         <div className="mx-auto max-w-3xl text-center">
-          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-red-500 sm:text-sm">Client Feedback</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-crimson-accent sm:text-sm">Client Feedback</p>
           <h2 className="mt-4 text-3xl font-semibold sm:text-4xl lg:text-5xl">Real Reviews From Real Clients</h2>
           <p className="mt-4 text-sm text-zinc-400">All reviews from verified Google customers</p>
         </div>
@@ -377,7 +377,7 @@ export default function AboutPage() {
             href="https://g.page/r/CdfEOvDvGeTDEBM/review"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 font-semibold text-red-500 hover:text-crimson-accent transition-colors"
+            className="inline-flex items-center gap-2 font-semibold text-crimson-accent hover:text-crimson-accent transition-colors"
           >
             <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none">
               <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
@@ -394,7 +394,7 @@ export default function AboutPage() {
       <section className="relative overflow-hidden border-t border-zinc-900 bg-[linear-gradient(135deg,#0f0f10,#171717_45%,#101012)] px-5 py-20 text-center sm:px-6 sm:py-24">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_0%,rgba(220,38,38,0.10),transparent_65%)] pointer-events-none" />
         <div className="relative z-10 mx-auto max-w-3xl">
-          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-red-500 sm:text-sm mb-4">Get Started Today</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-crimson-accent sm:text-sm mb-4">Get Started Today</p>
           <h2 className="text-3xl font-semibold sm:text-4xl lg:text-5xl">Work With A Reliable ASIC Team</h2>
           <p className="mx-auto mt-6 max-w-2xl text-sm leading-8 text-zinc-300 sm:text-base">
             Call or message us. You get a clear answer before sending anything.

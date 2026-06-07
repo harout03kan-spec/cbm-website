@@ -94,7 +94,7 @@ export default function HostingPage() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.7 }}
           >
-            <div className="inline-flex rounded-full border border-zinc-800 bg-zinc-950 px-4 py-2 text-sm font-medium uppercase tracking-[0.22em] text-zinc-300">
+            <div className="inline-flex rounded-full border border-crimson-accent/30 bg-crimson-accent/10 px-4 py-2 text-sm font-semibold uppercase tracking-[0.22em] text-crimson-accent">
               {t('host_hero_tag')}
             </div>
             <h1 className="mt-6 max-w-4xl text-5xl font-semibold leading-tight tracking-tight sm:text-6xl lg:text-7xl">
