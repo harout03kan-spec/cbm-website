@@ -81,7 +81,7 @@ const Navbar = () => {
         </div>
 
         {mobileOpen && (
-          <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="md:hidden mt-4 pb-4 border-t border-white/10 pt-4 flex flex-col gap-4">
+          <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="md:hidden relative z-50 -mx-6 mt-4 flex flex-col gap-4 border-t border-white/10 bg-black/90 px-6 pb-5 pt-4 backdrop-blur-xl shadow-xl shadow-crimson-accent/10">
             {navLinks.map((link) => (
               <Link key={link.to} to={link.to} className={`font-inter font-medium text-base transition-colors ${location.pathname === link.to ? 'text-crimson-accent' : 'text-white hover:text-crimson-accent'}`}>
                 {link.label}
