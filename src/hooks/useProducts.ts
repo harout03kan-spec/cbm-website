@@ -1,34 +1,11 @@
 import { useState, useEffect } from 'react';
 import { fetchProducts, fetchProduct, Product } from '../lib/api';
-import { products as mockProducts } from '../mocks/products';
+import { CATALOG_PRODUCTS } from '../data/catalog';
 
-// Convert mock product shape to Product interface shape
-function normalizeMock(p: typeof mockProducts[0]): Product {
-  return {
-    id: p.id,
-    name: p.name,
-    slug: p.name.toLowerCase().replace(/\s+/g, '-'),
-    price: p.price,
-    sale_price: '',
-    stock_status: 'instock',
-    stock_quantity: null,
-    condition: p.condition,
-    cooling: p.cooling,
-    algorithm: (p as any).algorithm || 'SHA-256',
-    hashrate: p.hashrate,
-    power: p.power,
-    efficiency: p.efficiency,
-    image: p.image,
-    images: [p.image],
-    badge: '',
-    short_description: '',
-    featured: p.id <= 4,
-    categories: [],
-    permalink: '',
-  };
-}
-
-const MOCK_NORMALIZED = mockProducts.map(normalizeMock);
+// While the live WordPress API is blocked by the SiteGround anti-bot challenge,
+// the real exported catalog (scripts/catalog_source.csv → src/data/catalog.ts)
+// is the product data source. When the API is reachable again it takes priority.
+const MOCK_NORMALIZED = CATALOG_PRODUCTS;
 
 // ─── useProducts ──────────────────────────────────────────────────────────────
 export function useProducts(params: {

@@ -165,10 +165,10 @@ const ProductPage = () => {
                 <h3 className="text-white font-inter font-bold text-xl mb-4">Technical Specifications</h3>
                 <div className="grid grid-cols-3 gap-4">
                   {[
-                    { icon: 'ri-speed-fill',     value: product.hashrate, unit: 'TH/s Hashrate' },
+                    { icon: 'ri-speed-fill',     value: product.hashrate, unit: `${product.hashrate_unit || 'TH/s'} Hashrate` },
                     { icon: 'ri-flashlight-fill', value: product.power,    unit: 'Watts Power' },
-                    { icon: 'ri-leaf-fill',       value: product.efficiency, unit: 'J/TH Efficiency' },
-                  ].map(s => (
+                    { icon: 'ri-leaf-fill',       value: product.efficiency, unit: `${product.efficiency_unit || 'J/TH'} Efficiency` },
+                  ].filter(s => s.value && String(s.value).trim()).map(s => (
                     <div key={s.unit} className="bg-gradient-to-br from-graphite to-midnight border border-crimson-accent/30 rounded-xl p-4">
                       <div className="w-10 h-10 flex items-center justify-center mb-3">
                         <i className={`${s.icon} text-crimson-accent text-3xl`}></i>
@@ -261,11 +261,11 @@ const ProductPage = () => {
               <h3 className="text-crimson-accent font-inter font-bold text-xl mb-4">Performance</h3>
               <div className="space-y-3">
                 {[
-                  ['Algorithm',         product.algorithm || 'SHA-256'],
-                  ['Hashrate',          `${product.hashrate} TH/s ±5%`],
-                  ['Power Consumption', `${product.power}W ±10%`],
-                  ['Energy Efficiency', `${product.efficiency} J/TH`],
-                ].map(([k, v]) => (
+                  ['Algorithm',         product.algorithm],
+                  ['Hashrate',          product.hashrate ? `${product.hashrate} ${product.hashrate_unit || 'TH/s'}` : ''],
+                  ['Power Consumption', product.power ? `${product.power}W` : ''],
+                  ['Energy Efficiency', product.efficiency ? `${product.efficiency} ${product.efficiency_unit || 'J/TH'}` : ''],
+                ].filter(([, v]) => v && String(v).trim()).map(([k, v]) => (
                   <div key={k} className="flex justify-between items-center py-2 border-b border-white/5 last:border-0">
                     <span className="text-soft-gray font-inter">{k}</span>
                     <span className="text-white font-inter font-semibold">{v}</span>
@@ -318,9 +318,9 @@ const ProductPage = () => {
                         <span className="text-soft-gray font-inter text-sm">CAD</span>
                       </div>
                       <div className="grid grid-cols-3 gap-2 text-center">
-                        <div><div className="text-white font-inter font-bold text-lg">{p.hashrate}</div><div className="text-soft-gray font-inter text-xs">TH/s</div></div>
-                        <div><div className="text-white font-inter font-bold text-lg">{p.power}</div><div className="text-soft-gray font-inter text-xs">Watts</div></div>
-                        <div><div className="text-white font-inter font-bold text-lg">{p.efficiency}</div><div className="text-soft-gray font-inter text-xs">J/TH</div></div>
+                        <div><div className="text-white font-inter font-bold text-lg">{p.hashrate || '—'}</div><div className="text-soft-gray font-inter text-xs">{p.hashrate_unit || 'TH/s'}</div></div>
+                        <div><div className="text-white font-inter font-bold text-lg">{p.power || '—'}</div><div className="text-soft-gray font-inter text-xs">Watts</div></div>
+                        <div><div className="text-white font-inter font-bold text-lg">{p.efficiency || '—'}</div><div className="text-soft-gray font-inter text-xs">{p.efficiency_unit || 'J/TH'}</div></div>
                       </div>
                     </div>
                   </Link>

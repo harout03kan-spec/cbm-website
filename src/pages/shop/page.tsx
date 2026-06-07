@@ -66,7 +66,7 @@ const ShopPage = () => {
   const isMiner = (p: Product) =>
     !isAccessory(p) && (hasHashrate(p) || /miner|antminer|whatsminer|avalon|\b[sml]\d{1,2}\b|\bks\d|\bz15\b/.test(lc(p.name)));
 
-  const ALTCOIN_RE = /scrypt|kheavyhash|heavyhash|kaspa|blake3|blake2|eaglesong|equihash|x11|handshake|blake256|cuckoo|\bdash\b|\bdoge\b|litecoin|\bltc\b|\bkas\b|\bzec\b|\bhns\b|\bl[379]\b|\bks\d|\bz15\b/;
+  const ALTCOIN_RE = /scrypt|kheavyhash|heavyhash|kaspa|blake3|blake2|eaglesong|equihash|x11|handshake|blake256|cuckoo|aleo|\bdash\b|\bdoge\b|litecoin|\bltc\b|\bkas\b|\bzec\b|\bhns\b|\bl[379]\b|\bks\d|\bz15\b|dg1|volcminer|\bae\d\b/;
   const BITCOIN_RE = /sha-?256|bitcoin|\bbtc\b/;
 
   // Miner categories never include accessories or unclear products.
@@ -81,17 +81,19 @@ const ShopPage = () => {
     return false;
   };
 
-  // Accessory subcategory matcher.
-  const accSubMatch = (p: Product, sub: string): boolean => {
-    if (sub === 'all') return true;
+  // Each accessory belongs to exactly one subcategory (precedence order avoids
+  // an item showing up under two filters — e.g. an APW power *cord* is a cable).
+  const accSubOf = (p: Product): string => {
     const tx = ptext(p);
-    if (sub === 'psu')        return /power supply|psu/.test(tx);
-    if (sub === 'fans')       return /\bfans?\b/.test(tx);
-    if (sub === 'control')    return /control board/.test(tx);
-    if (sub === 'cables')     return /\bcables?\b|\bcord\b/.test(tx);
-    if (sub === 'hashboards') return /hashboard|hash board|replacement board|\bboard\b/.test(tx);
-    return true;
+    if (/hashboard|hash board/.test(tx)) return 'hashboards';
+    if (/control board|motherboard|amlogic|xilinx/.test(tx)) return 'control';
+    if (/\bcord\b|\bcables?\b|splitter/.test(tx)) return 'cables';
+    if (/power supply|psu|\bapw\d/.test(tx)) return 'psu';
+    if (/\bfans?\b|cooling fan/.test(tx)) return 'fans';
+    return 'other';
   };
+  const accSubMatch = (p: Product, sub: string): boolean =>
+    sub === 'all' ? true : accSubOf(p) === sub;
 
   // Coin / mining-type badge (miners only). Returns an i18n key or null.
   const coinTypeKey = (p: Product): string | null => {
@@ -333,11 +335,12 @@ const ShopPage = () => {
               const showPrice = !unclear && priceNum != null && priceNum > 0;
               // Miner specs only — accessories never show TH/s, W, J/TH.
               const specs = (!unclear && miner) ? [
-                // TH/s from the real field, else parsed from the title (e.g. "95T").
-                { value: product.hashrate || hashFromTitle(product.name), unit: 'TH/s' },
-                // Watts / J·TH only from real data — never invented.
+                // Hashrate from the real field, else parsed from the title (e.g. "95T").
+                // Unit comes from the data (TH/s, GH/s, MH/s); defaults to TH/s.
+                { value: product.hashrate || hashFromTitle(product.name), unit: product.hashrate_unit || 'TH/s' },
+                // Watts / efficiency only from real data — never invented.
                 { value: product.power, unit: 'Watts' },
-                { value: product.efficiency, unit: 'J/TH' },
+                { value: product.efficiency, unit: product.efficiency_unit || 'J/TH' },
               ].filter((s) => s.value && String(s.value).trim()) : [];
               const condKey = conditionKey(product);
               const coinKey = coinTypeKey(product);

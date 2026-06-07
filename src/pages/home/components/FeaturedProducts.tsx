@@ -95,7 +95,11 @@ export default function FeaturedProducts() {
                 <div className="p-[26px] flex flex-col flex-1">
                   <h3 className="text-white font-inter font-extrabold text-[27px] mb-[10px] leading-tight">{product.name}</h3>
                   <p className="text-[#b8c0cc] font-inter text-[15px] mb-[18px]">
-                    {product.hashrate} TH/s &nbsp;•&nbsp; {product.power} W &nbsp;•&nbsp; {product.efficiency} J/TH
+                    {[
+                      product.hashrate && `${product.hashrate} ${product.hashrate_unit || 'TH/s'}`,
+                      product.power && `${product.power} W`,
+                      product.efficiency && `${product.efficiency} ${product.efficiency_unit || 'J/TH'}`,
+                    ].filter(Boolean).join('  •  ')}
                   </p>
                   <div className="flex items-end gap-[10px] mb-[18px]">
                     <span className="text-white font-inter font-black text-[58px] leading-none">${Number(product.price).toLocaleString()}</span>

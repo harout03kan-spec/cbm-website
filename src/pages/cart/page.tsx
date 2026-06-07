@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import Navbar from '../../components/feature/Navbar';
 import Footer from '../../components/feature/Footer';
-import { products } from '../../mocks/products';
+import { CATALOG_PRODUCTS as products } from '../../data/catalog';
 import { useTranslation } from 'react-i18next';
 import { useCart } from '../../hooks/useCart';
 
@@ -158,18 +158,24 @@ const CartPage = () => {
 
                         {/* Specs */}
                         <div className="flex gap-6 mb-4">
-                          <div>
-                            <div className="text-soft-gray font-inter text-xs mb-1">Hashrate</div>
-                            <div className="text-white font-inter font-bold">{product.hashrate} TH/s</div>
-                          </div>
-                          <div>
-                            <div className="text-soft-gray font-inter text-xs mb-1">Power</div>
-                            <div className="text-white font-inter font-bold">{product.power}W</div>
-                          </div>
-                          <div>
-                            <div className="text-soft-gray font-inter text-xs mb-1">Efficiency</div>
-                            <div className="text-white font-inter font-bold">{product.efficiency} J/TH</div>
-                          </div>
+                          {product.hashrate && (
+                            <div>
+                              <div className="text-soft-gray font-inter text-xs mb-1">Hashrate</div>
+                              <div className="text-white font-inter font-bold">{product.hashrate} {product.hashrate_unit || 'TH/s'}</div>
+                            </div>
+                          )}
+                          {product.power && (
+                            <div>
+                              <div className="text-soft-gray font-inter text-xs mb-1">Power</div>
+                              <div className="text-white font-inter font-bold">{product.power}W</div>
+                            </div>
+                          )}
+                          {product.efficiency && (
+                            <div>
+                              <div className="text-soft-gray font-inter text-xs mb-1">Efficiency</div>
+                              <div className="text-white font-inter font-bold">{product.efficiency} {product.efficiency_unit || 'J/TH'}</div>
+                            </div>
+                          )}
                         </div>
 
                         {/* Quantity and Price */}
