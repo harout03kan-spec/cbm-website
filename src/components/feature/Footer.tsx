@@ -9,6 +9,8 @@ export default function Footer() {
   const paymentMethods = [
     { key: 'footer_pay_credit', icon: 'ri-bank-card-line' },
     { key: 'footer_pay_debit', icon: 'ri-bank-card-2-line' },
+    { key: 'footer_pay_etransfer', icon: 'ri-exchange-funds-line' },
+    { key: 'footer_pay_wire', icon: 'ri-bank-line' },
     { key: 'footer_pay_crypto', icon: 'ri-coin-line' },
     { key: 'footer_pay_cash', icon: 'ri-cash-line' },
   ];
@@ -70,7 +72,7 @@ export default function Footer() {
         </div>
         <div className="border-t border-[#1A1A1A] pt-8 mb-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-5">
           <span className="text-gray-500 text-xs font-semibold uppercase tracking-[0.18em]">{t('footer_payment_title')}</span>
-          <div className="grid grid-cols-4 gap-1.5 sm:flex sm:flex-wrap sm:items-center sm:gap-2">
+          <div className="grid grid-cols-3 gap-1.5 sm:flex sm:flex-wrap sm:items-center sm:gap-2">
             {paymentMethods.map((m) => (
               <span key={m.key} className="flex flex-col items-center justify-center gap-1 text-center leading-tight rounded-lg border border-white/10 bg-white/5 px-1.5 py-2 text-[10px] text-gray-300 sm:flex-row sm:gap-1.5 sm:px-3 sm:py-1.5 sm:text-sm">
                 <i className={`${m.icon} text-sm text-crimson-accent sm:text-base`} aria-hidden="true"></i>

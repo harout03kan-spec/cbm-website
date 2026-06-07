@@ -190,6 +190,8 @@ const fr = {
   footer_payment_title: 'Modes de paiement acceptés :',
   footer_pay_credit: 'Carte de crédit',
   footer_pay_debit: 'Carte de débit',
+  footer_pay_etransfer: 'Virement Interac',
+  footer_pay_wire: 'Virement bancaire',
   footer_pay_crypto: 'Crypto',
   footer_pay_cash: 'Comptant',
 
