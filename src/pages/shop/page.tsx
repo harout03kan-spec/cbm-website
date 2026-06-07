@@ -7,6 +7,7 @@ import { useProducts } from '../../hooks/useProducts';
 import { useTranslation } from 'react-i18next';
 import Seo from '../../components/feature/Seo';
 import type { Product } from '../../lib/api';
+import { availabilityKey } from '../../lib/availability';
 
 const ShopPage = () => {
   const { t } = useTranslation();
@@ -116,21 +117,6 @@ const ShopPage = () => {
     if (/refurb/.test(c)) return 'shop_cond_refurb';
     if (/used/.test(c)) return 'shop_cond_used';
     return null;
-  };
-
-  // Availability — conservative. We never claim "In stock" (physically here now)
-  // because the catalog can't prove physical presence in Canada/our warehouse.
-  // New/instock/backorder items are orderable from the supplier (~7-9 days) →
-  // "Available to order". Used/unknown condition → "Contact us for availability".
-  const availabilityKey = (p: Product): string => {
-    const s = lc(p.stock_status);
-    if (s === 'outofstock') return 'shop_avail_outofstock';
-    const cond = lc(p.condition);
-    if (s === 'instock' || s === 'onbackorder') {
-      if (/new/.test(cond)) return 'shop_avail_order';
-      return 'shop_avail_contact';
-    }
-    return 'shop_avail_contact';
   };
 
   // Pull hashrate from a product title like "Antminer S19 95T" → "95" (TH/s).
@@ -345,7 +331,7 @@ const ShopPage = () => {
               const condKey = conditionKey(product);
               const coinKey = coinTypeKey(product);
               const availKey = availabilityKey(product);
-              const purchasable = showPrice && (availKey === 'shop_avail_instock' || availKey === 'shop_avail_order');
+              const outOfStock = lc(product.stock_status) === 'outofstock';
               const displayName = unclear ? t('shop_pending_name') : cleanName(product.name);
               const availStyle = availKey === 'shop_avail_instock'
                 ? 'border-green-700/50 bg-green-950/30 text-green-400'
@@ -412,10 +398,12 @@ const ShopPage = () => {
                   </div>
 
                   <div className="mt-auto flex gap-3">
-                    {purchasable ? (
+                    {showPrice ? (
                       <>
-                        <button className="relative z-10 flex-1 min-h-[44px] py-3 bg-crimson-accent text-white font-inter font-semibold rounded-lg hover:bg-red-700 active:bg-red-800 transition-colors cursor-pointer whitespace-nowrap focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-crimson-accent">
-                          {t('shop_add_cart')}
+                        <button className="relative z-10 flex-1 min-h-[44px] py-3 bg-crimson-accent text-white font-inter font-semibold rounded-lg hover:bg-red-700 active:bg-red-800 transition-colors cursor-pointer whitespace-nowrap focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-crimson-accent disabled:opacity-60 disabled:cursor-not-allowed"
+                          disabled={outOfStock}
+                        >
+                          {outOfStock ? t('shop_out_stock') : t('shop_add_cart')}
                         </button>
                         <Link to={`/product?id=${product.id}`}
                           className="relative z-10 flex-1 min-h-[44px] flex items-center justify-center py-3 bg-transparent border border-white/30 text-white font-inter font-normal rounded-lg hover:bg-white/10 active:bg-white/15 transition-colors cursor-pointer whitespace-nowrap text-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/40"

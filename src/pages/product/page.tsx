@@ -5,6 +5,7 @@ import Navbar from '../../components/feature/Navbar';
 import Footer from '../../components/feature/Footer';
 import { useProduct, useProducts } from '../../hooks/useProducts';
 import { useCart } from '../../hooks/useCart';
+import { availabilityKey } from '../../lib/availability';
 import { useTranslation } from 'react-i18next';
 
 const ProductPage = () => {
@@ -142,19 +143,17 @@ const ProductPage = () => {
             <div>
               <div className="flex flex-wrap items-center gap-3 mb-4">
                 <h1 className="font-inter font-bold text-4xl text-white">{product.name}</h1>
-                <span className="px-3 py-1 bg-white/20 text-white rounded-full text-sm font-inter font-semibold">{product.condition}</span>
-                <span className="px-3 py-1 bg-white/20 text-white rounded-full text-sm font-inter font-semibold">{product.cooling}</span>
+                {product.condition && <span className="px-3 py-1 bg-white/20 text-white rounded-full text-sm font-inter font-semibold">{product.condition}</span>}
+                {product.cooling && <span className="px-3 py-1 bg-white/20 text-white rounded-full text-sm font-inter font-semibold">{product.cooling}</span>}
               </div>
 
               <div className="mb-6 pb-6 border-b border-white/10">
                 <div className="flex items-baseline gap-3 mb-2">
                   <span className="text-crimson-accent font-inter font-bold text-5xl">${Number(product.price).toLocaleString()}</span>
                   <span className="text-soft-gray font-inter text-xl">CAD</span>
-                  {product.stock_status !== 'instock' && (
-                    <span className="ml-2 px-3 py-1 bg-amber-500/20 border border-amber-500/50 text-amber-400 text-sm rounded-full font-inter">
-                      {product.stock_status === 'outofstock' ? 'Out of Stock' : 'Pre-Order'}
-                    </span>
-                  )}
+                  <span className="ml-2 px-3 py-1 bg-amber-500/20 border border-amber-500/50 text-amber-400 text-sm rounded-full font-inter">
+                    {t(availabilityKey(product))}
+                  </span>
                 </div>
                 {product.short_description && (
                   <p className="text-soft-gray font-inter text-sm mt-2">{product.short_description}</p>
@@ -279,9 +278,9 @@ const ProductPage = () => {
                 {[
                   ['Condition',   product.condition],
                   ['Cooling',     product.cooling],
-                  ['Stock',       product.stock_status === 'instock' ? 'In Stock' : product.stock_status === 'outofstock' ? 'Out of Stock' : 'Pre-Order'],
-                  ['Warranty',    product.condition === 'New' ? 'Manufacturer warranty' : '30-day repair warranty'],
-                ].map(([k, v]) => (
+                  ['Availability', t(availabilityKey(product))],
+                  ['Warranty',    product.condition === 'New' ? 'Manufacturer warranty' : product.condition ? '30-day repair warranty' : ''],
+                ].filter(([, v]) => v && String(v).trim()).map(([k, v]) => (
                   <div key={k} className="flex justify-between items-center py-2 border-b border-white/5 last:border-0">
                     <span className="text-soft-gray font-inter">{k}</span>
                     <span className="text-white font-inter font-semibold">{v}</span>
