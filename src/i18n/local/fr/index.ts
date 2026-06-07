@@ -475,7 +475,7 @@ const fr = {
   shop_buy_now: 'Acheter Maintenant',
   shop_in_stock: 'En Stock',
   shop_out_stock: 'Rupture de Stock',
-  shop_search_ph: 'Rechercher par modèle, marque ou hashrate...',
+  shop_search_ph: 'Rechercher par modèle ou marque...',
   shop_loading: 'Chargement des mineurs...',
   shop_showing_label: 'Affichage de',
   shop_showing_suffix: 'mineurs',

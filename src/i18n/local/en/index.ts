@@ -475,7 +475,7 @@ const en = {
   shop_buy_now: 'Buy Now',
   shop_in_stock: 'In Stock',
   shop_out_stock: 'Out of Stock',
-  shop_search_ph: 'Search miners by model, brand, or hashrate...',
+  shop_search_ph: 'Search miners by model or brand...',
   shop_loading: 'Loading miners...',
   shop_showing_label: 'Showing',
   shop_showing_suffix: 'miners',
