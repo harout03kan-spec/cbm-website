@@ -69,15 +69,25 @@ const ShopPage = () => {
   const ALTCOIN_RE = /scrypt|kheavyhash|heavyhash|kaspa|blake3|blake2|eaglesong|equihash|x11|handshake|blake256|cuckoo|aleo|\bdash\b|\bdoge\b|litecoin|\bltc\b|\bkas\b|\bzec\b|\bhns\b|\bl[379]\b|\bks\d|\bz15\b|dg1|volcminer|\bae\d\b/;
   const BITCOIN_RE = /sha-?256|bitcoin|\bbtc\b/;
 
-  // Miner categories never include accessories or unclear products.
+  // Static category traits (algorithm/cooling based — reliable, per-product).
+  const isHydro = (p: Product) => lc(p.cooling) === 'hydro' || /hydro|\bhyd\b/.test(ptext(p));
+  const isHome = (p: Product) => /\bhome\b/.test(ptext(p)) || (toNumber(p.power) ?? Infinity) <= 2500;
+  const isSha = (p: Product) => /sha-?256/.test(lc(p.algorithm)); // SHA-256 = Bitcoin family
+
+  // Category logic:
+  //  All Miners  → every miner (Bitcoin air, Hydro, Altcoin, Home).
+  //  Bitcoin     → SHA-256, air-cooled only (no Hydro, no Home, no altcoin).
+  //  Hydro       → any water-cooled miner.
+  //  Altcoin     → any non-SHA-256 miner (Scrypt L7/L9/DG1+/D1, kHeavyHash KS7, Aleo).
+  //  Home        → home miners (e.g. Avalon Q), excluding Hydro.
   const inCategory = (p: Product, cat: string): boolean => {
     if (cat === 'accessories') return isAccessory(p);
     if (cat === 'all') return isMiner(p);
     if (isUnclear(p) || isAccessory(p) || !isMiner(p)) return false;
-    if (cat === 'hydro') return lc(p.cooling) === 'hydro' || /hydro/.test(ptext(p));
-    if (cat === 'home')  return /\bhome\b/.test(ptext(p)) || (toNumber(p.power) ?? Infinity) <= 2500;
-    if (cat === 'altcoin') return ALTCOIN_RE.test(ptext(p)) && !BITCOIN_RE.test(lc(p.algorithm));
-    if (cat === 'bitcoin')  return BITCOIN_RE.test(ptext(p)) || !ALTCOIN_RE.test(ptext(p));
+    if (cat === 'hydro') return isHydro(p);
+    if (cat === 'altcoin') return !isSha(p);
+    if (cat === 'home') return isHome(p) && !isHydro(p);
+    if (cat === 'bitcoin') return isSha(p) && !isHydro(p) && !isHome(p);
     return false;
   };
 
@@ -346,7 +356,7 @@ const ShopPage = () => {
                   )}
                   {/* Top corner badges: condition + coin/mining type */}
                   {!unclear && (condKey || coinKey) && (
-                    <div className="absolute top-4 left-4 flex flex-col gap-2">
+                    <div className="absolute top-4 left-4 flex flex-col items-start gap-2">
                       {condKey && <span className="px-3 py-1 bg-black/70 border border-white/30 text-white text-xs font-inter font-semibold rounded">{t(condKey)}</span>}
                       {coinKey && <span className="px-3 py-1 bg-crimson-accent text-white text-xs font-inter font-semibold rounded">{t(coinKey)}</span>}
                     </div>
