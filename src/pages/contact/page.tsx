@@ -98,9 +98,23 @@ export default function ContactPage() {
         setStatus('sent');
         setForm(initialForm);
       } else {
+        const responseText = await res.text().catch(() => '');
+        // Diagnostic only (console) — customers never see these details.
+        console.error('[contact] submission failed', {
+          status: res.status,
+          statusText: res.statusText,
+          postUrl: '/',
+          formName: NETLIFY_FORM_NAME,
+          responsePreview: responseText.slice(0, 300),
+        });
         setStatus('error');
       }
-    } catch {
+    } catch (err) {
+      console.error('[contact] submission error', {
+        postUrl: '/',
+        formName: NETLIFY_FORM_NAME,
+        error: err,
+      });
       setStatus('error');
     }
   };
