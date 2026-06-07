@@ -105,16 +105,20 @@ const ShopPage = () => {
   const accSubMatch = (p: Product, sub: string): boolean =>
     sub === 'all' ? true : accSubOf(p) === sub;
 
-  // Coin / mining-type badge (miners only). Returns an i18n key or null.
+  // Red type badge (miners only). Hydro miners read "Hydro"; otherwise the
+  // mining type by algorithm (Bitcoin / LTC/DOGE / KAS / ALEO). "Home" is a
+  // filter only and is never a badge. Returns an i18n key or null.
   const coinTypeKey = (p: Product): string | null => {
     if (!isMiner(p) || isUnclear(p)) return null;
+    if (isHydro(p)) return 'shop_badge_hydro';
     const tx = ptext(p);
-    if (/scrypt|litecoin|\bltc\b|\bdoge\b/.test(tx)) return 'shop_badge_coin_ltc';
-    if (/kaspa|kheavyhash|\bkas\b/.test(tx))         return 'shop_badge_coin_kas';
-    if (/zcash|equihash|\bzec\b|\bz15\b/.test(tx))   return 'shop_badge_coin_zec';
-    if (/\bdash\b|x11/.test(tx))                     return 'shop_badge_coin_dash';
-    if (BITCOIN_RE.test(tx) || !ALTCOIN_RE.test(tx)) return 'shop_badge_coin_btc';
-    if (ALTCOIN_RE.test(tx))                         return 'shop_badge_coin_alt';
+    if (/aleo|\bae\d\b/.test(tx))                     return 'shop_badge_coin_aleo';
+    if (/scrypt|litecoin|\bltc\b|\bdoge\b|\bl[379]\b|dg1|volcminer/.test(tx)) return 'shop_badge_coin_ltc';
+    if (/kaspa|kheavyhash|\bkas\b|\bks\d/.test(tx))   return 'shop_badge_coin_kas';
+    if (/zcash|equihash|\bzec\b|\bz15\b/.test(tx))    return 'shop_badge_coin_zec';
+    if (/\bdash\b|x11/.test(tx))                      return 'shop_badge_coin_dash';
+    if (BITCOIN_RE.test(tx) || !ALTCOIN_RE.test(tx))  return 'shop_badge_coin_btc';
+    if (ALTCOIN_RE.test(tx))                          return 'shop_badge_coin_alt';
     return null;
   };
 
