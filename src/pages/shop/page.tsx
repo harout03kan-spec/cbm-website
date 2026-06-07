@@ -7,7 +7,6 @@ import { useProducts } from '../../hooks/useProducts';
 import { useTranslation } from 'react-i18next';
 import Seo from '../../components/feature/Seo';
 import type { Product } from '../../lib/api';
-import { availabilityKey } from '../../lib/availability';
 
 const ShopPage = () => {
   const { t } = useTranslation();
@@ -330,14 +329,7 @@ const ShopPage = () => {
               ].filter((s) => s.value && String(s.value).trim()) : [];
               const condKey = conditionKey(product);
               const coinKey = coinTypeKey(product);
-              const availKey = availabilityKey(product);
-              const outOfStock = lc(product.stock_status) === 'outofstock';
               const displayName = unclear ? t('shop_pending_name') : cleanName(product.name);
-              const availStyle = availKey === 'shop_avail_instock'
-                ? 'border-green-700/50 bg-green-950/30 text-green-400'
-                : availKey === 'shop_avail_outofstock'
-                ? 'border-amber-800/50 bg-amber-950/30 text-amber-400'
-                : 'border-crimson-accent/40 bg-crimson-accent/10 text-crimson-accent';
               return (
               <motion.div key={product.id}
                 initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }}
@@ -389,26 +381,11 @@ const ShopPage = () => {
                     <p className="text-soft-gray font-inter text-sm leading-6 mb-4">{t('shop_pending_desc')}</p>
                   )}
 
-                  {/* Availability badge */}
-                  <div className="mb-6">
-                    <span className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-inter font-medium ${availStyle}`}>
-                      <span className="h-1.5 w-1.5 rounded-full bg-current" />
-                      {t(availKey)}
-                    </span>
-                  </div>
-
                   <div className="mt-auto flex gap-3">
                     {showPrice ? (
-                      <>
-                        <button className="relative z-10 flex-1 min-h-[44px] py-3 bg-crimson-accent text-white font-inter font-semibold rounded-lg hover:bg-red-700 active:bg-red-800 transition-colors cursor-pointer whitespace-nowrap focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-crimson-accent disabled:opacity-60 disabled:cursor-not-allowed"
-                          disabled={outOfStock}
-                        >
-                          {outOfStock ? t('shop_out_stock') : t('shop_add_cart')}
-                        </button>
-                        <Link to={`/product?id=${product.id}`}
-                          className="relative z-10 flex-1 min-h-[44px] flex items-center justify-center py-3 bg-transparent border border-white/30 text-white font-inter font-normal rounded-lg hover:bg-white/10 active:bg-white/15 transition-colors cursor-pointer whitespace-nowrap text-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/40"
-                        >{t('fp_view')}</Link>
-                      </>
+                      <button className="relative z-10 flex-1 min-h-[44px] py-3 bg-crimson-accent text-white font-inter font-semibold rounded-lg hover:bg-red-700 active:bg-red-800 transition-colors cursor-pointer whitespace-nowrap focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-crimson-accent">
+                        {t('shop_add_cart')}
+                      </button>
                     ) : (
                       <Link to="/contact#contact-form"
                         className="relative z-10 flex-1 min-h-[44px] flex items-center justify-center gap-2 py-3 bg-crimson-accent text-white font-inter font-semibold rounded-lg hover:bg-red-700 active:bg-red-800 transition-colors text-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-crimson-accent"
@@ -417,6 +394,9 @@ const ShopPage = () => {
                         {t('shop_pending_cta')}
                       </Link>
                     )}
+                    <Link to={`/product?id=${product.id}`}
+                      className="relative z-10 flex-1 min-h-[44px] flex items-center justify-center py-3 bg-transparent border border-white/30 text-white font-inter font-normal rounded-lg hover:bg-white/10 active:bg-white/15 transition-colors cursor-pointer whitespace-nowrap text-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/40"
+                    >{t('fp_view')}</Link>
                   </div>
                 </div>
               </motion.div>

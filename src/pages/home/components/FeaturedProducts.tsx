@@ -106,10 +106,6 @@ export default function FeaturedProducts() {
                     <span className="text-[#94a3b8] font-inter font-bold text-[18px] mb-2">CAD</span>
                   </div>
                   <div className="flex flex-col gap-[7px] mb-[22px]">
-                    <div className="text-[#e5e7eb] font-inter text-[14px]">
-                      <span className="inline-block h-1.5 w-1.5 rounded-full bg-red-500 mr-2 mb-0.5 shrink-0"></span>
-                      {product.stock_status === 'instock' ? t('fp_instock') : product.stock_status === 'onbackorder' ? t('fp_preorder') : t('fp_contact')}
-                    </div>
                     {product.condition === 'New' && (
                       <div className="text-[#e5e7eb] font-inter text-[14px]">
                         <span className="inline-block h-1.5 w-1.5 rounded-full bg-red-500 mr-2 mb-0.5 shrink-0"></span>

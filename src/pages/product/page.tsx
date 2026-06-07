@@ -5,7 +5,6 @@ import Navbar from '../../components/feature/Navbar';
 import Footer from '../../components/feature/Footer';
 import { useProduct, useProducts } from '../../hooks/useProducts';
 import { useCart } from '../../hooks/useCart';
-import { availabilityKey } from '../../lib/availability';
 import { useTranslation } from 'react-i18next';
 
 const ProductPage = () => {
@@ -151,9 +150,6 @@ const ProductPage = () => {
                 <div className="flex items-baseline gap-3 mb-2">
                   <span className="text-crimson-accent font-inter font-bold text-5xl">${Number(product.price).toLocaleString()}</span>
                   <span className="text-soft-gray font-inter text-xl">CAD</span>
-                  <span className="ml-2 px-3 py-1 bg-amber-500/20 border border-amber-500/50 text-amber-400 text-sm rounded-full font-inter">
-                    {t(availabilityKey(product))}
-                  </span>
                 </div>
                 {product.short_description && (
                   <p className="text-soft-gray font-inter text-sm mt-2">{product.short_description}</p>
@@ -212,11 +208,11 @@ const ProductPage = () => {
               </div>
 
               <div className="flex gap-4 mb-6">
-                <button onClick={handleAddToCart} disabled={product.stock_status === 'outofstock'}
-                  className="flex-1 py-4 bg-gradient-crimson text-white font-inter font-bold text-lg rounded-xl hover:scale-105 transition-transform cursor-pointer whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed disabled:scale-100"
+                <button onClick={handleAddToCart}
+                  className="flex-1 py-4 bg-gradient-crimson text-white font-inter font-bold text-lg rounded-xl hover:scale-105 transition-transform cursor-pointer whitespace-nowrap"
                 >
                   <i className="ri-shopping-cart-fill mr-2"></i>
-                  {product.stock_status === 'outofstock' ? t('shop_out_stock') : t('product_add_cart')}
+                  {t('product_add_cart')}
                 </button>
                 <button className="w-16 h-16 flex items-center justify-center border-2 border-white/30 text-white rounded-xl hover:bg-white hover:text-midnight transition-colors cursor-pointer">
                   <i className="ri-heart-line text-2xl"></i>
@@ -278,7 +274,6 @@ const ProductPage = () => {
                 {[
                   ['Condition',   product.condition],
                   ['Cooling',     product.cooling],
-                  ['Availability', t(availabilityKey(product))],
                   ['Warranty',    product.condition === 'New' ? 'Manufacturer warranty' : product.condition ? '30-day repair warranty' : ''],
                 ].filter(([, v]) => v && String(v).trim()).map(([k, v]) => (
                   <div key={k} className="flex justify-between items-center py-2 border-b border-white/5 last:border-0">
