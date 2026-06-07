@@ -8,6 +8,7 @@ export interface Product {
   name: string;
   slug: string;
   sku?: string;
+  brand?: string;          // manufacturer (Bitmain | MicroBT | Canaan | ElphaPex | IceRiver | VolcMiner)
   price: string;           // regular_price from WC
   sale_price: string;
   stock_status: string;    // 'instock' | 'outofstock' | 'onbackorder'
