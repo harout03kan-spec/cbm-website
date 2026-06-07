@@ -236,6 +236,27 @@ addVariants(673979281, [
   ['170T','WhatsMiner M60 (170Th)','170','TH/s','3422','20.13','J/TH','2669'],
 ], { hashrate: '174', hashrate_unit: 'TH/s', power: '3422', efficiency: '19.67', efficiency_unit: 'J/TH', price: '2710' });
 
+// S21 Pro — repurpose the existing (blank-condition) S21 Pro 245 listing into ONE
+// clean Brand New grouped card with 245T/234T/220T variants (supplier prices).
+// The separate "S21 Pro (234Th) USED" listing is kept untouched (Used).
+// 220T watts/efficiency are left blank: not on ASICMinerValue and not invented.
+const s21pro = CATALOG_PRODUCTS.find((x) => x.id === 769891226);
+if (s21pro) {
+  s21pro.name = 'Antminer S21 Pro BRAND NEW';
+  s21pro.slug = 'antminer-s21-pro-brand-new';
+  s21pro.brand = 'Bitmain';
+  s21pro.condition = 'New';
+  s21pro.cooling = 'Air';
+  s21pro.algorithm = 'SHA-256';
+  s21pro.variants = [
+    { label: '245T', model: 'Antminer S21 Pro (245Th)', hashrate: '245', hashrate_unit: 'TH/s', power: '3510', efficiency: '14.3', efficiency_unit: 'J/TH', price: '3991' },
+    { label: '234T', model: 'Antminer S21 Pro (234Th)', hashrate: '234', hashrate_unit: 'TH/s', power: '3531', efficiency: '15.1', efficiency_unit: 'J/TH', price: '3821' },
+    { label: '220T', model: 'Antminer S21 Pro (220Th)', hashrate: '220', hashrate_unit: 'TH/s', power: '', efficiency: '', efficiency_unit: 'J/TH', price: '3617' },
+  ];
+  Object.assign(s21pro, { hashrate: '245', hashrate_unit: 'TH/s', power: '3510', efficiency: '14.3', efficiency_unit: 'J/TH', price: '3991' });
+  s21pro.details = { ...(s21pro.details || {}), model: 'Antminer S21 Pro (245Th)' };
+}
+
 const banner =
   '// AUTO-GENERATED catalog (csv-to-catalog + enrich + add-supplier-miners).\n' +
   '// Public static fields only — no price/stock/availability beyond catalog data.\n';

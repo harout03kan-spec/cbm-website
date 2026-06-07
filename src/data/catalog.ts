@@ -751,20 +751,20 @@ export const CATALOG_PRODUCTS: Product[] = [
   },
   {
     "id": 769891226,
-    "name": "Antminer S21 Pro 245TH",
-    "slug": "antminer-s21-pro-245th",
+    "name": "Antminer S21 Pro BRAND NEW",
+    "slug": "antminer-s21-pro-brand-new",
     "sku": "00073",
-    "price": "5100.00",
+    "price": "3991",
     "sale_price": "",
     "stock_status": "onbackorder",
     "stock_quantity": null,
-    "condition": "",
+    "condition": "New",
     "cooling": "Air",
     "algorithm": "SHA-256",
     "hashrate": "245",
     "hashrate_unit": "TH/s",
     "power": "3510",
-    "efficiency": "15",
+    "efficiency": "14.3",
     "efficiency_unit": "J/TH",
     "image": "https://d2j6dbq0eux0bg.cloudfront.net/images/99673270/5070592662.webp",
     "images": [
@@ -777,7 +777,7 @@ export const CATALOG_PRODUCTS: Product[] = [
     "permalink": "https://www.canadabtcminers.ca/asic-miner-store/Antminer-S21-Pro-245TH-p769891226",
     "brand": "Bitmain",
     "details": {
-      "model": "Antminer S21 Pro 245TH",
+      "model": "Antminer S21 Pro (245Th)",
       "release": "Jul 2024",
       "size": "400 x 195 x 290 mm",
       "noise": "75 dB",
@@ -785,7 +785,39 @@ export const CATALOG_PRODUCTS: Product[] = [
       "interface": "Ethernet",
       "temperature": "5 - 45 °C",
       "humidity": "5 - 95 %"
-    }
+    },
+    "variants": [
+      {
+        "label": "245T",
+        "model": "Antminer S21 Pro (245Th)",
+        "hashrate": "245",
+        "hashrate_unit": "TH/s",
+        "power": "3510",
+        "efficiency": "14.3",
+        "efficiency_unit": "J/TH",
+        "price": "3991"
+      },
+      {
+        "label": "234T",
+        "model": "Antminer S21 Pro (234Th)",
+        "hashrate": "234",
+        "hashrate_unit": "TH/s",
+        "power": "3531",
+        "efficiency": "15.1",
+        "efficiency_unit": "J/TH",
+        "price": "3821"
+      },
+      {
+        "label": "220T",
+        "model": "Antminer S21 Pro (220Th)",
+        "hashrate": "220",
+        "hashrate_unit": "TH/s",
+        "power": "",
+        "efficiency": "",
+        "efficiency_unit": "J/TH",
+        "price": "3617"
+      }
+    ]
   },
   {
     "id": 769976556,
