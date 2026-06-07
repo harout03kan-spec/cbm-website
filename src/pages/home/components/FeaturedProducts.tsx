@@ -39,7 +39,7 @@ export default function FeaturedProducts() {
     <section data-section="products" id="products" className="py-20 bg-[#0A0A0A]">
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-16">
-          <h2 className="font-orbitron font-bold text-5xl md:text-6xl text-white mb-4">{t('fp_title')}</h2>
+          <h2 className="font-inter font-bold text-5xl md:text-6xl text-white mb-4">{t('fp_title')}</h2>
           <p className="text-soft-gray font-inter text-xl max-w-3xl mx-auto">{t('fp_sub')}</p>
         </div>
 
@@ -93,12 +93,12 @@ export default function FeaturedProducts() {
                   </div>
                 </div>
                 <div className="p-[26px] flex flex-col flex-1">
-                  <h3 className="text-white font-orbitron font-extrabold text-[27px] mb-[10px] leading-tight">{product.name}</h3>
+                  <h3 className="text-white font-inter font-extrabold text-[27px] mb-[10px] leading-tight">{product.name}</h3>
                   <p className="text-[#b8c0cc] font-inter text-[15px] mb-[18px]">
                     {product.hashrate} TH/s &nbsp;•&nbsp; {product.power} W &nbsp;•&nbsp; {product.efficiency} J/TH
                   </p>
                   <div className="flex items-end gap-[10px] mb-[18px]">
-                    <span className="text-white font-orbitron font-black text-[58px] leading-none">${Number(product.price).toLocaleString()}</span>
+                    <span className="text-white font-inter font-black text-[58px] leading-none">${Number(product.price).toLocaleString()}</span>
                     <span className="text-[#94a3b8] font-inter font-bold text-[18px] mb-2">CAD</span>
                   </div>
                   <div className="flex flex-col gap-[7px] mb-[22px]">

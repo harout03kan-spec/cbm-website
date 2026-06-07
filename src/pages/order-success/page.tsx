@@ -26,7 +26,7 @@ const OrderSuccessPage = () => {
           </motion.div>
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="text-center mb-12">
-            <h1 className="font-orbitron font-bold text-5xl text-white mb-4">{t('success_title')}</h1>
+            <h1 className="font-inter font-bold text-5xl text-white mb-4">{t('success_title')}</h1>
             <p className="text-soft-gray font-inter text-xl">{t('success_sub')}</p>
           </motion.div>
 
@@ -34,7 +34,7 @@ const OrderSuccessPage = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
               <div>
                 <div className="text-soft-gray font-inter text-sm mb-2">Order Number</div>
-                <div className="text-white font-orbitron font-bold text-2xl">{orderNumber}</div>
+                <div className="text-white font-inter font-bold text-2xl">{orderNumber}</div>
               </div>
               <div>
                 <div className="text-soft-gray font-inter text-sm mb-2">Order Date</div>
@@ -59,7 +59,7 @@ const OrderSuccessPage = () => {
           </motion.div>
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7 }} className="bg-graphite border border-crimson-accent/20 rounded-2xl p-8 mb-8">
-            <h2 className="font-orbitron font-bold text-2xl text-white mb-6">What Happens Next?</h2>
+            <h2 className="font-inter font-bold text-2xl text-white mb-6">What Happens Next?</h2>
             <div className="space-y-6">
               {[
                 { num: '1', title: 'Order Processing', desc: 'Our team will verify your order and prepare your mining equipment for shipment.' },
@@ -69,7 +69,7 @@ const OrderSuccessPage = () => {
               ].map((step) => (
                 <div key={step.num} className="flex gap-4">
                   <div className="w-12 h-12 bg-crimson-accent/20 rounded-full flex items-center justify-center flex-shrink-0">
-                    <span className="text-crimson-accent font-orbitron font-bold text-xl">{step.num}</span>
+                    <span className="text-crimson-accent font-inter font-bold text-xl">{step.num}</span>
                   </div>
                   <div>
                     <h3 className="text-white font-inter font-bold text-lg mb-2">{step.title}</h3>

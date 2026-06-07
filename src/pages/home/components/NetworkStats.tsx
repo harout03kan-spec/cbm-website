@@ -115,7 +115,7 @@ const NetworkStats = () => {
                 <div className="w-12 h-12 flex items-center justify-center mx-auto mb-3">
                   <i className={`${stat.icon} text-3xl text-crimson-accent`}></i>
                 </div>
-                <div className="font-orbitron font-bold text-2xl lg:text-3xl text-white mb-1 flex items-baseline justify-center gap-1">
+                <div className="font-inter font-bold text-2xl lg:text-3xl text-white mb-1 flex items-baseline justify-center gap-1">
                   {loading ? (
                     <span className="animate-pulse text-white/30">—</span>
                   ) : (

@@ -245,7 +245,7 @@ const CheckoutPage = () => {
 
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-6">
-          <h1 className="font-orbitron font-bold text-5xl text-white mb-8">{t('checkout_title')}</h1>
+          <h1 className="font-inter font-bold text-5xl text-white mb-8">{t('checkout_title')}</h1>
 
           {/* Step indicator */}
           <div className="mb-12 flex items-center justify-center gap-4">
@@ -253,7 +253,7 @@ const CheckoutPage = () => {
               <div key={num} className="flex items-center gap-4">
                 {i > 0 && <div className={`w-16 h-0.5 ${step >= i + 1 ? 'bg-crimson-accent' : 'bg-graphite'}`} />}
                 <div className={`flex items-center gap-3 ${step >= i + 1 ? 'text-crimson-accent' : 'text-soft-gray'}`}>
-                  <div className={`w-10 h-10 flex items-center justify-center rounded-full font-orbitron font-bold ${step >= i + 1 ? 'bg-crimson-accent text-white' : 'bg-graphite'}`}>
+                  <div className={`w-10 h-10 flex items-center justify-center rounded-full font-inter font-bold ${step >= i + 1 ? 'bg-crimson-accent text-white' : 'bg-graphite'}`}>
                     {step > i + 1 ? <i className="ri-check-line text-xl" /> : num}
                   </div>
                   <span className="font-inter font-semibold hidden sm:inline">{label}</span>
@@ -273,7 +273,7 @@ const CheckoutPage = () => {
                   onSubmit={handleShippingNext}
                   className="bg-graphite border border-crimson-accent/20 rounded-2xl p-8 space-y-4"
                 >
-                  <h2 className="font-orbitron font-bold text-2xl text-white mb-2">{t('checkout_shipping')}</h2>
+                  <h2 className="font-inter font-bold text-2xl text-white mb-2">{t('checkout_shipping')}</h2>
 
                   <div>
                     <label className="text-white font-inter font-semibold text-sm mb-2 block">{t('checkout_email')} *</label>
@@ -343,7 +343,7 @@ const CheckoutPage = () => {
                   className="space-y-6"
                 >
                   <div className="bg-graphite border border-crimson-accent/20 rounded-2xl p-8">
-                    <h2 className="font-orbitron font-bold text-2xl text-white mb-6">Payment Method</h2>
+                    <h2 className="font-inter font-bold text-2xl text-white mb-6">Payment Method</h2>
 
                     <div className="space-y-4 mb-6">
                       {/* Moneris / Card */}
@@ -440,7 +440,7 @@ const CheckoutPage = () => {
                     )}
 
                     {monerisError && (
-                      <div className="mt-4 bg-red-950/40 border border-red-800 rounded-xl p-4 text-red-400 font-inter text-sm flex items-center gap-2">
+                      <div className="mt-4 bg-red-950/40 border border-red-800 rounded-xl p-4 text-crimson-accent font-inter text-sm flex items-center gap-2">
                         <i className="ri-error-warning-fill text-xl"></i>
                         {monerisError}
                       </div>
@@ -477,7 +477,7 @@ const CheckoutPage = () => {
             {/* ── RIGHT: ORDER SUMMARY ────────────────────────────────── */}
             <div className="lg:col-span-1">
               <div className="bg-graphite border border-crimson-accent/20 rounded-2xl p-6 sticky top-24">
-                <h2 className="font-orbitron font-bold text-2xl text-white mb-6">Order Summary</h2>
+                <h2 className="font-inter font-bold text-2xl text-white mb-6">Order Summary</h2>
 
                 <div className="space-y-3 mb-6 pb-6 border-b border-white/10">
                   {cartItems.map(item => {
@@ -494,7 +494,7 @@ const CheckoutPage = () => {
                             <div className="text-soft-gray font-inter text-xs">Qty: {item.quantity}</div>
                           </div>
                         </div>
-                        <div className="text-white font-orbitron font-bold text-sm whitespace-nowrap">
+                        <div className="text-white font-inter font-bold text-sm whitespace-nowrap">
                           ${(Number(p.price) * item.quantity).toLocaleString()}
                         </div>
                       </div>
@@ -505,31 +505,31 @@ const CheckoutPage = () => {
                 <div className="space-y-3 mb-6 pb-6 border-b border-white/10">
                   <div className="flex justify-between items-center">
                     <span className="font-inter text-sm text-soft-gray">Subtotal</span>
-                    <span className="font-orbitron font-bold text-white">${totals.subtotal}</span>
+                    <span className="font-inter font-bold text-white">${totals.subtotal}</span>
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="font-inter text-sm text-soft-gray">Shipping</span>
-                    <span className={`font-orbitron font-bold ${totals.freeShipping ? 'text-green-400' : 'text-white'}`}>
+                    <span className={`font-inter font-bold ${totals.freeShipping ? 'text-green-400' : 'text-white'}`}>
                       {totals.freeShipping ? 'FREE' : `$${totals.shipping}`}
                     </span>
                   </div>
                   {totals.taxLines.map(line => (
                     <div key={line.label} className="flex justify-between items-center">
                       <span className="font-inter text-sm text-soft-gray">{line.label}</span>
-                      <span className="font-orbitron font-bold text-white">${line.amount.toFixed(2)}</span>
+                      <span className="font-inter font-bold text-white">${line.amount.toFixed(2)}</span>
                     </div>
                   ))}
                   {paymentMethod === 'bitcoin' && (
                     <div className="flex justify-between items-center">
                       <span className="font-inter text-sm text-green-400">BTC Discount (2%)</span>
-                      <span className="font-orbitron font-bold text-green-400">-${(Number(totals.total) * 0.02).toFixed(2)}</span>
+                      <span className="font-inter font-bold text-green-400">-${(Number(totals.total) * 0.02).toFixed(2)}</span>
                     </div>
                   )}
                 </div>
 
                 <div className="flex justify-between items-center mb-6">
                   <span className="text-white font-inter font-bold text-xl">Total</span>
-                  <span className="text-crimson-accent font-orbitron font-bold text-4xl">
+                  <span className="text-crimson-accent font-inter font-bold text-4xl">
                     ${paymentMethod === 'bitcoin'
                       ? (Number(totals.total) * 0.98).toFixed(2)
                       : Number(totals.total).toLocaleString()}

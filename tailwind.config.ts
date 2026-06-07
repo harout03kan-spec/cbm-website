@@ -12,6 +12,7 @@ export default {
         'soft-gray': '#A3A3A3',
       },
       fontFamily: {
+        sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
         orbitron: ['Orbitron', 'sans-serif'],
         inter: ['Inter', 'sans-serif'],
       },

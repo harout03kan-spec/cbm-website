@@ -13,8 +13,8 @@ const HowItWorks = () => {
     <section className="py-24 bg-midnight">
       <div className="max-w-7xl mx-auto px-6">
         <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-16">
-          <div className="text-crimson-accent font-orbitron text-sm font-bold tracking-widest mb-3">{t('how_tag')}</div>
-          <h2 className="font-orbitron font-bold text-4xl md:text-5xl text-white mb-4">{t('how_title')}</h2>
+          <div className="text-crimson-accent font-inter text-sm font-bold tracking-widest mb-3">{t('how_tag')}</div>
+          <h2 className="font-inter font-bold text-4xl md:text-5xl text-white mb-4">{t('how_title')}</h2>
           <p className="text-soft-gray font-inter text-lg max-w-2xl mx-auto">{t('how_sub')}</p>
         </motion.div>
         <div className="relative">
@@ -26,9 +26,9 @@ const HowItWorks = () => {
                   <div className="w-20 h-20 flex items-center justify-center bg-graphite border border-crimson-accent/30 rounded-full shadow-lg shadow-crimson-accent/10">
                     <i className={`${step.icon} text-3xl text-crimson-accent`}></i>
                   </div>
-                  <span className="absolute -top-2 -right-2 w-7 h-7 flex items-center justify-center bg-crimson-accent text-white text-xs font-orbitron font-bold rounded-full">{step.number}</span>
+                  <span className="absolute -top-2 -right-2 w-7 h-7 flex items-center justify-center bg-crimson-accent text-white text-xs font-inter font-bold rounded-full">{step.number}</span>
                 </div>
-                <h3 className="text-white font-orbitron font-bold text-lg mb-3">{step.title}</h3>
+                <h3 className="text-white font-inter font-bold text-lg mb-3">{step.title}</h3>
                 <p className="text-soft-gray font-inter text-sm leading-relaxed max-w-xs">{step.description}</p>
               </motion.div>
             ))}

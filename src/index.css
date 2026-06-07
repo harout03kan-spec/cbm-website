@@ -12,6 +12,12 @@ html, body, #root {
   max-width: 100%;
 }
 
+/* Inter is the default site font for all readable content; the accent font
+   (Orbitron) is applied explicitly only on the brand logo and the hero graphic. */
+html, body {
+  font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+}
+
 /* Hero visual: honor reduced-motion by freezing continuous animation
    while keeping the final "powered on" state visible. */
 @media (prefers-reduced-motion: reduce) {

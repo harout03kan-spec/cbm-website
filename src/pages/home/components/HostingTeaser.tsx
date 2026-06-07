@@ -35,7 +35,7 @@ const HostingTeaser = () => {
           transition={{ duration: 0.7, delay: 0.1 }}
         >
           <span className="inline-block text-[12px] font-bold tracking-[2px] text-crimson-accent uppercase mb-4">{t('ht_tag')}</span>
-          <h2 className="text-white font-orbitron font-extrabold text-[36px] lg:text-[40px] leading-[1.1] mb-[18px]">{t('ht_title')}</h2>
+          <h2 className="text-white font-inter font-extrabold text-[36px] lg:text-[40px] leading-[1.1] mb-[18px]">{t('ht_title')}</h2>
           <p className="text-[#cbd5e1] font-inter text-[16px] leading-[1.75] mb-6">{t('ht_desc')}</p>
 
           <div className="flex flex-col gap-3 mb-8">

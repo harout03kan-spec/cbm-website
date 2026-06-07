@@ -141,10 +141,10 @@ export default function ContactPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <p className="inline-flex rounded-full border border-red-900/60 bg-red-950/30 px-4 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-red-400 sm:text-xs">
+            <p className="inline-flex rounded-full border border-red-900/60 bg-red-950/30 px-4 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-crimson-accent sm:text-xs">
               {t('ct_hero_tag')}
             </p>
-            <h1 className="mx-auto mt-5 max-w-3xl font-orbitron text-4xl font-bold leading-[1.05] tracking-tight sm:text-5xl lg:text-6xl">
+            <h1 className="mx-auto mt-5 max-w-3xl font-inter text-4xl font-bold leading-[1.05] tracking-tight sm:text-5xl lg:text-6xl">
               {t('ct_hero_title')}
             </h1>
             <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-zinc-300 sm:text-lg">
@@ -166,7 +166,7 @@ export default function ContactPage() {
             className="flex flex-col gap-5"
           >
             <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.22em] text-red-400">{t('ct_info_tag')}</p>
+              <p className="text-sm font-semibold uppercase tracking-[0.22em] text-crimson-accent">{t('ct_info_tag')}</p>
               <h2 className="mt-3 text-2xl font-semibold tracking-tight sm:text-3xl">{t('ct_info_title')}</h2>
               <p className="mt-3 text-sm leading-7 text-zinc-400">{t('ct_info_sub')}</p>
             </div>
@@ -176,12 +176,12 @@ export default function ContactPage() {
               href={`tel:${TEL}`}
               className="group relative z-10 flex items-center gap-4 rounded-2xl border border-zinc-900 bg-zinc-950/70 px-5 py-4 transition hover:border-red-900/60 active:bg-zinc-900"
             >
-              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-red-900/50 bg-red-950/30 text-red-400">
+              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-red-900/50 bg-red-950/30 text-crimson-accent">
                 <i className="ri-phone-fill text-xl" aria-hidden="true" />
               </span>
               <span>
                 <span className="block text-xs uppercase tracking-[0.18em] text-zinc-500">{t('ct_info_phone_label')}</span>
-                <span className="text-base font-semibold text-white group-hover:text-red-400">+1 514 604 7050</span>
+                <span className="text-base font-semibold text-white group-hover:text-crimson-accent">+1 514 604 7050</span>
               </span>
             </a>
 
@@ -190,18 +190,18 @@ export default function ContactPage() {
               href={`mailto:${EMAIL}`}
               className="group relative z-10 flex items-center gap-4 rounded-2xl border border-zinc-900 bg-zinc-950/70 px-5 py-4 transition hover:border-red-900/60 active:bg-zinc-900"
             >
-              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-red-900/50 bg-red-950/30 text-red-400">
+              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-red-900/50 bg-red-950/30 text-crimson-accent">
                 <i className="ri-mail-fill text-xl" aria-hidden="true" />
               </span>
               <span className="min-w-0">
                 <span className="block text-xs uppercase tracking-[0.18em] text-zinc-500">{t('ct_info_email_label')}</span>
-                <span className="block truncate text-base font-semibold text-white group-hover:text-red-400">{EMAIL}</span>
+                <span className="block truncate text-base font-semibold text-white group-hover:text-crimson-accent">{EMAIL}</span>
               </span>
             </a>
 
             {/* Address */}
             <div className="flex items-start gap-4 rounded-2xl border border-zinc-900 bg-zinc-950/70 px-5 py-4">
-              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-red-900/50 bg-red-950/30 text-red-400">
+              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-red-900/50 bg-red-950/30 text-crimson-accent">
                 <i className="ri-map-pin-fill text-xl" aria-hidden="true" />
               </span>
               <span>

@@ -104,7 +104,7 @@ const ProductPage = () => {
               )}
 
               <div className="bg-graphite border border-crimson-accent/20 rounded-xl p-6 mb-8">
-                <h3 className="text-white font-orbitron font-bold text-xl mb-4">Buy with this miner</h3>
+                <h3 className="text-white font-inter font-bold text-xl mb-4">Buy with this miner</h3>
                 <div className="space-y-4">
                   {accessories.map((acc) => (
                     <div key={acc.id} className="flex items-center gap-4 bg-midnight/50 border border-white/10 rounded-lg p-4 hover:border-crimson-accent/30 transition-colors">
@@ -113,7 +113,7 @@ const ProductPage = () => {
                       </div>
                       <div className="flex-1 min-w-0">
                         <h4 className="text-white font-inter font-semibold text-sm mb-1">{acc.name}</h4>
-                        <div className="text-crimson-accent font-orbitron font-bold text-lg">${acc.price} CAD</div>
+                        <div className="text-crimson-accent font-inter font-bold text-lg">${acc.price} CAD</div>
                       </div>
                       <button className="px-4 py-2 bg-crimson-accent/10 border border-crimson-accent text-crimson-accent font-inter font-semibold text-sm rounded-lg hover:bg-crimson-accent hover:text-white transition-colors cursor-pointer whitespace-nowrap">Add</button>
                     </div>
@@ -141,14 +141,14 @@ const ProductPage = () => {
             {/* Right: Info */}
             <div>
               <div className="flex flex-wrap items-center gap-3 mb-4">
-                <h1 className="font-orbitron font-bold text-4xl text-white">{product.name}</h1>
+                <h1 className="font-inter font-bold text-4xl text-white">{product.name}</h1>
                 <span className="px-3 py-1 bg-white/20 text-white rounded-full text-sm font-inter font-semibold">{product.condition}</span>
                 <span className="px-3 py-1 bg-white/20 text-white rounded-full text-sm font-inter font-semibold">{product.cooling}</span>
               </div>
 
               <div className="mb-6 pb-6 border-b border-white/10">
                 <div className="flex items-baseline gap-3 mb-2">
-                  <span className="text-crimson-accent font-orbitron font-bold text-5xl">${Number(product.price).toLocaleString()}</span>
+                  <span className="text-crimson-accent font-inter font-bold text-5xl">${Number(product.price).toLocaleString()}</span>
                   <span className="text-soft-gray font-inter text-xl">CAD</span>
                   {product.stock_status !== 'instock' && (
                     <span className="ml-2 px-3 py-1 bg-amber-500/20 border border-amber-500/50 text-amber-400 text-sm rounded-full font-inter">
@@ -162,7 +162,7 @@ const ProductPage = () => {
               </div>
 
               <div className="mb-8">
-                <h3 className="text-white font-orbitron font-bold text-xl mb-4">Technical Specifications</h3>
+                <h3 className="text-white font-inter font-bold text-xl mb-4">Technical Specifications</h3>
                 <div className="grid grid-cols-3 gap-4">
                   {[
                     { icon: 'ri-speed-fill',     value: product.hashrate, unit: 'TH/s Hashrate' },
@@ -173,7 +173,7 @@ const ProductPage = () => {
                       <div className="w-10 h-10 flex items-center justify-center mb-3">
                         <i className={`${s.icon} text-crimson-accent text-3xl`}></i>
                       </div>
-                      <div className="text-white font-orbitron font-bold text-3xl mb-1">{s.value}</div>
+                      <div className="text-white font-inter font-bold text-3xl mb-1">{s.value}</div>
                       <div className="text-soft-gray font-inter text-sm">{s.unit}</div>
                     </div>
                   ))}
@@ -187,7 +187,7 @@ const ProductPage = () => {
                     <i className="ri-subtract-line text-xl"></i>
                   </button>
                   <input type="number" value={quantity} onChange={(e) => setQuantity(Math.max(1, Number(e.target.value)))}
-                    className="w-20 h-12 bg-transparent text-white text-center font-orbitron font-bold text-xl border-x border-white/20 outline-none" min="1"
+                    className="w-20 h-12 bg-transparent text-white text-center font-inter font-bold text-xl border-x border-white/20 outline-none" min="1"
                   />
                   <button onClick={() => setQuantity(quantity + 1)} className="w-12 h-12 flex items-center justify-center text-white hover:bg-white/10 transition-colors cursor-pointer">
                     <i className="ri-add-line text-xl"></i>
@@ -199,15 +199,15 @@ const ProductPage = () => {
                 <div className="space-y-3">
                   <div className="flex justify-between items-center">
                     <span className="text-soft-gray font-inter">Subtotal ({quantity} unit{quantity > 1 ? 's' : ''})</span>
-                    <span className="text-white font-orbitron font-bold text-xl">${totals.subtotal} CAD</span>
+                    <span className="text-white font-inter font-bold text-xl">${totals.subtotal} CAD</span>
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="text-soft-gray font-inter">HST (13%)</span>
-                    <span className="text-white font-orbitron font-bold text-xl">${totals.hst} CAD</span>
+                    <span className="text-white font-inter font-bold text-xl">${totals.hst} CAD</span>
                   </div>
                   <div className="border-t border-white/10 pt-3 flex justify-between items-center">
                     <span className="text-white font-inter font-bold text-lg">Total</span>
-                    <span className="text-crimson-accent font-orbitron font-bold text-3xl">${totals.total} CAD</span>
+                    <span className="text-crimson-accent font-inter font-bold text-3xl">${totals.total} CAD</span>
                   </div>
                 </div>
               </div>
@@ -255,10 +255,10 @@ const ProductPage = () => {
       {/* Full specs */}
       <section className="py-16 bg-graphite">
         <div className="max-w-7xl mx-auto px-6">
-          <h2 className="font-orbitron font-bold text-4xl text-white mb-8">Complete Specifications</h2>
+          <h2 className="font-inter font-bold text-4xl text-white mb-8">Complete Specifications</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="bg-midnight border border-crimson-accent/20 rounded-xl p-6">
-              <h3 className="text-crimson-accent font-orbitron font-bold text-xl mb-4">Performance</h3>
+              <h3 className="text-crimson-accent font-inter font-bold text-xl mb-4">Performance</h3>
               <div className="space-y-3">
                 {[
                   ['Algorithm',         product.algorithm || 'SHA-256'],
@@ -274,7 +274,7 @@ const ProductPage = () => {
               </div>
             </div>
             <div className="bg-midnight border border-crimson-accent/20 rounded-xl p-6">
-              <h3 className="text-crimson-accent font-orbitron font-bold text-xl mb-4">Purchase Info</h3>
+              <h3 className="text-crimson-accent font-inter font-bold text-xl mb-4">Purchase Info</h3>
               <div className="space-y-3">
                 {[
                   ['Condition',   product.condition],
@@ -299,7 +299,7 @@ const ProductPage = () => {
           <div className="max-w-7xl mx-auto px-6">
             <div className="flex items-end justify-between mb-8">
               <div>
-                <h2 className="font-orbitron font-bold text-4xl text-white mb-2">You May Also Like</h2>
+                <h2 className="font-inter font-bold text-4xl text-white mb-2">You May Also Like</h2>
                 <p className="text-soft-gray font-inter text-lg">Similar miners from our catalog</p>
               </div>
               <Link to="/shop" className="px-6 py-3 border-2 border-white/30 text-white font-inter font-semibold rounded-lg hover:bg-white hover:text-midnight transition-all cursor-pointer whitespace-nowrap">View All →</Link>
@@ -312,15 +312,15 @@ const ProductPage = () => {
                       <img src={p.image} alt={p.name} className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-500" />
                     </div>
                     <div className="p-6">
-                      <h3 className="text-white font-orbitron font-bold text-xl mb-2">{p.name}</h3>
+                      <h3 className="text-white font-inter font-bold text-xl mb-2">{p.name}</h3>
                       <div className="flex items-baseline gap-2 mb-4">
-                        <span className="text-crimson-accent font-orbitron font-bold text-2xl">${Number(p.price).toLocaleString()}</span>
+                        <span className="text-crimson-accent font-inter font-bold text-2xl">${Number(p.price).toLocaleString()}</span>
                         <span className="text-soft-gray font-inter text-sm">CAD</span>
                       </div>
                       <div className="grid grid-cols-3 gap-2 text-center">
-                        <div><div className="text-white font-orbitron font-bold text-lg">{p.hashrate}</div><div className="text-soft-gray font-inter text-xs">TH/s</div></div>
-                        <div><div className="text-white font-orbitron font-bold text-lg">{p.power}</div><div className="text-soft-gray font-inter text-xs">Watts</div></div>
-                        <div><div className="text-white font-orbitron font-bold text-lg">{p.efficiency}</div><div className="text-soft-gray font-inter text-xs">J/TH</div></div>
+                        <div><div className="text-white font-inter font-bold text-lg">{p.hashrate}</div><div className="text-soft-gray font-inter text-xs">TH/s</div></div>
+                        <div><div className="text-white font-inter font-bold text-lg">{p.power}</div><div className="text-soft-gray font-inter text-xs">Watts</div></div>
+                        <div><div className="text-white font-inter font-bold text-lg">{p.efficiency}</div><div className="text-soft-gray font-inter text-xs">J/TH</div></div>
                       </div>
                     </div>
                   </Link>

@@ -16,12 +16,12 @@ const ShopPage = () => {
   const { products, loading } = useProducts();
 
   const categories = [
-    { id: 'all',        label: 'All ASIC Miners' },
-    { id: 'antminer',   label: 'Bitmain Antminer' },
-    { id: 'whatsminer', label: 'Whatsminer' },
-    { id: 'scrypt',     label: 'Litecoin / Dogecoin' },
-    { id: 'hydro',      label: 'Hydro Cooled' },
-    { id: 'home',       label: 'Home Mining' },
+    { id: 'all',         key: 'shop_cat_all' },
+    { id: 'bitcoin',     key: 'shop_cat_bitcoin' },
+    { id: 'altcoin',     key: 'shop_cat_altcoin' },
+    { id: 'hydro',       key: 'shop_cat_hydro' },
+    { id: 'home',        key: 'shop_cat_home' },
+    { id: 'accessories', key: 'shop_cat_accessories' },
   ];
 
   // Pull a usable number out of values like "$3,200", "335", or "335 TH/s".
@@ -31,15 +31,43 @@ const ShopPage = () => {
     return Number.isNaN(n) ? null : n;
   };
 
-  // 1) Category filter (unchanged behaviour).
-  const categoryFiltered = (() => {
-    if (activeCategory === 'antminer')   return products.filter(p => p.name.toLowerCase().includes('antminer'));
-    if (activeCategory === 'whatsminer') return products.filter(p => p.name.toLowerCase().includes('whatsminer'));
-    if (activeCategory === 'scrypt')     return products.filter(p => p.algorithm?.toLowerCase() === 'scrypt');
-    if (activeCategory === 'hydro')      return products.filter(p => p.cooling === 'Hydro');
-    if (activeCategory === 'home')       return products.filter(p => parseInt(p.power) < 3000);
-    return products;
-  })();
+  // ── Safe catalog helpers — categorize without inventing any specs/prices ──
+  const lc = (s?: string) => (s || '').toLowerCase();
+  const ptext = (p: Product) =>
+    `${lc(p.name)} ${lc((p.categories || []).join(' '))} ${lc(p.short_description)} ${lc(p.algorithm)}`;
+  const hasHashrate = (p: Product) => (toNumber(p.hashrate) ?? 0) > 0;
+
+  // Generic / broken imported product (e.g. name "Product" or empty).
+  const isUnclear = (p: Product) => {
+    const n = lc(p.name).trim();
+    return !n || n === 'product' || n === 'products' || /^product(\b|$)/.test(n) || n.length < 2;
+  };
+
+  // Accessories: parts/extras with no real hashrate.
+  const ACCESSORY_RE = /power supply|psu|control board|hashboard|hash board|\bfans?\b|\bcables?\b|\bparts?\b|immersion|accessor|adapter|controller|connector|bracket|\bcord\b|cooling kit|repair kit|\btool/;
+  const isAccessory = (p: Product) => ACCESSORY_RE.test(ptext(p)) && !hasHashrate(p);
+
+  const isMiner = (p: Product) =>
+    !isAccessory(p) && (hasHashrate(p) || /miner|antminer|whatsminer|avalon|\b[sml]\d{1,2}\b|\bks\d|\bz15\b/.test(lc(p.name)));
+
+  const ALTCOIN_RE = /scrypt|kheavyhash|heavyhash|kaspa|blake3|blake2|eaglesong|equihash|x11|handshake|blake256|cuckoo|\bdash\b|\bdoge\b|litecoin|\bltc\b|\bkas\b|\bzec\b|\bhns\b|\bl[379]\b|\bks\d|\bz15\b/;
+  const BITCOIN_RE = /sha-?256|bitcoin|\bbtc\b/;
+
+  // A product can match more than one category (e.g. S21 Hydro = Bitcoin + Hydro).
+  const inCategory = (p: Product, cat: string): boolean => {
+    if (cat === 'all') return true;
+    if (cat === 'accessories') return isAccessory(p);
+    // Unclear products only ever appear under "All Products".
+    if (isUnclear(p) || isAccessory(p)) return false;
+    if (cat === 'hydro') return lc(p.cooling) === 'hydro' || /hydro/.test(ptext(p));
+    if (cat === 'home')  return /\bhome\b/.test(ptext(p)) || (hasHashrate(p) && (toNumber(p.power) ?? Infinity) <= 2500);
+    if (cat === 'altcoin') return isMiner(p) && ALTCOIN_RE.test(ptext(p)) && !BITCOIN_RE.test(lc(p.algorithm));
+    if (cat === 'bitcoin')  return isMiner(p) && (BITCOIN_RE.test(ptext(p)) || !ALTCOIN_RE.test(ptext(p)));
+    return false;
+  };
+
+  // 1) Category filter (multi-category aware).
+  const categoryFiltered = products.filter((p) => inCategory(p, activeCategory));
 
   // 2) Free-text search across model/brand/algorithm/hashrate/etc.
   const query = searchQuery.trim().toLowerCase();
@@ -99,7 +127,7 @@ const ShopPage = () => {
       <section className="pt-32 pb-16 bg-[#0A0A0A] relative overflow-hidden">
         <div className="relative max-w-7xl mx-auto px-6">
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} className="text-center">
-            <h1 className="font-orbitron font-bold text-5xl md:text-6xl text-white mb-6">
+            <h1 className="font-inter font-bold text-5xl md:text-6xl text-white mb-6">
               {t('shop_title')}
             </h1>
             <p className="text-soft-gray font-inter text-xl max-w-3xl mx-auto">
@@ -120,7 +148,7 @@ const ShopPage = () => {
                     ? 'bg-crimson-accent border-crimson-accent text-white font-semibold'
                     : 'bg-transparent border-white/15 text-white/80 hover:text-white hover:bg-white/10 active:bg-white/15'
                 }`}
-              >{category.label}</button>
+              >{t(category.key)}</button>
             ))}
           </div>
         </div>
@@ -188,7 +216,7 @@ const ShopPage = () => {
               <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full border border-crimson-accent/30 bg-crimson-accent/10">
                 <i className="ri-search-eye-line text-3xl text-crimson-accent" aria-hidden="true"></i>
               </div>
-              <h3 className="font-orbitron font-bold text-2xl text-white mb-3">{t('shop_empty_title')}</h3>
+              <h3 className="font-inter font-bold text-2xl text-white mb-3">{t('shop_empty_title')}</h3>
               <p className="text-soft-gray font-inter text-base leading-7 mb-8">{t('shop_empty_desc')}</p>
               <Link to="/contact#contact-form" className="relative z-10 inline-flex min-h-[44px] items-center justify-center gap-2 px-8 py-3.5 bg-crimson-accent text-white font-inter font-semibold rounded-lg hover:bg-red-700 active:bg-red-800 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-crimson-accent">
                 <i className="ri-customer-service-2-line text-lg" aria-hidden="true"></i>
@@ -199,68 +227,98 @@ const ShopPage = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {loading ? (
               [...Array(6)].map((_, i) => <SkeletonCard key={i} />)
-            ) : filteredProducts.map((product, index) => (
+            ) : filteredProducts.map((product, index) => {
+              const unclear = isUnclear(product);
+              const priceNum = toNumber(product.price);
+              const showPrice = !unclear && priceNum != null && priceNum > 0;
+              const specs = unclear ? [] : [
+                { value: product.hashrate, unit: 'TH/s' },
+                { value: product.power, unit: 'Watts' },
+                { value: product.efficiency, unit: 'J/TH' },
+              ].filter((s) => s.value && String(s.value).trim());
+              return (
               <motion.div key={product.id}
                 initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }} transition={{ delay: index * 0.05 }}
-                className="bg-[#141414] rounded-xl overflow-hidden border border-white/10 hover:border-white/30 transition-all duration-300"
+                className="flex flex-col bg-[#141414] rounded-xl overflow-hidden border border-white/10 hover:border-white/30 transition-all duration-300"
               >
                 <div className="relative w-full h-64 bg-black overflow-hidden">
-                  <img src={product.image} alt={product.name} className="w-full h-full object-contain object-center hover:scale-105 transition-transform duration-500" />
-                  <div className="absolute top-4 left-4 flex flex-col gap-2">
-                    <span className="px-3 py-1 bg-[#2A2A2A] text-white text-xs font-inter font-medium rounded">{product.cooling}</span>
-                    {product.condition === 'New'
-                      ? <span className="px-3 py-1 bg-transparent border border-white/50 text-white text-xs font-inter font-medium rounded">New</span>
-                      : <span className="px-3 py-1 bg-[#2A2A2A] text-gray-400 text-xs font-inter font-medium rounded">{product.condition}</span>
-                    }
-                    {product.badge && <span className="px-3 py-1 bg-crimson-accent text-white text-xs font-inter font-bold rounded">{product.badge}</span>}
-                  </div>
-                  {product.stock_status !== 'instock' && (
+                  {product.image ? (
+                    <img src={product.image} alt={unclear ? t('shop_pending_name') : product.name} className="w-full h-full object-contain object-center hover:scale-105 transition-transform duration-500" />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-zinc-700">
+                      <i className="ri-image-line text-5xl" aria-hidden="true"></i>
+                    </div>
+                  )}
+                  {!unclear && (
+                    <div className="absolute top-4 left-4 flex flex-col gap-2">
+                      {product.cooling && <span className="px-3 py-1 bg-[#2A2A2A] text-white text-xs font-inter font-medium rounded">{product.cooling}</span>}
+                      {product.condition && (product.condition === 'New'
+                        ? <span className="px-3 py-1 bg-transparent border border-white/50 text-white text-xs font-inter font-medium rounded">New</span>
+                        : <span className="px-3 py-1 bg-[#2A2A2A] text-gray-400 text-xs font-inter font-medium rounded">{product.condition}</span>)}
+                      {product.badge && <span className="px-3 py-1 bg-crimson-accent text-white text-xs font-inter font-bold rounded">{product.badge}</span>}
+                    </div>
+                  )}
+                  {!unclear && product.stock_status && product.stock_status !== 'instock' && (
                     <div className="absolute bottom-0 left-0 right-0 bg-black/70 text-center py-1.5 text-xs font-inter text-amber-400 font-semibold">
                       {product.stock_status === 'outofstock' ? 'Out of Stock' : 'Pre-Order'}
                     </div>
                   )}
                 </div>
 
-                <div className="p-6">
-                  <h3 className="text-white font-orbitron font-bold text-xl mb-3">{product.name}</h3>
-                  <div className="flex items-center gap-4 mb-5">
-                    <div className="text-center">
-                      <div className="text-white font-orbitron font-bold text-2xl">{product.hashrate}</div>
-                      <div className="text-soft-gray font-inter text-xs">TH/s</div>
+                <div className="p-6 flex flex-col flex-1">
+                  <h3 className="text-white font-inter font-bold text-xl mb-3">{unclear ? t('shop_pending_name') : product.name}</h3>
+
+                  {specs.length > 0 && (
+                    <div className="flex items-center gap-4 mb-5">
+                      {specs.map((s, i) => (
+                        <div key={s.unit} className="flex items-center gap-4">
+                          {i > 0 && <div className="w-px h-10 bg-white/20"></div>}
+                          <div className="text-center">
+                            <div className="text-white font-inter font-bold text-xl">{s.value}</div>
+                            <div className="text-soft-gray font-inter text-xs">{s.unit}</div>
+                          </div>
+                        </div>
+                      ))}
                     </div>
-                    <div className="w-px h-10 bg-white/20"></div>
-                    <div className="text-center">
-                      <div className="text-white font-orbitron font-semibold text-lg">{product.power}</div>
-                      <div className="text-soft-gray font-inter text-xs">Watts</div>
+                  )}
+
+                  {showPrice ? (
+                    <div className="mb-6">
+                      <span className="text-white font-inter font-bold text-3xl">${priceNum.toLocaleString()} CAD</span>
+                      {product.sale_price && product.sale_price !== product.price && (
+                        <span className="ml-3 text-soft-gray line-through text-lg font-inter">${Number(product.sale_price).toLocaleString()}</span>
+                      )}
                     </div>
-                    <div className="w-px h-10 bg-white/20"></div>
-                    <div className="text-center">
-                      <div className="text-white font-orbitron font-semibold text-lg">{product.efficiency}</div>
-                      <div className="text-soft-gray font-inter text-xs">J/TH</div>
-                    </div>
-                  </div>
-                  <div className="mb-6">
-                    <span className="text-white font-orbitron font-bold text-3xl">
-                      ${Number(product.price).toLocaleString()} CAD
-                    </span>
-                    {product.sale_price && product.sale_price !== product.price && (
-                      <span className="ml-3 text-soft-gray line-through text-lg font-inter">${Number(product.sale_price).toLocaleString()}</span>
+                  ) : (
+                    <p className="text-soft-gray font-inter text-sm leading-6 mb-6">{t('shop_pending_desc')}</p>
+                  )}
+
+                  <div className="mt-auto flex gap-3">
+                    {showPrice ? (
+                      <>
+                        <button className="relative z-10 flex-1 min-h-[44px] py-3 bg-crimson-accent text-white font-inter font-semibold rounded-lg hover:bg-red-700 active:bg-red-800 transition-colors cursor-pointer whitespace-nowrap focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-crimson-accent disabled:opacity-60 disabled:cursor-not-allowed"
+                          disabled={product.stock_status === 'outofstock'}
+                        >
+                          {product.stock_status === 'outofstock' ? t('shop_out_stock') : t('shop_add_cart')}
+                        </button>
+                        <Link to={`/product?id=${product.id}`}
+                          className="relative z-10 flex-1 min-h-[44px] flex items-center justify-center py-3 bg-transparent border border-white/30 text-white font-inter font-normal rounded-lg hover:bg-white/10 active:bg-white/15 transition-colors cursor-pointer whitespace-nowrap text-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/40"
+                        >{t('fp_view')}</Link>
+                      </>
+                    ) : (
+                      <Link to="/contact#contact-form"
+                        className="relative z-10 flex-1 min-h-[44px] flex items-center justify-center gap-2 py-3 bg-crimson-accent text-white font-inter font-semibold rounded-lg hover:bg-red-700 active:bg-red-800 transition-colors text-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-crimson-accent"
+                      >
+                        <i className="ri-customer-service-2-line text-lg" aria-hidden="true"></i>
+                        {t('shop_pending_cta')}
+                      </Link>
                     )}
-                  </div>
-                  <div className="flex gap-3">
-                    <button className="relative z-10 flex-1 min-h-[44px] py-3 bg-crimson-accent text-white font-inter font-semibold rounded-lg hover:bg-red-700 active:bg-red-800 transition-colors cursor-pointer whitespace-nowrap focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-crimson-accent disabled:opacity-60 disabled:cursor-not-allowed"
-                      disabled={product.stock_status === 'outofstock'}
-                    >
-                      {product.stock_status === 'outofstock' ? t('shop_out_stock') : t('shop_add_cart')}
-                    </button>
-                    <Link to={`/product?id=${product.id}`}
-                      className="relative z-10 flex-1 min-h-[44px] flex items-center justify-center py-3 bg-transparent border border-white/30 text-white font-inter font-normal rounded-lg hover:bg-white/10 active:bg-white/15 transition-colors cursor-pointer whitespace-nowrap text-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/40"
-                    >{t('fp_view')}</Link>
                   </div>
                 </div>
               </motion.div>
-            ))}
+              );
+            })}
           </div>
           )}
         </div>
@@ -286,7 +344,7 @@ const ShopPage = () => {
       <section className="py-16 bg-[#0A0A0A]">
         <div className="max-w-4xl mx-auto px-6 text-center">
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-            <h2 className="font-orbitron font-bold text-4xl text-white mb-4">Need Help Choosing?</h2>
+            <h2 className="font-inter font-bold text-4xl text-white mb-4">Need Help Choosing?</h2>
             <p className="text-soft-gray font-inter text-lg mb-8">Our team can help you select the right miner for your requirements.</p>
             <div className="flex flex-wrap justify-center gap-4">
               <Link to="/contact#contact-form" className="relative z-10 inline-flex min-h-[44px] items-center justify-center px-8 py-4 bg-crimson-accent text-white font-inter font-semibold rounded-lg hover:bg-red-700 active:bg-red-800 transition-colors cursor-pointer whitespace-nowrap focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-crimson-accent">Contact Our Team</Link>

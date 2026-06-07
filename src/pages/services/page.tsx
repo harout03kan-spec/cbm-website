@@ -152,7 +152,7 @@ export default function ServicesPage() {
             </span>
 
             {/* Headline matches the homepage hero typography exactly. */}
-            <h1 className="mb-6 font-orbitron text-4xl font-bold leading-tight text-white md:text-5xl lg:text-6xl">
+            <h1 className="mb-6 font-inter text-4xl font-bold leading-tight text-white md:text-5xl lg:text-6xl">
               {t('srv2_hero_title')}
             </h1>
 
@@ -199,11 +199,11 @@ export default function ServicesPage() {
           >
             {stats.map((stat) => (
               <div key={stat.label} className="flex items-center gap-4 px-6 py-5">
-                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-red-900/40 bg-red-950/30 text-red-400">
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-red-900/40 bg-red-950/30 text-crimson-accent">
                   <i className={`${stat.icon} text-lg`} aria-hidden="true" />
                 </span>
                 <div>
-                  <div className="font-orbitron text-xl font-bold leading-none text-white sm:text-2xl">{stat.value}</div>
+                  <div className="font-inter text-xl font-bold leading-none text-white sm:text-2xl">{stat.value}</div>
                   <div className="mt-1 text-xs font-medium uppercase tracking-[0.12em] text-zinc-500">{stat.label}</div>
                 </div>
               </div>
@@ -215,8 +215,8 @@ export default function ServicesPage() {
       {/* ── 2.5 SERVICE PILLARS (Diagnostic / Repair / Maintenance) ───── */}
       <section className="mx-auto max-w-7xl px-6 py-16 sm:py-20">
         <div className="max-w-2xl">
-          <p className="font-inter text-sm font-semibold uppercase tracking-[0.22em] text-red-400">{t('srv_graphic_tag')}</p>
-          <h2 className="mt-3 font-orbitron text-3xl font-bold tracking-tight sm:text-4xl">{t('srv_graphic_title')}</h2>
+          <p className="font-inter text-sm font-semibold uppercase tracking-[0.22em] text-crimson-accent">{t('srv_graphic_tag')}</p>
+          <h2 className="mt-3 font-inter text-3xl font-bold tracking-tight sm:text-4xl">{t('srv_graphic_title')}</h2>
           <p className="mt-4 font-inter text-sm leading-7 text-zinc-400 sm:text-base">{t('srv_graphic_sub')}</p>
         </div>
 
@@ -231,9 +231,9 @@ export default function ServicesPage() {
                 <span className="flex h-14 w-14 items-center justify-center rounded-2xl border border-red-900/50 bg-[radial-gradient(circle_at_30%_22%,rgba(127,29,29,0.55),rgba(9,9,11,0.97))] text-red-300 transition-colors duration-200 group-hover:text-red-200">
                   <i className={`${stage.icon} text-2xl`} aria-hidden="true" />
                 </span>
-                <span className="font-orbitron text-3xl font-bold text-zinc-700 transition-colors duration-200 group-hover:text-red-900/70">{stage.num}</span>
+                <span className="font-inter text-3xl font-bold text-zinc-700 transition-colors duration-200 group-hover:text-red-900/70">{stage.num}</span>
               </div>
-              <h3 className="mt-6 font-orbitron text-lg font-bold leading-snug text-white">{stage.title}</h3>
+              <h3 className="mt-6 font-inter text-lg font-bold leading-snug text-white">{stage.title}</h3>
               <p className="mt-3 font-inter text-sm leading-6 text-zinc-400">{stage.desc}</p>
             </motion.div>
           ))}
@@ -244,8 +244,8 @@ export default function ServicesPage() {
       <section id="pricing" className="mx-auto max-w-7xl px-6 py-16 sm:py-24">
         <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
           <div className="max-w-2xl">
-            <p className="font-inter text-sm font-semibold uppercase tracking-[0.22em] text-red-400">{t('srv2_pricing_eyebrow')}</p>
-            <h2 className="mt-3 font-orbitron text-3xl font-bold tracking-tight sm:text-4xl">{t('srv2_pricing_title')}</h2>
+            <p className="font-inter text-sm font-semibold uppercase tracking-[0.22em] text-crimson-accent">{t('srv2_pricing_eyebrow')}</p>
+            <h2 className="mt-3 font-inter text-3xl font-bold tracking-tight sm:text-4xl">{t('srv2_pricing_title')}</h2>
             <p className="mt-4 font-inter text-sm leading-7 text-zinc-400 sm:text-base">
               {t('srv2_pricing_sub')}
             </p>
@@ -274,7 +274,7 @@ export default function ServicesPage() {
                 />
               )}
               <div className="relative flex items-center justify-between gap-3">
-                <span className="font-inter text-sm font-semibold uppercase tracking-[0.18em] text-red-400">{tier.level}</span>
+                <span className="font-inter text-sm font-semibold uppercase tracking-[0.18em] text-crimson-accent">{tier.level}</span>
                 {tier.featured && (
                   <span className="rounded-full bg-red-600 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-white">
                     {t('srv2_pricing_badge')}
@@ -282,12 +282,12 @@ export default function ServicesPage() {
                 )}
               </div>
 
-              <h3 className="relative mt-4 font-orbitron text-lg font-bold leading-snug text-white">{tier.title}</h3>
+              <h3 className="relative mt-4 font-inter text-lg font-bold leading-snug text-white">{tier.title}</h3>
               <p className="relative mt-3 font-inter text-sm leading-6 text-zinc-400">{tier.blurb}</p>
 
               <div className="relative mt-auto pt-8">
                 <div className="font-inter text-[11px] uppercase tracking-[0.18em] text-zinc-500">{t('srv2_pricing_startingat')}</div>
-                <div className="mt-1 font-orbitron text-4xl font-bold text-red-400">{tier.priceCad}</div>
+                <div className="mt-1 font-inter text-4xl font-bold text-crimson-accent">{tier.priceCad}</div>
                 <div className="mt-1 font-inter text-sm text-zinc-500">{t('srv2_pricing_startingat')} {tier.priceUsd}</div>
               </div>
 
@@ -318,7 +318,7 @@ export default function ServicesPage() {
                 {...reveal(idx * 0.04)}
                 className="group flex items-center gap-3 rounded-2xl border border-zinc-800 bg-white/[0.02] px-4 py-3.5 transition-colors duration-200 hover:border-red-900/50 hover:bg-red-950/10"
               >
-                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-red-900/30 bg-red-950/20 text-red-400">
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-red-900/30 bg-red-950/20 text-crimson-accent">
                   <i className={`${svc.icon} text-base`} aria-hidden="true" />
                 </span>
                 <span className="min-w-0 flex-1 text-sm font-medium leading-snug text-zinc-200">{svc.name}</span>
@@ -341,8 +341,8 @@ export default function ServicesPage() {
         />
         <div className="relative mx-auto max-w-7xl px-6">
           <div className="max-w-2xl">
-            <p className="font-inter text-sm font-semibold uppercase tracking-[0.22em] text-red-400">{t('srv2_how_eyebrow')}</p>
-            <h2 className="mt-3 font-orbitron text-3xl font-bold tracking-tight sm:text-4xl">{t('srv2_how_title')}</h2>
+            <p className="font-inter text-sm font-semibold uppercase tracking-[0.22em] text-crimson-accent">{t('srv2_how_eyebrow')}</p>
+            <h2 className="mt-3 font-inter text-3xl font-bold tracking-tight sm:text-4xl">{t('srv2_how_title')}</h2>
             <p className="mt-4 font-inter text-sm leading-7 text-zinc-400 sm:text-base">
               {t('srv2_how_sub')}
             </p>
@@ -429,8 +429,8 @@ export default function ServicesPage() {
       {/* ── 6. FINAL CTA ─────────────────────────────────────────────── */}
       <section className="relative overflow-hidden border-t border-red-950/50 bg-[radial-gradient(circle_at_top,rgba(220,38,38,0.2),transparent_40%),linear-gradient(to_bottom,rgba(24,24,27,0.82),rgba(0,0,0,1))]">
         <div className="mx-auto max-w-4xl px-6 py-20 text-center sm:py-24">
-          <p className="font-inter text-sm font-semibold uppercase tracking-[0.22em] text-red-400">{t('srv2_final_eyebrow')}</p>
-          <h2 className="mt-4 font-orbitron text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">{t('srv2_final_title')}</h2>
+          <p className="font-inter text-sm font-semibold uppercase tracking-[0.22em] text-crimson-accent">{t('srv2_final_eyebrow')}</p>
+          <h2 className="mt-4 font-inter text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">{t('srv2_final_title')}</h2>
           <p className="mx-auto mt-6 max-w-2xl font-inter text-base leading-7 text-zinc-300 sm:text-lg sm:leading-8">
             {t('srv2_final_sub')}
           </p>

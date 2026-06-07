@@ -21,7 +21,7 @@ const FAQSection = () => {
     <section className="py-24 bg-near-black relative overflow-hidden">
       <div className="relative max-w-4xl mx-auto px-6">
         <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-16">
-          <h2 className="font-orbitron font-bold text-4xl text-white mb-4">{t('faq_title')}</h2>
+          <h2 className="font-inter font-bold text-4xl text-white mb-4">{t('faq_title')}</h2>
           <p className="text-soft-gray font-inter text-base max-w-2xl mx-auto">{t('faq_sub')}</p>
         </motion.div>
         <div className="space-y-3">
