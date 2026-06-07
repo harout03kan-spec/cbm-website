@@ -4,13 +4,33 @@ import { useTranslation } from 'react-i18next';
 import Navbar from '../../components/feature/Navbar';
 import Footer from '../../components/feature/Footer';
 import Seo, { localBusinessLd } from '../../components/feature/Seo';
-import { useRecaptcha } from '../../hooks/useRecaptcha';
 
 const TEL = '+15146047050';
 const EMAIL = 'info@canadabtcminers.ca';
 const ADDRESS = '6500 Route Transcanadienne, Suite 209, Saint-Laurent, Quebec H4T 1X4';
-// Same WordPress REST backend the rest of the site posts to (see hosting page).
-const CONTACT_ENDPOINT = 'https://wholesaleasic.com/wp-json/cbtc/v1/contact';
+
+// Netlify Forms. A matching hidden static form lives in index.html so Netlify
+// detects it at build time. Submissions are emailed to the recipient configured
+// in the Netlify dashboard (set this to info@canadabtcminers.ca). The "subject"
+// field below sets the notification email subject so the existing Gmail filter
+// (subject contains "[Website Lead]") labels it automatically.
+const NETLIFY_FORM_NAME = 'contact';
+
+// English inquiry labels for the email subject — kept consistent regardless of
+// the UI language so the subject reads e.g. "[Website Lead] Repair service - John".
+const INQUIRY_SUBJECT_LABEL: Record<string, string> = {
+  buy: 'Buy miners',
+  sell: 'Sell miners',
+  repair: 'Repair service',
+  hosting: 'Hosting',
+  bulk: 'Bulk order',
+  general: 'General question',
+};
+
+const encodeForm = (data: Record<string, string>) =>
+  Object.keys(data)
+    .map((k) => `${encodeURIComponent(k)}=${encodeURIComponent(data[k])}`)
+    .join('&');
 
 type Status = 'idle' | 'sending' | 'sent' | 'error';
 
@@ -25,7 +45,6 @@ const initialForm = {
 
 export default function ContactPage() {
   const { t } = useTranslation();
-  const { getToken } = useRecaptcha();
   const [form, setForm] = useState(initialForm);
   const [status, setStatus] = useState<Status>('idle');
 
@@ -44,27 +63,64 @@ export default function ContactPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus('sending');
+
+    const inquiryLabel = INQUIRY_SUBJECT_LABEL[form.inquiry] || 'General question';
+    const subject = `[Website Lead] ${inquiryLabel} - ${form.name}`.trim();
+    const submittedAt = new Date().toLocaleString('en-CA', {
+      timeZone: 'America/Toronto',
+      dateStyle: 'medium',
+      timeStyle: 'short',
+    });
+    const pageSource = document.referrer || window.location.href;
+
+    const payload = {
+      'form-name': NETLIFY_FORM_NAME,
+      subject,
+      name: form.name,
+      email: form.email,
+      phone: form.phone,
+      company: form.company.trim() || 'Not provided',
+      inquiry: inquiryLabel,
+      message: form.message,
+      page_source: pageSource,
+      submitted_at: submittedAt,
+      'bot-field': '',
+    };
+
     try {
-      const recaptchaToken = await getToken('contact_form').catch(() => '');
-      const res = await fetch(CONTACT_ENDPOINT, {
+      const res = await fetch('/', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...form, recaptcha_token: recaptchaToken }),
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: encodeForm(payload),
       });
       // Only report success on a real 2xx response — never fake a submission.
       if (res.ok) {
         setStatus('sent');
         setForm(initialForm);
       } else {
+        const responseText = await res.text().catch(() => '');
+        // Diagnostic only (console) — customers never see these details.
+        console.error('[contact] submission failed', {
+          status: res.status,
+          statusText: res.statusText,
+          postUrl: '/',
+          formName: NETLIFY_FORM_NAME,
+          responsePreview: responseText.slice(0, 300),
+        });
         setStatus('error');
       }
-    } catch {
+    } catch (err) {
+      console.error('[contact] submission error', {
+        postUrl: '/',
+        formName: NETLIFY_FORM_NAME,
+        error: err,
+      });
       setStatus('error');
     }
   };
 
   const inputCls =
-    'w-full rounded-xl border border-zinc-800 bg-zinc-950 px-4 py-3 text-sm text-white placeholder-zinc-500 outline-none transition focus:border-red-600 focus:ring-1 focus:ring-red-600/40';
+    'relative z-10 w-full rounded-xl border border-zinc-800 bg-zinc-950 px-4 py-3 text-base sm:text-sm text-white placeholder-zinc-500 outline-none transition focus:border-red-600 focus:ring-1 focus:ring-red-600/40';
   const labelCls = 'mb-1.5 block text-sm font-medium text-zinc-300';
 
   return (
@@ -118,7 +174,7 @@ export default function ContactPage() {
             {/* Phone (direct call) */}
             <a
               href={`tel:${TEL}`}
-              className="group flex items-center gap-4 rounded-2xl border border-zinc-900 bg-zinc-950/70 px-5 py-4 transition hover:border-red-900/60"
+              className="group relative z-10 flex items-center gap-4 rounded-2xl border border-zinc-900 bg-zinc-950/70 px-5 py-4 transition hover:border-red-900/60 active:bg-zinc-900"
             >
               <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-red-900/50 bg-red-950/30 text-red-400">
                 <i className="ri-phone-fill text-xl" aria-hidden="true" />
@@ -132,7 +188,7 @@ export default function ContactPage() {
             {/* Email */}
             <a
               href={`mailto:${EMAIL}`}
-              className="group flex items-center gap-4 rounded-2xl border border-zinc-900 bg-zinc-950/70 px-5 py-4 transition hover:border-red-900/60"
+              className="group relative z-10 flex items-center gap-4 rounded-2xl border border-zinc-900 bg-zinc-950/70 px-5 py-4 transition hover:border-red-900/60 active:bg-zinc-900"
             >
               <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-red-900/50 bg-red-950/30 text-red-400">
                 <i className="ri-mail-fill text-xl" aria-hidden="true" />
@@ -157,7 +213,7 @@ export default function ContactPage() {
             {/* Call CTA */}
             <a
               href={`tel:${TEL}`}
-              className="inline-flex items-center justify-center gap-2 rounded-xl bg-red-600 px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-red-500"
+              className="relative z-10 inline-flex min-h-[44px] items-center justify-center gap-2 rounded-xl bg-red-600 px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-red-500 active:bg-red-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-400"
             >
               <i className="ri-phone-fill text-base" aria-hidden="true" />
               {t('ct_call_btn')}
@@ -258,7 +314,7 @@ export default function ContactPage() {
                 <button
                   type="submit"
                   disabled={status === 'sending'}
-                  className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-red-600 px-6 py-4 text-base font-semibold text-white shadow-lg shadow-red-900/30 transition hover:bg-red-500 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
+                  className="relative z-10 inline-flex w-full min-h-[44px] items-center justify-center gap-2 rounded-xl bg-red-600 px-6 py-4 text-base font-semibold text-white shadow-lg shadow-red-900/30 transition hover:bg-red-500 active:bg-red-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-400 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
                 >
                   {status === 'sending' ? t('ct_sending') : t('ct_submit')}
                 </button>

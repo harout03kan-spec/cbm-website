@@ -326,7 +326,7 @@ const CheckoutPage = () => {
                     </div>
                     <div>
                       <label className="text-white font-inter font-semibold text-sm mb-2 block">{t('checkout_phone')} *</label>
-                      <input type="tel" name="phone" value={formData.phone} onChange={handleInputChange} required className={inputCls} placeholder="(416) 555-0123" />
+                      <input type="tel" name="phone" value={formData.phone} onChange={handleInputChange} required className={inputCls} placeholder="(514) 000-0000" />
                     </div>
                   </div>
 

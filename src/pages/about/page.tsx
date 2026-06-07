@@ -77,18 +77,18 @@ export default function AboutPage() {
         <meta itemProp="name" content="Canada BTC Miners" />
         <meta itemProp="telephone" content="+15146047050" />
         <meta itemProp="address" content="6500 Route Transcanadienne, Suite 209, Saint-Laurent, Quebec H4T 1X4" />
-        <meta itemProp="url" content="https://canadabtcminers.com" />
+        <meta itemProp="url" content="https://canadabtcminers.ca" />
 
         {/* Background photo */}
         <img
           src="/Put%20this%20in%20the%20about%20us%20page%20background%20instead%20of%20the%20miner.jpeg"
           alt="Bitcoin mining facility — Canada BTC Miners"
-          className="absolute inset-0 w-full h-full object-cover object-center"
+          className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none"
           loading="eager"
         />
         {/* Dark overlay so text stays readable */}
-        <div className="absolute inset-0 bg-black/70" />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/60" />
+        <div className="absolute inset-0 bg-black/70 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/60 pointer-events-none" />
 
         <div className="relative z-10 mx-auto max-w-4xl px-5 py-20 sm:px-6 sm:py-28 lg:py-32 text-center">
           <p className="text-xs font-semibold uppercase tracking-[0.28em] text-red-500 sm:text-sm">
@@ -392,7 +392,7 @@ export default function AboutPage() {
 
       {/* ── FINAL CTA ── */}
       <section className="relative overflow-hidden border-t border-zinc-900 bg-[linear-gradient(135deg,#0f0f10,#171717_45%,#101012)] px-5 py-20 text-center sm:px-6 sm:py-24">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_0%,rgba(220,38,38,0.10),transparent_65%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_0%,rgba(220,38,38,0.10),transparent_65%)] pointer-events-none" />
         <div className="relative z-10 mx-auto max-w-3xl">
           <p className="text-xs font-semibold uppercase tracking-[0.28em] text-red-500 sm:text-sm mb-4">Get Started Today</p>
           <h2 className="text-3xl font-semibold sm:text-4xl lg:text-5xl">Work With A Reliable ASIC Team</h2>
