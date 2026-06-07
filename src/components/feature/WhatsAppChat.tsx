@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const WA_NUMBER = '15146047050';
 const WA_URL = `https://wa.me/${WA_NUMBER}`;
 
 export default function WhatsAppChat() {
+  const { t } = useTranslation();
   const { pathname } = useLocation();
   const [open, setOpen] = useState(false);
   const [visible, setVisible] = useState(false);
@@ -56,14 +58,14 @@ export default function WhatsAppChat() {
             {/* Header */}
             <div className="bg-[#1e1e1e] px-4 py-3 flex items-center gap-3">
               <div className="relative flex-shrink-0">
-                <div className="w-10 h-10 rounded-full bg-green-500/20 border border-green-500/40 flex items-center justify-center">
-                  <i className="ri-whatsapp-fill text-xl text-green-400" />
+                <div className="w-10 h-10 rounded-full bg-red-600/20 border border-red-900/40 flex items-center justify-center">
+                  <i className="ri-whatsapp-fill text-xl text-red-500" />
                 </div>
-                <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-400 rounded-full border-2 border-[#1e1e1e]" />
+                <span className="absolute bottom-0 right-0 w-3 h-3 bg-red-500 rounded-full border-2 border-[#1e1e1e]" />
               </div>
               <div className="flex-1 min-w-0">
                 <div className="text-white font-semibold text-sm">Canada BTC Miners</div>
-                <div className="text-green-400 text-xs">Online · Typically replies fast</div>
+                <div className="text-red-500 text-xs">{t('wa_status')}</div>
               </div>
               <button
                 onClick={() => setOpen(false)}
@@ -81,15 +83,15 @@ export default function WhatsAppChat() {
 
               {/* Message bubble */}
               <div className="flex items-end gap-2">
-                <div className="w-7 h-7 rounded-full bg-green-500/20 border border-green-500/30 flex-shrink-0 flex items-center justify-center mb-1">
-                  <i className="ri-whatsapp-fill text-sm text-green-400" />
+                <div className="w-7 h-7 rounded-full bg-red-600/20 border border-red-900/30 flex-shrink-0 flex items-center justify-center mb-1">
+                  <i className="ri-whatsapp-fill text-sm text-red-500" />
                 </div>
                 <div className="bg-[#1e1e1e] rounded-2xl rounded-bl-sm px-4 py-3 max-w-[220px]">
                   <p className="text-white text-sm leading-relaxed">
-                    Hey 👋 Looking to buy, repair, or host ASIC miners?
+                    {t('wa_msg1')}
                   </p>
                   <p className="text-white text-sm leading-relaxed mt-1">
-                    Message us — we reply fast.
+                    {t('wa_msg2')}
                   </p>
                   <div className="text-right mt-1">
                     <span className="text-zinc-600 text-[10px]">
@@ -106,11 +108,11 @@ export default function WhatsAppChat() {
                 href={WA_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 w-full bg-green-500 hover:bg-green-400 transition-colors text-white font-semibold py-3 rounded-xl text-sm"
+                className="flex items-center justify-center gap-2 w-full bg-red-600 hover:bg-red-500 transition-colors text-white font-semibold py-3 rounded-xl text-sm"
                 onClick={() => setOpen(false)}
               >
                 <i className="ri-whatsapp-fill text-lg" />
-                Start Chat on WhatsApp
+                {t('wa_cta')}
               </a>
               <p className="text-center text-zinc-600 text-xs mt-2">+1 (514) 604-7050</p>
             </div>
@@ -122,11 +124,11 @@ export default function WhatsAppChat() {
         <button
           onClick={() => { setOpen(!open); setPulse(false); }}
           aria-label="Chat on WhatsApp"
-          className="pointer-events-auto relative w-14 h-14 bg-green-500 hover:bg-green-400 rounded-full shadow-lg shadow-green-900/40 flex items-center justify-center transition-all duration-200 hover:scale-110 active:scale-95"
+          className="pointer-events-auto relative w-14 h-14 bg-red-600 hover:bg-red-500 rounded-full shadow-lg shadow-red-900/40 flex items-center justify-center transition-all duration-200 hover:scale-110 active:scale-95"
         >
           {/* Pulse ring */}
           {pulse && !open && (
-            <span className="absolute inset-0 rounded-full bg-green-500 animate-ping opacity-40" />
+            <span className="absolute inset-0 rounded-full bg-red-600 animate-ping opacity-40" />
           )}
 
           <i className={`text-white text-2xl transition-all duration-200 ${open ? 'ri-close-line' : 'ri-whatsapp-fill'}`} />

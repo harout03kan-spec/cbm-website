@@ -52,6 +52,16 @@
       <input type="text" name="submitted_at" />
       <input type="text" name="bot-field" />
     </form>
+    <!-- Netlify Forms detection form (hidden) for the homepage promo-code signup. -->
+    <form name="discount-signup" data-netlify="true" netlify-honeypot="bot-field" hidden>
+      <input type="email" name="email" />
+      <input type="text" name="promo_code" />
+      <input type="text" name="language" />
+      <input type="text" name="page_source" />
+      <input type="text" name="submitted_at" />
+      <input type="text" name="subject" />
+      <input type="text" name="bot-field" />
+    </form>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
