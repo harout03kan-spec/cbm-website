@@ -806,16 +806,6 @@ export const CATALOG_PRODUCTS: Product[] = [
         "efficiency": "15.1",
         "efficiency_unit": "J/TH",
         "price": "3821"
-      },
-      {
-        "label": "220T",
-        "model": "Antminer S21 Pro (220Th)",
-        "hashrate": "220",
-        "hashrate_unit": "TH/s",
-        "power": "",
-        "efficiency": "",
-        "efficiency_unit": "J/TH",
-        "price": "3617"
       }
     ]
   },

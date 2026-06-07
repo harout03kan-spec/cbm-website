@@ -237,9 +237,12 @@ addVariants(673979281, [
 ], { hashrate: '174', hashrate_unit: 'TH/s', power: '3422', efficiency: '19.67', efficiency_unit: 'J/TH', price: '2710' });
 
 // S21 Pro — repurpose the existing (blank-condition) S21 Pro 245 listing into ONE
-// clean Brand New grouped card with 245T/234T/220T variants (supplier prices).
-// The separate "S21 Pro (234Th) USED" listing is kept untouched (Used).
-// 220T watts/efficiency are left blank: not on ASICMinerValue and not invented.
+// clean Brand New grouped card. Only verified variants are included: 245T and
+// 234T (both exact ASICMinerValue matches). 220T is excluded — it has no exact
+// AMV source and is 14T from AMV 234T (outside ±10), so its watts/efficiency are
+// unknown. The separate "S21 Pro (234Th) USED" listing is kept untouched.
+// NOTE: this repurposes the existing S21 Pro 245 listing, so its price changes
+// from $5,100 -> $3,991 (Brand New supplier price) — reported in the PR.
 const s21pro = CATALOG_PRODUCTS.find((x) => x.id === 769891226);
 if (s21pro) {
   s21pro.name = 'Antminer S21 Pro BRAND NEW';
@@ -251,7 +254,6 @@ if (s21pro) {
   s21pro.variants = [
     { label: '245T', model: 'Antminer S21 Pro (245Th)', hashrate: '245', hashrate_unit: 'TH/s', power: '3510', efficiency: '14.3', efficiency_unit: 'J/TH', price: '3991' },
     { label: '234T', model: 'Antminer S21 Pro (234Th)', hashrate: '234', hashrate_unit: 'TH/s', power: '3531', efficiency: '15.1', efficiency_unit: 'J/TH', price: '3821' },
-    { label: '220T', model: 'Antminer S21 Pro (220Th)', hashrate: '220', hashrate_unit: 'TH/s', power: '', efficiency: '', efficiency_unit: 'J/TH', price: '3617' },
   ];
   Object.assign(s21pro, { hashrate: '245', hashrate_unit: 'TH/s', power: '3510', efficiency: '14.3', efficiency_unit: 'J/TH', price: '3991' });
   s21pro.details = { ...(s21pro.details || {}), model: 'Antminer S21 Pro (245Th)' };
