@@ -23,10 +23,29 @@ const CartPage = () => {
     }
   };
 
+  // Resolve a cart line to its product + selected variant (variant overrides
+  // name/price/specs so each variant is priced and labelled correctly).
+  const lineData = (item: typeof cartItems[number]) => {
+    const product = products.find(p => p.id === item.id);
+    if (!product) return null;
+    const vr = item.variant ? product.variants?.find(v => v.label === item.variant) : undefined;
+    return {
+      product,
+      name: vr ? `${product.name} — ${vr.label}` : product.name,
+      price: Number(vr?.price ?? product.price),
+      hashrate: vr?.hashrate ?? product.hashrate,
+      hashrate_unit: vr?.hashrate_unit ?? product.hashrate_unit,
+      power: vr?.power ?? product.power,
+      efficiency: vr?.efficiency ?? product.efficiency,
+      efficiency_unit: vr?.efficiency_unit ?? product.efficiency_unit,
+      image: product.image,
+    };
+  };
+
   const calculateTotals = () => {
     const subtotal = cartItems.reduce((sum, item) => {
-      const product = products.find(p => p.id === item.id);
-      return sum + (product ? Number(product.price) * item.quantity : 0);
+      const d = lineData(item);
+      return sum + (d ? d.price * item.quantity : 0);
     }, 0);
 
     const discount = promoApplied ? (subtotal * promoDiscount) / 100 : 0;
@@ -108,12 +127,13 @@ const CartPage = () => {
             {/* Cart Items - Left Column */}
             <div className="lg:col-span-2 space-y-4">
               {cartItems.map((item, index) => {
-                const product = products.find(p => p.id === item.id) as (typeof products[number] & { badge?: string; badgeType?: string }) | undefined;
-                if (!product) return null;
+                const d = lineData(item);
+                if (!d) return null;
+                const hasImg = !!d.image;
 
                 return (
                   <motion.div
-                    key={item.id}
+                    key={`${item.id}-${item.variant || ''}`}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.1 }}
@@ -121,35 +141,25 @@ const CartPage = () => {
                   >
                     <div className="flex gap-6">
                       {/* Product Image */}
-                      <div className="relative w-40 h-40 bg-black rounded-xl overflow-hidden flex-shrink-0 border border-white/10">
-                        <img
-                          src={product.image}
-                          alt={product.name}
-                          className="w-full h-full object-contain object-center"
-                        />
+                      <div className="relative w-40 h-40 bg-black rounded-xl overflow-hidden flex-shrink-0 border border-white/10 flex items-center justify-center">
+                        {hasImg ? (
+                          <img src={d.image} alt={d.name} className="w-full h-full object-contain object-center" />
+                        ) : (
+                          <i className="ri-image-line text-4xl text-zinc-700" aria-hidden="true"></i>
+                        )}
                       </div>
 
                       {/* Product Info */}
                       <div className="flex-1">
                         <div className="flex justify-between items-start mb-3">
-                          <div>
-                            <Link
-                              to={`/product?id=${product.id}`}
-                              className="text-white font-inter font-bold text-2xl hover:text-crimson-accent transition-colors cursor-pointer"
-                            >
-                              {product.name}
-                            </Link>
-                            <div className={`inline-block mt-2 px-3 py-1 rounded-full text-xs font-inter font-semibold ${
-                              product.badgeType === 'hot' ? 'bg-crimson-accent/20 text-crimson-accent' :
-                              product.badgeType === 'cold' ? 'bg-white/20 text-white' :
-                              product.badgeType === 'eco' ? 'bg-green-600/20 text-green-400' :
-                              'bg-white/20 text-white'
-                            }`}>
-                              {product.badge}
-                            </div>
-                          </div>
+                          <Link
+                            to={`/product?id=${item.id}`}
+                            className="text-white font-inter font-bold text-2xl hover:text-crimson-accent transition-colors cursor-pointer"
+                          >
+                            {d.name}
+                          </Link>
                           <button
-                            onClick={() => removeItem(item.id)}
+                            onClick={() => removeItem(item.id, item.variant)}
                             className="w-10 h-10 flex items-center justify-center text-soft-gray hover:text-red-500 hover:bg-red-500/10 rounded-lg transition-colors cursor-pointer"
                           >
                             <i className="ri-delete-bin-line text-xl"></i>
@@ -158,22 +168,22 @@ const CartPage = () => {
 
                         {/* Specs */}
                         <div className="flex gap-6 mb-4">
-                          {product.hashrate && (
+                          {d.hashrate && (
                             <div>
                               <div className="text-soft-gray font-inter text-xs mb-1">Hashrate</div>
-                              <div className="text-white font-inter font-bold">{product.hashrate} {product.hashrate_unit || 'TH/s'}</div>
+                              <div className="text-white font-inter font-bold">{d.hashrate} {d.hashrate_unit || 'TH/s'}</div>
                             </div>
                           )}
-                          {product.power && (
+                          {d.power && (
                             <div>
                               <div className="text-soft-gray font-inter text-xs mb-1">Power</div>
-                              <div className="text-white font-inter font-bold">{product.power}W</div>
+                              <div className="text-white font-inter font-bold">{d.power}W</div>
                             </div>
                           )}
-                          {product.efficiency && (
+                          {d.efficiency && (
                             <div>
                               <div className="text-soft-gray font-inter text-xs mb-1">Efficiency</div>
-                              <div className="text-white font-inter font-bold">{product.efficiency} {product.efficiency_unit || 'J/TH'}</div>
+                              <div className="text-white font-inter font-bold">{d.efficiency} {d.efficiency_unit || 'J/TH'}</div>
                             </div>
                           )}
                         </div>
@@ -184,7 +194,7 @@ const CartPage = () => {
                             <span className="text-soft-gray font-inter text-sm">Quantity:</span>
                             <div className="flex items-center bg-midnight border border-white/20 rounded-lg overflow-hidden">
                               <button
-                                onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                                onClick={() => updateQuantity(item.id, item.quantity - 1, item.variant)}
                                 className="w-10 h-10 flex items-center justify-center text-white hover:bg-white/10 transition-colors cursor-pointer"
                               >
                                 <i className="ri-subtract-line"></i>
@@ -192,12 +202,12 @@ const CartPage = () => {
                               <input
                                 type="number"
                                 value={item.quantity}
-                                onChange={(e) => updateQuantity(item.id, Number(e.target.value))}
+                                onChange={(e) => updateQuantity(item.id, Number(e.target.value), item.variant)}
                                 className="w-16 h-10 bg-transparent text-white text-center font-inter font-bold border-x border-white/20 outline-none"
                                 min="1"
                               />
                               <button
-                                onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                                onClick={() => updateQuantity(item.id, item.quantity + 1, item.variant)}
                                 className="w-10 h-10 flex items-center justify-center text-white hover:bg-white/10 transition-colors cursor-pointer"
                               >
                                 <i className="ri-add-line"></i>
@@ -207,10 +217,10 @@ const CartPage = () => {
 
                           <div className="text-right">
                             <div className="text-crimson-accent font-inter font-bold text-3xl">
-                              ${(Number(product.price) * item.quantity).toFixed(2)}
+                              ${(d.price * item.quantity).toFixed(2)}
                             </div>
                             <div className="text-soft-gray font-inter text-sm">
-                              ${product.price} × {item.quantity}
+                              ${d.price.toFixed(2)} × {item.quantity}
                             </div>
                           </div>
                         </div>

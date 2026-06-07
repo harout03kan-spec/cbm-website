@@ -520,6 +520,7 @@ const en = {
   shop_badge_hydro: 'Hydro',
   shop_badge_coin_xp: 'XP',
   shop_badge_coin_alph: 'ALPH',
+  shop_badge_coin_ini: 'INI',
   shop_badge_coin_btc: 'Bitcoin',
   shop_badge_coin_ltc: 'LTC/DOGE',
   shop_badge_coin_kas: 'KAS',

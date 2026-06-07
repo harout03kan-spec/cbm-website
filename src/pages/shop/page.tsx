@@ -113,6 +113,7 @@ const ShopPage = () => {
     if (isHydro(p)) return 'shop_badge_hydro';
     const tx = ptext(p);
     if (/xphash|xphere/.test(tx))                     return 'shop_badge_coin_xp';
+    if (/versahash|initverse/.test(tx))               return 'shop_badge_coin_ini';
     if (/blake3|alephium|\balph\b/.test(tx))          return 'shop_badge_coin_alph';
     if (/aleo|\bae\d\b/.test(tx))                     return 'shop_badge_coin_aleo';
     if (/scrypt|litecoin|\bltc\b|\bdoge\b|\bl[379]\b|dg1|volcminer/.test(tx)) return 'shop_badge_coin_ltc';

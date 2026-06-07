@@ -37,7 +37,8 @@ const ProductPage = () => {
 
   const handleAddToCart = () => {
     if (!product) return;
-    addItem(product.id, quantity);
+    const variantLabel = product.variants?.[selectedVariant]?.label;
+    addItem(product.id, quantity, variantLabel);
     setShowNotification(true);
     setTimeout(() => setShowNotification(false), 3000);
   };
@@ -61,6 +62,18 @@ const ProductPage = () => {
     total: (subtotalNum * 1.13).toFixed(2),
     freeShipping: false,
   };
+
+  // Condition + cooling label (e.g. "Brand New Air", "Used Hydro").
+  const lcv = (s?: string) => (s || '').toLowerCase();
+  const condLabel = product ? (product.condition === 'New' ? 'Brand New' : product.condition) : '';
+  const coolingType = (() => {
+    if (!product) return '';
+    const c = lcv(product.cooling);
+    if (c === 'hydro' || /hydro|\bhyd\b|water[- ]?cool|liquid/.test(lcv(product.name))) return 'Hydro';
+    if (c === 'air' || product.details?.fans) return 'Air';
+    return '';                       // unclear → leave blank
+  })();
+  const condCooling = [condLabel, coolingType].filter(Boolean).join(' ');
 
   if (loading) {
     return (
@@ -184,8 +197,7 @@ const ProductPage = () => {
             <div>
               <div className="flex flex-wrap items-center gap-3 mb-4">
                 <h1 className="font-inter font-bold text-4xl text-white">{product.name}</h1>
-                {product.condition && <span className="px-3 py-1 bg-white/20 text-white rounded-full text-sm font-inter font-semibold">{product.condition === 'New' ? 'Brand New' : product.condition}</span>}
-                {product.cooling && <span className="px-3 py-1 bg-white/20 text-white rounded-full text-sm font-inter font-semibold">{product.cooling}</span>}
+                {condCooling && <span className="px-3 py-1 bg-white/20 text-white rounded-full text-sm font-inter font-semibold">{condCooling}</span>}
               </div>
 
               <div className="mb-6 pb-6 border-b border-white/10">

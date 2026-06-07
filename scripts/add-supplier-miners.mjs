@@ -134,6 +134,27 @@ const NEW = [
   { name: 'Fluminer L2 1.2G', brand: 'Fluminer', algo: 'Scrypt', cool: 'Air',
     details: { release: 'Jun 2025' },
     v: [['1.2G','Fluminer L2 (1.2Gh)','1.2','GH/s','230','0.192','J/MH','1444']] },
+
+  // ── Corrected-name products (PR #30 review, rechecked vs ASICMinerValue) ──
+  { name: 'Antminer Z15 Pro 840K', brand: 'Bitmain', algo: 'Equihash', cool: 'Air',
+    details: { release: 'Jun 2023', size: '245 x 132 x 290 mm', weight: '5900 g', noise: '75 dB', fans: '2', interface: 'RJ45 Ethernet 10/100M', temperature: '5 - 40 °C', humidity: '10 - 90 %' },
+    v: [['840K','Antminer Z15 Pro (840Kh)','840','KH/s','2780','3.31','J/kSol','12669']] },
+
+  { name: 'Antminer S21j XP Hyd 495T', brand: 'Bitmain', algo: 'SHA-256', cool: 'Hydro',
+    details: { release: 'Mar 2026', size: '410 x 170 x 209 mm', noise: '50 dB', interface: 'Ethernet', temperature: '5 - 45 °C', humidity: '5 - 95 %' },
+    v: [['495T','Antminer S21j XP Hyd (495Th)','495','TH/s','5940','12','J/TH','10913']] },
+
+  { name: 'Fluminer T3 115T', brand: 'Fluminer', algo: 'SHA-256', cool: 'Air',
+    details: { release: 'Jun 2025', size: '450 x 140 x 300 mm', weight: '12600 g', noise: '50 dB', temperature: '5 - 45 °C', humidity: '5 - 95 %' },
+    v: [['115T','Fluminer T3 (115Th)','115','TH/s','1700','14.78','J/TH','3160']] },
+
+  { name: 'Pinecone INIBOX 850M', brand: 'Pinecone', algo: 'VersaHash', cool: 'Air',
+    details: { release: '2025', size: '195 x 165 x 125 mm', weight: '3050 g', noise: '60 dB', voltage: '220V', interface: 'Ethernet', temperature: '5 - 40 °C' },
+    v: [['850M','Pinecone INIBOX (850Mh)','850','MH/s','500','0.588','J/MH','1943']] },
+
+  { name: 'Pinecone INIBOX Pro 2.4G', brand: 'Pinecone', algo: 'VersaHash', cool: 'Air',
+    details: { release: '2025', size: '270 x 184 x 291 mm', weight: '10700 g', noise: '70 dB', voltage: '220V', interface: 'Ethernet', temperature: '5 - 40 °C' },
+    v: [['2.4G','Pinecone INIBOX Pro (2.4Gh)','2.4','GH/s','1280','0.533','J/MH','5274']] },
 ];
 
 const mkVariant = ([label, model, hashrate, hashrate_unit, power, efficiency, efficiency_unit, price]) =>
