@@ -11,6 +11,7 @@ import type { Product } from '../../lib/api';
 const ShopPage = () => {
   const { t } = useTranslation();
   const [activeCategory, setActiveCategory] = useState('all');
+  const [accSub, setAccSub] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState('');
   const { products, loading } = useProducts();
@@ -23,6 +24,21 @@ const ShopPage = () => {
     { id: 'home',        key: 'shop_cat_home' },
     { id: 'accessories', key: 'shop_cat_accessories' },
   ];
+
+  // Accessory subcategories (only shown when Accessories is selected).
+  const accessorySubs = [
+    { id: 'all',        key: 'shop_acc_all' },
+    { id: 'psu',        key: 'shop_acc_psu' },
+    { id: 'fans',       key: 'shop_acc_fans' },
+    { id: 'control',    key: 'shop_acc_control' },
+    { id: 'cables',     key: 'shop_acc_cables' },
+    { id: 'hashboards', key: 'shop_acc_hashboards' },
+  ];
+
+  const selectCategory = (id: string) => {
+    setActiveCategory(id);
+    setAccSub('all');
+  };
 
   // Pull a usable number out of values like "$3,200", "335", or "335 TH/s".
   const toNumber = (v: unknown): number | null => {
@@ -53,21 +69,76 @@ const ShopPage = () => {
   const ALTCOIN_RE = /scrypt|kheavyhash|heavyhash|kaspa|blake3|blake2|eaglesong|equihash|x11|handshake|blake256|cuckoo|\bdash\b|\bdoge\b|litecoin|\bltc\b|\bkas\b|\bzec\b|\bhns\b|\bl[379]\b|\bks\d|\bz15\b/;
   const BITCOIN_RE = /sha-?256|bitcoin|\bbtc\b/;
 
-  // A product can match more than one category (e.g. S21 Hydro = Bitcoin + Hydro).
+  // Miner categories never include accessories or unclear products.
   const inCategory = (p: Product, cat: string): boolean => {
-    if (cat === 'all') return true;
     if (cat === 'accessories') return isAccessory(p);
-    // Unclear products only ever appear under "All Products".
-    if (isUnclear(p) || isAccessory(p)) return false;
+    if (cat === 'all') return isMiner(p);
+    if (isUnclear(p) || isAccessory(p) || !isMiner(p)) return false;
     if (cat === 'hydro') return lc(p.cooling) === 'hydro' || /hydro/.test(ptext(p));
-    if (cat === 'home')  return /\bhome\b/.test(ptext(p)) || (hasHashrate(p) && (toNumber(p.power) ?? Infinity) <= 2500);
-    if (cat === 'altcoin') return isMiner(p) && ALTCOIN_RE.test(ptext(p)) && !BITCOIN_RE.test(lc(p.algorithm));
-    if (cat === 'bitcoin')  return isMiner(p) && (BITCOIN_RE.test(ptext(p)) || !ALTCOIN_RE.test(ptext(p)));
+    if (cat === 'home')  return /\bhome\b/.test(ptext(p)) || (toNumber(p.power) ?? Infinity) <= 2500;
+    if (cat === 'altcoin') return ALTCOIN_RE.test(ptext(p)) && !BITCOIN_RE.test(lc(p.algorithm));
+    if (cat === 'bitcoin')  return BITCOIN_RE.test(ptext(p)) || !ALTCOIN_RE.test(ptext(p));
     return false;
   };
 
-  // 1) Category filter (multi-category aware).
-  const categoryFiltered = products.filter((p) => inCategory(p, activeCategory));
+  // Accessory subcategory matcher.
+  const accSubMatch = (p: Product, sub: string): boolean => {
+    if (sub === 'all') return true;
+    const tx = ptext(p);
+    if (sub === 'psu')        return /power supply|psu/.test(tx);
+    if (sub === 'fans')       return /\bfans?\b/.test(tx);
+    if (sub === 'control')    return /control board/.test(tx);
+    if (sub === 'cables')     return /\bcables?\b|\bcord\b/.test(tx);
+    if (sub === 'hashboards') return /hashboard|hash board|replacement board|\bboard\b/.test(tx);
+    return true;
+  };
+
+  // Coin / mining-type badge (miners only). Returns an i18n key or null.
+  const coinTypeKey = (p: Product): string | null => {
+    if (!isMiner(p) || isUnclear(p)) return null;
+    const tx = ptext(p);
+    if (/scrypt|litecoin|\bltc\b|\bdoge\b/.test(tx)) return 'shop_badge_coin_ltc';
+    if (/kaspa|kheavyhash|\bkas\b/.test(tx))         return 'shop_badge_coin_kas';
+    if (/zcash|equihash|\bzec\b|\bz15\b/.test(tx))   return 'shop_badge_coin_zec';
+    if (/\bdash\b|x11/.test(tx))                     return 'shop_badge_coin_dash';
+    if (BITCOIN_RE.test(tx) || !ALTCOIN_RE.test(tx)) return 'shop_badge_coin_btc';
+    if (ALTCOIN_RE.test(tx))                         return 'shop_badge_coin_alt';
+    return null;
+  };
+
+  // Condition badge i18n key from product data (no condition invented).
+  const conditionKey = (p: Product): string | null => {
+    const c = lc(p.condition);
+    if (!c) return null;
+    if (/new/.test(c)) return 'shop_cond_new';
+    if (/refurb/.test(c)) return 'shop_cond_refurb';
+    if (/used/.test(c)) return 'shop_cond_used';
+    return null;
+  };
+
+  // Availability from real stock data only; default to "contact us" when unknown.
+  const availabilityKey = (p: Product): string => {
+    const s = lc(p.stock_status);
+    if (s === 'instock') return 'shop_avail_instock';
+    if (s === 'outofstock') return 'shop_avail_outofstock';
+    if (s === 'onbackorder') return 'shop_avail_order';
+    return 'shop_avail_contact';
+  };
+
+  // Clean display name: drop condition words (they become a badge).
+  const cleanName = (name: string): string => {
+    const cleaned = name
+      .replace(/\b(brand new|refurbished|refurb|used|new)\b/gi, '')
+      .replace(/\s{2,}/g, ' ')
+      .replace(/^[\s\-–|]+|[\s\-–|]+$/g, '')
+      .trim();
+    return cleaned || name;
+  };
+
+  // 1) Category filter (+ accessory subfilter when Accessories is selected).
+  const categoryFiltered = products.filter((p) =>
+    inCategory(p, activeCategory) && (activeCategory !== 'accessories' || accSubMatch(p, accSub))
+  );
 
   // 2) Free-text search across model/brand/algorithm/hashrate/etc.
   const query = searchQuery.trim().toLowerCase();
@@ -142,7 +213,7 @@ const ShopPage = () => {
         <div className="max-w-3xl mx-auto px-6">
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
             {categories.map((category) => (
-              <button key={category.id} onClick={() => setActiveCategory(category.id)}
+              <button key={category.id} onClick={() => selectCategory(category.id)}
                 className={`relative z-10 w-full min-h-[44px] px-4 py-2.5 text-center rounded-lg font-inter text-sm transition-all cursor-pointer border active:scale-[0.98] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-crimson-accent ${
                   activeCategory === category.id
                     ? 'bg-crimson-accent border-crimson-accent text-white font-semibold'
@@ -151,6 +222,21 @@ const ShopPage = () => {
               >{t(category.key)}</button>
             ))}
           </div>
+
+          {/* Accessory subcategories — only when Accessories is selected */}
+          {activeCategory === 'accessories' && (
+            <div className="mt-3 flex flex-wrap justify-center gap-2">
+              {accessorySubs.map((sub) => (
+                <button key={sub.id} onClick={() => setAccSub(sub.id)}
+                  className={`min-h-[40px] px-4 py-2 rounded-lg font-inter text-xs sm:text-sm transition-all cursor-pointer border active:scale-[0.98] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-crimson-accent ${
+                    accSub === sub.id
+                      ? 'bg-crimson-accent/20 border-crimson-accent text-crimson-accent font-semibold'
+                      : 'bg-transparent border-white/15 text-white/70 hover:text-white hover:bg-white/10 active:bg-white/15'
+                  }`}
+                >{t(sub.key)}</button>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
@@ -162,7 +248,7 @@ const ShopPage = () => {
               {loading ? (
                 <span className="animate-pulse">{t('shop_loading')}</span>
               ) : (
-                <>{t('shop_showing_label')} <span className="text-white font-semibold">{filteredProducts.length}</span> {t('shop_showing_suffix')}</>
+                <span>{t(activeCategory === 'accessories' ? 'shop_count_accessories' : 'shop_count_miners', { count: filteredProducts.length })}</span>
               )}
             </div>
 
@@ -229,13 +315,25 @@ const ShopPage = () => {
               [...Array(6)].map((_, i) => <SkeletonCard key={i} />)
             ) : filteredProducts.map((product, index) => {
               const unclear = isUnclear(product);
+              const miner = isMiner(product);
               const priceNum = toNumber(product.price);
               const showPrice = !unclear && priceNum != null && priceNum > 0;
-              const specs = unclear ? [] : [
+              // Miner specs only — accessories never show TH/s, W, J/TH.
+              const specs = (!unclear && miner) ? [
                 { value: product.hashrate, unit: 'TH/s' },
                 { value: product.power, unit: 'Watts' },
                 { value: product.efficiency, unit: 'J/TH' },
-              ].filter((s) => s.value && String(s.value).trim());
+              ].filter((s) => s.value && String(s.value).trim()) : [];
+              const condKey = conditionKey(product);
+              const coinKey = coinTypeKey(product);
+              const availKey = availabilityKey(product);
+              const purchasable = showPrice && (availKey === 'shop_avail_instock' || availKey === 'shop_avail_order');
+              const displayName = unclear ? t('shop_pending_name') : cleanName(product.name);
+              const availStyle = availKey === 'shop_avail_instock'
+                ? 'border-green-700/50 bg-green-950/30 text-green-400'
+                : availKey === 'shop_avail_outofstock'
+                ? 'border-amber-800/50 bg-amber-950/30 text-amber-400'
+                : 'border-crimson-accent/40 bg-crimson-accent/10 text-crimson-accent';
               return (
               <motion.div key={product.id}
                 initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }}
@@ -244,30 +342,23 @@ const ShopPage = () => {
               >
                 <div className="relative w-full h-64 bg-black overflow-hidden">
                   {product.image ? (
-                    <img src={product.image} alt={unclear ? t('shop_pending_name') : product.name} className="w-full h-full object-contain object-center hover:scale-105 transition-transform duration-500" />
+                    <img src={product.image} alt={displayName} className="w-full h-full object-contain object-center hover:scale-105 transition-transform duration-500" />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center text-zinc-700">
                       <i className="ri-image-line text-5xl" aria-hidden="true"></i>
                     </div>
                   )}
-                  {!unclear && (
+                  {/* Top corner badges: condition + coin/mining type */}
+                  {!unclear && (condKey || coinKey) && (
                     <div className="absolute top-4 left-4 flex flex-col gap-2">
-                      {product.cooling && <span className="px-3 py-1 bg-[#2A2A2A] text-white text-xs font-inter font-medium rounded">{product.cooling}</span>}
-                      {product.condition && (product.condition === 'New'
-                        ? <span className="px-3 py-1 bg-transparent border border-white/50 text-white text-xs font-inter font-medium rounded">New</span>
-                        : <span className="px-3 py-1 bg-[#2A2A2A] text-gray-400 text-xs font-inter font-medium rounded">{product.condition}</span>)}
-                      {product.badge && <span className="px-3 py-1 bg-crimson-accent text-white text-xs font-inter font-bold rounded">{product.badge}</span>}
-                    </div>
-                  )}
-                  {!unclear && product.stock_status && product.stock_status !== 'instock' && (
-                    <div className="absolute bottom-0 left-0 right-0 bg-black/70 text-center py-1.5 text-xs font-inter text-amber-400 font-semibold">
-                      {product.stock_status === 'outofstock' ? 'Out of Stock' : 'Pre-Order'}
+                      {condKey && <span className="px-3 py-1 bg-black/70 border border-white/30 text-white text-xs font-inter font-semibold rounded">{t(condKey)}</span>}
+                      {coinKey && <span className="px-3 py-1 bg-crimson-accent text-white text-xs font-inter font-semibold rounded">{t(coinKey)}</span>}
                     </div>
                   )}
                 </div>
 
                 <div className="p-6 flex flex-col flex-1">
-                  <h3 className="text-white font-inter font-bold text-xl mb-3">{unclear ? t('shop_pending_name') : product.name}</h3>
+                  <h3 className="text-white font-inter font-bold text-xl mb-3">{displayName}</h3>
 
                   {specs.length > 0 && (
                     <div className="flex items-center gap-4 mb-5">
@@ -284,23 +375,29 @@ const ShopPage = () => {
                   )}
 
                   {showPrice ? (
-                    <div className="mb-6">
+                    <div className="mb-4">
                       <span className="text-white font-inter font-bold text-3xl">${priceNum.toLocaleString()} CAD</span>
                       {product.sale_price && product.sale_price !== product.price && (
                         <span className="ml-3 text-soft-gray line-through text-lg font-inter">${Number(product.sale_price).toLocaleString()}</span>
                       )}
                     </div>
                   ) : (
-                    <p className="text-soft-gray font-inter text-sm leading-6 mb-6">{t('shop_pending_desc')}</p>
+                    <p className="text-soft-gray font-inter text-sm leading-6 mb-4">{t('shop_pending_desc')}</p>
                   )}
 
+                  {/* Availability badge */}
+                  <div className="mb-6">
+                    <span className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-inter font-medium ${availStyle}`}>
+                      <span className="h-1.5 w-1.5 rounded-full bg-current" />
+                      {t(availKey)}
+                    </span>
+                  </div>
+
                   <div className="mt-auto flex gap-3">
-                    {showPrice ? (
+                    {purchasable ? (
                       <>
-                        <button className="relative z-10 flex-1 min-h-[44px] py-3 bg-crimson-accent text-white font-inter font-semibold rounded-lg hover:bg-red-700 active:bg-red-800 transition-colors cursor-pointer whitespace-nowrap focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-crimson-accent disabled:opacity-60 disabled:cursor-not-allowed"
-                          disabled={product.stock_status === 'outofstock'}
-                        >
-                          {product.stock_status === 'outofstock' ? t('shop_out_stock') : t('shop_add_cart')}
+                        <button className="relative z-10 flex-1 min-h-[44px] py-3 bg-crimson-accent text-white font-inter font-semibold rounded-lg hover:bg-red-700 active:bg-red-800 transition-colors cursor-pointer whitespace-nowrap focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-crimson-accent">
+                          {t('shop_add_cart')}
                         </button>
                         <Link to={`/product?id=${product.id}`}
                           className="relative z-10 flex-1 min-h-[44px] flex items-center justify-center py-3 bg-transparent border border-white/30 text-white font-inter font-normal rounded-lg hover:bg-white/10 active:bg-white/15 transition-colors cursor-pointer whitespace-nowrap text-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/40"
