@@ -129,7 +129,7 @@ const ShopPage = () => {
       <section className="py-16 bg-[#0A0A0A]">
         <div className="max-w-7xl mx-auto px-6">
           {/* ── Results toolbar: count + search + sort, directly above the cards ── */}
-          <div className="relative z-20 mb-8 flex flex-col gap-4 rounded-xl border border-white/10 bg-[#141414] p-4 lg:flex-row lg:items-center lg:gap-4">
+          <div className="relative z-20 mb-8 flex flex-col gap-4 rounded-xl border border-white/10 bg-[#141414] p-3 sm:p-4 lg:flex-row lg:items-center lg:gap-4">
             <div className="shrink-0 text-soft-gray font-inter text-sm">
               {loading ? (
                 <span className="animate-pulse">{t('shop_loading')}</span>
@@ -138,16 +138,16 @@ const ShopPage = () => {
               )}
             </div>
 
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-center lg:flex-1">
+            <div className="flex flex-col gap-3 lg:flex-1 lg:flex-row lg:items-center">
               {/* Search — red magnifier (inline SVG) on the right */}
-              <div className="relative z-20 flex-1">
+              <div className="relative z-20 w-full lg:flex-1">
                 <input
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder={t('shop_search_ph')}
                   aria-label={t('shop_search_ph')}
-                  className="relative z-10 w-full min-h-[44px] rounded-lg border border-white/15 bg-[#0A0A0A] py-3 pl-4 pr-12 font-inter text-base sm:text-sm text-white placeholder-soft-gray transition-colors focus:border-crimson-accent focus:outline-none"
+                  className="relative z-10 w-full min-h-[44px] rounded-lg border border-white/15 bg-[#0A0A0A] py-3 pl-3 pr-11 font-inter text-base sm:text-sm text-white placeholder-soft-gray transition-colors focus:border-crimson-accent focus:outline-none"
                 />
                 <svg
                   width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"
@@ -159,7 +159,7 @@ const ShopPage = () => {
               </div>
 
               {/* Sort — native select; closed box shows "Sort by"; red caret on the right */}
-              <div className="relative z-20 self-start sm:self-auto shrink-0">
+              <div className="relative z-20 self-start lg:self-auto shrink-0">
                 <label htmlFor="shop-sort" className="sr-only">{t('shop_sort_label')}</label>
                 <select
                   id="shop-sort"
