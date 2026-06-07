@@ -139,7 +139,7 @@ const ShopPage = () => {
             </div>
 
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-              {/* Search — magnifier on the left (inline SVG so it always renders) */}
+              {/* Search — red magnifier (inline SVG) on the right */}
               <div className="relative z-20 sm:w-72 lg:w-80">
                 <input
                   type="text"
@@ -150,16 +150,15 @@ const ShopPage = () => {
                   className="relative z-20 w-full min-h-[44px] rounded-lg border border-white/15 bg-[#0A0A0A] py-3 pl-4 pr-11 font-inter text-base sm:text-sm text-white placeholder-soft-gray transition-colors focus:border-crimson-accent focus:outline-none"
                 />
                 <svg
-                  className="pointer-events-none absolute right-3.5 top-1/2 h-5 w-5 -translate-y-1/2"
-                  viewBox="0 0 24 24" fill="none" stroke="#DC2626" strokeWidth="2"
-                  strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"
+                  width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"
+                  className="pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2"
                 >
-                  <circle cx="11" cy="11" r="7" />
-                  <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                  <circle cx="10.5" cy="10.5" r="6.5" stroke="#DC2626" strokeWidth="2.5" />
+                  <path d="M15.5 15.5L21 21" stroke="#DC2626" strokeWidth="2.5" strokeLinecap="round" />
                 </svg>
               </div>
 
-              {/* Sort — native select; closed box shows "Sort by"; visible caret on the right */}
+              {/* Sort — native select; closed box shows "Sort by"; red caret on the right */}
               <div className="relative z-20 self-start sm:self-auto shrink-0">
                 <label htmlFor="shop-sort" className="sr-only">{t('shop_sort_label')}</label>
                 <select
@@ -175,10 +174,10 @@ const ShopPage = () => {
                   <option value="hash_desc">{t('shop_sort_hash_desc')}</option>
                 </select>
                 <svg
-                  className="pointer-events-none absolute right-3 top-1/2 h-3 w-3 -translate-y-1/2"
-                  viewBox="0 0 10 6" fill="#DC2626" aria-hidden="true"
+                  width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"
+                  className="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2"
                 >
-                  <path d="M0 0h10L5 6z" />
+                  <path d="M7 9.5L12 14.5L17 9.5" stroke="#DC2626" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </div>
             </div>
