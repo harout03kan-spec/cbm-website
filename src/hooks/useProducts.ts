@@ -53,19 +53,17 @@ export function useProduct(id: number | null) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!id) return;
+    if (!id) { setProduct(null); setLoading(false); return; }
     let cancelled = false;
     setLoading(true);
 
+    // The catalog is the source of truth (the live API is captcha-blocked).
+    // Look up strictly by id — never fall back to a different product, so a bad
+    // or unknown id yields null (a clean "not found"), not the wrong product.
+    const local = MOCK_NORMALIZED.find(p => p.id === id) || null;
     fetchProduct(id)
-      .then(data => { if (!cancelled) { setProduct(data); setLoading(false); } })
-      .catch(() => {
-        if (!cancelled) {
-          const fallback = MOCK_NORMALIZED.find(p => p.id === id) || MOCK_NORMALIZED[0];
-          setProduct(fallback);
-          setLoading(false);
-        }
-      });
+      .then(data => { if (!cancelled) { setProduct(data || local); setLoading(false); } })
+      .catch(() => { if (!cancelled) { setProduct(local); setLoading(false); } });
 
     return () => { cancelled = true; };
   }, [id]);

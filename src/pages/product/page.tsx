@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next';
 const ProductPage = () => {
   const { t } = useTranslation();
   const [searchParams] = useSearchParams();
-  const productId = Number(searchParams.get('id')) || 1;
+  const productId = Number(searchParams.get('id')) || 0;
   const { product, loading } = useProduct(productId);
   const { products: allProducts } = useProducts();
   const { addItem } = useCart();
@@ -20,7 +20,13 @@ const ProductPage = () => {
   const [showNotification, setShowNotification] = useState(false);
 
   const images = product?.images?.length ? product.images : product ? [product.image] : [];
-  const relatedProducts = allProducts.filter(p => p.id !== productId).slice(0, 3);
+  // "Similar miners" — prefer other miners (they carry static `details`);
+  // fall back to any other product so the section is never empty.
+  const relatedProducts = (() => {
+    const others = allProducts.filter(p => p.id !== productId);
+    const miners = others.filter(p => p.details);
+    return (miners.length ? miners : others).slice(0, 3);
+  })();
 
   const accessories = [
     { id: 1, name: 'Power Cable C19 to C20', price: '45.00', image: 'https://readdy.ai/api/search-image?query=professional%20black%20power%20cable%20C19%20to%20C20%20connector%20for%20ASIC%20miner%20on%20simple%20white%20background%20product%20photography&width=200&height=200&seq=acc-cable-1&orientation=squarish' },
@@ -44,7 +50,7 @@ const ProductPage = () => {
 
   const totals = calculateTotal();
 
-  if (loading || !product) {
+  if (loading) {
     return (
       <div className="min-h-screen bg-midnight">
         <Navbar />
@@ -54,6 +60,26 @@ const ProductPage = () => {
             <p className="text-soft-gray font-inter">Loading product...</p>
           </div>
         </div>
+      </div>
+    );
+  }
+
+  // Unknown / missing id — show a clean not-found instead of a wrong product.
+  if (!product) {
+    return (
+      <div className="min-h-screen bg-midnight">
+        <Navbar />
+        <div className="pt-40 pb-24 flex items-center justify-center px-6">
+          <div className="text-center max-w-md">
+            <i className="ri-search-eye-line text-5xl text-crimson-accent mb-4 block" aria-hidden="true"></i>
+            <h1 className="font-inter font-bold text-3xl text-white mb-3">Product not found</h1>
+            <p className="text-soft-gray font-inter mb-8">We couldn’t find that product. It may have been removed or the link is incorrect.</p>
+            <Link to="/shop" className="inline-flex min-h-[44px] items-center justify-center px-8 py-3 bg-crimson-accent text-white font-inter font-semibold rounded-lg hover:bg-red-700 transition-colors">
+              Back to Shop
+            </Link>
+          </div>
+        </div>
+        <Footer />
       </div>
     );
   }
@@ -247,45 +273,64 @@ const ProductPage = () => {
         </div>
       </section>
 
-      {/* Full specs */}
+      {/* Full specs — only for products that have static spec data (miners) */}
+      {(product.algorithm || product.hashrate || product.details) && (
       <section className="py-16 bg-graphite">
         <div className="max-w-7xl mx-auto px-6">
-          <h2 className="font-inter font-bold text-4xl text-white mb-8">Complete Specifications</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="bg-midnight border border-crimson-accent/20 rounded-xl p-6">
-              <h3 className="text-crimson-accent font-inter font-bold text-xl mb-4">Performance</h3>
-              <div className="space-y-3">
-                {[
-                  ['Algorithm',         product.algorithm],
-                  ['Hashrate',          product.hashrate ? `${product.hashrate} ${product.hashrate_unit || 'TH/s'}` : ''],
-                  ['Power Consumption', product.power ? `${product.power}W` : ''],
-                  ['Energy Efficiency', product.efficiency ? `${product.efficiency} ${product.efficiency_unit || 'J/TH'}` : ''],
-                ].filter(([, v]) => v && String(v).trim()).map(([k, v]) => (
-                  <div key={k} className="flex justify-between items-center py-2 border-b border-white/5 last:border-0">
-                    <span className="text-soft-gray font-inter">{k}</span>
-                    <span className="text-white font-inter font-semibold">{v}</span>
+          {(() => {
+            const d = product.details || {};
+            const groups = [
+              { title: 'Performance', rows: [
+                ['Algorithm',           product.algorithm],
+                ['Hashrate',            product.hashrate ? `${product.hashrate} ${product.hashrate_unit || 'TH/s'}` : ''],
+                ['Power / Consumption', product.power ? `${product.power} W` : ''],
+                ['Efficiency',          product.efficiency ? `${product.efficiency} ${product.efficiency_unit || 'J/TH'}` : ''],
+              ] },
+              { title: 'Miner Details', rows: [
+                ['Manufacturer', product.brand],
+                ['Model',        d.model],
+                ['Release',      d.release],
+                ['Size',         d.size],
+                ['Weight',       d.weight],
+                ['Noise level',  d.noise],
+                ['Fans',         d.fans],
+              ] },
+              { title: 'Operating Requirements', rows: [
+                ['Voltage',     d.voltage],
+                ['Interface',   d.interface],
+                ['Temperature', d.temperature],
+                ['Humidity',    d.humidity],
+              ] },
+            ]
+              .map(g => ({ ...g, rows: g.rows.filter(([, v]) => v && String(v).trim()) }))
+              .filter(g => g.rows.length > 0);
+
+            if (groups.length === 0) return null;
+
+            return (
+              <>
+              <h2 className="font-inter font-bold text-4xl text-white mb-8">Complete Specifications</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {groups.map(g => (
+                  <div key={g.title} className="bg-midnight border border-crimson-accent/20 rounded-xl p-6">
+                    <h3 className="text-crimson-accent font-inter font-bold text-xl mb-4">{g.title}</h3>
+                    <div className="space-y-3">
+                      {g.rows.map(([k, v]) => (
+                        <div key={k} className="flex justify-between items-center gap-4 py-2 border-b border-white/5 last:border-0">
+                          <span className="text-soft-gray font-inter">{k}</span>
+                          <span className="text-white font-inter font-semibold text-right">{v}</span>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 ))}
               </div>
-            </div>
-            <div className="bg-midnight border border-crimson-accent/20 rounded-xl p-6">
-              <h3 className="text-crimson-accent font-inter font-bold text-xl mb-4">Purchase Info</h3>
-              <div className="space-y-3">
-                {[
-                  ['Condition',   product.condition],
-                  ['Cooling',     product.cooling],
-                  ['Warranty',    product.condition === 'New' ? 'Manufacturer warranty' : product.condition ? '30-day repair warranty' : ''],
-                ].filter(([, v]) => v && String(v).trim()).map(([k, v]) => (
-                  <div key={k} className="flex justify-between items-center py-2 border-b border-white/5 last:border-0">
-                    <span className="text-soft-gray font-inter">{k}</span>
-                    <span className="text-white font-inter font-semibold">{v}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
+              </>
+            );
+          })()}
         </div>
       </section>
+      )}
 
       {/* Related products */}
       {relatedProducts.length > 0 && (

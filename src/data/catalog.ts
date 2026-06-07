@@ -1,6 +1,6 @@
-// AUTO-GENERATED catalog (see scripts/csv-to-catalog.mjs), then enriched with
-// static miner specs from ASICMinerValue via scripts/enrich-catalog-specs.mjs.
-// Public product fields only — no prices/stock/availability changed.
+// AUTO-GENERATED catalog (scripts/csv-to-catalog.mjs), enriched with static
+// miner specs from ASICMinerValue (scripts/enrich-catalog-specs.mjs +
+// scripts/enrich-catalog-details.mjs). Public fields only — no price/stock.
 import type { Product } from '../lib/api';
 
 export const CATALOG_PRODUCTS: Product[] = [
@@ -156,7 +156,18 @@ export const CATALOG_PRODUCTS: Product[] = [
     "featured": true,
     "categories": [],
     "permalink": "https://www.canadabtcminers.ca/asic-miner-store/Antminer-L7-8050MH-9500MH-BRAND-NEW-p632647001",
-    "brand": "Bitmain"
+    "brand": "Bitmain",
+    "details": {
+      "model": "Antminer L7 8050MH-9500MH",
+      "release": "Feb 2022",
+      "size": "195 x 290 x 370 mm",
+      "weight": "15000 g",
+      "noise": "75 dB",
+      "fans": "4",
+      "interface": "Ethernet",
+      "temperature": "5 - 45 °C",
+      "humidity": "5 - 95 %"
+    }
   },
   {
     "id": 666882400,
@@ -214,7 +225,18 @@ export const CATALOG_PRODUCTS: Product[] = [
     "featured": true,
     "categories": [],
     "permalink": "https://www.canadabtcminers.ca/asic-miner-store/Antminer-S19-95Th-USED-p632281375",
-    "brand": "Bitmain"
+    "brand": "Bitmain",
+    "details": {
+      "model": "Antminer S19 (95Th)",
+      "release": "May 2020",
+      "size": "195 x 290 x 400 mm",
+      "weight": "14500 g",
+      "noise": "75 dB",
+      "fans": "4",
+      "interface": "Ethernet",
+      "temperature": "5 - 40 °C",
+      "humidity": "5 - 95 %"
+    }
   },
   {
     "id": 632281392,
@@ -243,7 +265,19 @@ export const CATALOG_PRODUCTS: Product[] = [
     "featured": true,
     "categories": [],
     "permalink": "https://www.canadabtcminers.ca/asic-miner-store/Antminer-S19j-Pro-104Th-USED-p632281392",
-    "brand": "Bitmain"
+    "brand": "Bitmain",
+    "details": {
+      "model": "Antminer S19j Pro (104Th)",
+      "release": "Jul 2021",
+      "size": "195 x 290 x 370 mm",
+      "weight": "13200 g",
+      "noise": "75 dB",
+      "fans": "4",
+      "voltage": "12V",
+      "interface": "Ethernet",
+      "temperature": "5 - 35 °C",
+      "humidity": "5 - 95 %"
+    }
   },
   {
     "id": 632282938,
@@ -271,7 +305,18 @@ export const CATALOG_PRODUCTS: Product[] = [
     "featured": true,
     "categories": [],
     "permalink": "https://www.canadabtcminers.ca/asic-miner-store/Antminer-S19j-Pro-Plus-120Th-USED-p632282938",
-    "brand": "Bitmain"
+    "brand": "Bitmain",
+    "details": {
+      "model": "Antminer S19j Pro Plus (120Th)",
+      "release": "Dec 2022",
+      "size": "195 x 290 x 370 mm",
+      "weight": "13200 g",
+      "noise": "75 dB",
+      "fans": "4",
+      "interface": "Ethernet",
+      "temperature": "5 - 45 °C",
+      "humidity": "5 - 95 %"
+    }
   },
   {
     "id": 632281489,
@@ -299,7 +344,19 @@ export const CATALOG_PRODUCTS: Product[] = [
     "featured": true,
     "categories": [],
     "permalink": "https://www.canadabtcminers.ca/asic-miner-store/Antminer-S19-Pro-110Th-USED-p632281489",
-    "brand": "Bitmain"
+    "brand": "Bitmain",
+    "details": {
+      "model": "Antminer S19 Pro (110Th)",
+      "release": "May 2020",
+      "size": "195 x 290 x 370 mm",
+      "weight": "13200 g",
+      "noise": "75 dB",
+      "fans": "4",
+      "voltage": "12V",
+      "interface": "Ethernet",
+      "temperature": "5 - 40 °C",
+      "humidity": "5 - 95 %"
+    }
   },
   {
     "id": 673938218,
@@ -327,7 +384,18 @@ export const CATALOG_PRODUCTS: Product[] = [
     "featured": true,
     "categories": [],
     "permalink": "https://www.canadabtcminers.ca/asic-miner-store/Antminer-S19-XP-141-TH-USED-p673938218",
-    "brand": "Bitmain"
+    "brand": "Bitmain",
+    "details": {
+      "model": "Antminer S19 XP (141)TH",
+      "release": "Jul 2022",
+      "size": "195 x 290 x 400 mm",
+      "weight": "14500 g",
+      "noise": "75 dB",
+      "fans": "4",
+      "interface": "Ethernet",
+      "temperature": "5 - 45 °C",
+      "humidity": "5 - 95 %"
+    }
   },
   {
     "id": 769976558,
@@ -355,7 +423,18 @@ export const CATALOG_PRODUCTS: Product[] = [
     "featured": true,
     "categories": [],
     "permalink": "https://www.canadabtcminers.ca/asic-miner-store/Antminer-S19-XP-Hydro-257TH-p769976558",
-    "brand": "Bitmain"
+    "brand": "Bitmain",
+    "details": {
+      "model": "Antminer S19 XP Hydro 257TH",
+      "release": "Oct 2022",
+      "size": "410 x 170 x 209 mm",
+      "weight": "13100 g",
+      "noise": "50 dB",
+      "fans": "0",
+      "interface": "Ethernet",
+      "temperature": "5 - 40 °C",
+      "humidity": "10 - 90 %"
+    }
   },
   {
     "id": 769891696,
@@ -383,7 +462,17 @@ export const CATALOG_PRODUCTS: Product[] = [
     "featured": true,
     "categories": [],
     "permalink": "https://www.canadabtcminers.ca/asic-miner-store/Antminer-S19-XP-Hydro-293TH-p769891696",
-    "brand": "Bitmain"
+    "brand": "Bitmain",
+    "details": {
+      "model": "Antminer S19 XP+ Hydro 293TH",
+      "release": "Apr 2025",
+      "size": "410 x 170 x 209 mm",
+      "weight": "13500 g",
+      "noise": "50 dB",
+      "interface": "Ethernet",
+      "temperature": "5 - 40 °C",
+      "humidity": "10 - 90 %"
+    }
   },
   {
     "id": 633746376,
@@ -411,7 +500,18 @@ export const CATALOG_PRODUCTS: Product[] = [
     "featured": true,
     "categories": [],
     "permalink": "https://www.canadabtcminers.ca/asic-miner-store/Antminer-S21-200Th-USED-p633746376",
-    "brand": "Bitmain"
+    "brand": "Bitmain",
+    "details": {
+      "model": "Antminer S21 (200Th)",
+      "release": "Feb 2024",
+      "size": "400 x 195 x 290 mm",
+      "noise": "75 dB",
+      "fans": "2",
+      "voltage": "12V",
+      "interface": "Ethernet",
+      "temperature": "5 - 40 °C",
+      "humidity": "5 - 95 %"
+    }
   },
   {
     "id": 769891202,
@@ -439,7 +539,17 @@ export const CATALOG_PRODUCTS: Product[] = [
     "featured": true,
     "categories": [],
     "permalink": "https://www.canadabtcminers.ca/asic-miner-store/Antminer-S21-225T-p769891202",
-    "brand": "Bitmain"
+    "brand": "Bitmain",
+    "details": {
+      "model": "Antminer S21+ 225T",
+      "release": "Feb 2025",
+      "size": "400 x 195 x 290 mm",
+      "noise": "75 dB",
+      "fans": "2",
+      "interface": "Ethernet",
+      "temperature": "10 - 40 °C",
+      "humidity": "10 - 90 %"
+    }
   },
   {
     "id": 769891205,
@@ -467,7 +577,17 @@ export const CATALOG_PRODUCTS: Product[] = [
     "featured": true,
     "categories": [],
     "permalink": "https://www.canadabtcminers.ca/asic-miner-store/Antminer-S21-235TH-p769891205",
-    "brand": "Bitmain"
+    "brand": "Bitmain",
+    "details": {
+      "model": "Antminer S21+ 235TH",
+      "release": "Feb 2025",
+      "size": "400 x 195 x 290 mm",
+      "noise": "75 dB",
+      "fans": "2",
+      "interface": "Ethernet",
+      "temperature": "10 - 40 °C",
+      "humidity": "10 - 90 %"
+    }
   },
   {
     "id": 673979256,
@@ -495,7 +615,16 @@ export const CATALOG_PRODUCTS: Product[] = [
     "featured": true,
     "categories": [],
     "permalink": "https://www.canadabtcminers.ca/asic-miner-store/Antminer-S21-HYD-358TH-BRAND-NEW-p673979256",
-    "brand": "Bitmain"
+    "brand": "Bitmain",
+    "details": {
+      "model": "Antminer S21+ HYD 358TH",
+      "release": "Feb 2025",
+      "size": "410 x 170 x 209 mm",
+      "noise": "50 dB",
+      "interface": "Ethernet",
+      "temperature": "5 - 40 °C",
+      "humidity": "10 - 90 %"
+    }
   },
   {
     "id": 673941204,
@@ -523,7 +652,17 @@ export const CATALOG_PRODUCTS: Product[] = [
     "featured": true,
     "categories": [],
     "permalink": "https://www.canadabtcminers.ca/asic-miner-store/Antminer-S21-Pro-234Th-USED-p673941204",
-    "brand": "Bitmain"
+    "brand": "Bitmain",
+    "details": {
+      "model": "Antminer S21 Pro (234Th)",
+      "release": "Jul 2024",
+      "size": "400 x 195 x 290 mm",
+      "noise": "75 dB",
+      "fans": "2",
+      "interface": "Ethernet",
+      "temperature": "5 - 45 °C",
+      "humidity": "5 - 95 %"
+    }
   },
   {
     "id": 769891226,
@@ -551,7 +690,17 @@ export const CATALOG_PRODUCTS: Product[] = [
     "featured": true,
     "categories": [],
     "permalink": "https://www.canadabtcminers.ca/asic-miner-store/Antminer-S21-Pro-245TH-p769891226",
-    "brand": "Bitmain"
+    "brand": "Bitmain",
+    "details": {
+      "model": "Antminer S21 Pro 245TH",
+      "release": "Jul 2024",
+      "size": "400 x 195 x 290 mm",
+      "noise": "75 dB",
+      "fans": "2",
+      "interface": "Ethernet",
+      "temperature": "5 - 45 °C",
+      "humidity": "5 - 95 %"
+    }
   },
   {
     "id": 769976556,
@@ -579,7 +728,17 @@ export const CATALOG_PRODUCTS: Product[] = [
     "featured": true,
     "categories": [],
     "permalink": "https://www.canadabtcminers.ca/asic-miner-store/Antminer-S21-XP-270TH-BRAND-NEW-p769976556",
-    "brand": "Bitmain"
+    "brand": "Bitmain",
+    "details": {
+      "model": "Antminer S21 XP 270TH",
+      "release": "Sep 2024",
+      "size": "400 x 195 x 290 mm",
+      "noise": "75 dB",
+      "fans": "4",
+      "interface": "Ethernet 10/100M",
+      "temperature": "5 - 45 °C",
+      "humidity": "5 - 95 %"
+    }
   },
   {
     "id": 673948921,
@@ -607,7 +766,16 @@ export const CATALOG_PRODUCTS: Product[] = [
     "featured": true,
     "categories": [],
     "permalink": "https://www.canadabtcminers.ca/asic-miner-store/Antminer-T21-190Th-USED-p673948921",
-    "brand": "Bitmain"
+    "brand": "Bitmain",
+    "details": {
+      "model": "Antminer T21 (190Th)",
+      "release": "Apr 2024",
+      "size": "400 x 195 x 290 mm",
+      "weight": "16500 g",
+      "interface": "Ethernet",
+      "temperature": "5 - 45 °C",
+      "humidity": "5 - 95 %"
+    }
   },
   {
     "id": 799714422,
@@ -790,7 +958,19 @@ export const CATALOG_PRODUCTS: Product[] = [
     "featured": true,
     "categories": [],
     "permalink": "https://www.canadabtcminers.ca/asic-miner-store/Bitmain-Antminer-KS7-40TH-BRAND-NEW-p769987292",
-    "brand": "Bitmain"
+    "brand": "Bitmain",
+    "details": {
+      "model": "Bitmain Antminer KS7 40TH",
+      "release": "May 2025",
+      "size": "430 x 196 x 290 mm",
+      "weight": "16400 g",
+      "noise": "75 dB",
+      "fans": "4",
+      "voltage": "220-277V",
+      "interface": "Ethernet",
+      "temperature": "5 - 45 °C",
+      "humidity": "10 - 90 %"
+    }
   },
   {
     "id": 714997514,
@@ -818,7 +998,18 @@ export const CATALOG_PRODUCTS: Product[] = [
     "featured": true,
     "categories": [],
     "permalink": "https://www.canadabtcminers.ca/asic-miner-store/Bitmain-Antminer-L9-BRAND-NEW-p714997514",
-    "brand": "Bitmain"
+    "brand": "Bitmain",
+    "details": {
+      "model": "Bitmain Antminer L9",
+      "release": "May 2024",
+      "size": "195 x 290 x 379 mm",
+      "weight": "13500 g",
+      "noise": "75 dB",
+      "fans": "2",
+      "interface": "Ethernet",
+      "temperature": "5 - 45 °C",
+      "humidity": "5 - 95 %"
+    }
   },
   {
     "id": 769976557,
@@ -846,7 +1037,10 @@ export const CATALOG_PRODUCTS: Product[] = [
     "featured": true,
     "categories": [],
     "permalink": "https://www.canadabtcminers.ca/asic-miner-store/Bitmain-Antminer-S19e-XP-HYD-251TH-p769976557",
-    "brand": "Bitmain"
+    "brand": "Bitmain",
+    "details": {
+      "model": "Bitmain Antminer S19e XP HYD 251TH"
+    }
   },
   {
     "id": 666882357,
@@ -905,7 +1099,17 @@ export const CATALOG_PRODUCTS: Product[] = [
     "featured": true,
     "categories": [],
     "permalink": "https://www.canadabtcminers.ca/asic-miner-store/Bitmain-Antminer-S21-216TH-p799704490",
-    "brand": "Bitmain"
+    "brand": "Bitmain",
+    "details": {
+      "model": "Bitmain Antminer S21+ 216TH",
+      "release": "Feb 2025",
+      "size": "400 x 195 x 290 mm",
+      "noise": "75 dB",
+      "fans": "2",
+      "interface": "Ethernet",
+      "temperature": "10 - 40 °C",
+      "humidity": "10 - 90 %"
+    }
   },
   {
     "id": 799772254,
@@ -933,7 +1137,16 @@ export const CATALOG_PRODUCTS: Product[] = [
     "featured": true,
     "categories": [],
     "permalink": "https://www.canadabtcminers.ca/asic-miner-store/Bitmain-Antminer-S23-Hyd-580TH-BRAND-NEW-p799772254",
-    "brand": "Bitmain"
+    "brand": "Bitmain",
+    "details": {
+      "model": "Bitmain Antminer S23 Hyd 580TH",
+      "release": "Jan 2026",
+      "size": "410 x 170 x 209 mm",
+      "noise": "50 dB",
+      "interface": "Ethernet",
+      "temperature": "5 - 45 °C",
+      "humidity": "5 - 95 %"
+    }
   },
   {
     "id": 666889262,
@@ -1085,7 +1298,16 @@ export const CATALOG_PRODUCTS: Product[] = [
     "featured": true,
     "categories": [],
     "permalink": "https://www.canadabtcminers.ca/asic-miner-store/Canaan-Avalon-A15Pro-221TH-BRAND-NEW-p800784365",
-    "brand": "Canaan"
+    "brand": "Canaan",
+    "details": {
+      "model": "Canaan Avalon A15Pro 221TH",
+      "release": "Feb 2025",
+      "size": "301 x 192 x 292 mm",
+      "weight": "14900 g",
+      "noise": "75 dB",
+      "fans": "2",
+      "interface": "Ethernet"
+    }
   },
   {
     "id": 800783107,
@@ -1113,7 +1335,17 @@ export const CATALOG_PRODUCTS: Product[] = [
     "featured": true,
     "categories": [],
     "permalink": "https://www.canadabtcminers.ca/asic-miner-store/Canaan-Avalon-Q-90TH-BRAND-NEW-p800783107",
-    "brand": "Canaan"
+    "brand": "Canaan",
+    "details": {
+      "model": "Canaan Avalon Q 90TH",
+      "release": "Apr 2025",
+      "size": "455 x 130 x 440 mm",
+      "weight": "10500 g",
+      "noise": "45 dB",
+      "fans": "2",
+      "voltage": "110-240V",
+      "interface": "Ethernet / Wifi"
+    }
   },
   {
     "id": 799721637,
@@ -1141,7 +1373,19 @@ export const CATALOG_PRODUCTS: Product[] = [
     "featured": true,
     "categories": [],
     "permalink": "https://www.canadabtcminers.ca/asic-miner-store/ElphaPex-DG1-13G-BRAND-NEW-p799721637",
-    "brand": "ElphaPex"
+    "brand": "ElphaPex",
+    "details": {
+      "model": "ElphaPex DG1+ 13G",
+      "release": "Jul 2024",
+      "size": "432 x 196 x 287 mm",
+      "weight": "18300 g",
+      "noise": "75 dB",
+      "fans": "4",
+      "voltage": "200-240V",
+      "interface": "RJ45 Ethernet 10/100M",
+      "temperature": "5 - 45 °C",
+      "humidity": "5 - 95 %"
+    }
   },
   {
     "id": 769987280,
@@ -1169,7 +1413,19 @@ export const CATALOG_PRODUCTS: Product[] = [
     "featured": true,
     "categories": [],
     "permalink": "https://www.canadabtcminers.ca/asic-miner-store/ElphaPex-DG1-14G-BRAND-NEW-p769987280",
-    "brand": "ElphaPex"
+    "brand": "ElphaPex",
+    "details": {
+      "model": "ElphaPex DG1+ 14G",
+      "release": "Jul 2024",
+      "size": "432 x 196 x 287 mm",
+      "weight": "18300 g",
+      "noise": "75 dB",
+      "fans": "4",
+      "voltage": "200-240V",
+      "interface": "RJ45 Ethernet 10/100M",
+      "temperature": "5 - 45 °C",
+      "humidity": "5 - 95 %"
+    }
   },
   {
     "id": 800767975,
@@ -1197,7 +1453,18 @@ export const CATALOG_PRODUCTS: Product[] = [
     "featured": true,
     "categories": [],
     "permalink": "https://www.canadabtcminers.ca/asic-miner-store/IceRiver-ALEO-AE3-2GH-BRAND-NEW-p800767975",
-    "brand": "IceRiver"
+    "brand": "IceRiver",
+    "details": {
+      "model": "IceRiver ALEO AE3 2GH",
+      "release": "Nov 2025",
+      "size": "370 x 195 x 290 mm",
+      "weight": "15000 g",
+      "noise": "75 dB",
+      "voltage": "200-250V",
+      "interface": "Ethernet",
+      "temperature": "5 - 40 °C",
+      "humidity": "10 - 90 %"
+    }
   },
   {
     "id": 799714456,
@@ -1442,7 +1709,16 @@ export const CATALOG_PRODUCTS: Product[] = [
     "featured": true,
     "categories": [],
     "permalink": "https://www.canadabtcminers.ca/asic-miner-store/VolcMiner-D1-18-5GH-p800783108",
-    "brand": "VolcMiner"
+    "brand": "VolcMiner",
+    "details": {
+      "model": "VolcMiner D1 18.5GH",
+      "release": "Oct 2024",
+      "size": "335 x 217 x 395 mm",
+      "weight": "17550 g",
+      "noise": "75 dB",
+      "fans": "4",
+      "interface": "Ethernet"
+    }
   },
   {
     "id": 642403267,
@@ -1471,7 +1747,17 @@ export const CATALOG_PRODUCTS: Product[] = [
     "featured": true,
     "categories": [],
     "permalink": "https://www.canadabtcminers.ca/asic-miner-store/WhatsMiner-M20S-68Th-USED-p642403267",
-    "brand": "MicroBT"
+    "brand": "MicroBT",
+    "details": {
+      "model": "WhatsMiner M20S 68Th",
+      "release": "Aug 2019",
+      "size": "130 x 220 x 390 mm",
+      "weight": "12500 g",
+      "noise": "75 dB",
+      "fans": "2",
+      "voltage": "12V",
+      "interface": "Ethernet"
+    }
   },
   {
     "id": 642403266,
@@ -1500,7 +1786,17 @@ export const CATALOG_PRODUCTS: Product[] = [
     "featured": true,
     "categories": [],
     "permalink": "https://www.canadabtcminers.ca/asic-miner-store/WhatsMiner-M30S-76TH-USED-p642403266",
-    "brand": "MicroBT"
+    "brand": "MicroBT",
+    "details": {
+      "model": "WhatsMiner M30S 76TH",
+      "release": "Apr 2020",
+      "size": "150 x 225 x 390 mm",
+      "weight": "10500 g",
+      "noise": "72 dB",
+      "fans": "2",
+      "voltage": "12V",
+      "interface": "Ethernet"
+    }
   },
   {
     "id": 673979279,
@@ -1528,7 +1824,17 @@ export const CATALOG_PRODUCTS: Product[] = [
     "featured": true,
     "categories": [],
     "permalink": "https://www.canadabtcminers.ca/asic-miner-store/WhatsMiner-M50-114-Th-p673979279",
-    "brand": "MicroBT"
+    "brand": "MicroBT",
+    "details": {
+      "model": "WhatsMiner M50 (114)Th",
+      "release": "Jul 2022",
+      "size": "125 x 225 x 425 mm",
+      "noise": "75 dB",
+      "fans": "2",
+      "interface": "Ethernet",
+      "temperature": "5 - 45 °C",
+      "humidity": "5 - 95 %"
+    }
   },
   {
     "id": 673979281,
@@ -1556,7 +1862,16 @@ export const CATALOG_PRODUCTS: Product[] = [
     "featured": true,
     "categories": [],
     "permalink": "https://www.canadabtcminers.ca/asic-miner-store/WhatsMiner-M60-172-Th-p673979281",
-    "brand": "MicroBT"
+    "brand": "MicroBT",
+    "details": {
+      "model": "WhatsMiner M60 (172)Th",
+      "release": "Feb 2024",
+      "size": "430 x 155 x 226 mm",
+      "weight": "13500 g",
+      "noise": "75 dB",
+      "fans": "2",
+      "interface": "Ethernet"
+    }
   },
   {
     "id": 769987262,
@@ -1584,6 +1899,9 @@ export const CATALOG_PRODUCTS: Product[] = [
     "featured": true,
     "categories": [],
     "permalink": "https://www.canadabtcminers.ca/asic-miner-store/WhatsMiner-M61-202TH-p769987262",
-    "brand": "MicroBT"
+    "brand": "MicroBT",
+    "details": {
+      "model": "WhatsMiner M61 202TH"
+    }
   }
 ];
