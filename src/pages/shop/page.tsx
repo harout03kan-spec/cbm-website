@@ -147,11 +147,11 @@ const ShopPage = () => {
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder={t('shop_search_ph')}
                   aria-label={t('shop_search_ph')}
-                  className="relative z-20 w-full min-h-[44px] rounded-lg border border-white/15 bg-[#0A0A0A] py-3 pl-4 pr-11 font-inter text-base sm:text-sm text-white placeholder-soft-gray transition-colors focus:border-crimson-accent focus:outline-none"
+                  className="relative z-10 w-full min-h-[44px] rounded-lg border border-white/15 bg-[#0A0A0A] py-3 pl-4 pr-12 font-inter text-base sm:text-sm text-white placeholder-soft-gray transition-colors focus:border-crimson-accent focus:outline-none"
                 />
                 <svg
                   width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"
-                  className="pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2"
+                  className="pointer-events-none absolute right-3 top-1/2 z-30 -translate-y-1/2"
                 >
                   <circle cx="10.5" cy="10.5" r="6.5" stroke="#DC2626" strokeWidth="2.5" />
                   <path d="M15.5 15.5L21 21" stroke="#DC2626" strokeWidth="2.5" strokeLinecap="round" />
@@ -165,7 +165,7 @@ const ShopPage = () => {
                   id="shop-sort"
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value)}
-                  className="relative z-20 w-[150px] max-w-full appearance-none cursor-pointer rounded-lg border border-white/15 bg-[#0A0A0A] pl-3 pr-9 py-3 min-h-[44px] font-inter text-base sm:text-sm text-white focus:border-crimson-accent focus:outline-none"
+                  className="relative z-10 w-[150px] max-w-full appearance-none cursor-pointer rounded-lg border border-white/15 bg-[#0A0A0A] pl-3 pr-10 py-3 min-h-[44px] font-inter text-base sm:text-sm text-white focus:border-crimson-accent focus:outline-none"
                 >
                   <option value="">{t('shop_sort_label')}</option>
                   <option value="price_asc">{t('shop_sort_price_asc')}</option>
@@ -175,7 +175,7 @@ const ShopPage = () => {
                 </select>
                 <svg
                   width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"
-                  className="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2"
+                  className="pointer-events-none absolute right-3 top-1/2 z-30 -translate-y-1/2"
                 >
                   <path d="M7 9.5L12 14.5L17 9.5" stroke="#DC2626" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
