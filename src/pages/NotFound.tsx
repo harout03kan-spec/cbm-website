@@ -25,9 +25,9 @@ export default function NotFound() {
             <h1 className="font-orbitron font-bold text-6xl text-white mb-4">{t('nf_title')}</h1>
             <p className="text-soft-gray font-inter text-xl mb-8 max-w-2xl mx-auto">{t('nf_desc')}</p>
 
-            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-              <Link to="/" className="px-8 py-4 bg-gradient-crimson text-white font-inter font-bold text-lg rounded-xl hover:scale-105 transition-transform cursor-pointer whitespace-nowrap"><i className="ri-home-4-line mr-2"></i>{t('nf_back_home')}</Link>
-              <Link to="/shop" className="px-8 py-4 border-2 border-crimson-accent text-crimson-accent font-inter font-bold text-lg rounded-xl hover:bg-crimson-accent hover:text-white transition-all cursor-pointer whitespace-nowrap"><i className="ri-shopping-bag-3-line mr-2"></i>{t('nf_browse_shop')}</Link>
+            <div className="relative z-10 flex flex-col sm:flex-row gap-4 justify-center mb-12">
+              <Link to="/" className="inline-flex min-h-[44px] items-center justify-center px-8 py-4 bg-gradient-crimson text-white font-inter font-bold text-lg rounded-xl hover:scale-105 active:scale-95 transition-transform cursor-pointer whitespace-nowrap focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-crimson-accent"><i className="ri-home-4-line mr-2"></i>{t('nf_back_home')}</Link>
+              <Link to="/shop" className="inline-flex min-h-[44px] items-center justify-center px-8 py-4 border-2 border-crimson-accent text-crimson-accent font-inter font-bold text-lg rounded-xl hover:bg-crimson-accent hover:text-white active:bg-red-800 active:text-white transition-all cursor-pointer whitespace-nowrap focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-crimson-accent"><i className="ri-shopping-bag-3-line mr-2"></i>{t('nf_browse_shop')}</Link>
             </div>
 
             <div className="bg-graphite border border-crimson-accent/20 rounded-2xl p-8 max-w-2xl mx-auto">

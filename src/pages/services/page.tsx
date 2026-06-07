@@ -100,11 +100,11 @@ export default function ServicesPage() {
 
   // Reusable CTA cluster: direct phone call + repair quote (contact form).
   const CtaCluster = ({ className = '' }: { className?: string }) => (
-    <div className={`flex flex-col gap-3 sm:flex-row sm:flex-wrap ${className}`}>
+    <div className={`relative z-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap ${className}`}>
       <a
         href={TEL}
         aria-label={t('srv2_cta_call_aria')}
-        className="inline-flex min-h-[52px] items-center justify-center gap-2 rounded-xl bg-red-600 px-7 text-base font-semibold text-white shadow-lg shadow-red-900/30 transition-colors duration-200 hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-400"
+        className="relative z-10 inline-flex min-h-[52px] items-center justify-center gap-2 rounded-xl bg-red-600 px-7 text-base font-semibold text-white shadow-lg shadow-red-900/30 transition-colors duration-200 hover:bg-red-500 active:bg-red-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-400"
       >
         <i className="ri-phone-fill text-lg" aria-hidden="true" />
         {t('srv2_cta_call')}
@@ -112,7 +112,7 @@ export default function ServicesPage() {
       <Link
         to={QUOTE_LINK}
         aria-label={t('srv2_cta_quote_aria')}
-        className="inline-flex min-h-[52px] items-center justify-center gap-2 rounded-xl border border-zinc-700 bg-white/[0.03] px-7 text-base font-semibold text-white transition-colors duration-200 hover:border-zinc-500 hover:bg-white/[0.07] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-400"
+        className="relative z-10 inline-flex min-h-[52px] items-center justify-center gap-2 rounded-xl border border-zinc-700 bg-white/[0.03] px-7 text-base font-semibold text-white transition-colors duration-200 hover:border-zinc-500 hover:bg-white/[0.07] active:bg-white/[0.12] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-400"
       >
         <i className="ri-mail-send-line text-lg" aria-hidden="true" />
         {t('srv2_cta_quote')}
@@ -293,10 +293,10 @@ export default function ServicesPage() {
 
               <Link
                 to={QUOTE_LINK}
-                className={`relative mt-8 inline-flex min-h-[48px] items-center justify-center rounded-xl px-5 text-sm font-semibold transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-400 ${
+                className={`relative z-10 mt-8 inline-flex min-h-[48px] items-center justify-center rounded-xl px-5 text-sm font-semibold transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-400 ${
                   tier.featured
-                    ? 'bg-red-600 text-white hover:bg-red-500'
-                    : 'border border-zinc-700 text-zinc-200 hover:border-zinc-500 hover:bg-white/5'
+                    ? 'bg-red-600 text-white hover:bg-red-500 active:bg-red-700'
+                    : 'border border-zinc-700 text-zinc-200 hover:border-zinc-500 hover:bg-white/5 active:bg-white/10'
                 }`}
               >
                 {t('srv2_cta_quote')}

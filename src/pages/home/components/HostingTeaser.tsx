@@ -23,7 +23,7 @@ const HostingTeaser = () => {
               className="w-full h-full object-cover object-center absolute inset-0"
               style={{ filter: 'grayscale(60%) brightness(0.5) contrast(1.1)' }}
             />
-            <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, rgba(220,38,38,0.12), transparent 60%)' }} />
+            <div className="absolute inset-0 pointer-events-none" style={{ background: 'linear-gradient(135deg, rgba(220,38,38,0.12), transparent 60%)' }} />
           </div>
         </motion.div>
 
