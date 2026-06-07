@@ -33,6 +33,25 @@
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.0.0/fonts/remixicon.css" rel="stylesheet" />
   </head>
   <body>
+    <!--
+      Netlify Forms detection form (hidden). Netlify scans built HTML at deploy
+      time and registers this "contact" form. The React contact page submits the
+      same field names via fetch. The "subject" field becomes the notification
+      email subject (so the Gmail "[Website Lead]" filter labels it). Set the
+      notification recipient to info@canadabtcminers.ca in the Netlify dashboard.
+    -->
+    <form name="contact" data-netlify="true" netlify-honeypot="bot-field" hidden>
+      <input type="text" name="name" />
+      <input type="email" name="email" />
+      <input type="tel" name="phone" />
+      <input type="text" name="company" />
+      <input type="text" name="inquiry" />
+      <textarea name="message"></textarea>
+      <input type="text" name="subject" />
+      <input type="text" name="page_source" />
+      <input type="text" name="submitted_at" />
+      <input type="text" name="bot-field" />
+    </form>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

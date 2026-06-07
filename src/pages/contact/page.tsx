@@ -4,13 +4,33 @@ import { useTranslation } from 'react-i18next';
 import Navbar from '../../components/feature/Navbar';
 import Footer from '../../components/feature/Footer';
 import Seo, { localBusinessLd } from '../../components/feature/Seo';
-import { useRecaptcha } from '../../hooks/useRecaptcha';
 
 const TEL = '+15146047050';
 const EMAIL = 'info@canadabtcminers.ca';
 const ADDRESS = '6500 Route Transcanadienne, Suite 209, Saint-Laurent, Quebec H4T 1X4';
-// Same WordPress REST backend the rest of the site posts to (see hosting page).
-const CONTACT_ENDPOINT = 'https://wholesaleasic.com/wp-json/cbtc/v1/contact';
+
+// Netlify Forms. A matching hidden static form lives in index.html so Netlify
+// detects it at build time. Submissions are emailed to the recipient configured
+// in the Netlify dashboard (set this to info@canadabtcminers.ca). The "subject"
+// field below sets the notification email subject so the existing Gmail filter
+// (subject contains "[Website Lead]") labels it automatically.
+const NETLIFY_FORM_NAME = 'contact';
+
+// English inquiry labels for the email subject — kept consistent regardless of
+// the UI language so the subject reads e.g. "[Website Lead] Repair service - John".
+const INQUIRY_SUBJECT_LABEL: Record<string, string> = {
+  buy: 'Buy miners',
+  sell: 'Sell miners',
+  repair: 'Repair service',
+  hosting: 'Hosting',
+  bulk: 'Bulk order',
+  general: 'General question',
+};
+
+const encodeForm = (data: Record<string, string>) =>
+  Object.keys(data)
+    .map((k) => `${encodeURIComponent(k)}=${encodeURIComponent(data[k])}`)
+    .join('&');
 
 type Status = 'idle' | 'sending' | 'sent' | 'error';
 
@@ -25,7 +45,6 @@ const initialForm = {
 
 export default function ContactPage() {
   const { t } = useTranslation();
-  const { getToken } = useRecaptcha();
   const [form, setForm] = useState(initialForm);
   const [status, setStatus] = useState<Status>('idle');
 
@@ -44,12 +63,35 @@ export default function ContactPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus('sending');
+
+    const inquiryLabel = INQUIRY_SUBJECT_LABEL[form.inquiry] || 'General question';
+    const subject = `[Website Lead] ${inquiryLabel} - ${form.name}`.trim();
+    const submittedAt = new Date().toLocaleString('en-CA', {
+      timeZone: 'America/Toronto',
+      dateStyle: 'medium',
+      timeStyle: 'short',
+    });
+    const pageSource = document.referrer || window.location.href;
+
+    const payload = {
+      'form-name': NETLIFY_FORM_NAME,
+      subject,
+      name: form.name,
+      email: form.email,
+      phone: form.phone,
+      company: form.company.trim() || 'Not provided',
+      inquiry: inquiryLabel,
+      message: form.message,
+      page_source: pageSource,
+      submitted_at: submittedAt,
+      'bot-field': '',
+    };
+
     try {
-      const recaptchaToken = await getToken('contact_form').catch(() => '');
-      const res = await fetch(CONTACT_ENDPOINT, {
+      const res = await fetch('/', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...form, recaptcha_token: recaptchaToken }),
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: encodeForm(payload),
       });
       // Only report success on a real 2xx response — never fake a submission.
       if (res.ok) {
