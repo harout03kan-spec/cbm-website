@@ -41,6 +41,20 @@ export interface Product {
     temperature?: string;
     humidity?: string;
   };
+  // Selectable hashrate variants (one product card per model; card shows the
+  // first/highest variant). Each variant has its own specs and CAD price.
+  variants?: ProductVariant[];
+}
+
+export interface ProductVariant {
+  label: string;            // short tag shown in the selector, e.g. "310T", "16.5G"
+  model?: string;           // exact model name for this variant
+  hashrate: string;
+  hashrate_unit?: string;
+  power?: string;
+  efficiency?: string;
+  efficiency_unit?: string;
+  price: string;            // final CAD price for this variant
 }
 
 // ─── CONTENT TYPE ─────────────────────────────────────────────────────────────

@@ -18,6 +18,7 @@ const ProductPage = () => {
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
   const [showNotification, setShowNotification] = useState(false);
+  const [selectedVariant, setSelectedVariant] = useState(0);
 
   const images = product?.images?.length ? product.images : product ? [product.image] : [];
   // "Similar miners" — prefer other miners (they carry static `details`);
@@ -41,14 +42,25 @@ const ProductPage = () => {
     setTimeout(() => setShowNotification(false), 3000);
   };
 
-  const calculateTotal = () => {
-    if (!product) return { subtotal: '0.00', hst: '0.00', total: '0.00' };
-    const subtotal = Number(product.price) * quantity;
-    const hst = subtotal * 0.13;
-    return { subtotal: subtotal.toFixed(2), hst: hst.toFixed(2), total: (subtotal + hst).toFixed(2) };
+  // Current variant — falls back to the product's top-level (highest) values.
+  const variants = product?.variants ?? [];
+  const v = variants[selectedVariant] ?? null;
+  const cur = {
+    hashrate: v?.hashrate ?? product?.hashrate ?? '',
+    hashrate_unit: v?.hashrate_unit ?? product?.hashrate_unit,
+    power: v?.power ?? product?.power ?? '',
+    efficiency: v?.efficiency ?? product?.efficiency ?? '',
+    efficiency_unit: v?.efficiency_unit ?? product?.efficiency_unit,
+    price: v?.price ?? product?.price ?? '0',
+    model: v?.model ?? product?.details?.model,
   };
-
-  const totals = calculateTotal();
+  const subtotalNum = Number(cur.price) * quantity;
+  const totals = {
+    subtotal: subtotalNum.toFixed(2),
+    hst: (subtotalNum * 0.13).toFixed(2),
+    total: (subtotalNum * 1.13).toFixed(2),
+    freeShipping: false,
+  };
 
   if (loading) {
     return (
@@ -114,8 +126,12 @@ const ProductPage = () => {
 
             {/* Left: Images */}
             <div>
-              <div className="relative w-full h-[500px] bg-black rounded-2xl overflow-hidden mb-4 border-2 border-white/10">
-                <img src={images[selectedImage] || product.image} alt={product.name} className="w-full h-full object-contain object-center" />
+              <div className="relative w-full h-[500px] bg-black rounded-2xl overflow-hidden mb-4 border-2 border-white/10 flex items-center justify-center">
+                {(images[selectedImage] || product.image) ? (
+                  <img src={images[selectedImage] || product.image} alt={product.name} className="w-full h-full object-contain object-center" />
+                ) : (
+                  <i className="ri-image-line text-6xl text-zinc-700" aria-hidden="true"></i>
+                )}
               </div>
               {images.length > 1 && (
                 <div className="grid grid-cols-4 gap-3 mb-8">
@@ -168,13 +184,13 @@ const ProductPage = () => {
             <div>
               <div className="flex flex-wrap items-center gap-3 mb-4">
                 <h1 className="font-inter font-bold text-4xl text-white">{product.name}</h1>
-                {product.condition && <span className="px-3 py-1 bg-white/20 text-white rounded-full text-sm font-inter font-semibold">{product.condition}</span>}
+                {product.condition && <span className="px-3 py-1 bg-white/20 text-white rounded-full text-sm font-inter font-semibold">{product.condition === 'New' ? 'Brand New' : product.condition}</span>}
                 {product.cooling && <span className="px-3 py-1 bg-white/20 text-white rounded-full text-sm font-inter font-semibold">{product.cooling}</span>}
               </div>
 
               <div className="mb-6 pb-6 border-b border-white/10">
                 <div className="flex items-baseline gap-3 mb-2">
-                  <span className="text-crimson-accent font-inter font-bold text-5xl">${Number(product.price).toLocaleString()}</span>
+                  <span className="text-crimson-accent font-inter font-bold text-5xl">${Number(cur.price).toLocaleString()}</span>
                   <span className="text-soft-gray font-inter text-xl">CAD</span>
                 </div>
                 {product.short_description && (
@@ -182,13 +198,31 @@ const ProductPage = () => {
                 )}
               </div>
 
+              {/* Variant selector — updates hashrate, watts, efficiency and price */}
+              {variants.length > 1 && (
+                <div className="mb-6">
+                  <label className="text-white font-inter font-semibold text-sm mb-2 block">Model / Hashrate</label>
+                  <div className="flex flex-wrap gap-2">
+                    {variants.map((vr, i) => (
+                      <button key={vr.label} type="button" onClick={() => setSelectedVariant(i)}
+                        className={`min-h-[40px] px-4 py-2 rounded-lg font-inter text-sm font-semibold border transition-colors cursor-pointer ${
+                          i === selectedVariant
+                            ? 'bg-crimson-accent border-crimson-accent text-white'
+                            : 'bg-transparent border-white/25 text-white hover:bg-white/10'
+                        }`}
+                      >{vr.label}</button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
               <div className="mb-8">
                 <h3 className="text-white font-inter font-bold text-xl mb-4">Technical Specifications</h3>
                 <div className="grid grid-cols-3 gap-4">
                   {[
-                    { icon: 'ri-speed-fill',     value: product.hashrate, unit: `${product.hashrate_unit || 'TH/s'} Hashrate` },
-                    { icon: 'ri-flashlight-fill', value: product.power,    unit: 'Watts Power' },
-                    { icon: 'ri-leaf-fill',       value: product.efficiency, unit: `${product.efficiency_unit || 'J/TH'} Efficiency` },
+                    { icon: 'ri-speed-fill',     value: cur.hashrate, unit: `${cur.hashrate_unit || 'TH/s'} Hashrate` },
+                    { icon: 'ri-flashlight-fill', value: cur.power,    unit: 'Watts Power' },
+                    { icon: 'ri-leaf-fill',       value: cur.efficiency, unit: `${cur.efficiency_unit || 'J/TH'} Efficiency` },
                   ].filter(s => s.value && String(s.value).trim()).map(s => (
                     <div key={s.unit} className="bg-gradient-to-br from-graphite to-midnight border border-crimson-accent/30 rounded-xl p-4">
                       <div className="w-10 h-10 flex items-center justify-center mb-3">
@@ -282,13 +316,13 @@ const ProductPage = () => {
             const groups = [
               { title: 'Performance', rows: [
                 ['Algorithm',           product.algorithm],
-                ['Hashrate',            product.hashrate ? `${product.hashrate} ${product.hashrate_unit || 'TH/s'}` : ''],
-                ['Power / Consumption', product.power ? `${product.power} W` : ''],
-                ['Efficiency',          product.efficiency ? `${product.efficiency} ${product.efficiency_unit || 'J/TH'}` : ''],
+                ['Hashrate',            cur.hashrate ? `${cur.hashrate} ${cur.hashrate_unit || 'TH/s'}` : ''],
+                ['Power / Consumption', cur.power ? `${cur.power} W` : ''],
+                ['Efficiency',          cur.efficiency ? `${cur.efficiency} ${cur.efficiency_unit || 'J/TH'}` : ''],
               ] },
               { title: 'Miner Details', rows: [
                 ['Manufacturer', product.brand],
-                ['Model',        d.model],
+                ['Model',        cur.model],
                 ['Release',      d.release],
                 ['Size',         d.size],
                 ['Weight',       d.weight],

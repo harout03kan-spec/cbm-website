@@ -518,6 +518,8 @@ const fr = {
   shop_acc_cables: 'Câbles',
   shop_acc_hashboards: 'H-Boards',
   shop_badge_hydro: 'Hydro',
+  shop_badge_coin_xp: 'XP',
+  shop_badge_coin_alph: 'ALPH',
   shop_badge_coin_btc: 'Bitcoin',
   shop_badge_coin_ltc: 'LTC/DOGE',
   shop_badge_coin_kas: 'KAS',
