@@ -129,8 +129,8 @@ const ShopPage = () => {
       <section className="py-16 bg-[#0A0A0A]">
         <div className="max-w-7xl mx-auto px-6">
           {/* ── Results toolbar: count + search + sort, directly above the cards ── */}
-          <div className="relative z-20 mb-8 flex flex-col gap-4 rounded-xl border border-white/10 bg-[#141414] p-4 lg:flex-row lg:items-center lg:justify-between">
-            <div className="text-soft-gray font-inter text-sm">
+          <div className="relative z-20 mb-8 flex flex-col gap-4 rounded-xl border border-white/10 bg-[#141414] p-4 lg:flex-row lg:items-center lg:gap-4">
+            <div className="shrink-0 text-soft-gray font-inter text-sm">
               {loading ? (
                 <span className="animate-pulse">{t('shop_loading')}</span>
               ) : (
@@ -138,9 +138,9 @@ const ShopPage = () => {
               )}
             </div>
 
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center lg:flex-1">
               {/* Search — red magnifier (inline SVG) on the right */}
-              <div className="relative z-20 sm:w-72 lg:w-80">
+              <div className="relative z-20 flex-1">
                 <input
                   type="text"
                   value={searchQuery}
@@ -165,7 +165,7 @@ const ShopPage = () => {
                   id="shop-sort"
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value)}
-                  className="relative z-20 w-fit max-w-full appearance-none cursor-pointer rounded-lg border border-white/15 bg-[#0A0A0A] pl-3 pr-9 py-3 min-h-[44px] font-inter text-base sm:text-sm text-white focus:border-crimson-accent focus:outline-none"
+                  className="relative z-20 w-[150px] max-w-full appearance-none cursor-pointer rounded-lg border border-white/15 bg-[#0A0A0A] pl-3 pr-9 py-3 min-h-[44px] font-inter text-base sm:text-sm text-white focus:border-crimson-accent focus:outline-none"
                 >
                   <option value="">{t('shop_sort_label')}</option>
                   <option value="price_asc">{t('shop_sort_price_asc')}</option>
