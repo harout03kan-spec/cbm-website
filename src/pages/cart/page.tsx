@@ -61,7 +61,7 @@ const CartPage = () => {
               <div className="w-32 h-32 flex items-center justify-center mx-auto mb-6 bg-graphite rounded-full border-2 border-crimson-accent/20">
                 <i className="ri-shopping-cart-line text-crimson-accent text-6xl"></i>
               </div>
-              <h1 className="font-orbitron font-bold text-4xl text-white mb-4">
+              <h1 className="font-inter font-bold text-4xl text-white mb-4">
                 {t('cart_empty')}
               </h1>
               <p className="text-soft-gray font-inter text-lg mb-8">
@@ -99,7 +99,7 @@ const CartPage = () => {
       {/* Cart Content */}
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-6">
-          <h1 className="font-orbitron font-bold text-5xl text-white mb-8">
+          <h1 className="font-inter font-bold text-5xl text-white mb-8">
             {t('cart_title')}
           </h1>
 
@@ -135,7 +135,7 @@ const CartPage = () => {
                           <div>
                             <Link
                               to={`/product?id=${product.id}`}
-                              className="text-white font-orbitron font-bold text-2xl hover:text-crimson-accent transition-colors cursor-pointer"
+                              className="text-white font-inter font-bold text-2xl hover:text-crimson-accent transition-colors cursor-pointer"
                             >
                               {product.name}
                             </Link>
@@ -160,15 +160,15 @@ const CartPage = () => {
                         <div className="flex gap-6 mb-4">
                           <div>
                             <div className="text-soft-gray font-inter text-xs mb-1">Hashrate</div>
-                            <div className="text-white font-orbitron font-bold">{product.hashrate} TH/s</div>
+                            <div className="text-white font-inter font-bold">{product.hashrate} TH/s</div>
                           </div>
                           <div>
                             <div className="text-soft-gray font-inter text-xs mb-1">Power</div>
-                            <div className="text-white font-orbitron font-bold">{product.power}W</div>
+                            <div className="text-white font-inter font-bold">{product.power}W</div>
                           </div>
                           <div>
                             <div className="text-soft-gray font-inter text-xs mb-1">Efficiency</div>
-                            <div className="text-white font-orbitron font-bold">{product.efficiency} J/TH</div>
+                            <div className="text-white font-inter font-bold">{product.efficiency} J/TH</div>
                           </div>
                         </div>
 
@@ -187,7 +187,7 @@ const CartPage = () => {
                                 type="number"
                                 value={item.quantity}
                                 onChange={(e) => updateQuantity(item.id, Number(e.target.value))}
-                                className="w-16 h-10 bg-transparent text-white text-center font-orbitron font-bold border-x border-white/20 outline-none"
+                                className="w-16 h-10 bg-transparent text-white text-center font-inter font-bold border-x border-white/20 outline-none"
                                 min="1"
                               />
                               <button
@@ -200,7 +200,7 @@ const CartPage = () => {
                           </div>
 
                           <div className="text-right">
-                            <div className="text-crimson-accent font-orbitron font-bold text-3xl">
+                            <div className="text-crimson-accent font-inter font-bold text-3xl">
                               ${(Number(product.price) * item.quantity).toFixed(2)}
                             </div>
                             <div className="text-soft-gray font-inter text-sm">
@@ -227,7 +227,7 @@ const CartPage = () => {
             {/* Order Summary - Right Column */}
             <div className="lg:col-span-1">
               <div className="bg-graphite border border-crimson-accent/20 rounded-2xl p-6 sticky top-24">
-                <h2 className="font-orbitron font-bold text-2xl text-white mb-6">
+                <h2 className="font-inter font-bold text-2xl text-white mb-6">
                   {t('cart_subtotal')}
                 </h2>
 
@@ -265,19 +265,19 @@ const CartPage = () => {
                 <div className="space-y-4 mb-6 pb-6 border-b border-white/10">
                   <div className="flex justify-between items-center">
                     <span className="text-soft-gray font-inter">Subtotal</span>
-                    <span className="text-white font-orbitron font-bold text-lg">${totals.subtotal}</span>
+                    <span className="text-white font-inter font-bold text-lg">${totals.subtotal}</span>
                   </div>
                   
                   {promoApplied && (
                     <div className="flex justify-between items-center">
                       <span className="text-green-400 font-inter">Discount ({promoDiscount}%)</span>
-                      <span className="text-green-400 font-orbitron font-bold text-lg">-${totals.discount}</span>
+                      <span className="text-green-400 font-inter font-bold text-lg">-${totals.discount}</span>
                     </div>
                   )}
 
                   <div className="flex justify-between items-center">
                     <span className="text-soft-gray font-inter">Shipping</span>
-                    <span className="text-white font-orbitron font-bold text-lg">
+                    <span className="text-white font-inter font-bold text-lg">
                       {totals.freeShipping ? (
                         <span className="text-green-400">FREE</span>
                       ) : (
@@ -295,14 +295,14 @@ const CartPage = () => {
 
                   <div className="flex justify-between items-center">
                     <span className="text-soft-gray font-inter">HST (13%)</span>
-                    <span className="text-white font-orbitron font-bold text-lg">${totals.hst}</span>
+                    <span className="text-white font-inter font-bold text-lg">${totals.hst}</span>
                   </div>
                 </div>
 
                 {/* Total */}
                 <div className="flex justify-between items-center mb-6">
                   <span className="text-white font-inter font-bold text-xl">Total</span>
-                  <span className="text-crimson-accent font-orbitron font-bold text-4xl">${totals.total}</span>
+                  <span className="text-crimson-accent font-inter font-bold text-4xl">${totals.total}</span>
                 </div>
 
                 {/* Checkout Button */}

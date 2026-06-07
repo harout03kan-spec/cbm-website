@@ -19,7 +19,7 @@ const ServicesTeaser = () => {
 
         <motion.div initial={{ opacity: 0, x: 30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.7, delay: 0.1 }}>
           <span className="inline-block text-[12px] font-bold tracking-[2px] text-crimson-accent uppercase mb-4">{t('st_tag')}</span>
-          <h2 className="text-white font-orbitron font-extrabold text-[38px] lg:text-[42px] leading-[1.1] mb-[18px]">{t('st_title')}</h2>
+          <h2 className="text-white font-inter font-extrabold text-[38px] lg:text-[42px] leading-[1.1] mb-[18px]">{t('st_title')}</h2>
           <p className="text-[#cbd5e1] font-inter text-[17px] leading-[1.75] mb-3">{t('st_desc')}</p>
           <p className="text-[#94a3b8] font-inter text-[15px] leading-[1.7] mb-3">{t('st_models')}</p>
           <p className="text-[#94a3b8] font-inter text-[15px] leading-[1.7] mb-6">{t('st_scope')}</p>

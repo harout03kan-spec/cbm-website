@@ -38,7 +38,7 @@ const ProfitCalculator = () => {
             viewport={{ once: true }}
             className="lg:col-span-2 bg-gradient-to-br from-graphite/60 to-graphite/40 backdrop-blur-xl border border-crimson-accent/30 rounded-2xl p-8 shadow-2xl"
           >
-            <h2 className="font-orbitron font-bold text-4xl text-white mb-2">
+            <h2 className="font-inter font-bold text-4xl text-white mb-2">
               Calculate Your Mining ROI
             </h2>
             <div className="w-24 h-1 bg-gradient-crimson mb-8"></div>
@@ -104,19 +104,19 @@ const ProfitCalculator = () => {
               {/* Results */}
               <div className="grid grid-cols-3 gap-4 pt-6 border-t border-crimson-accent/20">
                 <div className="bg-midnight/50 border border-crimson-accent/30 rounded-xl p-4 text-center">
-                  <div className="text-crimson-accent font-orbitron font-bold text-2xl">
+                  <div className="text-crimson-accent font-inter font-bold text-2xl">
                     ${profit.daily}
                   </div>
                   <div className="text-soft-gray font-inter text-sm mt-1">Daily</div>
                 </div>
                 <div className="bg-midnight/50 border border-crimson-accent/30 rounded-xl p-4 text-center">
-                  <div className="text-crimson-accent font-orbitron font-bold text-2xl">
+                  <div className="text-crimson-accent font-inter font-bold text-2xl">
                     ${profit.monthly}
                   </div>
                   <div className="text-soft-gray font-inter text-sm mt-1">Monthly</div>
                 </div>
                 <div className="bg-midnight/50 border border-crimson-accent/30 rounded-xl p-4 text-center">
-                  <div className="text-crimson-accent font-orbitron font-bold text-2xl">
+                  <div className="text-crimson-accent font-inter font-bold text-2xl">
                     ${profit.yearly}
                   </div>
                   <div className="text-soft-gray font-inter text-sm mt-1">Yearly</div>
@@ -137,7 +137,7 @@ const ProfitCalculator = () => {
               <div className="text-crimson-accent font-inter text-xs font-semibold mb-2">
                 CURRENT BEST SELLER
               </div>
-              <h3 className="text-white font-orbitron font-bold text-xl mb-3">
+              <h3 className="text-white font-inter font-bold text-xl mb-3">
                 Antminer S21 Pro
               </h3>
               <div className="w-full h-32 mb-3 rounded-lg overflow-hidden">
@@ -161,7 +161,7 @@ const ProfitCalculator = () => {
               <div className="w-12 h-12 flex items-center justify-center bg-white/10 rounded-full mb-3">
                 <i className="ri-server-fill text-2xl text-white"></i>
               </div>
-              <h3 className="text-white font-orbitron font-bold text-lg mb-2">
+              <h3 className="text-white font-inter font-bold text-lg mb-2">
                 Hosting Available
               </h3>
               <p className="text-soft-gray font-inter text-sm mb-4">
@@ -177,7 +177,7 @@ const ProfitCalculator = () => {
               <div className="w-12 h-12 flex items-center justify-center bg-white/10 rounded-full mb-3">
                 <i className="ri-shield-check-fill text-2xl text-white"></i>
               </div>
-              <h3 className="text-white font-orbitron font-bold text-lg mb-2">
+              <h3 className="text-white font-inter font-bold text-lg mb-2">
                 Canadian Warranty
               </h3>
               <p className="text-soft-gray font-inter text-sm">

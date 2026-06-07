@@ -19,7 +19,7 @@ const HeroTrustBar = () => {
                 <i className={`${stat.icon} text-xl text-crimson-accent`}></i>
               </div>
               <div>
-                <div className="text-white font-orbitron font-bold text-xl leading-tight">{stat.value}</div>
+                <div className="text-white font-inter font-bold text-xl leading-tight">{stat.value}</div>
                 <div className="text-soft-gray font-inter text-xs">{stat.label}</div>
               </div>
             </motion.div>

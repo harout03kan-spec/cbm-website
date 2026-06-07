@@ -39,7 +39,7 @@ const HeroSection = () => {
               {t('hero_eyebrow')}
             </span>
 
-            <h1 className="mb-6 font-orbitron text-4xl font-bold leading-tight text-white md:text-5xl lg:text-6xl">
+            <h1 className="mb-6 font-inter text-4xl font-bold leading-tight text-white md:text-5xl lg:text-6xl">
               {t('hero_title')}
             </h1>
 

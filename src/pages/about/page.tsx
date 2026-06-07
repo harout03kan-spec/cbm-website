@@ -161,13 +161,13 @@ export default function AboutPage() {
         <div className="mx-auto max-w-6xl flex flex-col sm:flex-row items-center justify-between gap-3 text-sm">
           <span className="text-zinc-300">Questions about buying, repairing or hosting ASIC miners?</span>
           <div className="flex gap-6 items-center flex-wrap justify-center">
-            <a href="tel:+15146047050" className="font-semibold text-white hover:text-red-400 transition-colors flex items-center gap-1.5">
+            <a href="tel:+15146047050" className="font-semibold text-white hover:text-crimson-accent transition-colors flex items-center gap-1.5">
               <svg className="w-4 h-4 text-red-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
               </svg>
               {CALL_LABEL}
             </a>
-            <a href="mailto:info@canadabtcminers.ca" className="font-semibold text-red-500 hover:text-red-400 transition-colors">
+            <a href="mailto:info@canadabtcminers.ca" className="font-semibold text-red-500 hover:text-crimson-accent transition-colors">
               info@canadabtcminers.ca
             </a>
           </div>
@@ -189,12 +189,12 @@ export default function AboutPage() {
             ].map((person) => (
               <div key={person.name} className="rounded-[2rem] border border-zinc-800 bg-black/40 p-6 sm:p-7 text-left hover:border-zinc-600 transition-colors">
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="w-12 h-12 rounded-full bg-red-600/20 border border-red-900/40 flex items-center justify-center text-base font-bold text-red-400 flex-shrink-0">
+                  <div className="w-12 h-12 rounded-full bg-red-600/20 border border-red-900/40 flex items-center justify-center text-base font-bold text-crimson-accent flex-shrink-0">
                     {person.initials}
                   </div>
                   <div>
                     <div className="text-xl font-semibold">{person.name}</div>
-                    <div className="text-sm text-red-400">{person.role}</div>
+                    <div className="text-sm text-crimson-accent">{person.role}</div>
                   </div>
                 </div>
                 <div className="text-sm leading-7 text-zinc-300 sm:text-base">{person.bio}</div>
@@ -202,7 +202,7 @@ export default function AboutPage() {
                   href="https://linkedin.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-5 inline-flex items-center gap-1.5 text-sm font-medium text-red-500 hover:text-red-400 transition-colors"
+                  className="mt-5 inline-flex items-center gap-1.5 text-sm font-medium text-red-500 hover:text-crimson-accent transition-colors"
                 >
                   <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
@@ -258,13 +258,13 @@ export default function AboutPage() {
               <svg className="w-5 h-5 text-red-500 flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
               </svg>
-              <a href="tel:+15146047050" className="font-semibold text-white hover:text-red-400 transition-colors">{CALL_LABEL}</a>
+              <a href="tel:+15146047050" className="font-semibold text-white hover:text-crimson-accent transition-colors">{CALL_LABEL}</a>
             </p>
             <p className="flex items-center gap-2">
               <svg className="w-5 h-5 text-red-500 flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
               </svg>
-              <a href="mailto:info@canadabtcminers.ca" className="font-semibold text-white hover:text-red-400 transition-colors">info@canadabtcminers.ca</a>
+              <a href="mailto:info@canadabtcminers.ca" className="font-semibold text-white hover:text-crimson-accent transition-colors">info@canadabtcminers.ca</a>
             </p>
           </div>
         </div>
@@ -342,7 +342,7 @@ export default function AboutPage() {
             {values.map((item) => (
               <div key={item.title} className="rounded-[2rem] border border-zinc-800 bg-black p-6 text-center transition hover:border-red-600 sm:p-7 group">
                 <div className="text-3xl mb-3">{item.icon}</div>
-                <div className="text-lg font-semibold text-white group-hover:text-red-400 transition-colors">{item.title}</div>
+                <div className="text-lg font-semibold text-white group-hover:text-crimson-accent transition-colors">{item.title}</div>
                 <div className="mt-3 text-sm leading-7 text-zinc-400">{item.text}</div>
               </div>
             ))}
@@ -367,7 +367,7 @@ export default function AboutPage() {
             >
               <StarRating count={item.stars} />
               <p itemProp="reviewBody" className="text-sm leading-7 text-zinc-300 sm:text-base flex-1">"{item.text}"</p>
-              <div itemProp="author" className="text-sm font-semibold text-red-400">— {item.name}</div>
+              <div itemProp="author" className="text-sm font-semibold text-crimson-accent">— {item.name}</div>
             </div>
           ))}
         </div>
@@ -377,7 +377,7 @@ export default function AboutPage() {
             href="https://g.page/r/CdfEOvDvGeTDEBM/review"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 font-semibold text-red-500 hover:text-red-400 transition-colors"
+            className="inline-flex items-center gap-2 font-semibold text-red-500 hover:text-crimson-accent transition-colors"
           >
             <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none">
               <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>

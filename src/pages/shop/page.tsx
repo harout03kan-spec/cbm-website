@@ -127,7 +127,7 @@ const ShopPage = () => {
       <section className="pt-32 pb-16 bg-[#0A0A0A] relative overflow-hidden">
         <div className="relative max-w-7xl mx-auto px-6">
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} className="text-center">
-            <h1 className="font-orbitron font-bold text-5xl md:text-6xl text-white mb-6">
+            <h1 className="font-inter font-bold text-5xl md:text-6xl text-white mb-6">
               {t('shop_title')}
             </h1>
             <p className="text-soft-gray font-inter text-xl max-w-3xl mx-auto">
@@ -216,7 +216,7 @@ const ShopPage = () => {
               <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full border border-crimson-accent/30 bg-crimson-accent/10">
                 <i className="ri-search-eye-line text-3xl text-crimson-accent" aria-hidden="true"></i>
               </div>
-              <h3 className="font-orbitron font-bold text-2xl text-white mb-3">{t('shop_empty_title')}</h3>
+              <h3 className="font-inter font-bold text-2xl text-white mb-3">{t('shop_empty_title')}</h3>
               <p className="text-soft-gray font-inter text-base leading-7 mb-8">{t('shop_empty_desc')}</p>
               <Link to="/contact#contact-form" className="relative z-10 inline-flex min-h-[44px] items-center justify-center gap-2 px-8 py-3.5 bg-crimson-accent text-white font-inter font-semibold rounded-lg hover:bg-red-700 active:bg-red-800 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-crimson-accent">
                 <i className="ri-customer-service-2-line text-lg" aria-hidden="true"></i>
@@ -267,7 +267,7 @@ const ShopPage = () => {
                 </div>
 
                 <div className="p-6 flex flex-col flex-1">
-                  <h3 className="text-white font-orbitron font-bold text-xl mb-3">{unclear ? t('shop_pending_name') : product.name}</h3>
+                  <h3 className="text-white font-inter font-bold text-xl mb-3">{unclear ? t('shop_pending_name') : product.name}</h3>
 
                   {specs.length > 0 && (
                     <div className="flex items-center gap-4 mb-5">
@@ -275,7 +275,7 @@ const ShopPage = () => {
                         <div key={s.unit} className="flex items-center gap-4">
                           {i > 0 && <div className="w-px h-10 bg-white/20"></div>}
                           <div className="text-center">
-                            <div className="text-white font-orbitron font-bold text-xl">{s.value}</div>
+                            <div className="text-white font-inter font-bold text-xl">{s.value}</div>
                             <div className="text-soft-gray font-inter text-xs">{s.unit}</div>
                           </div>
                         </div>
@@ -285,7 +285,7 @@ const ShopPage = () => {
 
                   {showPrice ? (
                     <div className="mb-6">
-                      <span className="text-white font-orbitron font-bold text-3xl">${priceNum.toLocaleString()} CAD</span>
+                      <span className="text-white font-inter font-bold text-3xl">${priceNum.toLocaleString()} CAD</span>
                       {product.sale_price && product.sale_price !== product.price && (
                         <span className="ml-3 text-soft-gray line-through text-lg font-inter">${Number(product.sale_price).toLocaleString()}</span>
                       )}
@@ -344,7 +344,7 @@ const ShopPage = () => {
       <section className="py-16 bg-[#0A0A0A]">
         <div className="max-w-4xl mx-auto px-6 text-center">
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-            <h2 className="font-orbitron font-bold text-4xl text-white mb-4">Need Help Choosing?</h2>
+            <h2 className="font-inter font-bold text-4xl text-white mb-4">Need Help Choosing?</h2>
             <p className="text-soft-gray font-inter text-lg mb-8">Our team can help you select the right miner for your requirements.</p>
             <div className="flex flex-wrap justify-center gap-4">
               <Link to="/contact#contact-form" className="relative z-10 inline-flex min-h-[44px] items-center justify-center px-8 py-4 bg-crimson-accent text-white font-inter font-semibold rounded-lg hover:bg-red-700 active:bg-red-800 transition-colors cursor-pointer whitespace-nowrap focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-crimson-accent">Contact Our Team</Link>

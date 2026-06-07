@@ -139,7 +139,7 @@ export default function DiscountPopup() {
                 ) : t('promo_btn')}
               </button>
               {status === 'error' && (
-                <p className="text-xs text-red-400 text-center">{t('promo_error')}</p>
+                <p className="text-xs text-crimson-accent text-center">{t('promo_error')}</p>
               )}
             </form>
 

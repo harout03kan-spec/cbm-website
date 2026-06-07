@@ -14,7 +14,7 @@ const FinalCTA = () => {
       <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
         <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
           <span className="inline-block text-[12px] font-bold tracking-[2px] text-crimson-accent uppercase mb-5 font-inter">{t('cta_tag')}</span>
-          <h2 className="font-orbitron font-black text-5xl md:text-6xl text-white leading-[1.05] mb-6">
+          <h2 className="font-inter font-black text-5xl md:text-6xl text-white leading-[1.05] mb-6">
             {t('cta_title1')}<br /><span className="text-crimson-accent">{t('cta_title2')}</span>
           </h2>
           <p className="text-[#94a3b8] font-inter text-xl max-w-2xl mx-auto mb-12 leading-relaxed">{t('cta_sub')}</p>
