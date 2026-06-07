@@ -3,18 +3,21 @@ import { createContext, useContext, useState, useEffect, useCallback, ReactNode 
 export interface CartItem {
   id: number;
   quantity: number;
+  variant?: string;   // selected variant label (e.g. "16.5G", "310T"); undefined = base product
 }
 
 interface CartContextValue {
   items: CartItem[];
   totalQuantity: number;
-  addItem: (id: number, quantity?: number) => void;
-  updateQuantity: (id: number, quantity: number) => void;
-  removeItem: (id: number) => void;
+  addItem: (id: number, quantity?: number, variant?: string) => void;
+  updateQuantity: (id: number, quantity: number, variant?: string) => void;
+  removeItem: (id: number, variant?: string) => void;
   clearCart: () => void;
 }
 
 const STORAGE_KEY = 'cbm_cart';
+const sameLine = (a: CartItem, id: number, variant?: string) =>
+  a.id === id && (a.variant || '') === (variant || '');
 
 const CartContext = createContext<CartContextValue | undefined>(undefined);
 
@@ -27,7 +30,11 @@ function readStoredCart(): CartItem[] {
     return parsed
       .filter((x: unknown): x is CartItem =>
         !!x && typeof (x as CartItem).id === 'number' && typeof (x as CartItem).quantity === 'number')
-      .map(x => ({ id: x.id, quantity: Math.max(1, Math.floor(x.quantity)) }));
+      .map(x => ({
+        id: x.id,
+        quantity: Math.max(1, Math.floor(x.quantity)),
+        ...(typeof x.variant === 'string' && x.variant ? { variant: x.variant } : {}),
+      }));
   } catch {
     return [];
   }
@@ -44,24 +51,25 @@ export function CartProvider({ children }: { children: ReactNode }) {
     }
   }, [items]);
 
-  const addItem = useCallback((id: number, quantity = 1) => {
+  // A product + variant is its own cart line (so L9 15G and L9 17G are separate).
+  const addItem = useCallback((id: number, quantity = 1, variant?: string) => {
     const qty = Math.max(1, Math.floor(quantity));
     setItems(prev => {
-      const existing = prev.find(i => i.id === id);
+      const existing = prev.find(i => sameLine(i, id, variant));
       if (existing) {
-        return prev.map(i => (i.id === id ? { ...i, quantity: i.quantity + qty } : i));
+        return prev.map(i => (sameLine(i, id, variant) ? { ...i, quantity: i.quantity + qty } : i));
       }
-      return [...prev, { id, quantity: qty }];
+      return [...prev, { id, quantity: qty, ...(variant ? { variant } : {}) }];
     });
   }, []);
 
-  const updateQuantity = useCallback((id: number, quantity: number) => {
+  const updateQuantity = useCallback((id: number, quantity: number, variant?: string) => {
     if (quantity < 1) return;
-    setItems(prev => prev.map(i => (i.id === id ? { ...i, quantity } : i)));
+    setItems(prev => prev.map(i => (sameLine(i, id, variant) ? { ...i, quantity } : i)));
   }, []);
 
-  const removeItem = useCallback((id: number) => {
-    setItems(prev => prev.filter(i => i.id !== id));
+  const removeItem = useCallback((id: number, variant?: string) => {
+    setItems(prev => prev.filter(i => !sameLine(i, id, variant)));
   }, []);
 
   const clearCart = useCallback(() => setItems([]), []);

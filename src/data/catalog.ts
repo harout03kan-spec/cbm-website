@@ -1,6 +1,5 @@
-// AUTO-GENERATED catalog (scripts/csv-to-catalog.mjs), enriched with static
-// miner specs from ASICMinerValue (scripts/enrich-catalog-specs.mjs +
-// scripts/enrich-catalog-details.mjs). Public fields only — no price/stock.
+// AUTO-GENERATED catalog (csv-to-catalog + enrich + add-supplier-miners).
+// Public static fields only — no price/stock/availability beyond catalog data.
 import type { Product } from '../lib/api';
 
 export const CATALOG_PRODUCTS: Product[] = [
@@ -167,7 +166,49 @@ export const CATALOG_PRODUCTS: Product[] = [
       "interface": "Ethernet",
       "temperature": "5 - 45 °C",
       "humidity": "5 - 95 %"
-    }
+    },
+    "variants": [
+      {
+        "label": "9.5G",
+        "model": "Antminer L7 (9.5Gh)",
+        "hashrate": "9.5",
+        "hashrate_unit": "GH/s",
+        "power": "3425",
+        "efficiency": "0.361",
+        "efficiency_unit": "J/MH",
+        "price": "1830.00"
+      },
+      {
+        "label": "9.3G",
+        "model": "Antminer L7 (9.3Gh)",
+        "hashrate": "9.3",
+        "hashrate_unit": "GH/s",
+        "power": "3425",
+        "efficiency": "0.368",
+        "efficiency_unit": "J/MH",
+        "price": "1973"
+      },
+      {
+        "label": "9.05G",
+        "model": "Antminer L7 (9.05Gh)",
+        "hashrate": "9.05",
+        "hashrate_unit": "GH/s",
+        "power": "3425",
+        "efficiency": "0.378",
+        "efficiency_unit": "J/MH",
+        "price": "1930"
+      },
+      {
+        "label": "8.8G",
+        "model": "Antminer L7 (8.8Gh)",
+        "hashrate": "8.8",
+        "hashrate_unit": "GH/s",
+        "power": "3425",
+        "efficiency": "0.389",
+        "efficiency_unit": "J/MH",
+        "price": "1901"
+      }
+    ]
   },
   {
     "id": 666882400,
@@ -472,7 +513,29 @@ export const CATALOG_PRODUCTS: Product[] = [
       "interface": "Ethernet",
       "temperature": "5 - 40 °C",
       "humidity": "10 - 90 %"
-    }
+    },
+    "variants": [
+      {
+        "label": "293T",
+        "model": "Antminer S19 XP+ Hyd (293Th)",
+        "hashrate": "293",
+        "hashrate_unit": "TH/s",
+        "power": "5567",
+        "efficiency": "19",
+        "efficiency_unit": "J/TH",
+        "price": "2350.00"
+      },
+      {
+        "label": "279T",
+        "model": "Antminer S19 XP+ Hyd (279Th)",
+        "hashrate": "279",
+        "hashrate_unit": "TH/s",
+        "power": "5301",
+        "efficiency": "19",
+        "efficiency_unit": "J/TH",
+        "price": "2100"
+      }
+    ]
   },
   {
     "id": 633746376,
@@ -624,7 +687,29 @@ export const CATALOG_PRODUCTS: Product[] = [
       "interface": "Ethernet",
       "temperature": "5 - 40 °C",
       "humidity": "10 - 90 %"
-    }
+    },
+    "variants": [
+      {
+        "label": "358T",
+        "model": "Antminer S21+ Hyd (358Th)",
+        "hashrate": "358",
+        "hashrate_unit": "TH/s",
+        "power": "5360",
+        "efficiency": "15",
+        "efficiency_unit": "J/TH",
+        "price": "4299.00"
+      },
+      {
+        "label": "319T",
+        "model": "Antminer S21+ Hyd (319Th)",
+        "hashrate": "319",
+        "hashrate_unit": "TH/s",
+        "power": "4785",
+        "efficiency": "15",
+        "efficiency_unit": "J/TH",
+        "price": "3862"
+      }
+    ]
   },
   {
     "id": 673941204,
@@ -666,20 +751,20 @@ export const CATALOG_PRODUCTS: Product[] = [
   },
   {
     "id": 769891226,
-    "name": "Antminer S21 Pro 245TH",
-    "slug": "antminer-s21-pro-245th",
+    "name": "Antminer S21 Pro BRAND NEW",
+    "slug": "antminer-s21-pro-brand-new",
     "sku": "00073",
-    "price": "5100.00",
+    "price": "3991",
     "sale_price": "",
     "stock_status": "onbackorder",
     "stock_quantity": null,
-    "condition": "",
+    "condition": "New",
     "cooling": "Air",
     "algorithm": "SHA-256",
     "hashrate": "245",
     "hashrate_unit": "TH/s",
     "power": "3510",
-    "efficiency": "15",
+    "efficiency": "14.3",
     "efficiency_unit": "J/TH",
     "image": "https://d2j6dbq0eux0bg.cloudfront.net/images/99673270/5070592662.webp",
     "images": [
@@ -692,7 +777,7 @@ export const CATALOG_PRODUCTS: Product[] = [
     "permalink": "https://www.canadabtcminers.ca/asic-miner-store/Antminer-S21-Pro-245TH-p769891226",
     "brand": "Bitmain",
     "details": {
-      "model": "Antminer S21 Pro 245TH",
+      "model": "Antminer S21 Pro (245Th)",
       "release": "Jul 2024",
       "size": "400 x 195 x 290 mm",
       "noise": "75 dB",
@@ -700,7 +785,29 @@ export const CATALOG_PRODUCTS: Product[] = [
       "interface": "Ethernet",
       "temperature": "5 - 45 °C",
       "humidity": "5 - 95 %"
-    }
+    },
+    "variants": [
+      {
+        "label": "245T",
+        "model": "Antminer S21 Pro (245Th)",
+        "hashrate": "245",
+        "hashrate_unit": "TH/s",
+        "power": "3510",
+        "efficiency": "14.3",
+        "efficiency_unit": "J/TH",
+        "price": "3991"
+      },
+      {
+        "label": "234T",
+        "model": "Antminer S21 Pro (234Th)",
+        "hashrate": "234",
+        "hashrate_unit": "TH/s",
+        "power": "3531",
+        "efficiency": "15.1",
+        "efficiency_unit": "J/TH",
+        "price": "3821"
+      }
+    ]
   },
   {
     "id": 769976556,
@@ -1009,7 +1116,49 @@ export const CATALOG_PRODUCTS: Product[] = [
       "interface": "Ethernet",
       "temperature": "5 - 45 °C",
       "humidity": "5 - 95 %"
-    }
+    },
+    "variants": [
+      {
+        "label": "17G",
+        "model": "Antminer L9 (17Gh)",
+        "hashrate": "17",
+        "hashrate_unit": "GH/s",
+        "power": "3570",
+        "efficiency": "0.21",
+        "efficiency_unit": "J/MH",
+        "price": "4960.00"
+      },
+      {
+        "label": "16.5G",
+        "model": "Antminer L9 (16.5Gh)",
+        "hashrate": "16.5",
+        "hashrate_unit": "GH/s",
+        "power": "3570",
+        "efficiency": "0.216",
+        "efficiency_unit": "J/MH",
+        "price": "5119"
+      },
+      {
+        "label": "16G",
+        "model": "Antminer L9 (16Gh)",
+        "hashrate": "16",
+        "hashrate_unit": "GH/s",
+        "power": "3360",
+        "efficiency": "0.21",
+        "efficiency_unit": "J/MH",
+        "price": "4961"
+      },
+      {
+        "label": "15G",
+        "model": "Antminer L9 (15Gh)",
+        "hashrate": "15",
+        "hashrate_unit": "GH/s",
+        "power": "3360",
+        "efficiency": "0.224",
+        "efficiency_unit": "J/MH",
+        "price": "4661"
+      }
+    ]
   },
   {
     "id": 769976557,
@@ -1841,17 +1990,17 @@ export const CATALOG_PRODUCTS: Product[] = [
     "name": "WhatsMiner M60 (172)Th",
     "slug": "whatsminer-m60-172-th",
     "sku": "00061",
-    "price": "3899.99",
+    "price": "2710",
     "sale_price": "",
     "stock_status": "onbackorder",
     "stock_quantity": null,
     "condition": "",
     "cooling": "Air",
     "algorithm": "SHA-256",
-    "hashrate": "172",
+    "hashrate": "174",
     "hashrate_unit": "TH/s",
     "power": "3422",
-    "efficiency": "19.9",
+    "efficiency": "19.67",
     "efficiency_unit": "J/TH",
     "image": "https://d2j6dbq0eux0bg.cloudfront.net/images/99673270/4397246518",
     "images": [
@@ -1864,14 +2013,46 @@ export const CATALOG_PRODUCTS: Product[] = [
     "permalink": "https://www.canadabtcminers.ca/asic-miner-store/WhatsMiner-M60-172-Th-p673979281",
     "brand": "MicroBT",
     "details": {
-      "model": "WhatsMiner M60 (172)Th",
+      "model": "WhatsMiner M60 (174Th)",
       "release": "Feb 2024",
       "size": "430 x 155 x 226 mm",
       "weight": "13500 g",
       "noise": "75 dB",
       "fans": "2",
       "interface": "Ethernet"
-    }
+    },
+    "variants": [
+      {
+        "label": "174T",
+        "model": "WhatsMiner M60 (174Th)",
+        "hashrate": "174",
+        "hashrate_unit": "TH/s",
+        "power": "3422",
+        "efficiency": "19.67",
+        "efficiency_unit": "J/TH",
+        "price": "2710"
+      },
+      {
+        "label": "172T",
+        "model": "WhatsMiner M60 (172Th)",
+        "hashrate": "172",
+        "hashrate_unit": "TH/s",
+        "power": "3422",
+        "efficiency": "19.9",
+        "efficiency_unit": "J/TH",
+        "price": "3899.99"
+      },
+      {
+        "label": "170T",
+        "model": "WhatsMiner M60 (170Th)",
+        "hashrate": "170",
+        "hashrate_unit": "TH/s",
+        "power": "3422",
+        "efficiency": "20.13",
+        "efficiency_unit": "J/TH",
+        "price": "2669"
+      }
+    ]
   },
   {
     "id": 769987262,
@@ -1903,5 +2084,1659 @@ export const CATALOG_PRODUCTS: Product[] = [
     "details": {
       "model": "WhatsMiner M61 202TH"
     }
+  },
+  {
+    "id": 900000001,
+    "name": "Antminer L11 20G",
+    "slug": "antminer-l11-20g",
+    "sku": "",
+    "brand": "Bitmain",
+    "price": "9995",
+    "sale_price": "",
+    "stock_status": "onbackorder",
+    "stock_quantity": null,
+    "condition": "New",
+    "cooling": "Air",
+    "algorithm": "Scrypt",
+    "hashrate": "20",
+    "hashrate_unit": "GH/s",
+    "power": "3680",
+    "efficiency": "0.184",
+    "efficiency_unit": "J/MH",
+    "image": "",
+    "images": [],
+    "badge": "",
+    "short_description": "",
+    "featured": false,
+    "categories": [],
+    "permalink": "",
+    "details": {
+      "model": "Antminer L11 (20Gh)",
+      "release": "Sep 2025",
+      "size": "195 x 290 x 379 mm",
+      "weight": "15500 g",
+      "noise": "75 dB",
+      "interface": "Ethernet",
+      "temperature": "5 - 45 °C",
+      "humidity": "5 - 95 %"
+    },
+    "variants": [
+      {
+        "label": "20G",
+        "model": "Antminer L11 (20Gh)",
+        "hashrate": "20",
+        "hashrate_unit": "GH/s",
+        "power": "3680",
+        "efficiency": "0.184",
+        "efficiency_unit": "J/MH",
+        "price": "9995"
+      }
+    ]
+  },
+  {
+    "id": 900000002,
+    "name": "Antminer S21e Hyd",
+    "slug": "antminer-s21e-hyd",
+    "sku": "",
+    "brand": "Bitmain",
+    "price": "2982",
+    "sale_price": "",
+    "stock_status": "onbackorder",
+    "stock_quantity": null,
+    "condition": "New",
+    "cooling": "Hydro",
+    "algorithm": "SHA-256",
+    "hashrate": "310",
+    "hashrate_unit": "TH/s",
+    "power": "5270",
+    "efficiency": "17",
+    "efficiency_unit": "J/TH",
+    "image": "",
+    "images": [],
+    "badge": "",
+    "short_description": "",
+    "featured": false,
+    "categories": [],
+    "permalink": "",
+    "details": {
+      "model": "Antminer S21e Hyd (310Th)",
+      "release": "Aug 2025",
+      "size": "410 x 170 x 209 mm",
+      "weight": "12800 g",
+      "noise": "50 dB",
+      "voltage": "380-415V",
+      "interface": "Ethernet",
+      "temperature": "5 - 45 °C",
+      "humidity": "5 - 95 %"
+    },
+    "variants": [
+      {
+        "label": "310T",
+        "model": "Antminer S21e Hyd (310Th)",
+        "hashrate": "310",
+        "hashrate_unit": "TH/s",
+        "power": "5270",
+        "efficiency": "17",
+        "efficiency_unit": "J/TH",
+        "price": "2982"
+      },
+      {
+        "label": "288T",
+        "model": "Antminer S21e Hyd (288Th)",
+        "hashrate": "288",
+        "hashrate_unit": "TH/s",
+        "power": "4896",
+        "efficiency": "17",
+        "efficiency_unit": "J/TH",
+        "price": "2796"
+      }
+    ]
+  },
+  {
+    "id": 900000003,
+    "name": "SealMiner A2 Pro Hyd 500T",
+    "slug": "sealminer-a2-pro-hyd-500t",
+    "sku": "",
+    "brand": "Bitdeer",
+    "price": "10703",
+    "sale_price": "",
+    "stock_status": "onbackorder",
+    "stock_quantity": null,
+    "condition": "New",
+    "cooling": "Hydro",
+    "algorithm": "SHA-256",
+    "hashrate": "500",
+    "hashrate_unit": "TH/s",
+    "power": "7450",
+    "efficiency": "14.9",
+    "efficiency_unit": "J/TH",
+    "image": "",
+    "images": [],
+    "badge": "",
+    "short_description": "",
+    "featured": false,
+    "categories": [],
+    "permalink": "",
+    "details": {
+      "model": "SealMiner A2 Pro Hyd (500Th)",
+      "release": "Mar 2025",
+      "noise": "50 dB",
+      "interface": "Ethernet",
+      "temperature": "5 - 40 °C",
+      "humidity": "10 - 90 %"
+    },
+    "variants": [
+      {
+        "label": "500T",
+        "model": "SealMiner A2 Pro Hyd (500Th)",
+        "hashrate": "500",
+        "hashrate_unit": "TH/s",
+        "power": "7450",
+        "efficiency": "14.9",
+        "efficiency_unit": "J/TH",
+        "price": "10703"
+      }
+    ]
+  },
+  {
+    "id": 900000004,
+    "name": "SealMiner A2 Pro Air 260T",
+    "slug": "sealminer-a2-pro-air-260t",
+    "sku": "",
+    "brand": "Bitdeer",
+    "price": "5342",
+    "sale_price": "",
+    "stock_status": "onbackorder",
+    "stock_quantity": null,
+    "condition": "New",
+    "cooling": "Air",
+    "algorithm": "SHA-256",
+    "hashrate": "260",
+    "hashrate_unit": "TH/s",
+    "power": "3790",
+    "efficiency": "14.6",
+    "efficiency_unit": "J/TH",
+    "image": "",
+    "images": [],
+    "badge": "",
+    "short_description": "",
+    "featured": false,
+    "categories": [],
+    "permalink": "",
+    "details": {
+      "model": "SealMiner A2 Pro Air (260Th)",
+      "release": "Mar 2025",
+      "noise": "75 dB",
+      "fans": "4",
+      "interface": "Ethernet",
+      "temperature": "5 - 40 °C",
+      "humidity": "10 - 90 %"
+    },
+    "variants": [
+      {
+        "label": "260T",
+        "model": "SealMiner A2 Pro Air (260Th)",
+        "hashrate": "260",
+        "hashrate_unit": "TH/s",
+        "power": "3790",
+        "efficiency": "14.6",
+        "efficiency_unit": "J/TH",
+        "price": "5342"
+      }
+    ]
+  },
+  {
+    "id": 900000005,
+    "name": "SealMiner A3 Pro Hydro 660T",
+    "slug": "sealminer-a3-pro-hydro-660t",
+    "sku": "",
+    "brand": "Bitdeer",
+    "price": "15507",
+    "sale_price": "",
+    "stock_status": "onbackorder",
+    "stock_quantity": null,
+    "condition": "New",
+    "cooling": "Hydro",
+    "algorithm": "SHA-256",
+    "hashrate": "660",
+    "hashrate_unit": "TH/s",
+    "power": "8250",
+    "efficiency": "12.5",
+    "efficiency_unit": "J/TH",
+    "image": "",
+    "images": [],
+    "badge": "",
+    "short_description": "",
+    "featured": false,
+    "categories": [],
+    "permalink": "",
+    "details": {
+      "model": "SealMiner A3 Pro Hydro (660Th)",
+      "release": "Sep 2025",
+      "interface": "Ethernet"
+    },
+    "variants": [
+      {
+        "label": "660T",
+        "model": "SealMiner A3 Pro Hydro (660Th)",
+        "hashrate": "660",
+        "hashrate_unit": "TH/s",
+        "power": "8250",
+        "efficiency": "12.5",
+        "efficiency_unit": "J/TH",
+        "price": "15507"
+      }
+    ]
+  },
+  {
+    "id": 900000006,
+    "name": "WhatsMiner M50S",
+    "slug": "whatsminer-m50s",
+    "sku": "",
+    "brand": "MicroBT",
+    "price": "1916",
+    "sale_price": "",
+    "stock_status": "onbackorder",
+    "stock_quantity": null,
+    "condition": "New",
+    "cooling": "Air",
+    "algorithm": "SHA-256",
+    "hashrate": "126",
+    "hashrate_unit": "TH/s",
+    "power": "3276",
+    "efficiency": "26",
+    "efficiency_unit": "J/TH",
+    "image": "",
+    "images": [],
+    "badge": "",
+    "short_description": "",
+    "featured": false,
+    "categories": [],
+    "permalink": "",
+    "details": {
+      "model": "WhatsMiner M50S (126Th)"
+    },
+    "variants": [
+      {
+        "label": "126T",
+        "model": "WhatsMiner M50S (126Th)",
+        "hashrate": "126",
+        "hashrate_unit": "TH/s",
+        "power": "3276",
+        "efficiency": "26",
+        "efficiency_unit": "J/TH",
+        "price": "1916"
+      },
+      {
+        "label": "124T",
+        "model": "WhatsMiner M50S (124Th)",
+        "hashrate": "124",
+        "hashrate_unit": "TH/s",
+        "power": "3276",
+        "efficiency": "26.4",
+        "efficiency_unit": "J/TH",
+        "price": "1901"
+      }
+    ]
+  },
+  {
+    "id": 900000007,
+    "name": "WhatsMiner M60S",
+    "slug": "whatsminer-m60s",
+    "sku": "",
+    "brand": "MicroBT",
+    "price": "3030",
+    "sale_price": "",
+    "stock_status": "onbackorder",
+    "stock_quantity": null,
+    "condition": "New",
+    "cooling": "Air",
+    "algorithm": "SHA-256",
+    "hashrate": "192",
+    "hashrate_unit": "TH/s",
+    "power": "3441",
+    "efficiency": "17.9",
+    "efficiency_unit": "J/TH",
+    "image": "",
+    "images": [],
+    "badge": "",
+    "short_description": "",
+    "featured": false,
+    "categories": [],
+    "permalink": "",
+    "details": {
+      "model": "WhatsMiner M60S (192Th)"
+    },
+    "variants": [
+      {
+        "label": "192T",
+        "model": "WhatsMiner M60S (192Th)",
+        "hashrate": "192",
+        "hashrate_unit": "TH/s",
+        "power": "3441",
+        "efficiency": "17.9",
+        "efficiency_unit": "J/TH",
+        "price": "3030"
+      },
+      {
+        "label": "190T",
+        "model": "WhatsMiner M60S (190Th)",
+        "hashrate": "190",
+        "hashrate_unit": "TH/s",
+        "power": "3441",
+        "efficiency": "18.1",
+        "efficiency_unit": "J/TH",
+        "price": "3008"
+      },
+      {
+        "label": "188T",
+        "model": "WhatsMiner M60S (188Th)",
+        "hashrate": "188",
+        "hashrate_unit": "TH/s",
+        "power": "3441",
+        "efficiency": "18.3",
+        "efficiency_unit": "J/TH",
+        "price": "2986"
+      }
+    ]
+  },
+  {
+    "id": 900000008,
+    "name": "WhatsMiner M60S+",
+    "slug": "whatsminer-m60s",
+    "sku": "",
+    "brand": "MicroBT",
+    "price": "3471",
+    "sale_price": "",
+    "stock_status": "onbackorder",
+    "stock_quantity": null,
+    "condition": "New",
+    "cooling": "Air",
+    "algorithm": "SHA-256",
+    "hashrate": "208",
+    "hashrate_unit": "TH/s",
+    "power": "3600",
+    "efficiency": "17.3",
+    "efficiency_unit": "J/TH",
+    "image": "",
+    "images": [],
+    "badge": "",
+    "short_description": "",
+    "featured": false,
+    "categories": [],
+    "permalink": "",
+    "details": {
+      "model": "WhatsMiner M60S+ (208Th)"
+    },
+    "variants": [
+      {
+        "label": "208T",
+        "model": "WhatsMiner M60S+ (208Th)",
+        "hashrate": "208",
+        "hashrate_unit": "TH/s",
+        "power": "3600",
+        "efficiency": "17.3",
+        "efficiency_unit": "J/TH",
+        "price": "3471"
+      },
+      {
+        "label": "206T",
+        "model": "WhatsMiner M60S+ (206Th)",
+        "hashrate": "206",
+        "hashrate_unit": "TH/s",
+        "power": "3600",
+        "efficiency": "17.5",
+        "efficiency_unit": "J/TH",
+        "price": "3447"
+      },
+      {
+        "label": "204T",
+        "model": "WhatsMiner M60S+ (204Th)",
+        "hashrate": "204",
+        "hashrate_unit": "TH/s",
+        "power": "3600",
+        "efficiency": "17.6",
+        "efficiency_unit": "J/TH",
+        "price": "3423"
+      }
+    ]
+  },
+  {
+    "id": 900000009,
+    "name": "WhatsMiner M60S++",
+    "slug": "whatsminer-m60s",
+    "sku": "",
+    "brand": "MicroBT",
+    "price": "3916",
+    "sale_price": "",
+    "stock_status": "onbackorder",
+    "stock_quantity": null,
+    "condition": "New",
+    "cooling": "Air",
+    "algorithm": "SHA-256",
+    "hashrate": "226",
+    "hashrate_unit": "TH/s",
+    "power": "3600",
+    "efficiency": "15.9",
+    "efficiency_unit": "J/TH",
+    "image": "",
+    "images": [],
+    "badge": "",
+    "short_description": "",
+    "featured": false,
+    "categories": [],
+    "permalink": "",
+    "details": {
+      "model": "WhatsMiner M60S++ (226Th)"
+    },
+    "variants": [
+      {
+        "label": "226T",
+        "model": "WhatsMiner M60S++ (226Th)",
+        "hashrate": "226",
+        "hashrate_unit": "TH/s",
+        "power": "3600",
+        "efficiency": "15.9",
+        "efficiency_unit": "J/TH",
+        "price": "3916"
+      },
+      {
+        "label": "224T",
+        "model": "WhatsMiner M60S++ (224Th)",
+        "hashrate": "224",
+        "hashrate_unit": "TH/s",
+        "power": "3600",
+        "efficiency": "16.1",
+        "efficiency_unit": "J/TH",
+        "price": "3890"
+      },
+      {
+        "label": "222T",
+        "model": "WhatsMiner M60S++ (222Th)",
+        "hashrate": "222",
+        "hashrate_unit": "TH/s",
+        "power": "3600",
+        "efficiency": "16.2",
+        "efficiency_unit": "J/TH",
+        "price": "3864"
+      },
+      {
+        "label": "220T",
+        "model": "WhatsMiner M60S++ (220Th)",
+        "hashrate": "220",
+        "hashrate_unit": "TH/s",
+        "power": "3600",
+        "efficiency": "16.4",
+        "efficiency_unit": "J/TH",
+        "price": "3837"
+      }
+    ]
+  },
+  {
+    "id": 900000010,
+    "name": "WhatsMiner M63S 400T",
+    "slug": "whatsminer-m63s-400t",
+    "sku": "",
+    "brand": "MicroBT",
+    "price": "4961",
+    "sale_price": "",
+    "stock_status": "onbackorder",
+    "stock_quantity": null,
+    "condition": "New",
+    "cooling": "Hydro",
+    "algorithm": "SHA-256",
+    "hashrate": "400",
+    "hashrate_unit": "TH/s",
+    "power": "7215",
+    "efficiency": "18",
+    "efficiency_unit": "J/TH",
+    "image": "",
+    "images": [],
+    "badge": "",
+    "short_description": "",
+    "featured": false,
+    "categories": [],
+    "permalink": "",
+    "details": {
+      "model": "WhatsMiner M63S (400Th)"
+    },
+    "variants": [
+      {
+        "label": "400T",
+        "model": "WhatsMiner M63S (400Th)",
+        "hashrate": "400",
+        "hashrate_unit": "TH/s",
+        "power": "7215",
+        "efficiency": "18",
+        "efficiency_unit": "J/TH",
+        "price": "4961"
+      }
+    ]
+  },
+  {
+    "id": 900000011,
+    "name": "WhatsMiner M63S+",
+    "slug": "whatsminer-m63s",
+    "sku": "",
+    "brand": "MicroBT",
+    "price": "5630",
+    "sale_price": "",
+    "stock_status": "onbackorder",
+    "stock_quantity": null,
+    "condition": "New",
+    "cooling": "Hydro",
+    "algorithm": "SHA-256",
+    "hashrate": "430",
+    "hashrate_unit": "TH/s",
+    "power": "7208",
+    "efficiency": "16.8",
+    "efficiency_unit": "J/TH",
+    "image": "",
+    "images": [],
+    "badge": "",
+    "short_description": "",
+    "featured": false,
+    "categories": [],
+    "permalink": "",
+    "details": {
+      "model": "WhatsMiner M63S+ (430Th)"
+    },
+    "variants": [
+      {
+        "label": "430T",
+        "model": "WhatsMiner M63S+ (430Th)",
+        "hashrate": "430",
+        "hashrate_unit": "TH/s",
+        "power": "7208",
+        "efficiency": "16.8",
+        "efficiency_unit": "J/TH",
+        "price": "5630"
+      },
+      {
+        "label": "428T",
+        "model": "WhatsMiner M63S+ (428Th)",
+        "hashrate": "428",
+        "hashrate_unit": "TH/s",
+        "power": "7208",
+        "efficiency": "16.8",
+        "efficiency_unit": "J/TH",
+        "price": "5606"
+      },
+      {
+        "label": "420T",
+        "model": "WhatsMiner M63S+ (420Th)",
+        "hashrate": "420",
+        "hashrate_unit": "TH/s",
+        "power": "7208",
+        "efficiency": "17.2",
+        "efficiency_unit": "J/TH",
+        "price": "5512"
+      },
+      {
+        "label": "418T",
+        "model": "WhatsMiner M63S+ (418Th)",
+        "hashrate": "418",
+        "hashrate_unit": "TH/s",
+        "power": "7208",
+        "efficiency": "17.2",
+        "efficiency_unit": "J/TH",
+        "price": "5488"
+      }
+    ]
+  },
+  {
+    "id": 900000012,
+    "name": "WhatsMiner M66",
+    "slug": "whatsminer-m66",
+    "sku": "",
+    "brand": "MicroBT",
+    "price": "3546",
+    "sale_price": "",
+    "stock_status": "onbackorder",
+    "stock_quantity": null,
+    "condition": "New",
+    "cooling": "Hydro",
+    "algorithm": "SHA-256",
+    "hashrate": "280",
+    "hashrate_unit": "TH/s",
+    "power": "5572",
+    "efficiency": "19.9",
+    "efficiency_unit": "J/TH",
+    "image": "",
+    "images": [],
+    "badge": "",
+    "short_description": "",
+    "featured": false,
+    "categories": [],
+    "permalink": "",
+    "details": {
+      "model": "WhatsMiner M66 (280Th)"
+    },
+    "variants": [
+      {
+        "label": "280T",
+        "model": "WhatsMiner M66 (280Th)",
+        "hashrate": "280",
+        "hashrate_unit": "TH/s",
+        "power": "5572",
+        "efficiency": "19.9",
+        "efficiency_unit": "J/TH",
+        "price": "3546"
+      },
+      {
+        "label": "274T",
+        "model": "WhatsMiner M66 (274Th)",
+        "hashrate": "274",
+        "hashrate_unit": "TH/s",
+        "power": "5572",
+        "efficiency": "20.3",
+        "efficiency_unit": "J/TH",
+        "price": "3491"
+      },
+      {
+        "label": "272T",
+        "model": "WhatsMiner M66 (272Th)",
+        "hashrate": "272",
+        "hashrate_unit": "TH/s",
+        "power": "5572",
+        "efficiency": "20.5",
+        "efficiency_unit": "J/TH",
+        "price": "3471"
+      }
+    ]
+  },
+  {
+    "id": 900000013,
+    "name": "WhatsMiner M66S+",
+    "slug": "whatsminer-m66s",
+    "sku": "",
+    "brand": "MicroBT",
+    "price": "4354",
+    "sale_price": "",
+    "stock_status": "onbackorder",
+    "stock_quantity": null,
+    "condition": "New",
+    "cooling": "Hydro",
+    "algorithm": "SHA-256",
+    "hashrate": "318",
+    "hashrate_unit": "TH/s",
+    "power": "5406",
+    "efficiency": "17",
+    "efficiency_unit": "J/TH",
+    "image": "",
+    "images": [],
+    "badge": "",
+    "short_description": "",
+    "featured": false,
+    "categories": [],
+    "permalink": "",
+    "details": {
+      "model": "WhatsMiner M66S+ (318Th)"
+    },
+    "variants": [
+      {
+        "label": "318T",
+        "model": "WhatsMiner M66S+ (318Th)",
+        "hashrate": "318",
+        "hashrate_unit": "TH/s",
+        "power": "5406",
+        "efficiency": "17",
+        "efficiency_unit": "J/TH",
+        "price": "4354"
+      },
+      {
+        "label": "316T",
+        "model": "WhatsMiner M66S+ (316Th)",
+        "hashrate": "316",
+        "hashrate_unit": "TH/s",
+        "power": "5406",
+        "efficiency": "17.1",
+        "efficiency_unit": "J/TH",
+        "price": "4332"
+      }
+    ]
+  },
+  {
+    "id": 900000014,
+    "name": "IceRiver XP0 150G",
+    "slug": "iceriver-xp0-150g",
+    "sku": "",
+    "brand": "IceRiver",
+    "price": "2986",
+    "sale_price": "",
+    "stock_status": "onbackorder",
+    "stock_quantity": null,
+    "condition": "New",
+    "cooling": "Air",
+    "algorithm": "XPHash",
+    "hashrate": "150",
+    "hashrate_unit": "GH/s",
+    "power": "60",
+    "efficiency": "0.4",
+    "efficiency_unit": "J/GH",
+    "image": "",
+    "images": [],
+    "badge": "",
+    "short_description": "",
+    "featured": false,
+    "categories": [],
+    "permalink": "",
+    "details": {
+      "model": "IceRiver XP0 (150Gh)",
+      "release": "May 2026",
+      "size": "200 x 194 x 74 mm",
+      "weight": "2500 g",
+      "noise": "50 dB",
+      "interface": "Ethernet"
+    },
+    "variants": [
+      {
+        "label": "150G",
+        "model": "IceRiver XP0 (150Gh)",
+        "hashrate": "150",
+        "hashrate_unit": "GH/s",
+        "power": "60",
+        "efficiency": "0.4",
+        "efficiency_unit": "J/GH",
+        "price": "2986"
+      }
+    ]
+  },
+  {
+    "id": 900000015,
+    "name": "IceRiver ALPH AL0 400G",
+    "slug": "iceriver-alph-al0-400g",
+    "sku": "",
+    "brand": "IceRiver",
+    "price": "1215",
+    "sale_price": "",
+    "stock_status": "onbackorder",
+    "stock_quantity": null,
+    "condition": "New",
+    "cooling": "Air",
+    "algorithm": "Blake3",
+    "hashrate": "400",
+    "hashrate_unit": "GH/s",
+    "power": "100",
+    "efficiency": "0.25",
+    "efficiency_unit": "J/GH",
+    "image": "",
+    "images": [],
+    "badge": "",
+    "short_description": "",
+    "featured": false,
+    "categories": [],
+    "permalink": "",
+    "details": {
+      "model": "IceRiver ALPH AL0 (400Gh)",
+      "release": "Aug 2024",
+      "size": "200 x 194 x 74 mm",
+      "weight": "2500 g",
+      "noise": "50 dB",
+      "voltage": "100-240V",
+      "interface": "Ethernet"
+    },
+    "variants": [
+      {
+        "label": "400G",
+        "model": "IceRiver ALPH AL0 (400Gh)",
+        "hashrate": "400",
+        "hashrate_unit": "GH/s",
+        "power": "100",
+        "efficiency": "0.25",
+        "efficiency_unit": "J/GH",
+        "price": "1215"
+      }
+    ]
+  },
+  {
+    "id": 900000016,
+    "name": "IceRiver AL3 15T",
+    "slug": "iceriver-al3-15t",
+    "sku": "",
+    "brand": "IceRiver",
+    "price": "2373",
+    "sale_price": "",
+    "stock_status": "onbackorder",
+    "stock_quantity": null,
+    "condition": "New",
+    "cooling": "Air",
+    "algorithm": "Blake3",
+    "hashrate": "15",
+    "hashrate_unit": "TH/s",
+    "power": "3500",
+    "efficiency": "0.233",
+    "efficiency_unit": "J/GH",
+    "image": "",
+    "images": [],
+    "badge": "",
+    "short_description": "",
+    "featured": false,
+    "categories": [],
+    "permalink": "",
+    "details": {
+      "model": "IceRiver AL3 (15Th)",
+      "release": "Sep 2024",
+      "size": "370 x 195 x 290 mm",
+      "interface": "Ethernet",
+      "temperature": "5 - 40 °C"
+    },
+    "variants": [
+      {
+        "label": "15T",
+        "model": "IceRiver AL3 (15Th)",
+        "hashrate": "15",
+        "hashrate_unit": "TH/s",
+        "power": "3500",
+        "efficiency": "0.233",
+        "efficiency_unit": "J/GH",
+        "price": "2373"
+      }
+    ]
+  },
+  {
+    "id": 900000017,
+    "name": "IceRiver KAS KS7 30T",
+    "slug": "iceriver-kas-ks7-30t",
+    "sku": "",
+    "brand": "IceRiver",
+    "price": "3732",
+    "sale_price": "",
+    "stock_status": "onbackorder",
+    "stock_quantity": null,
+    "condition": "New",
+    "cooling": "Air",
+    "algorithm": "kHeavyHash",
+    "hashrate": "30",
+    "hashrate_unit": "TH/s",
+    "power": "3500",
+    "efficiency": "0.117",
+    "efficiency_unit": "J/GH",
+    "image": "",
+    "images": [],
+    "badge": "",
+    "short_description": "",
+    "featured": false,
+    "categories": [],
+    "permalink": "",
+    "details": {
+      "model": "IceRiver KAS KS7 (30Th)",
+      "release": "Apr 2025",
+      "size": "430 x 195 x 290 mm",
+      "weight": "17500 g",
+      "interface": "Ethernet"
+    },
+    "variants": [
+      {
+        "label": "30T",
+        "model": "IceRiver KAS KS7 (30Th)",
+        "hashrate": "30",
+        "hashrate_unit": "TH/s",
+        "power": "3500",
+        "efficiency": "0.117",
+        "efficiency_unit": "J/GH",
+        "price": "3732"
+      }
+    ]
+  },
+  {
+    "id": 900000018,
+    "name": "IceRiver ALEO AE2 720M",
+    "slug": "iceriver-aleo-ae2-720m",
+    "sku": "",
+    "brand": "IceRiver",
+    "price": "4690",
+    "sale_price": "",
+    "stock_status": "onbackorder",
+    "stock_quantity": null,
+    "condition": "New",
+    "cooling": "Air",
+    "algorithm": "zkSNARK",
+    "hashrate": "720",
+    "hashrate_unit": "MH/s",
+    "power": "1300",
+    "efficiency": "1.806",
+    "efficiency_unit": "J/MH",
+    "image": "",
+    "images": [],
+    "badge": "",
+    "short_description": "",
+    "featured": false,
+    "categories": [],
+    "permalink": "",
+    "details": {
+      "model": "IceRiver ALEO AE2 (720Mh)",
+      "release": "Jul 2025",
+      "size": "205 x 110 x 202 mm",
+      "weight": "4690 g",
+      "noise": "50 dB",
+      "voltage": "100-240V",
+      "interface": "Ethernet",
+      "temperature": "5 - 45 °C",
+      "humidity": "10 - 90 %"
+    },
+    "variants": [
+      {
+        "label": "720M",
+        "model": "IceRiver ALEO AE2 (720Mh)",
+        "hashrate": "720",
+        "hashrate_unit": "MH/s",
+        "power": "1300",
+        "efficiency": "1.806",
+        "efficiency_unit": "J/MH",
+        "price": "4690"
+      }
+    ]
+  },
+  {
+    "id": 900000019,
+    "name": "IceRiver ALEO AE1 Lite 300M",
+    "slug": "iceriver-aleo-ae1-lite-300m",
+    "sku": "",
+    "brand": "IceRiver",
+    "price": "2344",
+    "sale_price": "",
+    "stock_status": "onbackorder",
+    "stock_quantity": null,
+    "condition": "New",
+    "cooling": "Air",
+    "algorithm": "zkSNARK",
+    "hashrate": "300",
+    "hashrate_unit": "MH/s",
+    "power": "500",
+    "efficiency": "1.667",
+    "efficiency_unit": "J/MH",
+    "image": "",
+    "images": [],
+    "badge": "",
+    "short_description": "",
+    "featured": false,
+    "categories": [],
+    "permalink": "",
+    "details": {
+      "model": "IceRiver ALEO AE1 Lite (300Mh)",
+      "release": "Apr 2025",
+      "size": "298 x 208 x 304 mm",
+      "weight": "4690 g",
+      "noise": "45 dB",
+      "fans": "1",
+      "voltage": "100-240V",
+      "interface": "Ethernet",
+      "temperature": "5 - 40 °C"
+    },
+    "variants": [
+      {
+        "label": "300M",
+        "model": "IceRiver ALEO AE1 Lite (300Mh)",
+        "hashrate": "300",
+        "hashrate_unit": "MH/s",
+        "power": "500",
+        "efficiency": "1.667",
+        "efficiency_unit": "J/MH",
+        "price": "2344"
+      }
+    ]
+  },
+  {
+    "id": 900000020,
+    "name": "Goldshell LT6 3.35G",
+    "slug": "goldshell-lt6-3-35g",
+    "sku": "",
+    "brand": "Goldshell",
+    "price": "2086",
+    "sale_price": "",
+    "stock_status": "onbackorder",
+    "stock_quantity": null,
+    "condition": "New",
+    "cooling": "Air",
+    "algorithm": "Scrypt",
+    "hashrate": "3.35",
+    "hashrate_unit": "GH/s",
+    "power": "3200",
+    "efficiency": "0.955",
+    "efficiency_unit": "J/MH",
+    "image": "",
+    "images": [],
+    "badge": "",
+    "short_description": "",
+    "featured": false,
+    "categories": [],
+    "permalink": "",
+    "details": {
+      "model": "Goldshell LT6 (3.35Gh)",
+      "release": "Jan 2022",
+      "size": "264 x 200 x 290 mm",
+      "weight": "12500 g",
+      "noise": "80 dB",
+      "fans": "4",
+      "interface": "Ethernet",
+      "temperature": "5 - 35 °C",
+      "humidity": "5 - 95 %"
+    },
+    "variants": [
+      {
+        "label": "3.35G",
+        "model": "Goldshell LT6 (3.35Gh)",
+        "hashrate": "3.35",
+        "hashrate_unit": "GH/s",
+        "power": "3200",
+        "efficiency": "0.955",
+        "efficiency_unit": "J/MH",
+        "price": "2086"
+      }
+    ]
+  },
+  {
+    "id": 900000021,
+    "name": "ElphaPex DG Home 1 2.1G",
+    "slug": "elphapex-dg-home-1-2-1g",
+    "sku": "",
+    "brand": "ElphaPex",
+    "price": "1730",
+    "sale_price": "",
+    "stock_status": "onbackorder",
+    "stock_quantity": null,
+    "condition": "New",
+    "cooling": "",
+    "algorithm": "Scrypt",
+    "hashrate": "2.1",
+    "hashrate_unit": "GH/s",
+    "power": "620",
+    "efficiency": "0.295",
+    "efficiency_unit": "J/MH",
+    "image": "",
+    "images": [],
+    "badge": "",
+    "short_description": "",
+    "featured": false,
+    "categories": [],
+    "permalink": "",
+    "details": {
+      "model": "ElphaPex DG Home 1 (2.1Gh)",
+      "release": "Oct 2024",
+      "noise": "50 dB",
+      "interface": "Ethernet 10/100M",
+      "temperature": "5 - 45 °C",
+      "humidity": "5 - 95 %"
+    },
+    "variants": [
+      {
+        "label": "2.1G",
+        "model": "ElphaPex DG Home 1 (2.1Gh)",
+        "hashrate": "2.1",
+        "hashrate_unit": "GH/s",
+        "power": "620",
+        "efficiency": "0.295",
+        "efficiency_unit": "J/MH",
+        "price": "1730"
+      }
+    ]
+  },
+  {
+    "id": 900000022,
+    "name": "Canaan Avalon Nano 3 4T",
+    "slug": "canaan-avalon-nano-3-4t",
+    "sku": "",
+    "brand": "Canaan",
+    "price": "1086",
+    "sale_price": "",
+    "stock_status": "onbackorder",
+    "stock_quantity": null,
+    "condition": "New",
+    "cooling": "Air",
+    "algorithm": "SHA-256",
+    "hashrate": "4",
+    "hashrate_unit": "TH/s",
+    "power": "140",
+    "efficiency": "35",
+    "efficiency_unit": "J/TH",
+    "image": "",
+    "images": [],
+    "badge": "",
+    "short_description": "",
+    "featured": false,
+    "categories": [],
+    "permalink": "",
+    "details": {
+      "model": "Canaan Avalon Nano 3 (4Th)",
+      "release": "Feb 2024",
+      "size": "205 x 115 x 57 mm",
+      "weight": "725 g",
+      "noise": "35 dB",
+      "voltage": "28V",
+      "interface": "Ethernet",
+      "temperature": "5 - 45 °C",
+      "humidity": "5 - 95 %"
+    },
+    "variants": [
+      {
+        "label": "4T",
+        "model": "Canaan Avalon Nano 3 (4Th)",
+        "hashrate": "4",
+        "hashrate_unit": "TH/s",
+        "power": "140",
+        "efficiency": "35",
+        "efficiency_unit": "J/TH",
+        "price": "1086"
+      }
+    ]
+  },
+  {
+    "id": 900000023,
+    "name": "Canaan Avalon Nano 3S 6T",
+    "slug": "canaan-avalon-nano-3s-6t",
+    "sku": "",
+    "brand": "Canaan",
+    "price": "1243",
+    "sale_price": "",
+    "stock_status": "onbackorder",
+    "stock_quantity": null,
+    "condition": "New",
+    "cooling": "Air",
+    "algorithm": "SHA-256",
+    "hashrate": "6",
+    "hashrate_unit": "TH/s",
+    "power": "140",
+    "efficiency": "23.3",
+    "efficiency_unit": "J/TH",
+    "image": "",
+    "images": [],
+    "badge": "",
+    "short_description": "",
+    "featured": false,
+    "categories": [],
+    "permalink": "",
+    "details": {
+      "model": "Canaan Avalon Nano 3S (6Th)",
+      "release": "Jan 2025",
+      "size": "205 x 115 x 58 mm",
+      "weight": "860 g",
+      "noise": "40 dB",
+      "voltage": "28V",
+      "interface": "Ethernet / Wifi"
+    },
+    "variants": [
+      {
+        "label": "6T",
+        "model": "Canaan Avalon Nano 3S (6Th)",
+        "hashrate": "6",
+        "hashrate_unit": "TH/s",
+        "power": "140",
+        "efficiency": "23.3",
+        "efficiency_unit": "J/TH",
+        "price": "1243"
+      }
+    ]
+  },
+  {
+    "id": 900000024,
+    "name": "Canaan Avalon Mini 3 37.5T",
+    "slug": "canaan-avalon-mini-3-37-5t",
+    "sku": "",
+    "brand": "Canaan",
+    "price": "2087",
+    "sale_price": "",
+    "stock_status": "onbackorder",
+    "stock_quantity": null,
+    "condition": "New",
+    "cooling": "Air",
+    "algorithm": "SHA-256",
+    "hashrate": "37.5",
+    "hashrate_unit": "TH/s",
+    "power": "800",
+    "efficiency": "21.3",
+    "efficiency_unit": "J/TH",
+    "image": "",
+    "images": [],
+    "badge": "",
+    "short_description": "",
+    "featured": false,
+    "categories": [],
+    "permalink": "",
+    "details": {
+      "model": "Canaan Avalon Mini 3 (37.5Th)",
+      "release": "Jan 2025",
+      "size": "760 x 104 x 214 mm",
+      "weight": "8350 g",
+      "noise": "55 dB",
+      "voltage": "110-240V",
+      "interface": "Ethernet"
+    },
+    "variants": [
+      {
+        "label": "37.5T",
+        "model": "Canaan Avalon Mini 3 (37.5Th)",
+        "hashrate": "37.5",
+        "hashrate_unit": "TH/s",
+        "power": "800",
+        "efficiency": "21.3",
+        "efficiency_unit": "J/TH",
+        "price": "2087"
+      }
+    ]
+  },
+  {
+    "id": 900000025,
+    "name": "Canaan Avalon A15 200T",
+    "slug": "canaan-avalon-a15-200t",
+    "sku": "",
+    "brand": "Canaan",
+    "price": "2316",
+    "sale_price": "",
+    "stock_status": "onbackorder",
+    "stock_quantity": null,
+    "condition": "New",
+    "cooling": "Air",
+    "algorithm": "SHA-256",
+    "hashrate": "200",
+    "hashrate_unit": "TH/s",
+    "power": "3647",
+    "efficiency": "18.2",
+    "efficiency_unit": "J/TH",
+    "image": "",
+    "images": [],
+    "badge": "",
+    "short_description": "",
+    "featured": false,
+    "categories": [],
+    "permalink": "",
+    "details": {
+      "model": "Canaan Avalon A15 (200Th)",
+      "release": "Dec 2024",
+      "size": "301 x 192 x 292 mm",
+      "weight": "14900 g",
+      "noise": "75 dB",
+      "interface": "Ethernet"
+    },
+    "variants": [
+      {
+        "label": "200T",
+        "model": "Canaan Avalon A15 (200Th)",
+        "hashrate": "200",
+        "hashrate_unit": "TH/s",
+        "power": "3647",
+        "efficiency": "18.2",
+        "efficiency_unit": "J/TH",
+        "price": "2316"
+      }
+    ]
+  },
+  {
+    "id": 900000026,
+    "name": "VolcMiner D1 Mini 2.2G",
+    "slug": "volcminer-d1-mini-2-2g",
+    "sku": "",
+    "brand": "VolcMiner",
+    "price": "1815",
+    "sale_price": "",
+    "stock_status": "onbackorder",
+    "stock_quantity": null,
+    "condition": "New",
+    "cooling": "Air",
+    "algorithm": "Scrypt",
+    "hashrate": "2.2",
+    "hashrate_unit": "GH/s",
+    "power": "500",
+    "efficiency": "0.227",
+    "efficiency_unit": "J/MH",
+    "image": "",
+    "images": [],
+    "badge": "",
+    "short_description": "",
+    "featured": false,
+    "categories": [],
+    "permalink": "",
+    "details": {
+      "model": "VolcMiner D1 Mini (2.2Gh)",
+      "release": "Jan 2025",
+      "size": "175 x 202 x 135 mm",
+      "weight": "4650 g",
+      "noise": "55 dB",
+      "interface": "Ethernet",
+      "temperature": "5 - 45 °C",
+      "humidity": "5 - 95 %"
+    },
+    "variants": [
+      {
+        "label": "2.2G",
+        "model": "VolcMiner D1 Mini (2.2Gh)",
+        "hashrate": "2.2",
+        "hashrate_unit": "GH/s",
+        "power": "500",
+        "efficiency": "0.227",
+        "efficiency_unit": "J/MH",
+        "price": "1815"
+      }
+    ]
+  },
+  {
+    "id": 900000027,
+    "name": "Fluminer L1 Pro 6G",
+    "slug": "fluminer-l1-pro-6g",
+    "sku": "",
+    "brand": "Fluminer",
+    "price": "2201",
+    "sale_price": "",
+    "stock_status": "onbackorder",
+    "stock_quantity": null,
+    "condition": "New",
+    "cooling": "Air",
+    "algorithm": "Scrypt",
+    "hashrate": "6",
+    "hashrate_unit": "GH/s",
+    "power": "1400",
+    "efficiency": "0.233",
+    "efficiency_unit": "J/MH",
+    "image": "",
+    "images": [],
+    "badge": "",
+    "short_description": "",
+    "featured": false,
+    "categories": [],
+    "permalink": "",
+    "details": {
+      "model": "Fluminer L1 Pro (6Gh)",
+      "release": "Jun 2025",
+      "size": "140 x 300 x 450 mm",
+      "weight": "12800 g",
+      "noise": "45 dB",
+      "fans": "3",
+      "interface": "Ethernet / WiFi",
+      "temperature": "5 - 40 °C",
+      "humidity": "5 - 95 %"
+    },
+    "variants": [
+      {
+        "label": "6G",
+        "model": "Fluminer L1 Pro (6Gh)",
+        "hashrate": "6",
+        "hashrate_unit": "GH/s",
+        "power": "1400",
+        "efficiency": "0.233",
+        "efficiency_unit": "J/MH",
+        "price": "2201"
+      }
+    ]
+  },
+  {
+    "id": 900000028,
+    "name": "Fluminer L2 1.2G",
+    "slug": "fluminer-l2-1-2g",
+    "sku": "",
+    "brand": "Fluminer",
+    "price": "1444",
+    "sale_price": "",
+    "stock_status": "onbackorder",
+    "stock_quantity": null,
+    "condition": "New",
+    "cooling": "Air",
+    "algorithm": "Scrypt",
+    "hashrate": "1.2",
+    "hashrate_unit": "GH/s",
+    "power": "230",
+    "efficiency": "0.192",
+    "efficiency_unit": "J/MH",
+    "image": "",
+    "images": [],
+    "badge": "",
+    "short_description": "",
+    "featured": false,
+    "categories": [],
+    "permalink": "",
+    "details": {
+      "model": "Fluminer L2 (1.2Gh)",
+      "release": "Jun 2025"
+    },
+    "variants": [
+      {
+        "label": "1.2G",
+        "model": "Fluminer L2 (1.2Gh)",
+        "hashrate": "1.2",
+        "hashrate_unit": "GH/s",
+        "power": "230",
+        "efficiency": "0.192",
+        "efficiency_unit": "J/MH",
+        "price": "1444"
+      }
+    ]
+  },
+  {
+    "id": 900000029,
+    "name": "Antminer Z15 Pro 840K",
+    "slug": "antminer-z15-pro-840k",
+    "sku": "",
+    "brand": "Bitmain",
+    "price": "12669",
+    "sale_price": "",
+    "stock_status": "onbackorder",
+    "stock_quantity": null,
+    "condition": "New",
+    "cooling": "Air",
+    "algorithm": "Equihash",
+    "hashrate": "840",
+    "hashrate_unit": "KH/s",
+    "power": "2780",
+    "efficiency": "3.31",
+    "efficiency_unit": "J/kSol",
+    "image": "",
+    "images": [],
+    "badge": "",
+    "short_description": "",
+    "featured": false,
+    "categories": [],
+    "permalink": "",
+    "details": {
+      "model": "Antminer Z15 Pro (840Kh)",
+      "release": "Jun 2023",
+      "size": "245 x 132 x 290 mm",
+      "weight": "5900 g",
+      "noise": "75 dB",
+      "fans": "2",
+      "interface": "RJ45 Ethernet 10/100M",
+      "temperature": "5 - 40 °C",
+      "humidity": "10 - 90 %"
+    },
+    "variants": [
+      {
+        "label": "840K",
+        "model": "Antminer Z15 Pro (840Kh)",
+        "hashrate": "840",
+        "hashrate_unit": "KH/s",
+        "power": "2780",
+        "efficiency": "3.31",
+        "efficiency_unit": "J/kSol",
+        "price": "12669"
+      }
+    ]
+  },
+  {
+    "id": 900000030,
+    "name": "Antminer S21j XP Hyd 495T",
+    "slug": "antminer-s21j-xp-hyd-495t",
+    "sku": "",
+    "brand": "Bitmain",
+    "price": "10913",
+    "sale_price": "",
+    "stock_status": "onbackorder",
+    "stock_quantity": null,
+    "condition": "New",
+    "cooling": "Hydro",
+    "algorithm": "SHA-256",
+    "hashrate": "495",
+    "hashrate_unit": "TH/s",
+    "power": "5940",
+    "efficiency": "12",
+    "efficiency_unit": "J/TH",
+    "image": "",
+    "images": [],
+    "badge": "",
+    "short_description": "",
+    "featured": false,
+    "categories": [],
+    "permalink": "",
+    "details": {
+      "model": "Antminer S21j XP Hyd (495Th)",
+      "release": "Mar 2026",
+      "size": "410 x 170 x 209 mm",
+      "noise": "50 dB",
+      "interface": "Ethernet",
+      "temperature": "5 - 45 °C",
+      "humidity": "5 - 95 %"
+    },
+    "variants": [
+      {
+        "label": "495T",
+        "model": "Antminer S21j XP Hyd (495Th)",
+        "hashrate": "495",
+        "hashrate_unit": "TH/s",
+        "power": "5940",
+        "efficiency": "12",
+        "efficiency_unit": "J/TH",
+        "price": "10913"
+      }
+    ]
+  },
+  {
+    "id": 900000031,
+    "name": "Fluminer T3 115T",
+    "slug": "fluminer-t3-115t",
+    "sku": "",
+    "brand": "Fluminer",
+    "price": "3160",
+    "sale_price": "",
+    "stock_status": "onbackorder",
+    "stock_quantity": null,
+    "condition": "New",
+    "cooling": "Air",
+    "algorithm": "SHA-256",
+    "hashrate": "115",
+    "hashrate_unit": "TH/s",
+    "power": "1700",
+    "efficiency": "14.78",
+    "efficiency_unit": "J/TH",
+    "image": "",
+    "images": [],
+    "badge": "",
+    "short_description": "",
+    "featured": false,
+    "categories": [],
+    "permalink": "",
+    "details": {
+      "model": "Fluminer T3 (115Th)",
+      "release": "Jun 2025",
+      "size": "450 x 140 x 300 mm",
+      "weight": "12600 g",
+      "noise": "50 dB",
+      "temperature": "5 - 45 °C",
+      "humidity": "5 - 95 %"
+    },
+    "variants": [
+      {
+        "label": "115T",
+        "model": "Fluminer T3 (115Th)",
+        "hashrate": "115",
+        "hashrate_unit": "TH/s",
+        "power": "1700",
+        "efficiency": "14.78",
+        "efficiency_unit": "J/TH",
+        "price": "3160"
+      }
+    ]
+  },
+  {
+    "id": 900000032,
+    "name": "Pinecone INIBOX 850M",
+    "slug": "pinecone-inibox-850m",
+    "sku": "",
+    "brand": "Pinecone",
+    "price": "1943",
+    "sale_price": "",
+    "stock_status": "onbackorder",
+    "stock_quantity": null,
+    "condition": "New",
+    "cooling": "Air",
+    "algorithm": "VersaHash",
+    "hashrate": "850",
+    "hashrate_unit": "MH/s",
+    "power": "500",
+    "efficiency": "0.588",
+    "efficiency_unit": "J/MH",
+    "image": "",
+    "images": [],
+    "badge": "",
+    "short_description": "",
+    "featured": false,
+    "categories": [],
+    "permalink": "",
+    "details": {
+      "model": "Pinecone INIBOX (850Mh)",
+      "release": "2025",
+      "size": "195 x 165 x 125 mm",
+      "weight": "3050 g",
+      "noise": "60 dB",
+      "voltage": "220V",
+      "interface": "Ethernet",
+      "temperature": "5 - 40 °C"
+    },
+    "variants": [
+      {
+        "label": "850M",
+        "model": "Pinecone INIBOX (850Mh)",
+        "hashrate": "850",
+        "hashrate_unit": "MH/s",
+        "power": "500",
+        "efficiency": "0.588",
+        "efficiency_unit": "J/MH",
+        "price": "1943"
+      }
+    ]
+  },
+  {
+    "id": 900000033,
+    "name": "Pinecone INIBOX Pro 2.4G",
+    "slug": "pinecone-inibox-pro-2-4g",
+    "sku": "",
+    "brand": "Pinecone",
+    "price": "5274",
+    "sale_price": "",
+    "stock_status": "onbackorder",
+    "stock_quantity": null,
+    "condition": "New",
+    "cooling": "Air",
+    "algorithm": "VersaHash",
+    "hashrate": "2.4",
+    "hashrate_unit": "GH/s",
+    "power": "1280",
+    "efficiency": "0.533",
+    "efficiency_unit": "J/MH",
+    "image": "",
+    "images": [],
+    "badge": "",
+    "short_description": "",
+    "featured": false,
+    "categories": [],
+    "permalink": "",
+    "details": {
+      "model": "Pinecone INIBOX Pro (2.4Gh)",
+      "release": "2025",
+      "size": "270 x 184 x 291 mm",
+      "weight": "10700 g",
+      "noise": "70 dB",
+      "voltage": "220V",
+      "interface": "Ethernet",
+      "temperature": "5 - 40 °C"
+    },
+    "variants": [
+      {
+        "label": "2.4G",
+        "model": "Pinecone INIBOX Pro (2.4Gh)",
+        "hashrate": "2.4",
+        "hashrate_unit": "GH/s",
+        "power": "1280",
+        "efficiency": "0.533",
+        "efficiency_unit": "J/MH",
+        "price": "5274"
+      }
+    ]
   }
 ];
