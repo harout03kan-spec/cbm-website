@@ -4,7 +4,8 @@ import { useTranslation } from 'react-i18next';
 const PROMO_CODE = 'CBM5';
 // Netlify Forms. A matching hidden static form lives in index.html so Netlify
 // detects it at build time. The "subject" field sets the notification email
-// subject ("[Website Lead] ...") so the Gmail Website-Leads filter labels it.
+// subject ("[Website Discount Leads] ...") — kept separate from normal contact
+// leads so discount signups can be filtered/labeled on their own.
 const FORM_NAME = 'discount-signup';
 
 const encodeForm = (data: Record<string, string>) =>
@@ -37,7 +38,7 @@ export default function DiscountPopup() {
 
     const payload = {
       'form-name': FORM_NAME,
-      subject: '[Website Lead] Promo code signup',
+      subject: '[Website Discount Leads] Promo code signup',
       email,
       promo_code: PROMO_CODE,
       language: i18n.language === 'fr' ? 'fr' : 'en',
@@ -97,7 +98,7 @@ export default function DiscountPopup() {
               </svg>
             </div>
             <div className="text-zinc-500 text-[11px] uppercase tracking-[0.18em] mb-1">{t('promo_code_label')}</div>
-            <div className="text-3xl font-bold tracking-[0.2em] text-red-500 mb-3 select-all">{PROMO_CODE}</div>
+            <div className="text-3xl font-bold tracking-normal text-red-500 mb-3 select-all">{PROMO_CODE}</div>
             <p className="text-sm text-zinc-300 leading-relaxed">{t('promo_success')}</p>
           </div>
         ) : (
