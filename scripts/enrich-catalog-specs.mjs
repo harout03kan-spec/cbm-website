@@ -43,12 +43,12 @@ const brandFromName = (name) => {
 // Static-spec updates keyed by a unique substring of the product name.
 // power = Watts; efficiency = J/TH. Sources noted per entry.
 const SPEC_UPDATES = [
-  // Missing watts + efficiency — Canaan A15 Pro 221T spec (ASICMinerValue A15Pro
-  // 218T = 3662W/16.798 J/Th; 221T retail/manufacturer sheets = 3713W/16.8 J/Th).
-  { match: 'A15Pro 221',     power: '3713', efficiency: '16.8' },
+  // Missing watts + efficiency — official Canaan A15 Pro spec: 221T, 3662W, 16.8 J/TH.
+  { match: 'A15Pro 221',     power: '3662', efficiency: '16.8' },
   // Missing efficiency (Watts already in catalog from manufacturer specs).
   { match: 'S19 Pro (110',   efficiency: '29.5' },  // ASICMinerValue S19 Pro: 3250W/110T
-  { match: 'S21 (200',       efficiency: '17.8' },  // 3550W ÷ 200T
+  // Standard Antminer S21 200T per ASICMinerValue: 3500W, 17.5 J/TH.
+  { match: 'S21 (200',       power: '3500', efficiency: '17.5' },
   { match: 'S21+ HYD 358',   efficiency: '15' },    // 5360W ÷ 358T
   { match: 'S21 Pro (234',   efficiency: '15.1' },  // 3531W ÷ 234T (ASICMinerValue S21 Pro ~15)
   { match: 'S19e XP HYD 251',efficiency: '22' },    // 5522W ÷ 251T
