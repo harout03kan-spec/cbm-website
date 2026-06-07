@@ -356,6 +356,16 @@ const ShopPage = () => {
                 <div className="p-6 flex flex-col flex-1">
                   <h3 className="text-white font-inter font-bold text-xl mb-3">{displayName}</h3>
 
+                  {/* Algorithm (miners only) — shown alongside the performance stats below */}
+                  {!unclear && miner && product.algorithm && (
+                    <div className="mb-3">
+                      <span className="inline-flex items-center gap-1.5 rounded-md border border-white/15 bg-white/[0.04] px-2.5 py-1 text-xs font-inter font-semibold text-soft-gray">
+                        <i className="ri-cpu-line text-crimson-accent" aria-hidden="true"></i>
+                        {product.algorithm}
+                      </span>
+                    </div>
+                  )}
+
                   {specs.length > 0 && (
                     <div className="flex items-center gap-4 mb-5">
                       {specs.map((s, i) => (
