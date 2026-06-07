@@ -142,6 +142,17 @@ const fr = {
   email_error: 'Une erreur s\'est produite. Veuillez réessayer.',
   email_nospam: 'Pas de spam. Désabonnez-vous à tout moment.',
 
+  // ── PROMO CODE POPUP ───────────────────────────────
+  promo_title: 'Obtenez jusqu’à 5 % de rabais sur les commandes admissibles de mineurs ASIC',
+  promo_text: 'Entrez votre courriel et nous vous enverrons un code promo ainsi que les disponibilités et les prix actuels.',
+  promo_placeholder: 'Entrez votre courriel',
+  promo_btn: 'Recevoir mon code',
+  promo_sending: 'Envoi...',
+  promo_code_label: 'Code promo',
+  promo_success: 'Merci. Votre code est CBM5. Nous vous enverrons aussi les disponibilités et les prix actuels.',
+  promo_terms: 'Commandes admissibles de mineurs ASIC seulement. Non valide sur les réparations, l’hébergement, la livraison, les taxes, les prix en lot ou les offres déjà réduites.',
+  promo_error: 'Une erreur est survenue. Veuillez réessayer.',
+
   // ── FAQ ────────────────────────────────────────────
   faq_title: 'Avant de Commander',
   faq_sub: 'Réponses claires aux questions courantes sur l\'expédition, la garantie et l\'achat de mineurs ASIC au Canada.',

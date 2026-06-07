@@ -142,6 +142,17 @@ const en = {
   email_error: 'Something went wrong. Please try again.',
   email_nospam: 'No spam. Unsubscribe anytime.',
 
+  // ── PROMO CODE POPUP ───────────────────────────────
+  promo_title: 'Get up to 5% off eligible ASIC miner orders',
+  promo_text: 'Enter your email and we’ll send you a promo code plus current availability and pricing.',
+  promo_placeholder: 'Enter your email',
+  promo_btn: 'Get My Code',
+  promo_sending: 'Sending...',
+  promo_code_label: 'Promo code',
+  promo_success: 'Thanks. Your code is CBM5. We’ll also follow up with current availability and pricing.',
+  promo_terms: 'Eligible ASIC miner orders only. Not valid on repairs, hosting, shipping, taxes, bulk quotes, or already discounted deals.',
+  promo_error: 'Something went wrong. Please try again.',
+
   // ── FAQ ────────────────────────────────────────────
   faq_title: 'Before You Order',
   faq_sub: 'Clear answers to common questions about shipping, warranty, and purchasing ASIC miners in Canada.',
