@@ -28,6 +28,19 @@ export interface Product {
   featured: boolean;
   categories: string[];
   permalink: string;
+  // Full static hardware specs (miners only) — sourced from ASICMinerValue.
+  details?: {
+    model?: string;
+    release?: string;
+    size?: string;
+    weight?: string;
+    noise?: string;
+    fans?: string;
+    voltage?: string;
+    interface?: string;
+    temperature?: string;
+    humidity?: string;
+  };
 }
 
 // ─── CONTENT TYPE ─────────────────────────────────────────────────────────────
