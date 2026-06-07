@@ -21,19 +21,22 @@ const BrandsSection = () => {
   return (
     <section className="py-10 bg-[#0a0a0a] border-y border-white/[0.07] overflow-hidden">
       <style>{`
-        @keyframes marquee {
+        @keyframes brand-marquee {
           0%   { transform: translateX(0); }
           100% { transform: translateX(-50%); }
         }
-        .marquee-track {
+        .brand-marquee {
           display: flex;
           align-items: center;
           width: max-content;
-          animation: marquee 45s linear infinite;
+          /* Faster on mobile, slower on desktop. */
+          animation: brand-marquee 22s linear infinite;
         }
-        .marquee-track:hover { animation-play-state: paused; }
+        @media (min-width: 768px) {
+          .brand-marquee { animation-duration: 42s; }
+        }
         @media (prefers-reduced-motion: reduce) {
-          .marquee-track { animation: none; }
+          .brand-marquee { animation: none; }
         }
       `}</style>
 
@@ -42,17 +45,16 @@ const BrandsSection = () => {
         Brands We Sell &amp; Repair
       </p>
 
-      <div className="marquee-track">
+      <div className="brand-marquee">
         {allBrands.map(({ id, name, src }, idx) => (
           <div
             key={`${id}-${idx}`}
-            className="flex items-center justify-center px-8 sm:px-10 opacity-70 hover:opacity-100 transition-opacity duration-300"
+            className="flex shrink-0 items-center justify-center px-8 sm:px-10"
           >
             <img
               src={src}
               alt={`${name} logo`}
-              loading="lazy"
-              className="h-7 sm:h-8 w-auto object-contain"
+              className="block h-7 sm:h-8 w-auto object-contain"
             />
           </div>
         ))}
