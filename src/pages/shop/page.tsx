@@ -116,13 +116,26 @@ const ShopPage = () => {
     return null;
   };
 
-  // Availability from real stock data only; default to "contact us" when unknown.
+  // Availability — conservative. We never claim "In stock" (physically here now)
+  // because the catalog can't prove physical presence in Canada/our warehouse.
+  // New/instock/backorder items are orderable from the supplier (~7-9 days) →
+  // "Available to order". Used/unknown condition → "Contact us for availability".
   const availabilityKey = (p: Product): string => {
     const s = lc(p.stock_status);
-    if (s === 'instock') return 'shop_avail_instock';
     if (s === 'outofstock') return 'shop_avail_outofstock';
-    if (s === 'onbackorder') return 'shop_avail_order';
+    const cond = lc(p.condition);
+    if (s === 'instock' || s === 'onbackorder') {
+      if (/new/.test(cond)) return 'shop_avail_order';
+      return 'shop_avail_contact';
+    }
     return 'shop_avail_contact';
+  };
+
+  // Pull hashrate from a product title like "Antminer S19 95T" → "95" (TH/s).
+  // Used only as a fallback when there's no dedicated hashrate field.
+  const hashFromTitle = (name: string): string | null => {
+    const m = (name || '').match(/(\d+(?:\.\d+)?)\s*T(?:h|H)?\b/);
+    return m ? m[1] : null;
   };
 
   // Clean display name: drop condition words (they become a badge).
@@ -320,7 +333,9 @@ const ShopPage = () => {
               const showPrice = !unclear && priceNum != null && priceNum > 0;
               // Miner specs only — accessories never show TH/s, W, J/TH.
               const specs = (!unclear && miner) ? [
-                { value: product.hashrate, unit: 'TH/s' },
+                // TH/s from the real field, else parsed from the title (e.g. "95T").
+                { value: product.hashrate || hashFromTitle(product.name), unit: 'TH/s' },
+                // Watts / J·TH only from real data — never invented.
                 { value: product.power, unit: 'Watts' },
                 { value: product.efficiency, unit: 'J/TH' },
               ].filter((s) => s.value && String(s.value).trim()) : [];
