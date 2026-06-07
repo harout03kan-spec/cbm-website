@@ -153,6 +153,12 @@ const fr = {
   promo_terms: 'Commandes admissibles de mineurs ASIC seulement. Non valide sur les réparations, l’hébergement, la livraison, les taxes, les prix en lot ou les offres déjà réduites.',
   promo_error: 'Une erreur est survenue. Veuillez réessayer.',
 
+  // ── WHATSAPP WIDGET ────────────────────────────────
+  wa_status: 'En ligne · Répond généralement rapidement',
+  wa_msg1: 'Vous cherchez à acheter, réparer ou héberger des mineurs ASIC?',
+  wa_msg2: 'Écrivez nous, nous répondons rapidement.',
+  wa_cta: 'Démarrer la discussion sur WhatsApp',
+
   // ── FAQ ────────────────────────────────────────────
   faq_title: 'Avant de Commander',
   faq_sub: 'Réponses claires aux questions courantes sur l\'expédition, la garantie et l\'achat de mineurs ASIC au Canada.',

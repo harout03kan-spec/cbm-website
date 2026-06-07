@@ -153,6 +153,12 @@ const en = {
   promo_terms: 'Eligible ASIC miner orders only. Not valid on repairs, hosting, shipping, taxes, bulk quotes, or already discounted deals.',
   promo_error: 'Something went wrong. Please try again.',
 
+  // ── WHATSAPP WIDGET ────────────────────────────────
+  wa_status: 'Online · Typically replies fast',
+  wa_msg1: 'Looking to buy, repair, or host ASIC miners?',
+  wa_msg2: 'Message us, we reply fast.',
+  wa_cta: 'Start Chat on WhatsApp',
+
   // ── FAQ ────────────────────────────────────────────
   faq_title: 'Before You Order',
   faq_sub: 'Clear answers to common questions about shipping, warranty, and purchasing ASIC miners in Canada.',
