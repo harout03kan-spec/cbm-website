@@ -712,44 +712,6 @@ export const CATALOG_PRODUCTS: Product[] = [
     ]
   },
   {
-    "id": 673941204,
-    "name": "Antminer S21 Pro (234Th)",
-    "slug": "antminer-s21-pro-234th-used",
-    "sku": "00057",
-    "price": "4999.99",
-    "sale_price": "",
-    "stock_status": "onbackorder",
-    "stock_quantity": null,
-    "condition": "Used",
-    "cooling": "Air",
-    "algorithm": "SHA-256",
-    "hashrate": "234",
-    "hashrate_unit": "TH/s",
-    "power": "3531",
-    "efficiency": "15.1",
-    "efficiency_unit": "J/TH",
-    "image": "https://d2j6dbq0eux0bg.cloudfront.net/images/99673270/4397198492",
-    "images": [
-      "https://d2j6dbq0eux0bg.cloudfront.net/images/99673270/4397198492"
-    ],
-    "badge": "",
-    "short_description": "",
-    "featured": true,
-    "categories": [],
-    "permalink": "https://www.canadabtcminers.ca/asic-miner-store/Antminer-S21-Pro-234Th-USED-p673941204",
-    "brand": "Bitmain",
-    "details": {
-      "model": "Antminer S21 Pro (234Th)",
-      "release": "Jul 2024",
-      "size": "400 x 195 x 290 mm",
-      "noise": "75 dB",
-      "fans": "2",
-      "interface": "Ethernet",
-      "temperature": "5 - 45 °C",
-      "humidity": "5 - 95 %"
-    }
-  },
-  {
     "id": 769891226,
     "name": "Antminer S21 Pro",
     "slug": "antminer-s21-pro-brand-new",
