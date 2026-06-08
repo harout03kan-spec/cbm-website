@@ -2,7 +2,7 @@ import Navbar from '../../components/feature/Navbar';
 import Footer from '../../components/feature/Footer';
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { useProducts } from '../../hooks/useProducts';
 import { useTranslation } from 'react-i18next';
 import Seo from '../../components/feature/Seo';
@@ -10,9 +10,13 @@ import type { Product } from '../../lib/api';
 
 const ShopPage = () => {
   const { t } = useTranslation();
+  const [searchParams] = useSearchParams();
   const [activeCategory, setActiveCategory] = useState('all');
   const [accSub, setAccSub] = useState('all');
-  const [searchQuery, setSearchQuery] = useState('');
+  // Seed the search from a ?q= param so the homepage "Used Deals" card can open
+  // the shop pre-filtered to used units — reusing the existing search (no new
+  // category, no new filter UI). Customers can clear it to see everything.
+  const [searchQuery, setSearchQuery] = useState(() => searchParams.get('q') || '');
   const [sortBy, setSortBy] = useState('');
   const { products, loading } = useProducts();
 

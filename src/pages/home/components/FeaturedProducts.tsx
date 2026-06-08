@@ -41,8 +41,10 @@ export default function FeaturedProducts() {
           <Link to="/shop" className="inline-block px-12 py-4 bg-transparent border-2 border-white text-white font-inter font-semibold text-lg rounded-lg hover:bg-white/10 transition-colors whitespace-nowrap">{t('fp_view_all')}</Link>
         </div>
 
-        {/* Secondary, deliberately smaller block — used deals & bulk batches go to
-            Contact (no separate pages, no fake inventory). Kept visually quieter
+        {/* Secondary, deliberately smaller block — a preview of the Used Deals &
+            Bulk Batches offering. Used Deals opens the shop pre-filtered to used
+            units (reuses existing search, no new category); Bulk Batches goes to
+            Contact. No separate pages, no fake inventory. Kept visually quieter
             than the featured grid so View All Miners stays the main CTA. */}
         <div className="mt-16 max-w-3xl mx-auto rounded-xl border border-white/10 bg-[#141414] p-6 sm:p-8">
           <div className="text-center mb-6">
@@ -54,8 +56,8 @@ export default function FeaturedProducts() {
             <div className="flex flex-col rounded-lg border border-white/10 bg-[#0A0A0A] p-5">
               <h4 className="font-inter font-semibold text-base text-white mb-1">{t('deals_used_title')}</h4>
               <p className="text-soft-gray font-inter text-sm leading-6 mb-4">{t('deals_used_desc')}</p>
-              <Link to="/contact#contact-form" className="mt-auto inline-flex items-center justify-center gap-2 min-h-[44px] px-4 py-2.5 rounded-lg border border-crimson-accent/60 bg-crimson-accent/10 text-crimson-accent font-inter font-semibold text-sm hover:bg-crimson-accent hover:text-white transition-colors">
-                <i className="ri-customer-service-2-line text-base" aria-hidden="true"></i>
+              <Link to="/shop?q=used" className="mt-auto inline-flex items-center justify-center gap-2 min-h-[44px] px-4 py-2.5 rounded-lg border border-crimson-accent/60 bg-crimson-accent/10 text-crimson-accent font-inter font-semibold text-sm hover:bg-crimson-accent hover:text-white transition-colors">
+                <i className="ri-price-tag-3-line text-base" aria-hidden="true"></i>
                 {t('deals_used_cta')}
               </Link>
             </div>
@@ -69,8 +71,6 @@ export default function FeaturedProducts() {
               </Link>
             </div>
           </div>
-
-          <p className="text-soft-gray/80 font-inter text-xs text-center mt-5">{t('deals_note')}</p>
         </div>
       </div>
     </section>

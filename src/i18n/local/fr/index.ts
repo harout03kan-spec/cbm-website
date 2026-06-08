@@ -76,12 +76,11 @@ const fr = {
   deals_title: 'Offres d\'Occasion et Lots en Gros',
   deals_sub: 'Vous cherchez des mineurs ASIC d\'occasion, des palettes ou des lots en gros ? Nous gérons les unités individuelles, les offres d\'occasion et les lots en gros partout au Canada.',
   deals_used_title: 'Offres d\'Occasion',
-  deals_used_desc: 'Pour les unités d\'occasion et les offres à court terme.',
-  deals_used_cta: 'Contacter pour les Offres d\'Occasion',
+  deals_used_desc: 'Mineurs ASIC d\'occasion, unités à prix réduit, machines appartenant à des clients et occasions à court terme. Certaines offres sont disponibles à l\'achat en ligne. D\'autres nécessitent une confirmation préalable.',
+  deals_used_cta: 'Voir les Offres d\'Occasion',
   deals_bulk_title: 'Lots en Gros',
-  deals_bulk_desc: 'Pour les palettes, liquidations de fermes et lots en gros.',
+  deals_bulk_desc: 'Palettes, liquidations de fermes, lots en gros, lots mixtes et achats de mineurs ASIC en grande quantité. L\'inventaire en gros change rapidement. Demandez la liste actuelle.',
   deals_bulk_cta: 'Demander la Liste des Lots en Gros',
-  deals_note: 'Pour l\'inventaire en gros actuel, contactez-nous directement — les lots changent rapidement.',
 
   // ── SERVICES TEASER ────────────────────────────────
   st_tag: 'CENTRE DE RÉPARATION ASIC',
