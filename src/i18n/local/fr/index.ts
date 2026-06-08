@@ -70,7 +70,7 @@ const fr = {
   fp_added: 'Ajouté ✓',
   fp_view: 'Voir les Détails',
   fp_bulk: 'Commandes en gros disponibles. Contactez-nous.',
-  fp_view_all: 'Voir Tout le Matériel',
+  fp_view_all: 'Voir Tous les Mineurs',
 
   // ── SERVICES TEASER ────────────────────────────────
   st_tag: 'CENTRE DE RÉPARATION ASIC',

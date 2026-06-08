@@ -70,7 +70,7 @@ const en = {
   fp_added: 'Added ✓',
   fp_view: 'View Details',
   fp_bulk: 'Bulk orders available. Contact us.',
-  fp_view_all: 'View All Hardware',
+  fp_view_all: 'View All Miners',
 
   // ── SERVICES TEASER ────────────────────────────────
   st_tag: 'ASIC REPAIR CENTER',
