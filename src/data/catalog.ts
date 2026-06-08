@@ -130,7 +130,7 @@ export const CATALOG_PRODUCTS: Product[] = [
   },
   {
     "id": 632647001,
-    "name": "Antminer L7 8050MH-9500MH BRAND NEW",
+    "name": "Antminer L7 8050MH-9500MH",
     "slug": "antminer-l7-8050mh-9500mh-brand-new",
     "sku": "00014",
     "price": "2044",
@@ -242,7 +242,7 @@ export const CATALOG_PRODUCTS: Product[] = [
   },
   {
     "id": 632281375,
-    "name": "Antminer S19 (95Th) USED",
+    "name": "Antminer S19 (95Th)",
     "slug": "antminer-s19-95th-used",
     "sku": "00009",
     "price": "270.00",
@@ -281,7 +281,7 @@ export const CATALOG_PRODUCTS: Product[] = [
   },
   {
     "id": 632281392,
-    "name": "Antminer S19j Pro (104Th) USED",
+    "name": "Antminer S19j Pro (104Th)",
     "slug": "antminer-s19j-pro-104th-used",
     "sku": "1",
     "price": "280.00",
@@ -322,7 +322,7 @@ export const CATALOG_PRODUCTS: Product[] = [
   },
   {
     "id": 632282938,
-    "name": "Antminer S19j Pro Plus (120Th) USED",
+    "name": "Antminer S19j Pro Plus (120Th)",
     "slug": "antminer-s19j-pro-plus-120th-used",
     "sku": "00010",
     "price": "350.00",
@@ -361,7 +361,7 @@ export const CATALOG_PRODUCTS: Product[] = [
   },
   {
     "id": 632281489,
-    "name": "Antminer S19 Pro (110Th) USED",
+    "name": "Antminer S19 Pro (110Th)",
     "slug": "antminer-s19-pro-110th-used",
     "sku": "00011",
     "price": "340.00",
@@ -401,7 +401,7 @@ export const CATALOG_PRODUCTS: Product[] = [
   },
   {
     "id": 673938218,
-    "name": "Antminer S19 XP (141)TH USED",
+    "name": "Antminer S19 XP (141)TH",
     "slug": "antminer-s19-xp-141-th-used",
     "sku": "00055",
     "price": "450.00",
@@ -539,7 +539,7 @@ export const CATALOG_PRODUCTS: Product[] = [
   },
   {
     "id": 633746376,
-    "name": "Antminer S21 (200Th) USED",
+    "name": "Antminer S21 (200Th)",
     "slug": "antminer-s21-200th-used",
     "sku": "00015",
     "price": "2300.00",
@@ -654,7 +654,7 @@ export const CATALOG_PRODUCTS: Product[] = [
   },
   {
     "id": 673979256,
-    "name": "Antminer S21+ HYD 358TH BRAND NEW",
+    "name": "Antminer S21+ HYD 358TH",
     "slug": "antminer-s21-hyd-358th-brand-new",
     "sku": "00058",
     "price": "4271",
@@ -713,7 +713,7 @@ export const CATALOG_PRODUCTS: Product[] = [
   },
   {
     "id": 673941204,
-    "name": "Antminer S21 Pro (234Th) USED",
+    "name": "Antminer S21 Pro (234Th)",
     "slug": "antminer-s21-pro-234th-used",
     "sku": "00057",
     "price": "4999.99",
@@ -751,7 +751,7 @@ export const CATALOG_PRODUCTS: Product[] = [
   },
   {
     "id": 769891226,
-    "name": "Antminer S21 Pro BRAND NEW",
+    "name": "Antminer S21 Pro",
     "slug": "antminer-s21-pro-brand-new",
     "sku": "00073",
     "price": "3991",
@@ -811,7 +811,7 @@ export const CATALOG_PRODUCTS: Product[] = [
   },
   {
     "id": 769976556,
-    "name": "Antminer S21 XP 270TH BRAND NEW",
+    "name": "Antminer S21 XP 270TH",
     "slug": "antminer-s21-xp-270th-brand-new",
     "sku": "00064",
     "price": "5320.00",
@@ -849,7 +849,7 @@ export const CATALOG_PRODUCTS: Product[] = [
   },
   {
     "id": 673948921,
-    "name": "Antminer T21 (190Th) USED",
+    "name": "Antminer T21 (190Th)",
     "slug": "antminer-t21-190th-used",
     "sku": "00056",
     "price": "1999.99",
@@ -1041,7 +1041,7 @@ export const CATALOG_PRODUCTS: Product[] = [
   },
   {
     "id": 769987292,
-    "name": "Bitmain Antminer KS7 40TH BRAND NEW",
+    "name": "Bitmain Antminer KS7 40TH",
     "slug": "bitmain-antminer-ks7-40th-brand-new",
     "sku": "00074",
     "price": "2999.99",
@@ -1081,7 +1081,7 @@ export const CATALOG_PRODUCTS: Product[] = [
   },
   {
     "id": 714997514,
-    "name": "Bitmain Antminer L9 BRAND NEW",
+    "name": "Bitmain Antminer L9",
     "slug": "bitmain-antminer-l9-brand-new",
     "sku": "00063",
     "price": "5119",
@@ -1252,7 +1252,7 @@ export const CATALOG_PRODUCTS: Product[] = [
   },
   {
     "id": 799772254,
-    "name": "Bitmain Antminer S23 Hyd 580TH BRAND NEW",
+    "name": "Bitmain Antminer S23 Hyd 580TH",
     "slug": "bitmain-antminer-s23-hyd-580th-brand-new",
     "sku": "00090",
     "price": "21350.00",
@@ -1413,7 +1413,7 @@ export const CATALOG_PRODUCTS: Product[] = [
   },
   {
     "id": 800784365,
-    "name": "Canaan Avalon A15Pro 221TH BRAND NEW",
+    "name": "Canaan Avalon A15Pro 221TH",
     "slug": "canaan-avalon-a15pro-221th-brand-new",
     "sku": "00093",
     "price": "5150.00",
@@ -1450,7 +1450,7 @@ export const CATALOG_PRODUCTS: Product[] = [
   },
   {
     "id": 800783107,
-    "name": "Canaan Avalon Q 90TH BRAND NEW",
+    "name": "Canaan Avalon Q 90TH",
     "slug": "canaan-avalon-q-90th-brand-new",
     "sku": "00091",
     "price": "2700.00",
@@ -1488,7 +1488,7 @@ export const CATALOG_PRODUCTS: Product[] = [
   },
   {
     "id": 799721637,
-    "name": "ElphaPex DG1+ 13G BRAND NEW",
+    "name": "ElphaPex DG1+ 13G",
     "slug": "elphapex-dg1-13g-brand-new",
     "sku": "00088",
     "price": "2630",
@@ -1528,7 +1528,7 @@ export const CATALOG_PRODUCTS: Product[] = [
   },
   {
     "id": 769987280,
-    "name": "ElphaPex DG1+ 14G BRAND NEW",
+    "name": "ElphaPex DG1+ 14G",
     "slug": "elphapex-dg1-14g-brand-new",
     "sku": "00071",
     "price": "2916",
@@ -1568,7 +1568,7 @@ export const CATALOG_PRODUCTS: Product[] = [
   },
   {
     "id": 800767975,
-    "name": "IceRiver ALEO AE3 2GH BRAND NEW",
+    "name": "IceRiver ALEO AE3 2GH",
     "slug": "iceriver-aleo-ae3-2gh-brand-new",
     "sku": "00092",
     "price": "9550.00",
@@ -1700,7 +1700,7 @@ export const CATALOG_PRODUCTS: Product[] = [
   },
   {
     "id": 666882354,
-    "name": "Replacement Hashboard  For Antminer S19 Pro 110TH",
+    "name": "Replacement Hashboard For Antminer S19 Pro 110TH",
     "slug": "replacement-hashboard-for-antminer-s19-pro-110th",
     "sku": "00034",
     "price": "129.99",
@@ -1861,7 +1861,7 @@ export const CATALOG_PRODUCTS: Product[] = [
   },
   {
     "id": 642403267,
-    "name": "WhatsMiner M20S 68Th USED",
+    "name": "WhatsMiner M20S 68Th",
     "slug": "whatsminer-m20s-68th-used",
     "sku": "00017",
     "price": "199.99",
@@ -1900,7 +1900,7 @@ export const CATALOG_PRODUCTS: Product[] = [
   },
   {
     "id": 642403266,
-    "name": "WhatsMiner M30S 76TH USED",
+    "name": "WhatsMiner M30S 76TH",
     "slug": "whatsminer-m30s-76th-used",
     "sku": "00016",
     "price": "225.00",

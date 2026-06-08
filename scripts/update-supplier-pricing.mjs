@@ -97,6 +97,17 @@ for (const [name, key] of Object.entries(IMAGES)) {
 }
 console.log(`Images assigned: ${imgCount}`);
 
+// Strip condition words from product names + variant model names — condition is
+// shown only as a badge, never inside the title.
+const cleanName = (s) => (s || '')
+  .replace(/\b(brand\s*new|used|refurbished|refurb)\b/gi, '')
+  .replace(/\s{2,}/g, ' ').replace(/^[\s\-–|]+|[\s\-–|]+$/g, '').trim();
+for (const p of CATALOG_PRODUCTS) {
+  if (typeof p.name === 'string') p.name = cleanName(p.name);
+  if (Array.isArray(p.variants)) for (const v of p.variants) if (v.model) v.model = cleanName(v.model);
+  if (p.details && p.details.model) p.details.model = cleanName(p.details.model);
+}
+
 const banner =
   '// AUTO-GENERATED catalog (csv-to-catalog + enrich + add-supplier-miners +\n' +
   '// update-supplier-pricing). Public static fields only — no stock/availability.\n';

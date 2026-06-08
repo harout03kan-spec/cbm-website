@@ -29,10 +29,9 @@ const ProductPage = () => {
     return (miners.length ? miners : others).slice(0, 3);
   })();
 
+  // "Buy with this miner" — power cable only for now (network/Cat6/fan removed).
   const accessories = [
     { id: 1, name: 'Power Cable C19 to C20', price: '45.00', image: 'https://readdy.ai/api/search-image?query=professional%20black%20power%20cable%20C19%20to%20C20%20connector%20for%20ASIC%20miner%20on%20simple%20white%20background%20product%20photography&width=200&height=200&seq=acc-cable-1&orientation=squarish' },
-    { id: 2, name: 'Network Cable Cat6',     price: '15.00', image: 'https://readdy.ai/api/search-image?query=blue%20ethernet%20network%20cable%20Cat6%20RJ45%20connector%20coiled%20on%20simple%20white%20background%20product%20photography&width=200&height=200&seq=acc-cable-2&orientation=squarish' },
-    { id: 3, name: 'Cooling Fan Replacement',price: '85.00', image: 'https://readdy.ai/api/search-image?query=industrial%20cooling%20fan%20for%20ASIC%20miner%20black%20metal%20frame%20on%20simple%20white%20background%20product%20photography&width=200&height=200&seq=acc-fan-1&orientation=squarish' },
   ];
 
   const handleAddToCart = () => {
@@ -63,17 +62,31 @@ const ProductPage = () => {
     freeShipping: false,
   };
 
-  // Condition + cooling label (e.g. "Brand New Air", "Used Hydro").
+  // Separate badges: condition (Brand New / Used), cooling (Air-Cooled /
+  // Hydro-Cooled), and coin/mining type. "Home" is never a badge.
   const lcv = (s?: string) => (s || '').toLowerCase();
   const condLabel = product ? (product.condition === 'New' ? 'Brand New' : product.condition) : '';
-  const coolingType = (() => {
+  const coolingLabel = (() => {
     if (!product) return '';
     const c = lcv(product.cooling);
-    if (c === 'hydro' || /hydro|\bhyd\b|water[- ]?cool|liquid/.test(lcv(product.name))) return 'Hydro';
-    if (c === 'air' || product.details?.fans) return 'Air';
+    if (c === 'hydro' || /hydro|\bhyd\b|water[- ]?cool|liquid/.test(lcv(product.name))) return 'Hydro-Cooled';
+    if (c === 'air' || product.details?.fans) return 'Air-Cooled';
     return '';                       // unclear → leave blank
   })();
-  const condCooling = [condLabel, coolingType].filter(Boolean).join(' ');
+  const coinKey = (() => {
+    if (!product || !product.algorithm) return null;       // miners only
+    const tx = `${lcv(product.name)} ${lcv(product.algorithm)}`;
+    if (coolingLabel === 'Hydro-Cooled') return 'shop_badge_hydro';
+    if (/xphash|xphere/.test(tx)) return 'shop_badge_coin_xp';
+    if (/versahash|initverse/.test(tx)) return 'shop_badge_coin_ini';
+    if (/blake3|alephium|\balph\b/.test(tx)) return 'shop_badge_coin_alph';
+    if (/aleo|zksnark|\bae\d\b/.test(tx)) return 'shop_badge_coin_aleo';
+    if (/scrypt|litecoin|\bltc\b|\bdoge\b|\bl[379]\b|\bl11\b|dg1|volcminer/.test(tx)) return 'shop_badge_coin_ltc';
+    if (/kaspa|kheavyhash|\bkas\b|\bks\d/.test(tx)) return 'shop_badge_coin_kas';
+    if (/zcash|equihash|\bzec\b|\bz15\b/.test(tx)) return 'shop_badge_coin_zec';
+    if (/sha-?256|bitcoin|\bbtc\b/.test(tx)) return 'shop_badge_coin_btc';
+    return null;
+  })();
 
   if (loading) {
     return (
@@ -133,13 +146,25 @@ const ProductPage = () => {
         </div>
       </section>
 
-      <section className="py-16 bg-midnight">
+      <section className="py-10 lg:py-16 bg-midnight">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          {/* Mobile order: title → image → price/variant/specs/qty/add-to-cart →
+              trust. Desktop: image left, title+purchase right. */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-12 gap-y-6 lg:items-start">
 
-            {/* Left: Images */}
-            <div>
-              <div className="relative w-full h-[500px] bg-black rounded-2xl overflow-hidden mb-4 border-2 border-white/10 flex items-center justify-center">
+            {/* Title + badges */}
+            <div className="order-1 lg:order-none lg:col-start-2 lg:row-start-1">
+              <h1 className="font-inter font-bold text-3xl lg:text-4xl text-white mb-3">{product.name}</h1>
+              <div className="flex flex-wrap items-center gap-2">
+                {condLabel && <span className="px-3 py-1 bg-white/15 border border-white/25 text-white rounded-full text-xs font-inter font-semibold">{condLabel}</span>}
+                {coolingLabel && <span className="px-3 py-1 bg-white/15 border border-white/25 text-white rounded-full text-xs font-inter font-semibold">{coolingLabel}</span>}
+                {coinKey && <span className="px-3 py-1 bg-crimson-accent text-white rounded-full text-xs font-inter font-semibold">{t(coinKey)}</span>}
+              </div>
+            </div>
+
+            {/* Image */}
+            <div className="order-2 lg:order-none lg:col-start-1 lg:row-start-1 lg:row-span-2">
+              <div className="relative w-full h-[320px] lg:h-[500px] bg-black rounded-2xl overflow-hidden mb-4 border-2 border-white/10 flex items-center justify-center">
                 {(images[selectedImage] || product.image) ? (
                   <img src={images[selectedImage] || product.image} alt={product.name} className="w-full h-full object-contain object-center" />
                 ) : (
@@ -147,7 +172,7 @@ const ProductPage = () => {
                 )}
               </div>
               {images.length > 1 && (
-                <div className="grid grid-cols-4 gap-3 mb-8">
+                <div className="grid grid-cols-4 gap-3">
                   {images.map((img, index) => (
                     <button key={index} onClick={() => setSelectedImage(index)}
                       className={`relative w-full h-24 bg-black rounded-lg overflow-hidden border-2 transition-all cursor-pointer ${selectedImage === index ? 'border-crimson-accent' : 'border-white/10 hover:border-white/30'}`}
@@ -157,52 +182,13 @@ const ProductPage = () => {
                   ))}
                 </div>
               )}
-
-              <div className="bg-graphite border border-crimson-accent/20 rounded-xl p-6 mb-8">
-                <h3 className="text-white font-inter font-bold text-xl mb-4">Buy with this miner</h3>
-                <div className="space-y-4">
-                  {accessories.map((acc) => (
-                    <div key={acc.id} className="flex items-center gap-4 bg-midnight/50 border border-white/10 rounded-lg p-4 hover:border-crimson-accent/30 transition-colors">
-                      <div className="w-16 h-16 bg-black rounded-lg overflow-hidden flex-shrink-0">
-                        <img src={acc.image} alt={acc.name} className="w-full h-full object-contain" />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <h4 className="text-white font-inter font-semibold text-sm mb-1">{acc.name}</h4>
-                        <div className="text-crimson-accent font-inter font-bold text-lg">${acc.price} CAD</div>
-                      </div>
-                      <button className="px-4 py-2 bg-crimson-accent/10 border border-crimson-accent text-crimson-accent font-inter font-semibold text-sm rounded-lg hover:bg-crimson-accent hover:text-white transition-colors cursor-pointer whitespace-nowrap">Add</button>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="grid grid-cols-3 gap-4">
-                {[
-                  { icon: 'ri-shield-check-fill', title: 'Safe Purchase', sub: 'Secure Transaction' },
-                  { icon: 'ri-truck-fill',         title: 'Fast Shipping', sub: '6-9 Business Days' },
-                  { icon: 'ri-customer-service-2-fill', title: '24/7 Support', sub: 'Expert Team' },
-                ].map(b => (
-                  <div key={b.title} className="bg-graphite border border-crimson-accent/20 rounded-lg p-4 text-center">
-                    <div className="w-8 h-8 flex items-center justify-center mx-auto mb-2">
-                      <i className={`${b.icon} text-crimson-accent text-2xl`}></i>
-                    </div>
-                    <div className="text-white font-inter text-sm font-semibold">{b.title}</div>
-                    <div className="text-soft-gray font-inter text-xs mt-1">{b.sub}</div>
-                  </div>
-                ))}
-              </div>
             </div>
 
-            {/* Right: Info */}
-            <div>
-              <div className="flex flex-wrap items-center gap-3 mb-4">
-                <h1 className="font-inter font-bold text-4xl text-white">{product.name}</h1>
-                {condCooling && <span className="px-3 py-1 bg-white/20 text-white rounded-full text-sm font-inter font-semibold">{condCooling}</span>}
-              </div>
-
+            {/* Purchase block: price, variant, specs, quantity, add-to-cart, trust */}
+            <div className="order-3 lg:order-none lg:col-start-2 lg:row-start-2">
               <div className="mb-6 pb-6 border-b border-white/10">
-                <div className="flex items-baseline gap-3 mb-2">
-                  <span className="text-crimson-accent font-inter font-bold text-5xl">${Number(cur.price).toLocaleString()}</span>
+                <div className="flex items-baseline gap-3">
+                  <span className="text-crimson-accent font-inter font-bold text-4xl lg:text-5xl">${Number(cur.price).toLocaleString()}</span>
                   <span className="text-soft-gray font-inter text-xl">CAD</span>
                 </div>
                 {product.short_description && (
@@ -229,19 +215,19 @@ const ProductPage = () => {
               )}
 
               <div className="mb-8">
-                <h3 className="text-white font-inter font-bold text-xl mb-4">Technical Specifications</h3>
-                <div className="grid grid-cols-3 gap-4">
+                <h3 className="text-white font-inter font-bold text-lg mb-3">Key Specs</h3>
+                <div className="grid grid-cols-3 gap-3">
                   {[
                     { icon: 'ri-speed-fill',     value: cur.hashrate, unit: `${cur.hashrate_unit || 'TH/s'} Hashrate` },
                     { icon: 'ri-flashlight-fill', value: cur.power,    unit: 'Watts Power' },
                     { icon: 'ri-leaf-fill',       value: cur.efficiency, unit: `${cur.efficiency_unit || 'J/TH'} Efficiency` },
                   ].filter(s => s.value && String(s.value).trim()).map(s => (
                     <div key={s.unit} className="bg-gradient-to-br from-graphite to-midnight border border-crimson-accent/30 rounded-xl p-4">
-                      <div className="w-10 h-10 flex items-center justify-center mb-3">
-                        <i className={`${s.icon} text-crimson-accent text-3xl`}></i>
+                      <div className="w-9 h-9 flex items-center justify-center mb-2">
+                        <i className={`${s.icon} text-crimson-accent text-2xl`}></i>
                       </div>
-                      <div className="text-white font-inter font-bold text-3xl mb-1">{s.value}</div>
-                      <div className="text-soft-gray font-inter text-sm">{s.unit}</div>
+                      <div className="text-white font-inter font-bold text-2xl mb-1">{s.value}</div>
+                      <div className="text-soft-gray font-inter text-xs">{s.unit}</div>
                     </div>
                   ))}
                 </div>
@@ -279,30 +265,25 @@ const ProductPage = () => {
                 </div>
               </div>
 
-              <div className="flex gap-4 mb-6">
-                <button onClick={handleAddToCart}
-                  className="flex-1 py-4 bg-gradient-crimson text-white font-inter font-bold text-lg rounded-xl hover:scale-105 transition-transform cursor-pointer whitespace-nowrap"
-                >
-                  <i className="ri-shopping-cart-fill mr-2"></i>
-                  {t('product_add_cart')}
-                </button>
-                <button className="w-16 h-16 flex items-center justify-center border-2 border-white/30 text-white rounded-xl hover:bg-white hover:text-midnight transition-colors cursor-pointer">
-                  <i className="ri-heart-line text-2xl"></i>
-                </button>
-              </div>
+              <button onClick={handleAddToCart}
+                className="w-full py-4 mb-6 bg-gradient-crimson text-white font-inter font-bold text-lg rounded-xl hover:scale-105 transition-transform cursor-pointer whitespace-nowrap"
+              >
+                <i className="ri-shopping-cart-fill mr-2"></i>
+                {t('product_add_cart')}
+              </button>
 
               <div className="bg-gradient-to-br from-graphite to-midnight border border-crimson-accent/30 rounded-xl p-6">
                 <div className="flex items-start gap-4 mb-4">
-                  <div className="w-12 h-12 flex items-center justify-center bg-crimson-accent/20 rounded-lg">
-                    <i className="ri-map-pin-fill text-crimson-accent text-2xl"></i>
+                  <div className="w-12 h-12 flex items-center justify-center bg-crimson-accent/20 rounded-lg flex-shrink-0">
+                    <i className="ri-truck-fill text-crimson-accent text-2xl"></i>
                   </div>
                   <div>
                     <div className="text-white font-inter font-semibold mb-1">6 to 9 Business Days</div>
-                    <div className="text-soft-gray font-inter text-sm">Fast delivery across Canada · Secure packaging · Tracking included</div>
+                    <div className="text-soft-gray font-inter text-sm">Fast delivery across Canada · Secure packaging · Tracking included · Shipping &amp; brokerage included on new units</div>
                   </div>
                 </div>
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 flex items-center justify-center bg-crimson-accent/20 rounded-lg">
+                  <div className="w-12 h-12 flex items-center justify-center bg-crimson-accent/20 rounded-lg flex-shrink-0">
                     <i className="ri-customer-service-2-fill text-crimson-accent text-2xl"></i>
                   </div>
                   <div>
@@ -314,6 +295,29 @@ const ProductPage = () => {
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Buy with this miner — below the purchase section (mobile + desktop) */}
+      <section className="pb-12 bg-midnight">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="bg-graphite border border-crimson-accent/20 rounded-xl p-6 max-w-2xl">
+            <h3 className="text-white font-inter font-bold text-xl mb-4">Buy with this miner</h3>
+            <div className="space-y-4">
+              {accessories.map((acc) => (
+                <div key={acc.id} className="flex items-center gap-4 bg-midnight/50 border border-white/10 rounded-lg p-4 hover:border-crimson-accent/30 transition-colors">
+                  <div className="w-16 h-16 bg-black rounded-lg overflow-hidden flex-shrink-0">
+                    <img src={acc.image} alt={acc.name} className="w-full h-full object-contain" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <h4 className="text-white font-inter font-semibold text-sm mb-1">{acc.name}</h4>
+                    <div className="text-crimson-accent font-inter font-bold text-lg">${acc.price} CAD</div>
+                  </div>
+                  <button className="px-4 py-2 bg-crimson-accent/10 border border-crimson-accent text-crimson-accent font-inter font-semibold text-sm rounded-lg hover:bg-crimson-accent hover:text-white transition-colors cursor-pointer whitespace-nowrap">Add</button>
+                </div>
+              ))}
             </div>
           </div>
         </div>
