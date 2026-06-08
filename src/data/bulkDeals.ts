@@ -50,9 +50,15 @@ export const BULK_DEALS: BulkDeal[] = [
     condition: 'Used',
     warranty: '7 days DOA inside Canada',
     extraUnits: 'Extra units included for buyers outside Canada',
-    // Lot photos pending — drop the real images into public/assets/bulk-deals/
-    // and list them here (e.g. ['/assets/bulk-deals/s19xp-mix-1.jpg']).
-    images: [],
+    // Real lot photos served locally from public/assets/bulk-deals/ (not
+    // hotlinked, not stock). If a file is missing the card falls back to a clean
+    // placeholder, so these paths activate automatically once the jpgs are added.
+    images: [
+      '/assets/bulk-deals/s19xp-mix-1.jpg',
+      '/assets/bulk-deals/s19xp-mix-2.jpg',
+      '/assets/bulk-deals/s19xp-mix-3.jpg',
+      '/assets/bulk-deals/s19xp-mix-4.jpg',
+    ],
     notes: 'Tested and consolidated. Mixed 134T and 141T units. Final quantity and exact mix confirmed before order.',
     status: 'Available',
   },

@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
@@ -12,6 +13,13 @@ import { visibleBulkDeals, type BulkDeal } from '../../data/bulkDeals';
 
 const BulkDealCard = ({ deal, index }: { deal: BulkDeal; index: number }) => {
   const { t } = useTranslation();
+
+  // Real lot photos. Any image that fails to load (e.g. not added yet) is dropped
+  // so the card degrades cleanly to the placeholder instead of a broken image.
+  const [failed, setFailed] = useState<string[]>([]);
+  const [selected, setSelected] = useState(0);
+  const imgs = (deal.images ?? []).filter((src) => !failed.includes(src));
+  const cur = Math.min(selected, Math.max(0, imgs.length - 1));
 
   // Only show fields the batch actually provides — never invent data.
   const rows: { label: string; value?: string }[] = [
@@ -42,13 +50,42 @@ const BulkDealCard = ({ deal, index }: { deal: BulkDeal; index: number }) => {
       viewport={{ once: true }} transition={{ delay: index * 0.05 }}
       className="flex flex-col bg-[#141414] rounded-xl overflow-hidden border border-white/10"
     >
-      {deal.images?.length ? (
-        <div className="relative w-full h-56 bg-black overflow-hidden">
-          <img src={deal.images[0]} alt={deal.title} className="w-full h-full object-contain object-center" />
+      {imgs.length > 0 ? (
+        <div>
+          <div className="relative w-full h-64 bg-black overflow-hidden">
+            <img
+              src={imgs[cur]}
+              alt={deal.title}
+              loading="lazy"
+              className="w-full h-full object-contain object-center"
+              onError={() => setFailed((f) => (f.includes(imgs[cur]) ? f : [...f, imgs[cur]]))}
+            />
+          </div>
+          {imgs.length > 1 && (
+            <div className="grid grid-cols-4 gap-2 p-3 bg-[#0A0A0A] border-b border-white/10">
+              {imgs.map((src, i) => (
+                <button
+                  key={src}
+                  type="button"
+                  onClick={() => setSelected(i)}
+                  aria-label={`${deal.title} photo ${i + 1}`}
+                  className={`relative h-16 bg-black rounded-md overflow-hidden border transition-colors ${i === cur ? 'border-crimson-accent' : 'border-white/10 hover:border-white/30'}`}
+                >
+                  <img
+                    src={src}
+                    alt={`${deal.title} ${i + 1}`}
+                    loading="lazy"
+                    className="w-full h-full object-cover"
+                    onError={() => setFailed((f) => (f.includes(src) ? f : [...f, src]))}
+                  />
+                </button>
+              ))}
+            </div>
+          )}
         </div>
       ) : (
-        // Clean placeholder until the real lot photos are added to the batch.
-        <div className="relative w-full h-56 bg-[#0A0A0A] border-b border-white/10 flex flex-col items-center justify-center gap-2 text-zinc-600">
+        // Clean placeholder until the real lot photos load/are added.
+        <div className="relative w-full h-64 bg-[#0A0A0A] border-b border-white/10 flex flex-col items-center justify-center gap-2 text-zinc-600">
           <i className="ri-image-2-line text-5xl" aria-hidden="true"></i>
           <span className="font-inter text-xs uppercase tracking-wider">{t('bulk_img_pending')}</span>
         </div>
