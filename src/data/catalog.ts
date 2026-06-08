@@ -1084,17 +1084,17 @@ export const CATALOG_PRODUCTS: Product[] = [
     "name": "Bitmain Antminer L9 BRAND NEW",
     "slug": "bitmain-antminer-l9-brand-new",
     "sku": "00063",
-    "price": "5276",
+    "price": "5119",
     "sale_price": "",
     "stock_status": "onbackorder",
     "stock_quantity": null,
     "condition": "New",
     "cooling": "Air",
     "algorithm": "Scrypt",
-    "hashrate": "17",
+    "hashrate": "16.5",
     "hashrate_unit": "GH/s",
     "power": "3570",
-    "efficiency": "0.21",
+    "efficiency": "0.216",
     "efficiency_unit": "J/MH",
     "image": "https://d2j6dbq0eux0bg.cloudfront.net/images/99673270/products/714997514/4683592445.jpg",
     "images": [
@@ -1107,7 +1107,7 @@ export const CATALOG_PRODUCTS: Product[] = [
     "permalink": "https://www.canadabtcminers.ca/asic-miner-store/Bitmain-Antminer-L9-BRAND-NEW-p714997514",
     "brand": "Bitmain",
     "details": {
-      "model": "Bitmain Antminer L9",
+      "model": "Antminer L9 (16.5Gh)",
       "release": "May 2024",
       "size": "195 x 290 x 379 mm",
       "weight": "13500 g",
@@ -1118,16 +1118,6 @@ export const CATALOG_PRODUCTS: Product[] = [
       "humidity": "5 - 95 %"
     },
     "variants": [
-      {
-        "label": "17G",
-        "model": "Antminer L9 (17Gh)",
-        "hashrate": "17",
-        "hashrate_unit": "GH/s",
-        "power": "3570",
-        "efficiency": "0.21",
-        "efficiency_unit": "J/MH",
-        "price": "5276"
-      },
       {
         "label": "16.5G",
         "model": "Antminer L9 (16.5Gh)",
@@ -2103,8 +2093,10 @@ export const CATALOG_PRODUCTS: Product[] = [
     "power": "3680",
     "efficiency": "0.184",
     "efficiency_unit": "J/MH",
-    "image": "",
-    "images": [],
+    "image": "/assets/products/antminer-l11.png",
+    "images": [
+      "/assets/products/antminer-l11.png"
+    ],
     "badge": "",
     "short_description": "",
     "featured": false,
@@ -2151,8 +2143,10 @@ export const CATALOG_PRODUCTS: Product[] = [
     "power": "5270",
     "efficiency": "17",
     "efficiency_unit": "J/TH",
-    "image": "",
-    "images": [],
+    "image": "/assets/products/antminer-s21e-hyd.png",
+    "images": [
+      "/assets/products/antminer-s21e-hyd.png"
+    ],
     "badge": "",
     "short_description": "",
     "featured": false,
@@ -2210,8 +2204,10 @@ export const CATALOG_PRODUCTS: Product[] = [
     "power": "7450",
     "efficiency": "14.9",
     "efficiency_unit": "J/TH",
-    "image": "",
-    "images": [],
+    "image": "/assets/products/sealminer-a2-pro-hyd.png",
+    "images": [
+      "/assets/products/sealminer-a2-pro-hyd.png"
+    ],
     "badge": "",
     "short_description": "",
     "featured": false,
@@ -2256,8 +2252,10 @@ export const CATALOG_PRODUCTS: Product[] = [
     "power": "3790",
     "efficiency": "14.6",
     "efficiency_unit": "J/TH",
-    "image": "",
-    "images": [],
+    "image": "/assets/products/sealminer-a2-pro-air.png",
+    "images": [
+      "/assets/products/sealminer-a2-pro-air.png"
+    ],
     "badge": "",
     "short_description": "",
     "featured": false,
@@ -2303,8 +2301,10 @@ export const CATALOG_PRODUCTS: Product[] = [
     "power": "8250",
     "efficiency": "12.5",
     "efficiency_unit": "J/TH",
-    "image": "",
-    "images": [],
+    "image": "/assets/products/sealminer-a3-pro-hydro.png",
+    "images": [
+      "/assets/products/sealminer-a3-pro-hydro.png"
+    ],
     "badge": "",
     "short_description": "",
     "featured": false,
@@ -2346,8 +2346,10 @@ export const CATALOG_PRODUCTS: Product[] = [
     "power": "3276",
     "efficiency": "26",
     "efficiency_unit": "J/TH",
-    "image": "",
-    "images": [],
+    "image": "/assets/products/whatsminer-m50s.png",
+    "images": [
+      "/assets/products/whatsminer-m50s.png"
+    ],
     "badge": "",
     "short_description": "",
     "featured": false,
@@ -2397,8 +2399,10 @@ export const CATALOG_PRODUCTS: Product[] = [
     "power": "3441",
     "efficiency": "17.9",
     "efficiency_unit": "J/TH",
-    "image": "",
-    "images": [],
+    "image": "/assets/products/whatsminer-m60s.png",
+    "images": [
+      "/assets/products/whatsminer-m60s.png"
+    ],
     "badge": "",
     "short_description": "",
     "featured": false,
@@ -2458,8 +2462,10 @@ export const CATALOG_PRODUCTS: Product[] = [
     "power": "3600",
     "efficiency": "17.3",
     "efficiency_unit": "J/TH",
-    "image": "",
-    "images": [],
+    "image": "/assets/products/whatsminer-m60s-plus.png",
+    "images": [
+      "/assets/products/whatsminer-m60s-plus.png"
+    ],
     "badge": "",
     "short_description": "",
     "featured": false,
@@ -2519,8 +2525,10 @@ export const CATALOG_PRODUCTS: Product[] = [
     "power": "3600",
     "efficiency": "15.9",
     "efficiency_unit": "J/TH",
-    "image": "",
-    "images": [],
+    "image": "/assets/products/whatsminer-m60s-plus-plus.png",
+    "images": [
+      "/assets/products/whatsminer-m60s-plus-plus.png"
+    ],
     "badge": "",
     "short_description": "",
     "featured": false,
@@ -2590,8 +2598,10 @@ export const CATALOG_PRODUCTS: Product[] = [
     "power": "7215",
     "efficiency": "18",
     "efficiency_unit": "J/TH",
-    "image": "",
-    "images": [],
+    "image": "/assets/products/whatsminer-m63s.png",
+    "images": [
+      "/assets/products/whatsminer-m63s.png"
+    ],
     "badge": "",
     "short_description": "",
     "featured": false,
@@ -2631,8 +2641,10 @@ export const CATALOG_PRODUCTS: Product[] = [
     "power": "7208",
     "efficiency": "16.8",
     "efficiency_unit": "J/TH",
-    "image": "",
-    "images": [],
+    "image": "/assets/products/whatsminer-m63s-plus.png",
+    "images": [
+      "/assets/products/whatsminer-m63s-plus.png"
+    ],
     "badge": "",
     "short_description": "",
     "featured": false,
@@ -2702,8 +2714,10 @@ export const CATALOG_PRODUCTS: Product[] = [
     "power": "5572",
     "efficiency": "19.9",
     "efficiency_unit": "J/TH",
-    "image": "",
-    "images": [],
+    "image": "/assets/products/whatsminer-m66.png",
+    "images": [
+      "/assets/products/whatsminer-m66.png"
+    ],
     "badge": "",
     "short_description": "",
     "featured": false,
@@ -2763,8 +2777,10 @@ export const CATALOG_PRODUCTS: Product[] = [
     "power": "5406",
     "efficiency": "17",
     "efficiency_unit": "J/TH",
-    "image": "",
-    "images": [],
+    "image": "/assets/products/whatsminer-m66s-plus.png",
+    "images": [
+      "/assets/products/whatsminer-m66s-plus.png"
+    ],
     "badge": "",
     "short_description": "",
     "featured": false,
@@ -2814,8 +2830,10 @@ export const CATALOG_PRODUCTS: Product[] = [
     "power": "60",
     "efficiency": "0.4",
     "efficiency_unit": "J/GH",
-    "image": "",
-    "images": [],
+    "image": "/assets/products/iceriver-xp0.png",
+    "images": [
+      "/assets/products/iceriver-xp0.png"
+    ],
     "badge": "",
     "short_description": "",
     "featured": false,
@@ -2860,8 +2878,10 @@ export const CATALOG_PRODUCTS: Product[] = [
     "power": "100",
     "efficiency": "0.25",
     "efficiency_unit": "J/GH",
-    "image": "",
-    "images": [],
+    "image": "/assets/products/iceriver-al0.png",
+    "images": [
+      "/assets/products/iceriver-al0.png"
+    ],
     "badge": "",
     "short_description": "",
     "featured": false,
@@ -2907,8 +2927,10 @@ export const CATALOG_PRODUCTS: Product[] = [
     "power": "3500",
     "efficiency": "0.233",
     "efficiency_unit": "J/GH",
-    "image": "",
-    "images": [],
+    "image": "/assets/products/iceriver-al3.png",
+    "images": [
+      "/assets/products/iceriver-al3.png"
+    ],
     "badge": "",
     "short_description": "",
     "featured": false,
@@ -2952,8 +2974,10 @@ export const CATALOG_PRODUCTS: Product[] = [
     "power": "3500",
     "efficiency": "0.117",
     "efficiency_unit": "J/GH",
-    "image": "",
-    "images": [],
+    "image": "/assets/products/iceriver-ks7.png",
+    "images": [
+      "/assets/products/iceriver-ks7.png"
+    ],
     "badge": "",
     "short_description": "",
     "featured": false,
@@ -2997,8 +3021,10 @@ export const CATALOG_PRODUCTS: Product[] = [
     "power": "1300",
     "efficiency": "1.806",
     "efficiency_unit": "J/MH",
-    "image": "",
-    "images": [],
+    "image": "/assets/products/iceriver-ae2.png",
+    "images": [
+      "/assets/products/iceriver-ae2.png"
+    ],
     "badge": "",
     "short_description": "",
     "featured": false,
@@ -3046,8 +3072,10 @@ export const CATALOG_PRODUCTS: Product[] = [
     "power": "500",
     "efficiency": "1.667",
     "efficiency_unit": "J/MH",
-    "image": "",
-    "images": [],
+    "image": "/assets/products/iceriver-ae1-lite.png",
+    "images": [
+      "/assets/products/iceriver-ae1-lite.png"
+    ],
     "badge": "",
     "short_description": "",
     "featured": false,
@@ -3095,8 +3123,10 @@ export const CATALOG_PRODUCTS: Product[] = [
     "power": "3200",
     "efficiency": "0.955",
     "efficiency_unit": "J/MH",
-    "image": "",
-    "images": [],
+    "image": "/assets/products/goldshell-lt6.png",
+    "images": [
+      "/assets/products/goldshell-lt6.png"
+    ],
     "badge": "",
     "short_description": "",
     "featured": false,
@@ -3144,8 +3174,10 @@ export const CATALOG_PRODUCTS: Product[] = [
     "power": "620",
     "efficiency": "0.295",
     "efficiency_unit": "J/MH",
-    "image": "",
-    "images": [],
+    "image": "/assets/products/elphapex-dg-home-1.png",
+    "images": [
+      "/assets/products/elphapex-dg-home-1.png"
+    ],
     "badge": "",
     "short_description": "",
     "featured": false,
@@ -3190,8 +3222,10 @@ export const CATALOG_PRODUCTS: Product[] = [
     "power": "140",
     "efficiency": "35",
     "efficiency_unit": "J/TH",
-    "image": "",
-    "images": [],
+    "image": "/assets/products/avalon-nano-3.png",
+    "images": [
+      "/assets/products/avalon-nano-3.png"
+    ],
     "badge": "",
     "short_description": "",
     "featured": false,
@@ -3239,8 +3273,10 @@ export const CATALOG_PRODUCTS: Product[] = [
     "power": "140",
     "efficiency": "23.3",
     "efficiency_unit": "J/TH",
-    "image": "",
-    "images": [],
+    "image": "/assets/products/avalon-nano-3s.png",
+    "images": [
+      "/assets/products/avalon-nano-3s.png"
+    ],
     "badge": "",
     "short_description": "",
     "featured": false,
@@ -3286,8 +3322,10 @@ export const CATALOG_PRODUCTS: Product[] = [
     "power": "800",
     "efficiency": "21.3",
     "efficiency_unit": "J/TH",
-    "image": "",
-    "images": [],
+    "image": "/assets/products/avalon-mini-3.png",
+    "images": [
+      "/assets/products/avalon-mini-3.png"
+    ],
     "badge": "",
     "short_description": "",
     "featured": false,
@@ -3333,8 +3371,10 @@ export const CATALOG_PRODUCTS: Product[] = [
     "power": "3647",
     "efficiency": "18.2",
     "efficiency_unit": "J/TH",
-    "image": "",
-    "images": [],
+    "image": "/assets/products/avalon-a15.png",
+    "images": [
+      "/assets/products/avalon-a15.png"
+    ],
     "badge": "",
     "short_description": "",
     "featured": false,
@@ -3379,8 +3419,10 @@ export const CATALOG_PRODUCTS: Product[] = [
     "power": "500",
     "efficiency": "0.227",
     "efficiency_unit": "J/MH",
-    "image": "",
-    "images": [],
+    "image": "/assets/products/volcminer-d1-mini.png",
+    "images": [
+      "/assets/products/volcminer-d1-mini.png"
+    ],
     "badge": "",
     "short_description": "",
     "featured": false,
@@ -3427,8 +3469,10 @@ export const CATALOG_PRODUCTS: Product[] = [
     "power": "1400",
     "efficiency": "0.233",
     "efficiency_unit": "J/MH",
-    "image": "",
-    "images": [],
+    "image": "/assets/products/fluminer-l1-pro.png",
+    "images": [
+      "/assets/products/fluminer-l1-pro.png"
+    ],
     "badge": "",
     "short_description": "",
     "featured": false,
@@ -3476,8 +3520,10 @@ export const CATALOG_PRODUCTS: Product[] = [
     "power": "230",
     "efficiency": "0.192",
     "efficiency_unit": "J/MH",
-    "image": "",
-    "images": [],
+    "image": "/assets/products/fluminer-l2.png",
+    "images": [
+      "/assets/products/fluminer-l2.png"
+    ],
     "badge": "",
     "short_description": "",
     "featured": false,
@@ -3518,8 +3564,10 @@ export const CATALOG_PRODUCTS: Product[] = [
     "power": "2780",
     "efficiency": "3.31",
     "efficiency_unit": "J/kSol",
-    "image": "",
-    "images": [],
+    "image": "/assets/products/antminer-z15-pro.png",
+    "images": [
+      "/assets/products/antminer-z15-pro.png"
+    ],
     "badge": "",
     "short_description": "",
     "featured": false,
@@ -3567,8 +3615,10 @@ export const CATALOG_PRODUCTS: Product[] = [
     "power": "5940",
     "efficiency": "12",
     "efficiency_unit": "J/TH",
-    "image": "",
-    "images": [],
+    "image": "/assets/products/antminer-s21j-xp-hyd.png",
+    "images": [
+      "/assets/products/antminer-s21j-xp-hyd.png"
+    ],
     "badge": "",
     "short_description": "",
     "featured": false,
@@ -3614,8 +3664,10 @@ export const CATALOG_PRODUCTS: Product[] = [
     "power": "1700",
     "efficiency": "14.78",
     "efficiency_unit": "J/TH",
-    "image": "",
-    "images": [],
+    "image": "/assets/products/fluminer-t3.png",
+    "images": [
+      "/assets/products/fluminer-t3.png"
+    ],
     "badge": "",
     "short_description": "",
     "featured": false,
@@ -3661,8 +3713,10 @@ export const CATALOG_PRODUCTS: Product[] = [
     "power": "500",
     "efficiency": "0.588",
     "efficiency_unit": "J/MH",
-    "image": "",
-    "images": [],
+    "image": "/assets/products/pinecone-inibox.png",
+    "images": [
+      "/assets/products/pinecone-inibox.png"
+    ],
     "badge": "",
     "short_description": "",
     "featured": false,
@@ -3709,8 +3763,10 @@ export const CATALOG_PRODUCTS: Product[] = [
     "power": "1280",
     "efficiency": "0.533",
     "efficiency_unit": "J/MH",
-    "image": "",
-    "images": [],
+    "image": "/assets/products/pinecone-inibox-pro.png",
+    "images": [
+      "/assets/products/pinecone-inibox-pro.png"
+    ],
     "badge": "",
     "short_description": "",
     "featured": false,
