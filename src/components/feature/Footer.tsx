@@ -44,6 +44,7 @@ export default function Footer() {
             <ul className="space-y-3">
               <li><Link to="/shop" className="text-gray-400 hover:text-white transition-colors">{t('footer_asic')}</Link></li>
               <li><Link to="/shop" className="text-gray-400 hover:text-white transition-colors">{t('footer_accessories')}</Link></li>
+              <li><Link to="/bulk-deals" className="text-gray-400 hover:text-white transition-colors">{t('footer_bulk')}</Link></li>
             </ul>
           </div>
           <div>

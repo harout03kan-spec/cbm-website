@@ -65,7 +65,7 @@ export default function FeaturedProducts() {
             <div className="flex flex-col rounded-lg border border-white/10 bg-[#0A0A0A] p-5">
               <h4 className="font-inter font-semibold text-base text-white mb-1">{t('deals_bulk_title')}</h4>
               <p className="text-soft-gray font-inter text-sm leading-6 mb-4">{t('deals_bulk_desc')}</p>
-              <Link to="/contact#contact-form" className="mt-auto inline-flex items-center justify-center gap-2 min-h-[44px] px-4 py-2.5 rounded-lg border border-crimson-accent/60 bg-crimson-accent/10 text-crimson-accent font-inter font-semibold text-sm hover:bg-crimson-accent hover:text-white transition-colors">
+              <Link to="/bulk-deals" className="mt-auto inline-flex items-center justify-center gap-2 min-h-[44px] px-4 py-2.5 rounded-lg border border-crimson-accent/60 bg-crimson-accent/10 text-crimson-accent font-inter font-semibold text-sm hover:bg-crimson-accent hover:text-white transition-colors">
                 <i className="ri-stack-line text-base" aria-hidden="true"></i>
                 {t('deals_bulk_cta')}
               </Link>

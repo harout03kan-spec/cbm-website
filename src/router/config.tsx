@@ -4,6 +4,7 @@ import FrenchLayout from './FrenchLayout';
 
 const Home = lazy(() => import('../pages/home/page'));
 const Shop = lazy(() => import('../pages/shop/page'));
+const BulkDeals = lazy(() => import('../pages/bulk-deals/page'));
 const Product = lazy(() => import('../pages/product/page'));
 const Hosting = lazy(() => import('../pages/hosting/page'));
 const Services = lazy(() => import('../pages/services/page'));
@@ -23,6 +24,10 @@ const routes: RouteObject[] = [
   {
     path: '/shop',
     element: <Shop />,
+  },
+  {
+    path: '/bulk-deals',
+    element: <BulkDeals />,
   },
   {
     path: '/product',
@@ -67,6 +72,7 @@ const routes: RouteObject[] = [
     children: [
       { index: true, element: <Home /> },
       { path: 'shop', element: <Shop /> },
+      { path: 'bulk-deals', element: <BulkDeals /> },
       { path: 'product', element: <Product /> },
       { path: 'hosting', element: <Hosting /> },
       { path: 'services', element: <Services /> },
