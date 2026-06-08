@@ -16,10 +16,13 @@ const BulkDealCard = ({ deal, index }: { deal: BulkDeal; index: number }) => {
   // Only show fields the batch actually provides — never invent data.
   const rows: { label: string; value?: string }[] = [
     { label: t('bulk_f_models'), value: deal.models?.length ? deal.models.join(', ') : undefined },
-    { label: t('bulk_f_quantity'), value: deal.quantity ? String(deal.quantity) : undefined },
-    { label: t('bulk_f_moq'), value: deal.moq ? String(deal.moq) : undefined },
+    { label: t('bulk_f_quantity'), value: deal.quantity ? `${deal.quantity} units` : undefined },
+    { label: t('bulk_f_moq'), value: deal.moq ? `${deal.moq} units` : undefined },
     { label: t('bulk_f_avg_hash'), value: deal.averageHashrate },
+    { label: t('bulk_f_range'), value: deal.hashrateRange },
     { label: t('bulk_f_total_hash'), value: deal.totalHashrate },
+    { label: t('bulk_f_per_th'), value: deal.pricePerTh },
+    { label: t('bulk_f_unit_price'), value: deal.estUnitPrice },
     { label: t('bulk_f_price'), value: deal.priceLabel },
     { label: t('bulk_f_location'), value: deal.location },
     { label: t('bulk_f_condition'), value: deal.condition },
@@ -43,7 +46,13 @@ const BulkDealCard = ({ deal, index }: { deal: BulkDeal; index: number }) => {
         <div className="relative w-full h-56 bg-black overflow-hidden">
           <img src={deal.images[0]} alt={deal.title} className="w-full h-full object-contain object-center" />
         </div>
-      ) : null}
+      ) : (
+        // Clean placeholder until the real lot photos are added to the batch.
+        <div className="relative w-full h-56 bg-[#0A0A0A] border-b border-white/10 flex flex-col items-center justify-center gap-2 text-zinc-600">
+          <i className="ri-image-2-line text-5xl" aria-hidden="true"></i>
+          <span className="font-inter text-xs uppercase tracking-wider">{t('bulk_img_pending')}</span>
+        </div>
+      )}
 
       <div className="p-6 flex flex-col flex-1">
         <div className="flex items-start justify-between gap-3 mb-4">

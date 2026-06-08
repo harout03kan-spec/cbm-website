@@ -17,8 +17,11 @@ export type BulkDeal = {
   quantity: number;              // total units in the batch
   moq?: number;                  // minimum order quantity, if any
   averageHashrate?: string;      // e.g. "95 TH/s avg"
+  hashrateRange?: string;        // e.g. "134T – 141T"
   totalHashrate?: string;        // e.g. "9.5 PH/s total" (optional, when useful)
-  priceLabel?: string;           // free-form, e.g. "Price per TH on request" — no invented numbers
+  pricePerTh?: string;           // e.g. "$1.45 USD / TH"
+  estUnitPrice?: string;         // e.g. "≈ $200.10 USD / unit"
+  priceLabel?: string;           // free-form fallback, e.g. "Price on request" — no invented numbers
   location?: string;             // e.g. "Montreal, QC"
   condition?: string;            // e.g. "Used", "Refurbished", "Mixed"
   cooling?: string;              // e.g. "Air", "Hydro" (optional)
@@ -30,8 +33,30 @@ export type BulkDeal = {
   ctaLabel?: string;             // overrides the default "Request Bulk Quote"
 };
 
-// No real batches yet — keep empty (no fake bulk inventory).
-export const BULK_DEALS: BulkDeal[] = [];
+// Real batches only — never invent inventory. Final quantity and exact mix are
+// always confirmed with the customer before an order.
+export const BULK_DEALS: BulkDeal[] = [
+  {
+    id: 's19xp-134-141-mix',
+    title: 'Antminer S19 XP 134T / 141T Mix',
+    models: ['Antminer S19 XP 134T', 'Antminer S19 XP 141T'],
+    quantity: 600,
+    moq: 100,
+    averageHashrate: '138 TH/s',
+    hashrateRange: '134T – 141T',
+    pricePerTh: '$1.45 USD / TH',
+    estUnitPrice: '≈ $200.10 USD / unit (1.45 × 138T)',
+    location: 'Canada',
+    condition: 'Used',
+    warranty: '7 days DOA inside Canada',
+    extraUnits: 'Extra units included for buyers outside Canada',
+    // Lot photos pending — drop the real images into public/assets/bulk-deals/
+    // and list them here (e.g. ['/assets/bulk-deals/s19xp-mix-1.jpg']).
+    images: [],
+    notes: 'Tested and consolidated. Mixed 134T and 141T units. Final quantity and exact mix confirmed before order.',
+    status: 'Available',
+  },
+];
 
 // Batches shown on the page by default. "Sold" lots are hidden unless explicitly
 // surfaced later.

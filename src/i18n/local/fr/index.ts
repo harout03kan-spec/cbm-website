@@ -80,7 +80,7 @@ const fr = {
   deals_used_cta: 'Voir les Offres d\'Occasion',
   deals_bulk_title: 'Lots en Gros',
   deals_bulk_desc: 'Palettes, liquidations de fermes, lots en gros, lots mixtes et achats de mineurs ASIC en grande quantité. L\'inventaire en gros change rapidement. Demandez la liste actuelle.',
-  deals_bulk_cta: 'Demander la Liste des Lots en Gros',
+  deals_bulk_cta: 'Voir la Liste des Lots en Gros',
 
   // ── BULK DEALS PAGE (/bulk-deals) ──
   bulk_seo_title: 'Offres de Mineurs ASIC en Gros | Lots et Palettes',
@@ -99,7 +99,10 @@ const fr = {
   bulk_f_quantity: 'Quantité',
   bulk_f_moq: 'Quantité Min.',
   bulk_f_avg_hash: 'Hashrate Moyen',
+  bulk_f_range: 'Plage de Hashrate',
   bulk_f_total_hash: 'Hashrate Total',
+  bulk_f_per_th: 'Prix par TH',
+  bulk_f_unit_price: 'Prix Unitaire Moyen Est.',
   bulk_f_price: 'Prix',
   bulk_f_location: 'Emplacement',
   bulk_f_condition: 'État',
@@ -109,6 +112,7 @@ const fr = {
   bulk_f_notes: 'Notes',
   bulk_status_available: 'Disponible',
   bulk_status_pending: 'En Attente',
+  bulk_img_pending: 'Photos du lot à venir',
 
   // ── SERVICES TEASER ────────────────────────────────
   st_tag: 'CENTRE DE RÉPARATION ASIC',

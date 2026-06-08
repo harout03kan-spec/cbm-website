@@ -80,7 +80,7 @@ const en = {
   deals_used_cta: 'View Used Deals',
   deals_bulk_title: 'Bulk Batches',
   deals_bulk_desc: 'Pallets, farm liquidations, wholesale lots, mixed batches, and large quantity ASIC miner deals. Bulk inventory changes fast. Request the current list.',
-  deals_bulk_cta: 'Request Bulk Batch List',
+  deals_bulk_cta: 'View Bulk Batch List',
 
   // ── BULK DEALS PAGE (/bulk-deals) ──
   bulk_seo_title: 'Bulk ASIC Miner Deals | Wholesale Batches & Pallets',
@@ -99,7 +99,10 @@ const en = {
   bulk_f_quantity: 'Quantity',
   bulk_f_moq: 'MOQ',
   bulk_f_avg_hash: 'Avg Hashrate',
+  bulk_f_range: 'Hashrate Range',
   bulk_f_total_hash: 'Total Hashrate',
+  bulk_f_per_th: 'Price per TH',
+  bulk_f_unit_price: 'Est. Avg Unit Price',
   bulk_f_price: 'Price',
   bulk_f_location: 'Location',
   bulk_f_condition: 'Condition',
@@ -109,6 +112,7 @@ const en = {
   bulk_f_notes: 'Notes',
   bulk_status_available: 'Available',
   bulk_status_pending: 'Pending',
+  bulk_img_pending: 'Lot photos coming soon',
 
   // ── SERVICES TEASER ────────────────────────────────
   st_tag: 'ASIC REPAIR CENTER',
