@@ -29,10 +29,10 @@ const ProductPage = () => {
     return (miners.length ? miners : others).slice(0, 3);
   })();
 
-  // "Buy with this miner" — power cable only for now (network/Cat6/fan removed).
-  const accessories = [
-    { id: 1, name: 'Power Cable C19 to C20', price: '45.00', image: 'https://readdy.ai/api/search-image?query=professional%20black%20power%20cable%20C19%20to%20C20%20connector%20for%20ASIC%20miner%20on%20simple%20white%20background%20product%20photography&width=200&height=200&seq=acc-cable-1&orientation=squarish' },
-  ];
+  // "Buy with this miner" — the real catalog power cable only (network/Cat6/fan
+  // removed). The Add button adds the real cable product to the cart.
+  const POWER_CABLE_ID = 799701739; // C20 to C19 power extension cable
+  const powerCable = allProducts.find(p => p.id === POWER_CABLE_ID) || null;
 
   const handleAddToCart = () => {
     if (!product) return;
@@ -152,18 +152,18 @@ const ProductPage = () => {
               trust. Desktop: image left, title+purchase right. */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-12 gap-y-6 lg:items-start">
 
-            {/* Title + badges */}
-            <div className="order-1 lg:order-none lg:col-start-2 lg:row-start-1">
+            {/* Title + badges (full-width top on desktop) */}
+            <div className="order-1 lg:order-none lg:col-span-2 lg:row-start-1">
               <h1 className="font-inter font-bold text-3xl lg:text-4xl text-white mb-3">{product.name}</h1>
               <div className="flex flex-wrap items-center gap-2">
                 {condLabel && <span className="px-3 py-1 bg-white/15 border border-white/25 text-white rounded-full text-xs font-inter font-semibold">{condLabel}</span>}
                 {coolingLabel && <span className="px-3 py-1 bg-white/15 border border-white/25 text-white rounded-full text-xs font-inter font-semibold">{coolingLabel}</span>}
-                {coinKey && <span className="px-3 py-1 bg-crimson-accent text-white rounded-full text-xs font-inter font-semibold">{t(coinKey)}</span>}
+                {coinKey && coinKey !== 'shop_badge_hydro' && <span className="px-3 py-1 bg-crimson-accent text-white rounded-full text-xs font-inter font-semibold">{t(coinKey)}</span>}
               </div>
             </div>
 
-            {/* Image */}
-            <div className="order-2 lg:order-none lg:col-start-1 lg:row-start-1 lg:row-span-2">
+            {/* Image (desktop left column) */}
+            <div className="order-2 lg:order-none lg:col-start-1 lg:row-start-2">
               <div className="relative w-full h-[320px] lg:h-[500px] bg-black rounded-2xl overflow-hidden mb-4 border-2 border-white/10 flex items-center justify-center">
                 {(images[selectedImage] || product.image) ? (
                   <img src={images[selectedImage] || product.image} alt={product.name} className="w-full h-full object-contain object-center" />
@@ -184,8 +184,8 @@ const ProductPage = () => {
               )}
             </div>
 
-            {/* Purchase block: price, variant, specs, quantity, add-to-cart, trust */}
-            <div className="order-3 lg:order-none lg:col-start-2 lg:row-start-2">
+            {/* Purchase core: price, variant, specs, quantity, add-to-cart (desktop right) */}
+            <div className="order-3 lg:order-none lg:col-start-2 lg:row-start-2 lg:row-span-2">
               <div className="mb-6 pb-6 border-b border-white/10">
                 <div className="flex items-baseline gap-3">
                   <span className="text-crimson-accent font-inter font-bold text-4xl lg:text-5xl">${Number(cur.price).toLocaleString()}</span>
@@ -272,6 +272,34 @@ const ProductPage = () => {
                 {t('product_add_cart')}
               </button>
 
+            </div>
+
+            {/* Buy with this miner — desktop: directly under the image (left column) */}
+            <div className="order-4 lg:order-none lg:col-start-1 lg:row-start-3">
+              <div className="bg-graphite border border-crimson-accent/20 rounded-xl p-6">
+                <h3 className="text-white font-inter font-bold text-xl mb-4">Buy with this miner</h3>
+                {powerCable ? (
+                  <div className="flex items-center gap-4 bg-midnight/50 border border-white/10 rounded-lg p-4">
+                    <div className="w-16 h-16 bg-black rounded-lg overflow-hidden flex-shrink-0 flex items-center justify-center">
+                      {powerCable.image ? (
+                        <img src={powerCable.image} alt={powerCable.name} className="w-full h-full object-contain" />
+                      ) : (<i className="ri-plug-2-line text-2xl text-zinc-600" aria-hidden="true"></i>)}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h4 className="text-white font-inter font-semibold text-sm mb-1">{powerCable.name}</h4>
+                      <div className="text-crimson-accent font-inter font-bold text-lg">${Number(powerCable.price).toFixed(2)} CAD</div>
+                    </div>
+                    <button onClick={() => addItem(powerCable.id, 1)}
+                      className="px-4 py-2 bg-crimson-accent/10 border border-crimson-accent text-crimson-accent font-inter font-semibold text-sm rounded-lg hover:bg-crimson-accent hover:text-white transition-colors cursor-pointer whitespace-nowrap">Add</button>
+                  </div>
+                ) : (
+                  <p className="text-soft-gray font-inter text-sm">Power cable available on request.</p>
+                )}
+              </div>
+            </div>
+
+            {/* Shipping / support trust notes — desktop: under the purchase panel */}
+            <div className="order-5 lg:order-none lg:col-start-2 lg:row-start-4">
               <div className="bg-gradient-to-br from-graphite to-midnight border border-crimson-accent/30 rounded-xl p-6">
                 <div className="flex items-start gap-4 mb-4">
                   <div className="w-12 h-12 flex items-center justify-center bg-crimson-accent/20 rounded-lg flex-shrink-0">
@@ -296,29 +324,7 @@ const ProductPage = () => {
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-      </section>
 
-      {/* Buy with this miner — below the purchase section (mobile + desktop) */}
-      <section className="pb-12 bg-midnight">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="bg-graphite border border-crimson-accent/20 rounded-xl p-6 max-w-2xl">
-            <h3 className="text-white font-inter font-bold text-xl mb-4">Buy with this miner</h3>
-            <div className="space-y-4">
-              {accessories.map((acc) => (
-                <div key={acc.id} className="flex items-center gap-4 bg-midnight/50 border border-white/10 rounded-lg p-4 hover:border-crimson-accent/30 transition-colors">
-                  <div className="w-16 h-16 bg-black rounded-lg overflow-hidden flex-shrink-0">
-                    <img src={acc.image} alt={acc.name} className="w-full h-full object-contain" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <h4 className="text-white font-inter font-semibold text-sm mb-1">{acc.name}</h4>
-                    <div className="text-crimson-accent font-inter font-bold text-lg">${acc.price} CAD</div>
-                  </div>
-                  <button className="px-4 py-2 bg-crimson-accent/10 border border-crimson-accent text-crimson-accent font-inter font-semibold text-sm rounded-lg hover:bg-crimson-accent hover:text-white transition-colors cursor-pointer whitespace-nowrap">Add</button>
-                </div>
-              ))}
-            </div>
           </div>
         </div>
       </section>
