@@ -1,5 +1,5 @@
-// AUTO-GENERATED catalog (csv-to-catalog + enrich + add-supplier-miners).
-// Public static fields only — no price/stock/availability beyond catalog data.
+// AUTO-GENERATED catalog (csv-to-catalog + enrich + add-supplier-miners +
+// update-supplier-pricing). Public static fields only — no stock/availability.
 import type { Product } from '../lib/api';
 
 export const CATALOG_PRODUCTS: Product[] = [
@@ -133,7 +133,7 @@ export const CATALOG_PRODUCTS: Product[] = [
     "name": "Antminer L7 8050MH-9500MH BRAND NEW",
     "slug": "antminer-l7-8050mh-9500mh-brand-new",
     "sku": "00014",
-    "price": "1830.00",
+    "price": "2044",
     "sale_price": "",
     "stock_status": "onbackorder",
     "stock_quantity": null,
@@ -176,7 +176,7 @@ export const CATALOG_PRODUCTS: Product[] = [
         "power": "3425",
         "efficiency": "0.361",
         "efficiency_unit": "J/MH",
-        "price": "1830.00"
+        "price": "2044"
       },
       {
         "label": "9.3G",
@@ -482,7 +482,7 @@ export const CATALOG_PRODUCTS: Product[] = [
     "name": "Antminer S19 XP+ Hydro 293TH",
     "slug": "antminer-s19-xp-hydro-293th",
     "sku": "00068",
-    "price": "2350.00",
+    "price": "2200",
     "sale_price": "",
     "stock_status": "onbackorder",
     "stock_quantity": null,
@@ -523,7 +523,7 @@ export const CATALOG_PRODUCTS: Product[] = [
         "power": "5567",
         "efficiency": "19",
         "efficiency_unit": "J/TH",
-        "price": "2350.00"
+        "price": "2200"
       },
       {
         "label": "279T",
@@ -657,7 +657,7 @@ export const CATALOG_PRODUCTS: Product[] = [
     "name": "Antminer S21+ HYD 358TH BRAND NEW",
     "slug": "antminer-s21-hyd-358th-brand-new",
     "sku": "00058",
-    "price": "4299.00",
+    "price": "4271",
     "sale_price": "",
     "stock_status": "onbackorder",
     "stock_quantity": null,
@@ -697,7 +697,7 @@ export const CATALOG_PRODUCTS: Product[] = [
         "power": "5360",
         "efficiency": "15",
         "efficiency_unit": "J/TH",
-        "price": "4299.00"
+        "price": "4271"
       },
       {
         "label": "319T",
@@ -1084,7 +1084,7 @@ export const CATALOG_PRODUCTS: Product[] = [
     "name": "Bitmain Antminer L9 BRAND NEW",
     "slug": "bitmain-antminer-l9-brand-new",
     "sku": "00063",
-    "price": "4960.00",
+    "price": "5276",
     "sale_price": "",
     "stock_status": "onbackorder",
     "stock_quantity": null,
@@ -1126,7 +1126,7 @@ export const CATALOG_PRODUCTS: Product[] = [
         "power": "3570",
         "efficiency": "0.21",
         "efficiency_unit": "J/MH",
-        "price": "4960.00"
+        "price": "5276"
       },
       {
         "label": "16.5G",
@@ -1227,7 +1227,7 @@ export const CATALOG_PRODUCTS: Product[] = [
     "name": "Bitmain Antminer S21+ 216TH",
     "slug": "bitmain-antminer-s21-216th",
     "sku": "00087",
-    "price": "3650.00",
+    "price": "3445",
     "sale_price": "",
     "stock_status": "onbackorder",
     "stock_quantity": null,
@@ -1501,7 +1501,7 @@ export const CATALOG_PRODUCTS: Product[] = [
     "name": "ElphaPex DG1+ 13G BRAND NEW",
     "slug": "elphapex-dg1-13g-brand-new",
     "sku": "00088",
-    "price": "2850.00",
+    "price": "2630",
     "sale_price": "",
     "stock_status": "onbackorder",
     "stock_quantity": null,
@@ -1541,7 +1541,7 @@ export const CATALOG_PRODUCTS: Product[] = [
     "name": "ElphaPex DG1+ 14G BRAND NEW",
     "slug": "elphapex-dg1-14g-brand-new",
     "sku": "00071",
-    "price": "3299.99",
+    "price": "2916",
     "sale_price": "",
     "stock_status": "onbackorder",
     "stock_quantity": null,
@@ -2040,7 +2040,7 @@ export const CATALOG_PRODUCTS: Product[] = [
         "power": "3422",
         "efficiency": "19.9",
         "efficiency_unit": "J/TH",
-        "price": "3899.99"
+        "price": "2689"
       },
       {
         "label": "170T",

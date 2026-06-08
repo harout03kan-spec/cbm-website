@@ -84,10 +84,22 @@ const CheckoutPage = () => {
     YT: { lines: [{ label: 'GST (5%)',                    rate: 0.05    }] },
   };
 
+  // Variant-aware line resolver — uses the selected variant's price/name.
+  const lineData = (item: typeof cartItems[number]) => {
+    const p = products.find(x => x.id === item.id);
+    if (!p) return null;
+    const vr = item.variant ? p.variants?.find(v => v.label === item.variant) : undefined;
+    return {
+      name: vr ? `${p.name} — ${vr.label}` : p.name,
+      price: Number(vr?.price ?? p.price),
+      image: p.image,
+    };
+  };
+
   const calculateTotals = () => {
     const subtotal = cartItems.reduce((sum, item) => {
-      const p = products.find(x => x.id === item.id);
-      return sum + (p ? Number(p.price) * item.quantity : 0);
+      const d = lineData(item);
+      return sum + (d ? d.price * item.quantity : 0);
     }, 0);
 
     const taxConfig = PROVINCE_TAX[formData.province] ?? PROVINCE_TAX['ON'];
@@ -481,21 +493,25 @@ const CheckoutPage = () => {
 
                 <div className="space-y-3 mb-6 pb-6 border-b border-white/10">
                   {cartItems.map(item => {
-                    const p = products.find(x => x.id === item.id);
-                    if (!p) return null;
+                    const d = lineData(item);
+                    if (!d) return null;
                     return (
-                      <div key={item.id} className="flex justify-between items-center gap-3">
+                      <div key={`${item.id}-${item.variant || ''}`} className="flex justify-between items-center gap-3">
                         <div className="flex items-center gap-3 min-w-0">
-                          <div className="w-12 h-12 bg-black rounded-lg overflow-hidden flex-shrink-0">
-                            <img src={p.image} alt={p.name} className="w-full h-full object-contain" />
+                          <div className="w-12 h-12 bg-black rounded-lg overflow-hidden flex-shrink-0 flex items-center justify-center">
+                            {d.image ? (
+                              <img src={d.image} alt={d.name} className="w-full h-full object-contain" />
+                            ) : (
+                              <i className="ri-image-line text-zinc-700" aria-hidden="true"></i>
+                            )}
                           </div>
                           <div className="min-w-0">
-                            <div className="text-white font-inter text-sm font-semibold truncate">{p.name}</div>
+                            <div className="text-white font-inter text-sm font-semibold truncate">{d.name}</div>
                             <div className="text-soft-gray font-inter text-xs">Qty: {item.quantity}</div>
                           </div>
                         </div>
                         <div className="text-white font-inter font-bold text-sm whitespace-nowrap">
-                          ${(Number(p.price) * item.quantity).toLocaleString()}
+                          ${(d.price * item.quantity).toLocaleString()}
                         </div>
                       </div>
                     );
