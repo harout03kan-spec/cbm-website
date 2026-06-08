@@ -1,7 +1,7 @@
 import Navbar from '../../components/feature/Navbar';
 import Footer from '../../components/feature/Footer';
 import { motion } from 'framer-motion';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useProducts } from '../../hooks/useProducts';
 import { useTranslation } from 'react-i18next';
@@ -15,6 +15,21 @@ const ShopPage = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState('');
   const { products, loading } = useProducts();
+
+  // Persist the shop scroll position so returning from a product page — via the
+  // Shop / Back to Shop buttons (PUSH) or the browser Back button (POP) — lands
+  // the customer back where they were. ScrollManager reads `shopScrollY`.
+  useEffect(() => {
+    const save = () => { try { sessionStorage.setItem('shopScrollY', String(window.scrollY)); } catch { /* ignore */ } };
+    let ticking = false;
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(() => { save(); ticking = false; });
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => { save(); window.removeEventListener('scroll', onScroll); };
+  }, []);
 
   const categories = [
     { id: 'all',         key: 'shop_cat_all' },
@@ -422,7 +437,6 @@ const ShopPage = () => {
                       </Link>
                     )}
                     <Link to={`/product?id=${product.id}`}
-                      onClick={() => { try { sessionStorage.setItem('shopScrollY', String(window.scrollY)); } catch { /* ignore */ } }}
                       className="relative z-10 flex-1 min-h-[44px] flex items-center justify-center py-3 bg-transparent border border-white/30 text-white font-inter font-normal rounded-lg hover:bg-white/10 active:bg-white/15 transition-colors cursor-pointer whitespace-nowrap text-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/40"
                     >{t('fp_view')}</Link>
                   </div>

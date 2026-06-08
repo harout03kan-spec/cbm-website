@@ -72,6 +72,17 @@ const en = {
   fp_bulk: 'Bulk orders available. Contact us.',
   fp_view_all: 'View All Miners',
 
+  // ── USED DEALS & BULK BATCHES (homepage secondary section) ──
+  deals_title: 'Used Deals & Bulk Batches',
+  deals_sub: 'Looking for used ASIC miner deals, pallets, or wholesale lots? We handle single units, used deals, and bulk batches across Canada.',
+  deals_used_title: 'Used Deals',
+  deals_used_desc: 'For used units and short-term deals.',
+  deals_used_cta: 'Contact for Used Deals',
+  deals_bulk_title: 'Bulk Batches',
+  deals_bulk_desc: 'For pallets, farm liquidations, and wholesale lots.',
+  deals_bulk_cta: 'Request Bulk Batch List',
+  deals_note: 'For current bulk inventory, contact us directly — batches change fast.',
+
   // ── SERVICES TEASER ────────────────────────────────
   st_tag: 'ASIC REPAIR CENTER',
   st_title: 'Montreal ASIC Miner Repair Center',
