@@ -88,7 +88,7 @@ const en = {
   bulk_title: 'Bulk ASIC Miner Deals',
   bulk_intro: 'Wholesale miner batches, pallets, farm liquidations, and large quantity ASIC miner lots. Bulk inventory changes fast, so every batch is confirmed before payment or pickup.',
   bulk_how_title: 'How bulk batches work',
-  bulk_how_1: 'Bulk batches are inquiry based — there is no Add to Cart.',
+  bulk_how_1: 'Bulk batches are inquiry-based. There is no Add to Cart.',
   bulk_how_2: 'Request availability and a quote for the batch you want.',
   bulk_how_3: 'We confirm the batch, condition, and final pricing before any payment or pickup.',
   bulk_cta: 'Request Bulk Quote',

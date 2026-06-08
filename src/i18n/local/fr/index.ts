@@ -88,7 +88,7 @@ const fr = {
   bulk_title: 'Offres de Mineurs ASIC en Gros',
   bulk_intro: 'Lots de mineurs en gros, palettes, liquidations de fermes et grandes quantités de mineurs ASIC. L\'inventaire en gros change rapidement, donc chaque lot est confirmé avant le paiement ou le ramassage.',
   bulk_how_title: 'Comment fonctionnent les lots en gros',
-  bulk_how_1: 'Les lots en gros sont sur demande — il n\'y a pas d\'ajout au panier.',
+  bulk_how_1: 'Les lots en gros sont sur demande. Il n\'y a pas d\'ajout au panier.',
   bulk_how_2: 'Demandez la disponibilité et un devis pour le lot souhaité.',
   bulk_how_3: 'Nous confirmons le lot, l\'état et le prix final avant tout paiement ou ramassage.',
   bulk_cta: 'Demander un Devis en Gros',
