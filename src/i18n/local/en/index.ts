@@ -548,6 +548,8 @@ const en = {
   product_add_cart: 'Add to Cart',
   product_buy_now: 'Buy Now',
   product_back: 'Back to Shop',
+  product_bc_home: 'Home',
+  product_bc_shop: 'Shop',
 
   // ── CART ───────────────────────────────────────────
   cart_title: 'Your Cart',

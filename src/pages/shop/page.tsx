@@ -422,6 +422,7 @@ const ShopPage = () => {
                       </Link>
                     )}
                     <Link to={`/product?id=${product.id}`}
+                      onClick={() => { try { sessionStorage.setItem('shopScrollY', String(window.scrollY)); } catch { /* ignore */ } }}
                       className="relative z-10 flex-1 min-h-[44px] flex items-center justify-center py-3 bg-transparent border border-white/30 text-white font-inter font-normal rounded-lg hover:bg-white/10 active:bg-white/15 transition-colors cursor-pointer whitespace-nowrap text-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/40"
                     >{t('fp_view')}</Link>
                   </div>

@@ -42,6 +42,13 @@ const ProductPage = () => {
     setTimeout(() => setShowNotification(false), 3000);
   };
 
+  // Returning to the shop — flag the navigation so ScrollManager restores the
+  // exact scroll position the customer left from (saved when they clicked View
+  // Details). Direct visits with no saved position just land at the shop top.
+  const handleBackToShop = () => {
+    try { sessionStorage.setItem('restoreShopScroll', '1'); } catch { /* ignore */ }
+  };
+
   // Current variant — falls back to the product's top-level (highest) values.
   const variants = product?.variants ?? [];
   const v = variants[selectedVariant] ?? null;
@@ -136,13 +143,26 @@ const ProductPage = () => {
 
       <section className="pt-32 pb-8 bg-graphite border-b border-crimson-accent/20">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="flex items-center gap-2 text-soft-gray font-inter text-sm">
-            <Link to="/" className="hover:text-crimson-accent transition-colors">Home</Link>
-            <i className="ri-arrow-right-s-line"></i>
-            <Link to="/shop" className="hover:text-crimson-accent transition-colors">Shop</Link>
-            <i className="ri-arrow-right-s-line"></i>
-            <span className="text-white">{product.name}</span>
-          </div>
+          {/* Back to Shop — prominent pill so customers always have a clear way out */}
+          <Link to="/shop" onClick={handleBackToShop}
+            className="inline-flex items-center gap-1.5 mb-4 px-4 py-2 rounded-full border border-crimson-accent/50 bg-crimson-accent/10 text-crimson-accent font-inter font-semibold text-sm hover:bg-crimson-accent hover:text-white transition-colors"
+          >
+            <i className="ri-arrow-left-line" aria-hidden="true"></i>
+            {t('product_back')}
+          </Link>
+
+          {/* Breadcrumb — Home and Shop are clickable pills, current product is plain text */}
+          <nav aria-label="Breadcrumb" className="flex flex-wrap items-center gap-2 font-inter text-sm">
+            <Link to="/"
+              className="inline-flex items-center min-h-[36px] px-3 py-1.5 rounded-lg border border-white/20 bg-white/[0.06] text-white hover:bg-white/15 hover:border-white/40 transition-colors"
+            >{t('product_bc_home')}</Link>
+            <i className="ri-arrow-right-s-line text-soft-gray" aria-hidden="true"></i>
+            <Link to="/shop" onClick={handleBackToShop}
+              className="inline-flex items-center min-h-[36px] px-3 py-1.5 rounded-lg border border-white/20 bg-white/[0.06] text-white hover:bg-white/15 hover:border-white/40 transition-colors"
+            >{t('product_bc_shop')}</Link>
+            <i className="ri-arrow-right-s-line text-soft-gray" aria-hidden="true"></i>
+            <span className="text-soft-gray truncate max-w-[60vw] sm:max-w-none">{product.name}</span>
+          </nav>
         </div>
       </section>
 

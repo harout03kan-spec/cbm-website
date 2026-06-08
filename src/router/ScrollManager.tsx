@@ -28,6 +28,24 @@ export default function ScrollManager() {
       }, 50);
       return () => window.clearInterval(timer);
     }
+
+    // Returning to the shop via a "Shop" / "Back to Shop" button after opening a
+    // product — restore the scroll position the customer left from instead of
+    // jumping to the top. Direct visits (no flag / no saved position) go to top.
+    if (pathname === '/shop' && sessionStorage.getItem('restoreShopScroll')) {
+      sessionStorage.removeItem('restoreShopScroll');
+      const y = Number(sessionStorage.getItem('shopScrollY') || 0);
+      if (y > 0) {
+        let tries = 0;
+        const timer = window.setInterval(() => {
+          window.scrollTo(0, y);
+          tries += 1;
+          if (Math.abs(window.scrollY - y) < 2 || tries > 20) window.clearInterval(timer);
+        }, 30);
+        return () => window.clearInterval(timer);
+      }
+    }
+
     window.scrollTo(0, 0);
   }, [pathname, hash]);
 

@@ -548,6 +548,8 @@ const fr = {
   product_add_cart: 'Ajouter au Panier',
   product_buy_now: 'Acheter Maintenant',
   product_back: 'Retour à la Boutique',
+  product_bc_home: 'Accueil',
+  product_bc_shop: 'Boutique',
 
   // ── CART ───────────────────────────────────────────
   cart_title: 'Votre Panier',
