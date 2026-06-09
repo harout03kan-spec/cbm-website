@@ -188,9 +188,40 @@ const ShopPage = () => {
       })
     : categoryFiltered;
 
-  // 3) Sort. Empty value keeps default order; missing values sort to the end.
+  // Default storefront order (only when no sort is chosen): Bitcoin air‑cooled
+  // Antminers first (S19 ladder → S21 ladder → T21), then other Bitcoin air
+  // miners, then hydro, then Scrypt / L‑series, then other altcoin / home.
+  // A chosen sort option overrides this entirely.
+  const defaultRank = (p: Product): number => {
+    const n = lc(p.name);
+    const hydro = isHydro(p);
+    const scrypt = /\bl7\b|\bl9\b|\bl11\b|scrypt|litecoin|\bdoge\b|dg1|volcminer|goldshell|elphapex|fluminer l|\blt6\b/.test(n);
+    const sha = /sha-?256/.test(lc(p.algorithm)) || /\bs19\b|\bs21\b|\bs23\b|\bt21\b|whatsminer m|avalon|sealminer/.test(n);
+    if (!hydro) {
+      if (/\bs19\b/.test(n) && !/xp|pro|s19j|s19e/.test(n)) return 100; // S19 (95T) base
+      if (/s19j pro/.test(n)) return 110;
+      if (/s19 pro/.test(n)) return 120;
+      if (/s19 xp/.test(n)) return 130;
+      if (/\bs21\b/.test(n) && !/\+|pro|xp/.test(n)) return 200; // S21 base
+      if (/s21\+/.test(n)) return 210;
+      if (/s21 pro/.test(n)) return 220;
+      if (/s21 xp/.test(n)) return 230;
+      if (/\bt21\b/.test(n)) return 240;
+    }
+    if (hydro) return 400;
+    if (scrypt) return 500;
+    if (sha) return 300;
+    return 600;
+  };
+
+  // 3) Sort. Empty value uses the curated default order; missing values sort to the end.
   const filteredProducts = (() => {
-    if (!sortBy) return searchedProducts;
+    if (!sortBy) {
+      return searchedProducts
+        .map((p, i) => ({ p, i, r: defaultRank(p) }))
+        .sort((a, b) => a.r - b.r || a.i - b.i)
+        .map((x) => x.p);
+    }
     const key: 'price' | 'hashrate' = sortBy.startsWith('hash') ? 'hashrate' : 'price';
     const dir: 'asc' | 'desc' = sortBy.endsWith('asc') ? 'asc' : 'desc';
     const val = (p: Product) => toNumber(key === 'price' ? p.price : p.hashrate);
@@ -202,13 +233,6 @@ const ShopPage = () => {
       return dir === 'asc' ? av - bv : bv - av;
     });
   })();
-
-  const trustSignals = [
-    { icon: 'ri-truck-line',        title: t('tb_shipping') },
-    { icon: 'ri-file-list-line',    title: t('tb_tax') },
-    { icon: 'ri-map-pin-line',      title: t('tb_inventory') },
-    { icon: 'ri-tools-line',        title: t('tb_warranty') },
-  ];
 
   const SkeletonCard = () => (
     <div className="bg-[#141414] rounded-xl overflow-hidden border border-white/10 animate-pulse">
@@ -453,30 +477,17 @@ const ShopPage = () => {
         </div>
       </section>
 
-      <section className="py-12 bg-[#141414] border-t border-white/10">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
-            {trustSignals.map((signal, index) => (
-              <motion.div key={signal.title} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }} transition={{ delay: index * 0.1 }} className="text-center"
-              >
-                <div className="w-12 h-12 flex items-center justify-center mx-auto mb-3">
-                  <i className={`${signal.icon} text-3xl text-white`}></i>
-                </div>
-                <p className="text-white font-inter text-sm">{signal.title}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="py-16 bg-[#0A0A0A]">
-        <div className="max-w-4xl mx-auto px-6 text-center">
+      <section className="py-16 bg-[#0A0A0A] border-t border-white/10">
+        <div className="max-w-3xl mx-auto px-6 text-center">
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-            <h2 className="font-inter font-bold text-4xl text-white mb-4">Need Help Choosing?</h2>
-            <p className="text-soft-gray font-inter text-lg mb-8">Our team can help you select the right miner for your requirements.</p>
-            <div className="flex flex-wrap justify-center gap-4">
-              <Link to="/contact#contact-form" className="relative z-10 inline-flex min-h-[44px] items-center justify-center px-8 py-4 bg-crimson-accent text-white font-inter font-semibold rounded-lg hover:bg-red-700 active:bg-red-800 transition-colors cursor-pointer whitespace-nowrap focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-crimson-accent">Contact Our Team</Link>
+            <h2 className="font-inter font-bold text-3xl md:text-4xl text-white mb-4">{t('shop_help_title')}</h2>
+            <p className="text-soft-gray font-inter text-lg mb-8">{t('shop_help_desc')}</p>
+            <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-4">
+              <a href="tel:+15146047050" className="relative z-10 inline-flex min-h-[44px] items-center justify-center gap-2 px-8 py-4 bg-crimson-accent text-white font-inter font-semibold rounded-lg hover:bg-red-700 active:bg-red-800 transition-colors cursor-pointer whitespace-nowrap focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-crimson-accent">
+                <i className="ri-phone-fill text-lg" aria-hidden="true"></i>
+                {t('shop_help_call')}
+              </a>
+              <Link to="/contact#contact-form" className="relative z-10 inline-flex min-h-[44px] items-center justify-center px-8 py-4 bg-transparent border border-white/30 text-white font-inter font-semibold rounded-lg hover:bg-white/10 active:bg-white/15 transition-colors cursor-pointer whitespace-nowrap focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/40">{t('shop_help_contact')}</Link>
             </div>
           </motion.div>
         </div>
