@@ -1,56 +1,45 @@
 import { useTranslation } from 'react-i18next';
 
 // Hand-coded ASIC hashboard repair visual for the Services hero — inline SVG +
-// CSS keyframes only (no images, no animation libraries; GPU-friendly transform
-// / opacity / dashoffset). Structured from the client's real hashboard photos:
-// a tall (portrait) green PCB with segmented metal side/top rails and screws,
-// vertical silver heat-contact strips carrying copper pads and blue thermal
-// marks, green lanes with fine horizontal traces and small black ICs, circular
-// mounting holes, blue electrolytic caps + a small white connector at the top,
-// and a lighter beige controller strip along the bottom packed with small ICs,
-// SMD parts and test points. Red/black test clips clamp the top terminals.
-//
-// Animation is subtle and technical: a diagnostic scan sweeps the board, test
-// points pulse, one small IC is traced as a fault (probe + red glow) then
-// repaired to green. The phase status sits in a small bench-tester bar below the
-// board — never as a big label over the chips. Fixed aspect ratio → no layout
-// shift; scales to container → responsive; freezes on a clean tested frame under
+// CSS keyframes only (no images, no animation libraries). Structured from the
+// client's real hashboard photos: a tall green PCB with muted brushed-metal
+// side/top rails and screws, vertical silver heat-contact strips with subtle
+// copper pads, green lanes with fine traces, small BLACK ICs placed by domain
+// (alternating high/low between domains, starting from the right), a light
+// cream controller strip along the bottom with small black ICs and SMD parts,
+// muted grey capacitors and a small white tester connector on the right edge,
+// and two top-right metal terminal tabs gripped by realistic red/black
+// alligator clips. Animation stays subtle (diagnostic scan, pulsing test
+// points, one traced fault that repairs to green). Fixed aspect ratio → no
+// layout shift; responsive; freezes on a clean tested frame under
 // prefers-reduced-motion.
 
 const VW = 396;
 const VH = 462;
 
-// chip area
-const AX = 40;       // left of strips
-const AW = 308;      // width of strip area (to x=348)
-const AY = 80;       // top of strips
-const AYB = 380;     // bottom of strips
+const AX = 40;     // strip area left
+const AW = 300;    // strip area width (to x=340)
+const AY = 78;     // strips top
+const AYB = 380;   // strips bottom
 const STRIPS = 10;
-const SW = 18;       // strip width
-const stripX = (i: number) => AX + i * 31;            // 40,71,...,319
-const BANDS_Y = [80, 155, 230, 305, 380];             // 4 domain bands
+const SW = 17;
+const stripX = (i: number) => AX + i * 30; // 40..310
+const BANDS = [78, 154, 230, 306, 380];    // 4 domain bands; inter-domain at 154/230/306
 
-// copper pad positions (top/bottom of each band, on every strip)
+// Subtle copper pads at the domain separators (small, muted — not gold blocks).
 const COPPER: { x: number; y: number }[] = [];
-for (let i = 0; i < STRIPS; i++) {
-  for (const by of BANDS_Y) COPPER.push({ x: stripX(i) + 2, y: by - 6 });
-}
+for (let i = 0; i < STRIPS; i++) for (const by of BANDS) COPPER.push({ x: stripX(i) + 3, y: by - 4 });
 
-// circular mounting holes scattered in the green lanes
-const HOLES = [
-  [70, 118], [132, 118], [256, 118], [318, 118],
-  [70, 195], [194, 195], [318, 195],
-  [101, 270], [225, 270], [318, 270],
-  [70, 345], [194, 345], [287, 345],
+// Small BLACK ICs placed by domain, alternating low/high, starting from the right.
+const DOMAIN_ICS: { x: number; y: number; bad?: boolean }[] = [
+  { x: 300, y: 156 }, { x: 282, y: 156 }, { x: 264, y: 156 },          // gap 1 — low, right
+  { x: 196, y: 219 }, { x: 178, y: 219, bad: true }, { x: 214, y: 219 }, // gap 2 — high, centre (fault)
+  { x: 296, y: 308 }, { x: 278, y: 308 }, { x: 260, y: 308 },          // gap 3 — low, right
 ];
+const FAULT = DOMAIN_ICS.find((d) => d.bad)!;
 
-// central column of small black ICs (diodes/MOSFETs in the middle lane)
-const ICS = [108, 138, 168, 198, 228, 258, 288, 318, 348].map((y) => ({ x: 190, y }));
-const FAULT = { x: 190, y: 258 };
-
-// beige bottom controller strip — small ICs + SMD + test points
-const BEIGE_ICS = [30, 78, 150, 222, 300].map((x) => x);
-const BEIGE_SMD = [54, 66, 102, 114, 126, 186, 198, 258, 270, 330, 342, 354];
+const BEIGE_ICS = [34, 96, 168, 244, 312];
+const BEIGE_SMD = [60, 72, 84, 132, 144, 210, 222, 288, 300, 348, 360];
 
 export default function HashboardRepairVisual() {
   const { t } = useTranslation();
@@ -74,9 +63,9 @@ export default function HashboardRepairVisual() {
         .hbv-l2{opacity:0;animation:hbv-l2 9s ease-in-out infinite}
         .hbv-l3{opacity:0;animation:hbv-l3 9s ease-in-out infinite}
         .hbv-l4{opacity:1;animation:hbv-l4 9s ease-in-out infinite}
-        @keyframes hbv-scan{0%{transform:translateY(0);opacity:0}5%{opacity:.8}33%{opacity:.8}40%{transform:translateY(300px);opacity:0}100%{transform:translateY(300px);opacity:0}}
+        @keyframes hbv-scan{0%{transform:translateY(0);opacity:0}5%{opacity:.75}33%{opacity:.75}40%{transform:translateY(300px);opacity:0}100%{transform:translateY(300px);opacity:0}}
         @keyframes hbv-tp{0%,100%{opacity:.25}50%{opacity:1}}
-        @keyframes hbv-bad{0%,30%{fill:#16161c}38%{fill:#7f1d1d}46%,60%{fill:#dc2626}70%{fill:#b45309}80%{fill:#15803d}90%,100%{fill:#16a34a}}
+        @keyframes hbv-bad{0%,30%{fill:#15151a}38%{fill:#7f1d1d}46%,60%{fill:#dc2626}70%{fill:#b45309}80%{fill:#15803d}90%,100%{fill:#16a34a}}
         @keyframes hbv-bad-red{0%,32%{opacity:0}46%,60%{opacity:1}70%,100%{opacity:0}}
         @keyframes hbv-bad-grn{0%,80%{opacity:0}90%,99%{opacity:1}100%{opacity:0}}
         @keyframes hbv-probe{0%,30%{opacity:0}40%,64%{opacity:1}74%,100%{opacity:0}}
@@ -92,129 +81,120 @@ export default function HashboardRepairVisual() {
         }
       `}</style>
 
-      <div className="relative overflow-hidden rounded-[1.8rem] border border-red-950/60 bg-[radial-gradient(circle_at_25%_8%,rgba(127,29,29,0.16),transparent_55%),linear-gradient(160deg,#0b0b0f,#050506)] p-3 shadow-2xl shadow-black/60">
+      <div className="relative overflow-hidden rounded-[1.8rem] border border-red-950/60 bg-[radial-gradient(circle_at_25%_8%,rgba(127,29,29,0.14),transparent_55%),linear-gradient(160deg,#0b0b0f,#050506)] p-3 shadow-2xl shadow-black/60">
         <div className="overflow-hidden rounded-[1.3rem] border border-zinc-900 bg-[#06120c]">
           <svg className="block w-full" viewBox={`0 0 ${VW} ${VH}`} role="img" aria-label={t('srv_anim_aria')} style={{ aspectRatio: `${VW} / ${VH}` }}>
             <defs>
               <linearGradient id="g-pcb" x1="0" y1="0" x2="0.4" y2="1"><stop offset="0" stopColor="#10492f" /><stop offset="1" stopColor="#0a2c1c" /></linearGradient>
-              <linearGradient id="g-metal" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stopColor="#cfd3d9" /><stop offset="0.45" stopColor="#a4a8af" /><stop offset="0.55" stopColor="#b8bcc2" /><stop offset="1" stopColor="#7d8188" /></linearGradient>
-              <linearGradient id="g-strip" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stopColor="#b9bcc2" /><stop offset="0.5" stopColor="#dde0e4" /><stop offset="1" stopColor="#9a9ea5" /></linearGradient>
-              <linearGradient id="g-copper" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#d39256" /><stop offset="1" stopColor="#9c5e2e" /></linearGradient>
-              <linearGradient id="g-chip" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#26262e" /><stop offset="1" stopColor="#0c0c11" /></linearGradient>
-              <linearGradient id="g-beige" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#d9d3ad" /><stop offset="1" stopColor="#c4be94" /></linearGradient>
-              <linearGradient id="g-cap" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#5b86b8" /><stop offset="1" stopColor="#2f527e" /></linearGradient>
+              {/* muted brushed metal — not bright/white */}
+              <linearGradient id="g-metal" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stopColor="#8c9097" /><stop offset="0.5" stopColor="#6f747b" /><stop offset="1" stopColor="#565a61" /></linearGradient>
+              <linearGradient id="g-strip" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stopColor="#7f838a" /><stop offset="0.5" stopColor="#9a9ea5" /><stop offset="1" stopColor="#676b72" /></linearGradient>
+              {/* muted copper, not gold */}
+              <linearGradient id="g-copper" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#9a5f33" /><stop offset="1" stopColor="#6c4222" /></linearGradient>
+              <linearGradient id="g-chip" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#212128" /><stop offset="1" stopColor="#0a0a0e" /></linearGradient>
+              {/* light cream controller strip */}
+              <linearGradient id="g-beige" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#e8e4d4" /><stop offset="1" stopColor="#d4cfb8" /></linearGradient>
             </defs>
 
             {/* board */}
             <rect x="14" y="14" width="368" height="434" rx="9" fill="url(#g-pcb)" stroke="#1c6a44" strokeWidth="1.3" />
 
-            {/* fine horizontal traces across the lanes (covered by strips later) */}
-            <g stroke="#1f8a58" strokeWidth="0.5" opacity="0.5">
+            {/* fine horizontal traces in the lanes (covered by strips later) */}
+            <g stroke="#1d8453" strokeWidth="0.5" opacity="0.45">
               {Array.from({ length: 40 }).map((_, k) => <line key={k} x1={AX} y1={AY + 4 + k * 7.4} x2={AX + AW} y2={AY + 4 + k * 7.4} />)}
             </g>
 
-            {/* vertical silver heat-contact strips */}
+            {/* vertical silver heat-contact strips (muted) */}
             {Array.from({ length: STRIPS }).map((_, i) => (
-              <rect key={i} x={stripX(i)} y={AY} width={SW} height={AYB - AY} rx="2" fill="url(#g-strip)" stroke="#73777e" strokeWidth="0.4" opacity="0.96" />
+              <rect key={i} x={stripX(i)} y={AY} width={SW} height={AYB - AY} rx="2" fill="url(#g-strip)" stroke="#4f535a" strokeWidth="0.4" opacity="0.95" />
             ))}
 
-            {/* horizontal domain separator bars with copper pads */}
-            {BANDS_Y.map((by) => (
-              <rect key={by} x={AX - 2} y={by - 7} width={AW + 4} height="13" fill="url(#g-metal)" opacity="0.5" />
-            ))}
-            {COPPER.map((p, i) => (
-              <g key={`cu-${i}`}>
-                <rect x={p.x} y={p.y} width="14" height="12" rx="1.5" fill="url(#g-copper)" stroke="#7a4a22" strokeWidth="0.4" />
-                <rect x={p.x + 3} y={p.y + 13} width="8" height="2.4" rx="1" fill="#2f6fb0" opacity="0.85" />
+            {/* subtle domain separators + small muted copper pads */}
+            {BANDS.map((by) => <rect key={by} x={AX - 2} y={by - 5} width={AW + 4} height="10" fill="url(#g-metal)" opacity="0.4" />)}
+            {COPPER.map((p, i) => <rect key={`cu-${i}`} x={p.x} y={p.y} width="10" height="7" rx="1.2" fill="url(#g-copper)" stroke="#5a3618" strokeWidth="0.3" opacity="0.92" />)}
+
+            {/* small black ICs placed by domain (alternating high/low, from the right) */}
+            {DOMAIN_ICS.map((c, i) => (
+              <g key={`ic-${i}`}>
+                <rect x={c.x} y={c.y} width="13" height="8" rx="1.1" fill={c.bad ? undefined : 'url(#g-chip)'} className={c.bad ? 'hbv-bad' : ''} stroke="#040406" strokeWidth="0.5" />
+                <rect x={c.x + 2} y={c.y + 1.8} width="9" height="1.4" rx="0.5" fill="#3f3f46" />
               </g>
             ))}
 
-            {/* circular mounting holes */}
-            {HOLES.map(([x, y], i) => (
-              <g key={`h-${i}`}><circle cx={x} cy={y} r="5.4" fill="#06160e" stroke="#2c7a52" strokeWidth="1.2" /><circle cx={x} cy={y} r="2.4" fill="#0a2417" /></g>
+            {/* ── top section ── */}
+            <rect x="22" y="14" width="352" height="11" rx="2" fill="url(#g-metal)" stroke="#4f535a" strokeWidth="0.5" />
+            {[40, 96, 300].map((x) => <circle key={`ts-${x}`} cx={x} cy="19.5" r="2.4" fill="#2b2b30" />)}
+            {/* muted grey electrolytic caps */}
+            {[150, 166, 182, 198].map((cx) => (
+              <g key={`bc-${cx}`}><rect x={cx - 6} y="30" width="12" height="22" rx="6" fill="#5b5f66" stroke="#3a3d43" strokeWidth="0.7" /><path d={`M${cx} 33 v16 M${cx - 4} 41 h8`} stroke="#3a3d43" strokeWidth="0.8" /></g>
             ))}
+            {/* barcode + a few top SMD */}
+            <rect x="60" y="40" width="22" height="8" rx="1" fill="#cfd2c0" stroke="#9ca3af" strokeWidth="0.4" />
+            <g fill="#17171c">{[40, 46, 96, 102, 120, 126].map((x) => <rect key={x} x={x} y="56" width="4" height="6" rx="0.6" />)}</g>
 
-            {/* central column of small black ICs */}
-            {ICS.map((c, i) => {
-              const bad = c.y === FAULT.y;
-              return (
-                <g key={`ic-${i}`}>
-                  <rect x={c.x} y={c.y} width="14" height="9" rx="1.2" fill={bad ? undefined : 'url(#g-chip)'} className={bad ? 'hbv-bad' : ''} stroke="#050507" strokeWidth="0.5" />
-                  <rect x={c.x + 2} y={c.y + 2} width="10" height="1.5" rx="0.6" fill="#3f3f46" />
-                </g>
-              );
-            })}
+            {/* top-right metal terminal tabs (bent) — where the clips clamp */}
+            <path d="M334 16 L334 4 Q334 1 337 1 L344 1 Q347 1 347 4 L347 16 Z" fill="url(#g-metal)" stroke="#4f535a" strokeWidth="0.6" />
+            <path d="M352 16 L352 6 Q352 3 355 3 L362 3 Q365 3 365 6 L365 16 Z" fill="url(#g-metal)" stroke="#4f535a" strokeWidth="0.6" />
 
-            {/* ── top section: rails + caps + white connector + terminals ── */}
-            <rect x="22" y="14" width="352" height="12" rx="2" fill="url(#g-metal)" stroke="#6b6f76" strokeWidth="0.5" />
-            {[40, 96, 300, 356].map((x) => <circle key={`ts-${x}`} cx={x} cy="20" r="2.6" fill="#3f3f46" />)}
-            {/* blue electrolytic caps */}
-            {[176, 192, 208, 224].map((cx) => (
-              <g key={`bc-${cx}`}><rect x={cx - 6} y="30" width="12" height="22" rx="6" fill="#3f6ea6" stroke="#274d7a" strokeWidth="0.7" /><path d={`M${cx} 33 v16 M${cx - 4} 41 h8`} stroke="#27466e" strokeWidth="0.8" /></g>
-            ))}
-            {/* small white connector top-right + terminals */}
-            <rect x="300" y="34" width="40" height="13" rx="2" fill="#e7e9ee" stroke="#9ca3af" strokeWidth="0.7" />
-            <g stroke="#9ca3af" strokeWidth="0.6">{[305, 310, 315, 320, 325, 330, 335].map((x) => <line key={x} x1={x} y1="36" x2={x} y2="45" />)}</g>
-            <rect x="250" y="58" width="80" height="9" rx="2" fill="url(#g-metal)" stroke="#6b6f76" strokeWidth="0.5" />
-            <circle cx="268" cy="62.5" r="2.6" fill="#3f3f46" /><circle cx="312" cy="62.5" r="2.6" fill="#3f3f46" />
-            {/* a few top SMD + barcode */}
-            <rect x="60" y="40" width="22" height="8" rx="1" fill="#dcdcc6" stroke="#9ca3af" strokeWidth="0.4" />
-            <g fill="#1b1b22">{[44, 50, 56, 96, 102, 130, 136].map((x) => <rect key={x} x={x} y="56" width="4" height="6" rx="0.6" />)}</g>
+            {/* segmented side rails with screws (muted) */}
+            <rect x="16" y="28" width="14" height="412" rx="2" fill="url(#g-metal)" stroke="#4f535a" strokeWidth="0.5" />
+            <rect x="366" y="28" width="14" height="412" rx="2" fill="url(#g-metal)" stroke="#4f535a" strokeWidth="0.5" />
+            <g stroke="#52565d" strokeWidth="0.5">{Array.from({ length: 13 }).map((_, k) => (<g key={k}><line x1="16" y1={40 + k * 30} x2="30" y2={40 + k * 30} /><line x1="366" y1={40 + k * 30} x2="380" y2={40 + k * 30} /></g>))}</g>
+            {[60, 220, 400].map((y) => <g key={`rs-${y}`}><circle cx="23" cy={Math.min(y, 432)} r="2.8" fill="#2b2b30" /><circle cx="373" cy={Math.min(y, 432)} r="2.8" fill="#2b2b30" /></g>)}
 
-            {/* segmented side rails with screws */}
-            <rect x="16" y="28" width="14" height="412" rx="2" fill="url(#g-metal)" stroke="#6b6f76" strokeWidth="0.5" />
-            <rect x="366" y="28" width="14" height="412" rx="2" fill="url(#g-metal)" stroke="#6b6f76" strokeWidth="0.5" />
-            <g stroke="#8a8e95" strokeWidth="0.5">{Array.from({ length: 13 }).map((_, k) => (<g key={k}><line x1="16" y1={40 + k * 30} x2="30" y2={40 + k * 30} /><line x1="366" y1={40 + k * 30} x2="380" y2={40 + k * 30} /></g>))}</g>
-            {[56, 200, 360].map((y) => <g key={`rs-${y}`}><circle cx="23" cy={y} r="3" fill="#3f3f46" /><circle cx="373" cy={y} r="3" fill="#3f3f46" /></g>)}
+            {/* small white tester connector on the RIGHT edge, below the terminals */}
+            <rect x="350" y="64" width="16" height="30" rx="2" fill="#e7e9ee" stroke="#9ca3af" strokeWidth="0.7" />
+            <g stroke="#9ca3af" strokeWidth="0.6">{[68, 74, 80, 86, 92].map((y) => <line key={y} x1="352" y1={y} x2="364" y2={y} />)}</g>
 
-            {/* ── beige controller strip (bottom) ── */}
-            <rect x="16" y="384" width="364" height="54" rx="3" fill="url(#g-beige)" stroke="#a39c72" strokeWidth="0.6" />
+            {/* ── light cream controller strip (bottom) ── */}
+            <rect x="16" y="384" width="364" height="54" rx="3" fill="url(#g-beige)" stroke="#b7b189" strokeWidth="0.6" />
             {BEIGE_ICS.map((x, i) => (
-              <g key={`bi-${i}`}><rect x={x} y={398 + (i % 2) * 12} width="18" height="13" rx="1.5" fill="#1b1b22" stroke="#3f3f46" strokeWidth="0.5" /><rect x={x + 3} y={401 + (i % 2) * 12} width="12" height="2" rx="0.6" fill="#52525b" /></g>
+              <g key={`bi-${i}`}><rect x={x} y={398 + (i % 2) * 12} width="17" height="12" rx="1.4" fill="#17171c" stroke="#3a3a40" strokeWidth="0.5" /><rect x={x + 3} y={401 + (i % 2) * 12} width="11" height="1.8" rx="0.6" fill="#4b4b52" /></g>
             ))}
-            <g fill="#52525b">{BEIGE_SMD.map((x, i) => <rect key={`bs-${i}`} x={x} y={426} width="6" height="3" rx="0.6" fill={i % 3 === 0 ? '#9ca3af' : '#3f3f46'} />)}</g>
-            <rect x="180" y="396" width="12" height="12" rx="2" fill="#2f6fb0" stroke="#1f4d80" strokeWidth="0.6" />{/* blue trimmer */}
+            <g>{BEIGE_SMD.map((x, i) => <rect key={`bs-${i}`} x={x} y={426} width="6" height="3" rx="0.6" fill={i % 3 === 0 ? '#8a8e95' : '#2b2b30'} />)}</g>
             <g className="hbv-tp" fill="#fca5a5">
-              <circle cx="40" cy="430" r="2.4" /><circle className="hbv-tp2" cx="120" cy="430" r="2.4" /><circle className="hbv-tp3" cx="240" cy="430" r="2.4" /><circle className="hbv-tp4" cx="330" cy="430" r="2.4" />
+              <circle cx="40" cy="430" r="2.2" /><circle className="hbv-tp2" cx="124" cy="430" r="2.2" /><circle className="hbv-tp3" cx="244" cy="430" r="2.2" /><circle className="hbv-tp4" cx="332" cy="430" r="2.2" />
             </g>
-            <rect x="300" y="424" width="30" height="9" rx="1.5" fill="#e7e9ee" stroke="#9ca3af" strokeWidth="0.5" />{/* small connector */}
+            <rect x="300" y="424" width="28" height="9" rx="1.5" fill="#e7e9ee" stroke="#9ca3af" strokeWidth="0.5" />
+            <rect x="22" y="438" width="352" height="8" rx="2" fill="url(#g-metal)" stroke="#4f535a" strokeWidth="0.5" />
 
-            {/* bottom rail */}
-            <rect x="22" y="438" width="352" height="8" rx="2" fill="url(#g-metal)" stroke="#6b6f76" strokeWidth="0.5" />
-
-            {/* test points pulsing in lanes */}
+            {/* pulsing test points in the lanes */}
             <g fill="#fca5a5">
-              <circle className="hbv-tp hbv-tp5" cx="100" cy="100" r="2.2" />
-              <circle className="hbv-tp hbv-tp6" cx="288" cy="160" r="2.2" />
-              <circle className="hbv-tp hbv-tp2" cx="132" cy="300" r="2.2" />
+              <circle className="hbv-tp hbv-tp5" cx="96" cy="110" r="2.2" />
+              <circle className="hbv-tp hbv-tp6" cx="300" cy="180" r="2.2" />
+              <circle className="hbv-tp hbv-tp2" cx="120" cy="300" r="2.2" />
             </g>
 
-            {/* fault: probe + red→green ring on the bad IC */}
-            <rect className="hbv-bad-red" x={FAULT.x - 2.5} y={FAULT.y - 2.5} width="19" height="14" rx="2" fill="none" stroke="#ef4444" strokeWidth="1.6" style={{ filter: 'drop-shadow(0 0 5px rgba(239,68,68,0.95))' }} />
-            <rect className="hbv-bad-grn" x={FAULT.x - 2.5} y={FAULT.y - 2.5} width="19" height="14" rx="2" fill="none" stroke="#22c55e" strokeWidth="1.6" style={{ filter: 'drop-shadow(0 0 5px rgba(34,197,94,0.85))' }} />
+            {/* fault: probe + red→green ring on the small bad IC */}
+            <rect className="hbv-bad-red" x={FAULT.x - 2.5} y={FAULT.y - 2.5} width="18" height="13" rx="2" fill="none" stroke="#ef4444" strokeWidth="1.6" style={{ filter: 'drop-shadow(0 0 5px rgba(239,68,68,0.95))' }} />
+            <rect className="hbv-bad-grn" x={FAULT.x - 2.5} y={FAULT.y - 2.5} width="18" height="13" rx="2" fill="none" stroke="#22c55e" strokeWidth="1.6" style={{ filter: 'drop-shadow(0 0 5px rgba(34,197,94,0.85))' }} />
             <g className="hbv-probe">
-              <line x1={FAULT.x + 44} y1={FAULT.y - 28} x2={FAULT.x + 14} y2={FAULT.y + 4} stroke="#e5e7eb" strokeWidth="1.6" strokeLinecap="round" />
-              <circle cx={FAULT.x + 14} cy={FAULT.y + 4} r="1.6" fill="#fca5a5" />
+              <line x1={FAULT.x - 30} y1={FAULT.y - 26} x2={FAULT.x} y2={FAULT.y + 4} stroke="#e5e7eb" strokeWidth="1.6" strokeLinecap="round" />
+              <circle cx={FAULT.x} cy={FAULT.y + 4} r="1.6" fill="#fca5a5" />
             </g>
 
-            {/* red + black test clips clamping the top terminals */}
+            {/* realistic red + black alligator clips on the top-right terminal tabs */}
+            {/* RED — outer terminal (x≈358) */}
             <g className="hbv-clip">
-              <path d="M392 6 C 350 14, 318 24, 268 30" fill="none" stroke="#ef4444" strokeWidth="3.2" strokeLinecap="round" />
-              <rect x="259" y="16" width="15" height="11" rx="3" fill="#dc2626" stroke="#7f1d1d" strokeWidth="0.6" />
-              <path d="M261 27 L266 32 L272 27" fill="none" stroke="#b91c1c" strokeWidth="1.8" strokeLinejoin="round" />
-              <circle cx="266.5" cy="21" r="1.4" fill="#fca5a5" />
+              <path d="M392 -2 C 384 6, 374 8, 360 10" fill="none" stroke="#ef4444" strokeWidth="3" strokeLinecap="round" />
+              <rect x="362" y="4" width="13" height="9" rx="3" fill="#dc2626" stroke="#7f1d1d" strokeWidth="0.6" />{/* boot */}
+              <path d="M362 9 L357 12 L362 13 L357 16" fill="none" stroke="#b91c1c" strokeWidth="1.5" strokeLinejoin="round" />{/* upper jaw teeth */}
+              <path d="M362 12 L356 16 L362 16 L357 19" fill="none" stroke="#991b1b" strokeWidth="1.5" strokeLinejoin="round" />{/* lower jaw teeth */}
+              <circle cx="362" cy="12" r="1.3" fill="#fca5a5" />{/* pivot */}
             </g>
+            {/* BLACK — inner terminal (x≈340) */}
             <g className="hbv-clip" style={{ animationDelay: '.5s' }}>
-              <path d="M392 20 C 356 26, 336 30, 312 32" fill="none" stroke="#27272a" strokeWidth="3.2" strokeLinecap="round" />
-              <rect x="311" y="18" width="15" height="11" rx="3" fill="#18181b" stroke="#000" strokeWidth="0.6" />
-              <path d="M313 29 L318 34 L324 29" fill="none" stroke="#000" strokeWidth="1.8" strokeLinejoin="round" />
-              <circle cx="318.5" cy="23" r="1.4" fill="#71717a" />
+              <path d="M392 12 C 380 16, 366 16, 352 16" fill="none" stroke="#27272a" strokeWidth="3" strokeLinecap="round" />
+              <rect x="344" y="10" width="13" height="9" rx="3" fill="#18181b" stroke="#000" strokeWidth="0.6" />
+              <path d="M344 15 L339 18 L344 19 L339 22" fill="none" stroke="#0a0a0a" strokeWidth="1.5" strokeLinejoin="round" />
+              <path d="M344 18 L338 22 L344 22 L339 25" fill="none" stroke="#000" strokeWidth="1.5" strokeLinejoin="round" />
+              <circle cx="344" cy="18" r="1.3" fill="#71717a" />
             </g>
 
-            {/* diagnostic scan line (subtle) */}
+            {/* subtle diagnostic scan line */}
             <g className="hbv-scan">
-              <rect x="14" y={AY} width="368" height="2" fill="#f87171" opacity="0.8" />
-              <rect x="14" y={AY - 6} width="368" height="14" fill="#dc2626" opacity="0.09" />
+              <rect x="14" y={AY} width="368" height="2" fill="#f87171" opacity="0.75" />
+              <rect x="14" y={AY - 6} width="368" height="14" fill="#dc2626" opacity="0.08" />
             </g>
           </svg>
 
