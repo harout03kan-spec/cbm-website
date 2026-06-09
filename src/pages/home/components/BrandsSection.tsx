@@ -16,51 +16,28 @@ const brands = [
   { id: 'volcminer',   name: 'Volcminer',   src: '/assets/brands/volcminer.webp' },
 ];
 
-// Duplicate for a seamless marquee loop.
-const allBrands = [...brands, ...brands];
-
+// Static, centered, wrapping grid — no animation. The previous CSS marquee could
+// occasionally drop its composited layer on mobile (blank/black flash) during
+// fast scroll; a static grid always renders on every device, refresh, and locale.
 const BrandsSection = () => {
   const { t } = useTranslation();
   return (
-    <section className="py-10 bg-[#0a0a0a] border-y border-white/[0.07] overflow-hidden">
-      <style>{`
-        @keyframes brand-marquee {
-          0%   { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
-        }
-        .brand-marquee {
-          display: flex;
-          align-items: center;
-          width: max-content;
-          /* Faster on mobile, slower on desktop. */
-          animation: brand-marquee 22s linear infinite;
-        }
-        @media (min-width: 768px) {
-          .brand-marquee { animation-duration: 42s; }
-        }
-        @media (prefers-reduced-motion: reduce) {
-          .brand-marquee { animation: none; }
-        }
-      `}</style>
+    <section className="py-10 bg-[#0a0a0a] border-y border-white/[0.07]">
+      <div className="max-w-6xl mx-auto px-6">
+        <p className="text-center font-inter text-[10px] font-semibold uppercase tracking-[0.3em] text-crimson-accent mb-7">
+          {t('brands_label')}
+        </p>
 
-      {/* Label */}
-      <p className="text-center font-inter text-[10px] font-semibold uppercase tracking-[0.3em] text-crimson-accent mb-7">
-        {t('brands_label')}
-      </p>
-
-      <div className="brand-marquee">
-        {allBrands.map(({ id, name, src }, idx) => (
-          <div
-            key={`${id}-${idx}`}
-            className="flex shrink-0 items-center justify-center px-8 sm:px-10"
-          >
+        <div className="flex flex-wrap items-center justify-center gap-x-7 gap-y-6 sm:gap-x-12">
+          {brands.map(({ id, name, src }) => (
             <img
+              key={id}
               src={src}
               alt={`${name} logo`}
-              className="block h-7 sm:h-8 w-auto object-contain"
+              className="block h-6 sm:h-8 w-auto object-contain opacity-90"
             />
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </section>
   );

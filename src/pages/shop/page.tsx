@@ -236,7 +236,7 @@ const ShopPage = () => {
 
   const SkeletonCard = () => (
     <div className="bg-[#141414] rounded-xl overflow-hidden border border-white/10 animate-pulse">
-      <div className="h-64 bg-white/5" />
+      <div className="h-40 sm:h-64 bg-white/5" />
       <div className="p-6 space-y-4">
         <div className="h-6 bg-white/5 rounded w-3/4" />
         <div className="h-4 bg-white/5 rounded w-1/2" />
@@ -370,7 +370,7 @@ const ShopPage = () => {
               </Link>
             </div>
           ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-8">
             {loading ? (
               [...Array(6)].map((_, i) => <SkeletonCard key={i} />)
             ) : filteredProducts.map((product, index) => {
@@ -396,7 +396,7 @@ const ShopPage = () => {
                 viewport={{ once: true }} transition={{ delay: index * 0.05 }}
                 className="flex flex-col bg-[#141414] rounded-xl overflow-hidden border border-white/10 hover:border-white/30 transition-all duration-300"
               >
-                <div className="relative w-full h-64 bg-black overflow-hidden">
+                <div className="relative w-full h-40 sm:h-64 bg-black overflow-hidden">
                   {product.image ? (
                     <img src={product.image} alt={displayName} className="w-full h-full object-contain object-center hover:scale-105 transition-transform duration-500" />
                   ) : (
@@ -406,19 +406,19 @@ const ShopPage = () => {
                   )}
                   {/* Top corner badges: condition + coin/mining type */}
                   {!unclear && (condKey || coinKey) && (
-                    <div className="absolute top-4 left-4 flex flex-col items-start gap-2">
-                      {condKey && <span className="px-3 py-1 bg-black/70 border border-white/30 text-white text-xs font-inter font-semibold rounded">{t(condKey)}</span>}
-                      {coinKey && <span className="px-3 py-1 bg-crimson-accent text-white text-xs font-inter font-semibold rounded">{t(coinKey)}</span>}
+                    <div className="absolute top-2 left-2 sm:top-4 sm:left-4 flex flex-col items-start gap-1.5 sm:gap-2">
+                      {condKey && <span className="px-2 py-0.5 sm:px-3 sm:py-1 bg-black/70 border border-white/30 text-white text-[10px] sm:text-xs font-inter font-semibold rounded">{t(condKey)}</span>}
+                      {coinKey && <span className="px-2 py-0.5 sm:px-3 sm:py-1 bg-crimson-accent text-white text-[10px] sm:text-xs font-inter font-semibold rounded">{t(coinKey)}</span>}
                     </div>
                   )}
                 </div>
 
-                <div className="p-6 flex flex-col flex-1">
-                  <h3 className="text-white font-inter font-bold text-xl mb-3">{displayName}</h3>
+                <div className="p-3 sm:p-6 flex flex-col flex-1">
+                  <h3 className="text-white font-inter font-bold text-base sm:text-xl mb-2 sm:mb-3 line-clamp-2">{displayName}</h3>
 
-                  {/* Algorithm (miners only) — shown alongside the performance stats below */}
+                  {/* Algorithm (miners only) — hidden on the compact mobile card to save space */}
                   {!unclear && miner && product.algorithm && (
-                    <div className="mb-3">
+                    <div className="hidden sm:block mb-3">
                       <span className="inline-flex items-center gap-1.5 rounded-md border border-white/15 bg-white/[0.04] px-2.5 py-1 text-xs font-inter font-semibold text-soft-gray">
                         <i className="ri-cpu-line text-crimson-accent" aria-hidden="true"></i>
                         {product.algorithm}
@@ -427,13 +427,13 @@ const ShopPage = () => {
                   )}
 
                   {specs.length > 0 && (
-                    <div className="flex items-center gap-4 mb-5">
+                    <div className="flex items-center gap-1.5 sm:gap-4 mb-3 sm:mb-5">
                       {specs.map((s, i) => (
-                        <div key={s.unit} className="flex items-center gap-4">
-                          {i > 0 && <div className="w-px h-10 bg-white/20"></div>}
+                        <div key={s.unit} className="flex items-center gap-1.5 sm:gap-4">
+                          {i > 0 && <div className="w-px h-7 sm:h-10 bg-white/20"></div>}
                           <div className="text-center">
-                            <div className="text-white font-inter font-bold text-xl">{s.value}</div>
-                            <div className="text-soft-gray font-inter text-xs">{s.unit}</div>
+                            <div className="text-white font-inter font-bold text-sm sm:text-xl">{s.value}</div>
+                            <div className="text-soft-gray font-inter text-[10px] sm:text-xs">{s.unit}</div>
                           </div>
                         </div>
                       ))}
@@ -441,31 +441,31 @@ const ShopPage = () => {
                   )}
 
                   {showPrice ? (
-                    <div className="mb-4">
-                      <span className="text-white font-inter font-bold text-3xl">${priceNum.toLocaleString()} CAD</span>
+                    <div className="mb-3 sm:mb-4">
+                      <span className="text-white font-inter font-bold text-xl sm:text-3xl">${priceNum.toLocaleString()} CAD</span>
                       {product.sale_price && product.sale_price !== product.price && (
-                        <span className="ml-3 text-soft-gray line-through text-lg font-inter">${Number(product.sale_price).toLocaleString()}</span>
+                        <span className="ml-2 sm:ml-3 text-soft-gray line-through text-sm sm:text-lg font-inter">${Number(product.sale_price).toLocaleString()}</span>
                       )}
                     </div>
                   ) : (
                     <p className="text-soft-gray font-inter text-sm leading-6 mb-4">{t('shop_pending_desc')}</p>
                   )}
 
-                  <div className="mt-auto flex gap-3">
+                  <div className="mt-auto flex flex-col sm:flex-row gap-2 sm:gap-3">
                     {showPrice ? (
-                      <button className="relative z-10 flex-1 min-h-[44px] py-3 bg-crimson-accent text-white font-inter font-semibold rounded-lg hover:bg-red-700 active:bg-red-800 transition-colors cursor-pointer whitespace-nowrap focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-crimson-accent">
+                      <button className="relative z-10 flex-1 min-h-[44px] py-3 bg-crimson-accent text-white font-inter font-semibold text-sm sm:text-base rounded-lg hover:bg-red-700 active:bg-red-800 transition-colors cursor-pointer whitespace-nowrap focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-crimson-accent">
                         {t('shop_add_cart')}
                       </button>
                     ) : (
                       <Link to="/contact#contact-form"
-                        className="relative z-10 flex-1 min-h-[44px] flex items-center justify-center gap-2 py-3 bg-crimson-accent text-white font-inter font-semibold rounded-lg hover:bg-red-700 active:bg-red-800 transition-colors text-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-crimson-accent"
+                        className="relative z-10 flex-1 min-h-[44px] flex items-center justify-center gap-2 py-3 bg-crimson-accent text-white font-inter font-semibold text-sm sm:text-base rounded-lg hover:bg-red-700 active:bg-red-800 transition-colors text-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-crimson-accent"
                       >
                         <i className="ri-customer-service-2-line text-lg" aria-hidden="true"></i>
                         {t('shop_pending_cta')}
                       </Link>
                     )}
                     <Link to={`/product?id=${product.id}`}
-                      className="relative z-10 flex-1 min-h-[44px] flex items-center justify-center py-3 bg-transparent border border-white/30 text-white font-inter font-normal rounded-lg hover:bg-white/10 active:bg-white/15 transition-colors cursor-pointer whitespace-nowrap text-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/40"
+                      className="relative z-10 flex-1 min-h-[44px] flex items-center justify-center py-3 bg-transparent border border-white/30 text-white font-inter font-normal text-sm sm:text-base rounded-lg hover:bg-white/10 active:bg-white/15 transition-colors cursor-pointer whitespace-nowrap text-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/40"
                     >{t('fp_view')}</Link>
                   </div>
                 </div>

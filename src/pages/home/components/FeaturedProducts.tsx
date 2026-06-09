@@ -31,7 +31,7 @@ export default function FeaturedProducts() {
           <p className="text-soft-gray font-inter text-xl max-w-3xl mx-auto">{t('fp_sub')}</p>
         </div>
 
-        <div className="max-w-[1200px] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+        <div className="max-w-[1200px] mx-auto grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-8 mb-12">
           {featured.map((product, index) => (
             <ProductCard key={product.id} product={product} index={index} />
           ))}
