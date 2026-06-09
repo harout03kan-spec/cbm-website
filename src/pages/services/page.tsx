@@ -35,12 +35,12 @@ export default function ServicesPage() {
           transition: { duration: 0.6, delay, ease: [0.22, 1, 0.36, 1] as const },
         };
 
-  // Premium metric strip. Values + labels translated so the French site reads natively.
-  const stats = [
-    { value: t('srv2_stat1_value'), label: t('srv2_stat1_label'), icon: 'ri-tools-fill' },
-    { value: t('srv2_stat2_value'), label: t('srv2_stat2_label'), icon: 'ri-checkbox-circle-fill' },
-    { value: t('srv2_stat3_value'), label: t('srv2_stat3_label'), icon: 'ri-time-fill' },
-    { value: t('srv2_stat4_value'), label: t('srv2_stat4_label'), icon: 'ri-map-pin-2-fill' },
+  // Practical trust strip — real service points, no numbers or turnaround claims.
+  const trustStrip = [
+    { label: t('srv_trust_1'), icon: 'ri-map-pin-2-fill' },
+    { label: t('srv_trust_2'), icon: 'ri-truck-line' },
+    { label: t('srv_trust_3'), icon: 'ri-search-eye-line' },
+    { label: t('srv_trust_4'), icon: 'ri-file-list-3-line' },
   ];
 
   // Repair pricing. Level 1/2/3 only. Real prices preserved, shown as "Starting at".
@@ -151,9 +151,6 @@ export default function ServicesPage() {
             </p>
 
             <CtaCluster />
-
-            {/* One clean trust line in normal text — no cluster of chips. */}
-            <p className="mt-6 font-inter text-sm text-zinc-500">{t('srv_hero_trustline')}</p>
           </motion.div>
 
           <motion.div {...heroReveal(0.1)} className="relative">
@@ -184,21 +181,18 @@ export default function ServicesPage() {
           </motion.div>
         </div>
 
-        {/* ── 2. PREMIUM METRIC STRIP (industrial status panel) ───────── */}
+        {/* ── 2. TRUST STRIP — practical service points, no numbers/claims ─── */}
         <div className="relative mx-auto mt-14 max-w-7xl px-6 pb-14">
           <motion.div
             {...reveal()}
-            className="grid grid-cols-2 divide-y divide-zinc-800/70 overflow-hidden rounded-2xl border border-zinc-800 bg-[linear-gradient(to_bottom,rgba(24,24,27,0.8),rgba(9,9,11,0.95))] sm:grid-cols-4 sm:divide-y-0 sm:divide-x"
+            className="grid grid-cols-1 divide-y divide-zinc-800/70 overflow-hidden rounded-2xl border border-zinc-800 bg-[linear-gradient(to_bottom,rgba(24,24,27,0.8),rgba(9,9,11,0.95))] sm:grid-cols-2 sm:divide-y-0 lg:grid-cols-4 lg:divide-x"
           >
-            {stats.map((stat) => (
-              <div key={stat.label} className="flex items-center gap-4 px-6 py-5">
-                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-red-900/40 bg-red-950/30 text-crimson-accent">
-                  <i className={`${stat.icon} text-lg`} aria-hidden="true" />
+            {trustStrip.map((item) => (
+              <div key={item.label} className="flex items-center gap-3 px-6 py-5">
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-red-900/40 bg-red-950/30 text-crimson-accent">
+                  <i className={`${item.icon} text-base`} aria-hidden="true" />
                 </span>
-                <div>
-                  <div className="font-inter text-xl font-bold leading-none text-white sm:text-2xl">{stat.value}</div>
-                  <div className="mt-1 text-xs font-medium uppercase tracking-[0.12em] text-zinc-500">{stat.label}</div>
-                </div>
+                <span className="font-inter text-sm font-medium leading-snug text-zinc-200">{item.label}</span>
               </div>
             ))}
           </motion.div>
