@@ -577,44 +577,6 @@ export const CATALOG_PRODUCTS: Product[] = [
     }
   },
   {
-    "id": 769891202,
-    "name": "Antminer S21+ 225T",
-    "slug": "antminer-s21-225t",
-    "sku": "00069",
-    "price": "3895.00",
-    "sale_price": "",
-    "stock_status": "onbackorder",
-    "stock_quantity": null,
-    "condition": "New",
-    "cooling": "Air",
-    "algorithm": "SHA-256",
-    "hashrate": "225",
-    "hashrate_unit": "TH/s",
-    "power": "3712",
-    "efficiency": "16.498",
-    "efficiency_unit": "J/TH",
-    "image": "https://d2j6dbq0eux0bg.cloudfront.net/images/99673270/5070540470.png",
-    "images": [
-      "https://d2j6dbq0eux0bg.cloudfront.net/images/99673270/5070540470.png"
-    ],
-    "badge": "",
-    "short_description": "",
-    "featured": true,
-    "categories": [],
-    "permalink": "https://www.canadabtcminers.ca/asic-miner-store/Antminer-S21-225T-p769891202",
-    "brand": "Bitmain",
-    "details": {
-      "model": "Antminer S21+ 225T",
-      "release": "Feb 2025",
-      "size": "400 x 195 x 290 mm",
-      "noise": "75 dB",
-      "fans": "2",
-      "interface": "Ethernet",
-      "temperature": "10 - 40 °C",
-      "humidity": "10 - 90 %"
-    }
-  },
-  {
     "id": 769891205,
     "name": "Antminer S21+ 235TH",
     "slug": "antminer-s21-235th",
