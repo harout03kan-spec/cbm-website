@@ -12,7 +12,7 @@ const ServicesTeaser = () => {
       <div className="max-w-[1200px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-[50px] items-center">
         <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }} className="w-full">
           <div className="relative overflow-hidden rounded-[20px] border border-white/[0.08] bg-[#111111] shadow-[0_20px_50px_rgba(0,0,0,0.35)]">
-            <img src="/repair-lab.jpg" alt="Canada BTC Miners ASIC repair facility — Montreal" className="w-full block object-cover object-center min-h-[520px]" style={{ filter: 'contrast(1.08) brightness(0.85) saturate(1.05)' }} />
+            <img src="/repair-lab.jpg" alt="Canada BTC Miners ASIC repair facility — Montreal" className="w-full block h-auto object-contain object-center lg:h-full lg:object-cover lg:min-h-[520px]" style={{ filter: 'contrast(1.08) brightness(0.85) saturate(1.05)' }} />
             <div className="absolute inset-0 pointer-events-none rounded-[20px]" style={{ background: 'rgba(0,0,0,0.26)' }} />
           </div>
         </motion.div>

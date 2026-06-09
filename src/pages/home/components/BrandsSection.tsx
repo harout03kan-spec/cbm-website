@@ -16,48 +16,50 @@ const brands = [
   { id: 'volcminer',   name: 'Volcminer',   src: '/assets/brands/volcminer.webp' },
 ];
 
-// Duplicate for a seamless marquee loop.
-const allBrands = [...brands, ...brands];
+// Duplicated track so the loop is seamless (translate by exactly one set = -50%).
+const track = [...brands, ...brands];
 
+// Sliding marquee, hardened against the blank/black flash seen on some mobile
+// browsers: the track is promoted to its own stable GPU layer (translateZ/
+// will-change/backface-visibility) and uses translate3d so the compositor keeps
+// it painted during fast scroll. A duplicated track always fills the viewport,
+// and prefers-reduced-motion falls back to a static (still fully visible) row.
 const BrandsSection = () => {
   const { t } = useTranslation();
   return (
     <section className="py-10 bg-[#0a0a0a] border-y border-white/[0.07] overflow-hidden">
       <style>{`
-        @keyframes brand-marquee {
-          0%   { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
+        @keyframes brand-scroll {
+          from { transform: translate3d(0, 0, 0); }
+          to   { transform: translate3d(-50%, 0, 0); }
         }
-        .brand-marquee {
+        .brand-track {
           display: flex;
           align-items: center;
           width: max-content;
-          /* Faster on mobile, slower on desktop. */
-          animation: brand-marquee 22s linear infinite;
+          animation: brand-scroll 40s linear infinite;
+          will-change: transform;
+          transform: translateZ(0);
+          backface-visibility: hidden;
         }
-        @media (min-width: 768px) {
-          .brand-marquee { animation-duration: 42s; }
-        }
+        @media (min-width: 768px) { .brand-track { animation-duration: 55s; } }
+        .brand-track:hover { animation-play-state: paused; }
         @media (prefers-reduced-motion: reduce) {
-          .brand-marquee { animation: none; }
+          .brand-track { animation: none; flex-wrap: wrap; justify-content: center; width: 100%; }
         }
       `}</style>
 
-      {/* Label */}
       <p className="text-center font-inter text-[10px] font-semibold uppercase tracking-[0.3em] text-crimson-accent mb-7">
         {t('brands_label')}
       </p>
 
-      <div className="brand-marquee">
-        {allBrands.map(({ id, name, src }, idx) => (
-          <div
-            key={`${id}-${idx}`}
-            className="flex shrink-0 items-center justify-center px-8 sm:px-10"
-          >
+      <div className="brand-track">
+        {track.map(({ id, name, src }, idx) => (
+          <div key={`${id}-${idx}`} className="flex shrink-0 items-center justify-center px-7 sm:px-10 py-2">
             <img
               src={src}
               alt={`${name} logo`}
-              className="block h-7 sm:h-8 w-auto object-contain"
+              className="block h-6 sm:h-8 w-auto object-contain opacity-90"
             />
           </div>
         ))}
