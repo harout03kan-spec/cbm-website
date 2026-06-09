@@ -1,59 +1,39 @@
 import { useTranslation } from 'react-i18next';
 
-// Premium, hand-coded ASIC hashboard repair animation for the Services hero.
-// Pure inline SVG + CSS keyframes — no images, no animation libraries, only
-// GPU-friendly transform / opacity / stroke-dashoffset. Stylised after an
-// Antminer S21-style hashboard: green PCB, ~110 black chips in a 10×11 grid,
-// silver SMD parts, test points, screws, top power terminals with red (+) and
-// black (–) alligator clips, and a side tester plug + handheld tester. Current
-// flows through the chips along a numbered serpentine path; a fault is traced to
-// one bad chip (red), then repaired and the board passes testing (green).
-// Freezes on a clean "tested" frame under prefers-reduced-motion. Fixed aspect
-// ratio → no layout shift; scales to its container → responsive, no overflow.
+// Hand-coded ASIC hashboard repair animation for the Services hero — inline SVG
+// + CSS keyframes only (no images, no animation libraries; GPU-friendly
+// transform / opacity / stroke-dashoffset). Stylised after a real Antminer-style
+// hashboard from the client reference: a long green PCB, ~12 horizontal domain
+// rows of small black chips on silver heat-contact strips with gaps between
+// them, copper traces, small red capacitors and silver SMD parts, a left metal
+// bus bar with screws, a small white tester connector near the top edge, and
+// visible red/black test-clip cables clamping the top power terminals.
+//
+// Animation is deliberately subtle: a diagnostic scan line sweeps the board,
+// faint current runs inside a few domain traces, test points pulse, one small
+// chip is traced as a fault (red), then repaired and the board passes test
+// (green). The phase status sits in a small bench-tester bar beside the board,
+// never as a big label over the chips. Fixed aspect ratio → no layout shift;
+// scales to its container → responsive, no overflow; freezes on a clean tested
+// frame under prefers-reduced-motion.
 
-const VW = 470;
-const VH = 380;
+const VW = 480;
+const VH = 300;
 
-// Chip grid (10 columns × 11 rows = 110).
-const COLS = 10;
-const ROWS = 11;
-const CW = 28;
-const CH = 16;
-const colX = (c: number) => 52 + c * 33;
-const rowY = (r: number) => 98 + r * 22;
+const DOMAINS = 12;
+const CHIPS = 16;
+const domY = (d: number) => 44 + d * 18; // strip top
+const STRIP_H = 12;
+const chipX = (i: number) => 52 + i * 24;
+const CW = 6;
+const CHH = 8;
 
-const BAD_C = 4; // bad chip column
-const BAD_R = 6; // bad chip row
+const FAULT_D = 7;
+const FAULT_I = 9;
+const faultX = chipX(FAULT_I);
+const faultY = domY(FAULT_D) + 2;
 
-type Chip = { x: number; y: number; bad: boolean; key: string };
-const CHIPS: Chip[] = [];
-for (let r = 0; r < ROWS; r++) {
-  for (let c = 0; c < COLS; c++) {
-    CHIPS.push({ x: colX(c), y: rowY(r), bad: c === BAD_C && r === BAD_R, key: `${r}-${c}` });
-  }
-}
-
-// Serpentine "current path" through every chip centre (the numbered flow).
-const FLOW_PATH = (() => {
-  let d = '';
-  for (let r = 0; r < ROWS; r++) {
-    const order = r % 2 === 0 ? [...Array(COLS).keys()] : [...Array(COLS).keys()].reverse();
-    order.forEach((c, i) => {
-      const x = colX(c) + CW / 2;
-      const y = rowY(r) + CH / 2;
-      d += r === 0 && i === 0 ? `M${x} ${y}` : ` L${x} ${y}`;
-    });
-  }
-  return d;
-})();
-
-// Small scattered SMD parts (silver caps/resistors) and test points — keeps the
-// board from looking empty without per-part animation.
-const SMD = [
-  [44, 70], [60, 72], [120, 70], [150, 72], [300, 70], [318, 72], [360, 72],
-  [44, 348], [120, 350], [240, 350], [330, 350], [360, 348], [200, 70], [250, 72],
-];
-const TESTPTS = [[46, 120], [46, 200], [46, 280], [384, 110], [384, 250], [384, 320]];
+const flowDomains = [1, 4, 7, 10]; // domains that show faint integrated current
 
 export default function HashboardRepairVisual() {
   const { t } = useTranslation();
@@ -63,204 +43,182 @@ export default function HashboardRepairVisual() {
   return (
     <div className="relative">
       <style>{`
-        .hbv-flow { stroke-dasharray: 6 12; animation: hbv-flow 5s linear infinite; }
-        .hbv-clip-red { animation: hbv-pulse 2.4s ease-in-out infinite; }
-        .hbv-clip-blk { animation: hbv-pulse 2.4s ease-in-out infinite .4s; }
-        .hbv-bad { fill: #16a34a; animation: hbv-bad 10s ease-in-out infinite; }
-        .hbv-bad-red { opacity: 0; animation: hbv-bad-red 10s ease-in-out infinite; }
-        .hbv-bad-grn { opacity: 1; animation: hbv-bad-grn 10s ease-in-out infinite; }
-        .hbv-probe { opacity: 0; animation: hbv-probe 10s ease-in-out infinite; }
-        .hbv-tp { animation: hbv-tp 2.6s ease-in-out infinite; }
-        .hbv-wave { stroke-dasharray: 40 60; animation: hbv-wave 2.2s linear infinite; }
-        .hbv-l1 { opacity: 0; animation: hbv-l1 10s ease-in-out infinite; }
-        .hbv-l2 { opacity: 0; animation: hbv-l2 10s ease-in-out infinite; }
-        .hbv-l3 { opacity: 0; animation: hbv-l3 10s ease-in-out infinite; }
-        .hbv-l4 { opacity: 1; animation: hbv-l4 10s ease-in-out infinite; }
-        .hbv-tp2{animation-delay:.6s} .hbv-tp3{animation-delay:1.2s} .hbv-tp4{animation-delay:1.8s}
+        .hbv-scan { animation: hbv-scan 9s ease-in-out infinite; }
+        .hbv-cur { stroke-dasharray: 5 11; opacity:.5; animation: hbv-cur 4s linear infinite; }
+        .hbv-tp { animation: hbv-tp 2.4s ease-in-out infinite; }
+        .hbv-tp2{animation-delay:.5s} .hbv-tp3{animation-delay:1s} .hbv-tp4{animation-delay:1.5s} .hbv-tp5{animation-delay:.8s}
+        .hbv-bad { fill:#16a34a; animation: hbv-bad 9s ease-in-out infinite; }
+        .hbv-bad-red { opacity:0; animation: hbv-bad-red 9s ease-in-out infinite; }
+        .hbv-bad-grn { opacity:1; animation: hbv-bad-grn 9s ease-in-out infinite; }
+        .hbv-probe { opacity:0; animation: hbv-probe 9s ease-in-out infinite; }
+        .hbv-clip { animation: hbv-pulse 2.6s ease-in-out infinite; }
+        .hbv-wave { stroke-dasharray:30 50; animation: hbv-wave 2.2s linear infinite; }
+        .hbv-led { fill:#22c55e; animation: hbv-led 9s ease-in-out infinite; }
+        .hbv-l1{opacity:0;animation:hbv-l1 9s ease-in-out infinite}
+        .hbv-l2{opacity:0;animation:hbv-l2 9s ease-in-out infinite}
+        .hbv-l3{opacity:0;animation:hbv-l3 9s ease-in-out infinite}
+        .hbv-l4{opacity:1;animation:hbv-l4 9s ease-in-out infinite}
 
-        @keyframes hbv-flow { to { stroke-dashoffset: -180; } }
-        @keyframes hbv-pulse { 0%,100%{opacity:.55} 50%{opacity:1} }
-        @keyframes hbv-bad {
-          0%,30%{fill:#14141a} 38%{fill:#7f1d1d} 46%,62%{fill:#dc2626}
-          72%{fill:#b45309} 82%{fill:#15803d} 92%,100%{fill:#16a34a}
-        }
-        @keyframes hbv-bad-red { 0%,32%{opacity:0} 46%,62%{opacity:1} 72%,100%{opacity:0} }
-        @keyframes hbv-bad-grn { 0%,82%{opacity:0} 92%,99%{opacity:1} 100%{opacity:0} }
-        @keyframes hbv-probe { 0%,30%{opacity:0} 40%,66%{opacity:1} 76%,100%{opacity:0} }
-        @keyframes hbv-tp { 0%,100%{opacity:.3} 50%{opacity:1} }
-        @keyframes hbv-wave { to { stroke-dashoffset: -100; } }
-        @keyframes hbv-l1 { 0%{opacity:1} 30%{opacity:1} 35%,100%{opacity:0} }
-        @keyframes hbv-l2 { 0%,31%{opacity:0} 37%,50%{opacity:1} 55%,100%{opacity:0} }
-        @keyframes hbv-l3 { 0%,51%{opacity:0} 57%,76%{opacity:1} 81%,100%{opacity:0} }
-        @keyframes hbv-l4 { 0%,77%{opacity:0} 83%,98%{opacity:1} 100%{opacity:0} }
+        @keyframes hbv-scan { 0%{transform:translateY(0);opacity:0} 5%{opacity:.85} 34%{opacity:.85} 40%{transform:translateY(218px);opacity:0} 100%{transform:translateY(218px);opacity:0} }
+        @keyframes hbv-cur { to { stroke-dashoffset:-160 } }
+        @keyframes hbv-tp { 0%,100%{opacity:.28} 50%{opacity:1} }
+        @keyframes hbv-bad { 0%,30%{fill:#101015} 38%{fill:#7f1d1d} 46%,60%{fill:#dc2626} 70%{fill:#b45309} 80%{fill:#15803d} 90%,100%{fill:#16a34a} }
+        @keyframes hbv-bad-red { 0%,32%{opacity:0} 46%,60%{opacity:1} 70%,100%{opacity:0} }
+        @keyframes hbv-bad-grn { 0%,80%{opacity:0} 90%,99%{opacity:1} 100%{opacity:0} }
+        @keyframes hbv-probe { 0%,30%{opacity:0} 40%,64%{opacity:1} 74%,100%{opacity:0} }
+        @keyframes hbv-pulse { 0%,100%{opacity:.6} 50%{opacity:1} }
+        @keyframes hbv-wave { to { stroke-dashoffset:-80 } }
+        @keyframes hbv-led { 0%,30%{fill:#f87171} 46%,60%{fill:#ef4444} 80%,100%{fill:#22c55e} }
+        @keyframes hbv-l1{0%{opacity:1}30%{opacity:1}35%,100%{opacity:0}}
+        @keyframes hbv-l2{0%,31%{opacity:0}37%,49%{opacity:1}54%,100%{opacity:0}}
+        @keyframes hbv-l3{0%,50%{opacity:0}56%,73%{opacity:1}78%,100%{opacity:0}}
+        @keyframes hbv-l4{0%,77%{opacity:0}83%,98%{opacity:1}100%{opacity:0}}
 
-        @media (prefers-reduced-motion: reduce) {
-          .hbv-flow,.hbv-clip-red,.hbv-clip-blk,.hbv-bad,.hbv-bad-red,.hbv-bad-grn,
-          .hbv-probe,.hbv-tp,.hbv-wave,.hbv-l1,.hbv-l2,.hbv-l3,.hbv-l4 { animation: none !important; }
+        @media (prefers-reduced-motion: reduce){
+          .hbv-scan,.hbv-cur,.hbv-tp,.hbv-bad,.hbv-bad-red,.hbv-bad-grn,.hbv-probe,
+          .hbv-clip,.hbv-wave,.hbv-led,.hbv-l1,.hbv-l2,.hbv-l3,.hbv-l4{animation:none!important}
         }
       `}</style>
 
-      <div className="relative overflow-hidden rounded-[2rem] border border-red-950/60 bg-[radial-gradient(circle_at_28%_12%,rgba(127,29,29,0.2),transparent_55%),linear-gradient(160deg,#0c0c10,#050506)] p-3 shadow-2xl shadow-black/60">
-        <div className="relative overflow-hidden rounded-[1.4rem] border border-zinc-900 bg-black">
+      <div className="relative overflow-hidden rounded-[2rem] border border-red-950/60 bg-[radial-gradient(circle_at_25%_10%,rgba(127,29,29,0.18),transparent_55%),linear-gradient(160deg,#0c0c10,#050506)] p-3 shadow-2xl shadow-black/60">
+        <div className="overflow-hidden rounded-[1.4rem] border border-zinc-900 bg-black">
           <svg className="block w-full" viewBox={`0 0 ${VW} ${VH}`} role="img" aria-label={t('srv_anim_aria')} style={{ aspectRatio: `${VW} / ${VH}` }}>
             <defs>
-              <linearGradient id="pcb" x1="0" y1="0" x2="0.4" y2="1">
-                <stop offset="0" stopColor="#0f3a26" />
-                <stop offset="1" stopColor="#082015" />
+              <linearGradient id="pcb2" x1="0" y1="0" x2="0.3" y2="1">
+                <stop offset="0" stopColor="#0e3724" />
+                <stop offset="1" stopColor="#071c12" />
               </linearGradient>
-              <linearGradient id="chip" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0" stopColor="#2a2a31" />
-                <stop offset="1" stopColor="#121217" />
-              </linearGradient>
-              <linearGradient id="metal" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0" stopColor="#d4d7dc" />
+              <linearGradient id="pad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stopColor="#c8ccd2" />
                 <stop offset="0.5" stopColor="#9a9ea6" />
-                <stop offset="1" stopColor="#6c7077" />
+                <stop offset="1" stopColor="#74787f" />
               </linearGradient>
-              <linearGradient id="flowg" x1="0" y1="0" x2="1" y2="0">
-                <stop offset="0" stopColor="#f87171" />
-                <stop offset="1" stopColor="#dc2626" />
+              <linearGradient id="chip2" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stopColor="#26262d" />
+                <stop offset="1" stopColor="#0e0e13" />
               </linearGradient>
             </defs>
 
-            {/* ── PCB board ── */}
-            <rect x="40" y="60" width="350" height="300" rx="14" fill="url(#pcb)" stroke="#1f6b45" strokeWidth="1.5" />
-            {/* silkscreen edge + soldermask sheen */}
-            <rect x="46" y="66" width="338" height="288" rx="10" fill="none" stroke="#155e3a" strokeWidth="1" opacity="0.7" />
+            {/* PCB */}
+            <rect x="16" y="18" width="448" height="252" rx="10" fill="url(#pcb2)" stroke="#1c6a44" strokeWidth="1.4" />
+            <rect x="21" y="23" width="438" height="242" rx="7" fill="none" stroke="#145e3a" strokeWidth="0.8" opacity="0.5" />
 
-            {/* thermal/heatsink contact bands behind chip columns */}
-            <g fill="#114a30" opacity="0.55">
-              {[0, 2, 4, 6, 8].map((c) => (
-                <rect key={c} x={colX(c) - 3} y="92" width={CW + 6} height="252" rx="4" />
-              ))}
-            </g>
+            {/* left metal bus bar + screws */}
+            <rect x="20" y="26" width="16" height="236" rx="2" fill="url(#pad)" stroke="#4b4f55" strokeWidth="0.7" />
+            {[40, 96, 152, 208, 252].map((y) => <circle key={y} cx="28" cy={y} r="3" fill="#3f3f46" />)}
 
-            {/* faint copper traces */}
-            <g stroke="#0f5c39" strokeWidth="1" fill="none" opacity="0.6">
-              <path d="M50 90 H380" /><path d="M50 222 H380" /><path d="M50 344 H380" />
-              <path d="M215 70 V350" />
-            </g>
+            {/* top metal mounting strips + screws */}
+            <rect x="44" y="20" width="60" height="10" rx="2" fill="url(#pad)" stroke="#4b4f55" strokeWidth="0.7" />
+            <rect x="392" y="20" width="56" height="10" rx="2" fill="url(#pad)" stroke="#4b4f55" strokeWidth="0.7" />
+            {[58, 92, 406, 436].map((x) => <circle key={x} cx={x} cy="25" r="2.6" fill="#3f3f46" />)}
 
-            {/* top mounting brackets (metal) */}
-            <rect x="44" y="50" width="60" height="20" rx="3" fill="url(#metal)" stroke="#4b4f55" strokeWidth="0.8" />
-            <rect x="326" y="50" width="60" height="20" rx="3" fill="url(#metal)" stroke="#4b4f55" strokeWidth="0.8" />
-            <circle cx="60" cy="60" r="3.4" fill="#3f3f46" /><circle cx="88" cy="60" r="3.4" fill="#3f3f46" />
-            <circle cx="342" cy="60" r="3.4" fill="#3f3f46" /><circle cx="370" cy="60" r="3.4" fill="#3f3f46" />
+            {/* top power terminals (where clips clamp) */}
+            <rect x="300" y="24" width="74" height="9" rx="2" fill="url(#pad)" stroke="#4b4f55" strokeWidth="0.7" />
+            <circle cx="318" cy="28.5" r="3" fill="#3f3f46" /><circle cx="356" cy="28.5" r="3" fill="#3f3f46" />
 
-            {/* electrolytic capacitors near the top */}
-            <g>
-              {[[300, 50], [316, 50], [332, 50], [348, 50]].map(([cx, cy]) => (
-                <g key={`cap-${cx}`}>
-                  <rect x={cx - 6} y={cy - 4} width="12" height="14" rx="6" fill="#1b1b22" stroke="#3f3f46" strokeWidth="0.8" />
-                  <line x1={cx} y1={cy - 3} x2={cx} y2={cy + 8} stroke="#52525b" strokeWidth="1" />
-                </g>
-              ))}
-            </g>
+            {/* small white tester connector near top edge */}
+            <rect x="262" y="22" width="26" height="11" rx="2" fill="#e7e9ee" stroke="#9ca3af" strokeWidth="0.7" />
+            <g stroke="#9ca3af" strokeWidth="0.6">{[266, 271, 276, 281, 285].map((x) => <line key={x} x1={x} y1="24" x2={x} y2="31" />)}</g>
 
-            {/* power terminals + alligator clips */}
-            {/* (+) terminal — red clip */}
-            <rect x="138" y="58" width="34" height="16" rx="3" fill="url(#metal)" stroke="#4b4f55" strokeWidth="0.8" />
-            <circle cx="155" cy="66" r="4" fill="#3f3f46" />
-            <text x="132" y="72" fontSize="11" fontWeight="700" fill="#f87171">+</text>
-            <path d="M155 30 V52" stroke="#ef4444" strokeWidth="4" strokeLinecap="round" className="hbv-clip-red" />
-            <g className="hbv-clip-red">
-              <path d="M147 40 L155 52 L163 40 Z" fill="#ef4444" />
-              <rect x="148" y="30" width="14" height="12" rx="3" fill="#dc2626" />
-              <path d="M149 52 l6 7 M161 52 l-6 7" stroke="#b91c1c" strokeWidth="2" />
-            </g>
-
-            {/* (–) terminal — black clip */}
-            <rect x="258" y="58" width="34" height="16" rx="3" fill="url(#metal)" stroke="#4b4f55" strokeWidth="0.8" />
-            <circle cx="275" cy="66" r="4" fill="#3f3f46" />
-            <text x="252" y="71" fontSize="12" fontWeight="700" fill="#a1a1aa">–</text>
-            <path d="M275 30 V52" stroke="#27272a" strokeWidth="4" strokeLinecap="round" className="hbv-clip-blk" />
-            <g className="hbv-clip-blk">
-              <path d="M267 40 L275 52 L283 40 Z" fill="#27272a" />
-              <rect x="268" y="30" width="14" height="12" rx="3" fill="#18181b" />
-              <path d="M269 52 l6 7 M281 52 l-6 7" stroke="#000" strokeWidth="2" />
-            </g>
-
-            {/* chips */}
-            {CHIPS.map((chip) => (
-              <g key={chip.key}>
-                <rect
-                  x={chip.x} y={chip.y} width={CW} height={CH} rx="2.5"
-                  fill={chip.bad ? undefined : 'url(#chip)'}
-                  className={chip.bad ? 'hbv-bad' : ''}
-                  stroke="#050507" strokeWidth="0.8"
-                />
-                <rect x={chip.x + 3} y={chip.y + 3} width={CW - 6} height="2" rx="1" fill="#3f3f46" />
-                <circle cx={chip.x + 4} cy={chip.y + CH - 4} r="1" fill="#52525b" />
-                <circle cx={chip.x + CW - 4} cy={chip.y + CH - 4} r="1" fill="#52525b" />
-              </g>
+            {/* electrolytic caps top-right */}
+            {[[378, 20], [392, 20], [406, 20]].map(([cx, cy]) => (
+              <g key={`c-${cx}`}><rect x={cx - 4} y={cy - 2} width="8" height="11" rx="4" fill="#1b1b22" stroke="#3f3f46" strokeWidth="0.6" /></g>
             ))}
 
-            {/* serpentine current flow through the chips */}
-            <path d={FLOW_PATH} fill="none" stroke="#0c3d27" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
-            <path d={FLOW_PATH} fill="none" stroke="url(#flowg)" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"
-              className="hbv-flow" style={{ filter: 'drop-shadow(0 0 3px rgba(220,38,38,0.8))' }} />
+            {/* red + black test-clip cables clamping the top terminals */}
+            <g className="hbv-clip">
+              <path d="M462 8 C 410 14, 372 20, 320 26" fill="none" stroke="#ef4444" strokeWidth="3.4" strokeLinecap="round" />
+              <rect x="311" y="14" width="15" height="11" rx="3" fill="#dc2626" stroke="#7f1d1d" strokeWidth="0.6" />
+              <path d="M313 25 L318 30 L324 25" fill="none" stroke="#b91c1c" strokeWidth="1.8" strokeLinejoin="round" />
+              <circle cx="318.5" cy="19" r="1.4" fill="#fca5a5" />
+            </g>
+            <g className="hbv-clip" style={{ animationDelay: '.5s' }}>
+              <path d="M468 22 C 420 26, 386 28, 350 30" fill="none" stroke="#27272a" strokeWidth="3.4" strokeLinecap="round" />
+              <rect x="349" y="16" width="15" height="11" rx="3" fill="#18181b" stroke="#000" strokeWidth="0.6" />
+              <path d="M351 27 L356 32 L362 27" fill="none" stroke="#000" strokeWidth="1.8" strokeLinejoin="round" />
+              <circle cx="356.5" cy="21" r="1.4" fill="#71717a" />
+            </g>
 
-            {/* bad-chip glow rings (red → green) + probe */}
-            <rect className="hbv-bad-red" x={colX(BAD_C) - 4} y={rowY(BAD_R) - 4} width={CW + 8} height={CH + 8} rx="5"
-              fill="none" stroke="#ef4444" strokeWidth="2.2" style={{ filter: 'drop-shadow(0 0 7px rgba(239,68,68,0.95))' }} />
-            <rect className="hbv-bad-grn" x={colX(BAD_C) - 4} y={rowY(BAD_R) - 4} width={CW + 8} height={CH + 8} rx="5"
-              fill="none" stroke="#22c55e" strokeWidth="2.2" style={{ filter: 'drop-shadow(0 0 7px rgba(34,197,94,0.85))' }} />
-            {/* probe needle pointing at the bad chip */}
+            {/* domain rows: silver heat-contact strip + small chips + red caps + traces */}
+            {Array.from({ length: DOMAINS }).map((_, d) => {
+              const y = domY(d);
+              return (
+                <g key={d}>
+                  {/* faint integrated current trace under select domains */}
+                  {flowDomains.includes(d) && (
+                    <>
+                      <path d={`M46 ${y + STRIP_H + 3} H446`} stroke="#0d4a2f" strokeWidth="1.4" fill="none" />
+                      <path d={`M46 ${y + STRIP_H + 3} H446`} className="hbv-cur" stroke="#f87171" strokeWidth="1.4" fill="none" />
+                    </>
+                  )}
+                  {/* silver heat-contact strip */}
+                  <rect x="46" y={y} width="400" height={STRIP_H} rx="2" fill="url(#pad)" stroke="#5b5f66" strokeWidth="0.5" opacity="0.92" />
+                  {/* chips on the strip */}
+                  {Array.from({ length: CHIPS }).map((_, i) => {
+                    const x = chipX(i);
+                    const bad = d === FAULT_D && i === FAULT_I;
+                    return (
+                      <g key={i}>
+                        <rect x={x} y={y + 2} width={CW} height={CHH} rx="1"
+                          fill={bad ? undefined : 'url(#chip2)'} className={bad ? 'hbv-bad' : ''} stroke="#050507" strokeWidth="0.5" />
+                        {i % 3 === 1 && <rect x={x + CW + 3} y={y + 4} width="4" height="3" rx="0.6" fill="#dc2626" opacity="0.9" />}
+                        {i % 4 === 2 && <rect x={x + CW + 3} y={y + 4} width="4" height="2.4" rx="0.6" fill="#9ca3af" />}
+                      </g>
+                    );
+                  })}
+                </g>
+              );
+            })}
+
+            {/* fault highlight: probe + red→green ring on the small bad chip */}
+            <rect className="hbv-bad-red" x={faultX - 2.5} y={faultY - 2.5} width={CW + 5} height={CHH + 5} rx="2"
+              fill="none" stroke="#ef4444" strokeWidth="1.6" style={{ filter: 'drop-shadow(0 0 5px rgba(239,68,68,0.95))' }} />
+            <rect className="hbv-bad-grn" x={faultX - 2.5} y={faultY - 2.5} width={CW + 5} height={CHH + 5} rx="2"
+              fill="none" stroke="#22c55e" strokeWidth="1.6" style={{ filter: 'drop-shadow(0 0 5px rgba(34,197,94,0.85))' }} />
             <g className="hbv-probe">
-              <line x1={colX(BAD_C) + CW + 30} y1={rowY(BAD_R) - 26} x2={colX(BAD_C) + CW + 1} y2={rowY(BAD_R) + CH / 2} stroke="#e5e7eb" strokeWidth="2" strokeLinecap="round" />
-              <circle cx={colX(BAD_C) + CW + 1} cy={rowY(BAD_R) + CH / 2} r="2" fill="#fca5a5" />
+              <line x1={faultX + 26} y1={faultY - 22} x2={faultX + CW} y2={faultY + CHH / 2} stroke="#e5e7eb" strokeWidth="1.6" strokeLinecap="round" />
+              <circle cx={faultX + CW} cy={faultY + CHH / 2} r="1.6" fill="#fca5a5" />
             </g>
 
-            {/* SMD parts + test points + screws */}
-            <g>
-              {SMD.map(([x, y], i) => (
-                <rect key={`smd-${i}`} x={x} y={y} width="7" height="3.4" rx="1" fill={i % 3 === 0 ? '#9ca3af' : '#3f3f46'} />
-              ))}
-            </g>
-            <g>
-              {TESTPTS.map(([x, y], i) => (
-                <circle key={`tp-${i}`} className={`hbv-tp ${['', 'hbv-tp2', 'hbv-tp3', 'hbv-tp4', 'hbv-tp2', 'hbv-tp3'][i]}`} cx={x} cy={y} r="2.6" fill="#fca5a5" />
-              ))}
-            </g>
-            <g fill="#71717a" stroke="#3f3f46" strokeWidth="0.6">
-              {[[50, 70], [380, 70], [50, 350], [380, 350], [215, 350]].map(([x, y], i) => (
-                <g key={`scr-${i}`}><circle cx={x} cy={y} r="4" /><path d={`M${x - 2.5} ${y} h5`} stroke="#27272a" strokeWidth="1" /></g>
-              ))}
+            {/* test points (pulse) on the left bus bar / board edge */}
+            <g fill="#fca5a5">
+              <circle className="hbv-tp" cx="40" cy="70" r="2.4" />
+              <circle className="hbv-tp hbv-tp2" cx="40" cy="130" r="2.4" />
+              <circle className="hbv-tp hbv-tp3" cx="40" cy="190" r="2.4" />
+              <circle className="hbv-tp hbv-tp4" cx="452" cy="120" r="2.4" />
+              <circle className="hbv-tp hbv-tp5" cx="452" cy="210" r="2.4" />
             </g>
 
-            {/* white tester plug on the right edge + handheld tester */}
-            <rect x="384" y="150" width="14" height="60" rx="2" fill="#e5e7eb" stroke="#9ca3af" strokeWidth="0.8" />
-            <g stroke="#9ca3af" strokeWidth="0.8">
-              {[158, 168, 178, 188, 198].map((y) => <line key={y} x1="386" y1={y} x2="396" y2={y} />)}
+            {/* diagnostic scan line (subtle) */}
+            <g className="hbv-scan">
+              <rect x="18" y="40" width="444" height="2" fill="#f87171" opacity="0.85" />
+              <rect x="18" y="34" width="444" height="14" fill="#dc2626" opacity="0.1" />
             </g>
-            <path d="M398 180 C 418 180, 420 210, 432 214" fill="none" stroke="#52525b" strokeWidth="2.5" />
-            <rect x="412" y="206" width="50" height="74" rx="7" fill="#15151b" stroke="#3f3f46" strokeWidth="1" />
-            <rect x="419" y="214" width="36" height="26" rx="3" fill="#06251a" stroke="#0f5c39" strokeWidth="0.8" />
-            <polyline className="hbv-wave" points="421,227 427,221 433,231 439,219 445,229 451,223" fill="none" stroke="#34d399" strokeWidth="1.6" strokeLinecap="round" />
-            <circle cx="420" cy="250" r="2.4" fill="#ef4444" className="hbv-clip-red" />
-            <rect x="430" y="248" width="22" height="6" rx="3" fill="#27272a" />
-            <rect x="430" y="260" width="22" height="6" rx="3" fill="#27272a" />
           </svg>
 
-          {/* minimal status label, synced to the phases (bilingual) */}
-          <div className="pointer-events-none absolute left-4 top-4 flex items-center gap-2 rounded-full border border-white/10 bg-black/70 px-3 py-1.5 backdrop-blur">
-            <span className="h-2 w-2 rounded-full bg-crimson-accent" />
-            <span className="grid font-inter text-[11px] font-semibold uppercase tracking-[0.12em] text-zinc-200">
-              <span className="col-start-1 row-start-1 invisible">{longest}</span>
-              <span className="hbv-l1 col-start-1 row-start-1">{steps[0]}</span>
-              <span className="hbv-l2 col-start-1 row-start-1">{steps[1]}</span>
-              <span className="hbv-l3 col-start-1 row-start-1">{steps[2]}</span>
-              <span className="hbv-l4 col-start-1 row-start-1">{steps[3]}</span>
+          {/* small bench-tester status bar BESIDE (below) the board — never over the chips */}
+          <div className="flex items-center justify-between gap-3 border-t border-zinc-900 bg-black/85 px-4 py-2.5">
+            <div className="flex items-center gap-2">
+              <svg width="26" height="14" viewBox="0 0 26 14" aria-hidden="true" className="shrink-0">
+                <rect x="0.5" y="0.5" width="25" height="13" rx="2" fill="#0c0c10" stroke="#27272a" />
+                <polyline className="hbv-wave" points="3,9 7,5 10,10 13,4 16,9 19,6 23,8" fill="none" stroke="#34d399" strokeWidth="1.2" strokeLinecap="round" />
+              </svg>
+              <span className="relative inline-flex h-2 w-2 rounded-full">
+                <svg viewBox="0 0 8 8" className="h-2 w-2"><circle cx="4" cy="4" r="4" className="hbv-led" /></svg>
+              </span>
+              <span className="grid font-inter text-[10px] font-semibold uppercase tracking-[0.12em] text-zinc-200 sm:text-[11px]">
+                <span className="col-start-1 row-start-1 invisible">{longest}</span>
+                <span className="hbv-l1 col-start-1 row-start-1">{steps[0]}</span>
+                <span className="hbv-l2 col-start-1 row-start-1">{steps[1]}</span>
+                <span className="hbv-l3 col-start-1 row-start-1">{steps[2]}</span>
+                <span className="hbv-l4 col-start-1 row-start-1">{steps[3]}</span>
+              </span>
+            </div>
+            <span className="hidden truncate font-inter text-[10px] uppercase tracking-[0.16em] text-zinc-500 sm:block">
+              {t('srv2_hero_caption')}
             </span>
           </div>
         </div>
-      </div>
-
-      {/* caption strip */}
-      <div className="absolute -bottom-4 left-6 right-6 rounded-2xl border border-zinc-800 bg-black/85 px-5 py-3 backdrop-blur sm:left-10 sm:right-10">
-        <p className="text-center text-xs font-medium uppercase tracking-[0.18em] text-zinc-300">
-          {t('srv2_hero_caption')}
-        </p>
       </div>
     </div>
   );
