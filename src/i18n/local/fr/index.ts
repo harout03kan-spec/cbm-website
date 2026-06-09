@@ -385,6 +385,11 @@ const fr = {
   srv_trust_2: 'Service partout au Canada',
   srv_trust_3: 'Diagnostic de hashboard',
   srv_trust_4: 'Devis avant tout travail',
+  srv_anim_1: 'Inspection',
+  srv_anim_2: 'Isolation',
+  srv_anim_3: 'Réparation',
+  srv_anim_4: 'Test',
+  srv_anim_aria: 'Diagnostic animé d\'un hashboard : balayage, isolation de la panne, réparation, puis test.',
   srv_trust_5: 'Réparation au Niveau des Cartes',
   srv_trust_6: 'Support de Réparation en Gros',
   srv_fleet_1: 'Inspection par Lot Avant Achat',
@@ -436,7 +441,7 @@ const fr = {
 
 
   srv2_how_eyebrow: 'Comment se Déroule la Réparation',
-  srv2_how_title: 'Du Premier Message au Retour au Minage',
+  srv2_how_title: 'Du Mineur en Panne au Retour Testé',
   srv2_how_sub: 'Trois étapes simples. Vous approuvez le prix avant le début de toute réparation.',
   srv2_flow1_title: 'Envoyez ou déposez le mineur',
   srv2_flow1_text: 'Indiquez le modèle, les symptômes, les journaux d\'erreurs et des photos si disponibles.',

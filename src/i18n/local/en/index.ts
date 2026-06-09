@@ -385,6 +385,11 @@ const en = {
   srv_trust_2: 'Canada-wide service',
   srv_trust_3: 'Hashboard diagnostics',
   srv_trust_4: 'Quote before any work',
+  srv_anim_1: 'Inspect',
+  srv_anim_2: 'Isolate',
+  srv_anim_3: 'Repair',
+  srv_anim_4: 'Test',
+  srv_anim_aria: 'Animated hashboard diagnostic: scan, fault isolation, repair, then testing.',
   srv_trust_5: 'Board Level Repair',
   srv_trust_6: 'Bulk Repair Support',
   srv_fleet_1: 'Batch Inspection Before Purchase',
@@ -436,7 +441,7 @@ const en = {
 
 
   srv2_how_eyebrow: 'How Repair Works',
-  srv2_how_title: 'From First Message to Mining Again',
+  srv2_how_title: 'From Broken Miner to Tested Return',
   srv2_how_sub: 'Three simple steps. You approve the price before any repair begins.',
   srv2_flow1_title: 'Send or drop off the miner',
   srv2_flow1_text: 'Tell us the model, symptoms, error logs, and photos if available.',

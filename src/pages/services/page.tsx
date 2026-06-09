@@ -5,6 +5,7 @@ import Navbar from '../../components/feature/Navbar';
 import Footer from '../../components/feature/Footer';
 import { useTranslation } from 'react-i18next';
 import Seo, { repairServiceLd } from '../../components/feature/Seo';
+import HashboardRepairVisual from './components/HashboardRepairVisual';
 
 // Contact channels. Direct phone call, plus the on-site contact form for quotes.
 const TEL = 'tel:+15146047050';
@@ -154,30 +155,7 @@ export default function ServicesPage() {
           </motion.div>
 
           <motion.div {...heroReveal(0.1)} className="relative">
-            <div className="relative overflow-hidden rounded-[2rem] border border-red-950/60 bg-black/40 p-3 shadow-2xl shadow-black/60">
-              <div className="relative overflow-hidden rounded-[1.5rem] border border-zinc-900">
-                <img
-                  src="/repair-lab.jpg"
-                  alt={t('srv2_hero_img_alt')}
-                  loading="lazy"
-                  className="h-[280px] w-full object-cover sm:h-[360px] lg:h-[460px]"
-                />
-                {/* dark industrial overlay so the bright lab photo fits the theme */}
-                <div
-                  aria-hidden="true"
-                  className="pointer-events-none absolute inset-0"
-                  style={{
-                    background:
-                      'linear-gradient(to top, rgba(0,0,0,0.85), rgba(0,0,0,0.25) 45%, rgba(0,0,0,0.15)), radial-gradient(circle at 70% 20%, rgba(220,38,38,0.18), transparent 55%)',
-                  }}
-                />
-              </div>
-            </div>
-            <div className="absolute -bottom-4 left-6 right-6 rounded-2xl border border-zinc-800 bg-black/85 px-5 py-3 backdrop-blur sm:left-10 sm:right-10">
-              <p className="text-center text-xs font-medium uppercase tracking-[0.18em] text-zinc-300">
-                {t('srv2_hero_caption')}
-              </p>
-            </div>
+            <HashboardRepairVisual />
           </motion.div>
         </div>
 
