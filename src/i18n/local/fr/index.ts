@@ -15,7 +15,7 @@ const fr = {
 
   // ── HERO ───────────────────────────────────────────
   hero_title: 'Achetez, Réparez & Hébergez des Mineurs ASIC au Canada',
-  hero_sub: 'Mineurs ASIC neufs et usagés, réparations Antminer à l\'interne et lots en gros pour mineurs et sites de minage — vendus et entretenus partout au Canada.',
+  hero_sub: 'Mineurs ASIC neufs et usagés, réparations Antminer à l\'interne et lots en gros pour mineurs et sites de minage. Vendus et entretenus partout au Canada.',
   hero_cta: 'Acheter des Mineurs ASIC',
   hero_cta2: 'Appeler +1 514 604 7050',
   hero_eyebrow: 'Vente · Réparation · Lots en Gros ASIC',
@@ -42,7 +42,7 @@ const fr = {
   // ── SERVICES HUB ───────────────────────────────────
   hub_tag: 'NOS SERVICES',
   hub_title: 'Vente, Réparation et Hébergement de Mineurs ASIC au Canada',
-  hub_sub: 'Achetez des mineurs neufs et usagés, faites réparer vos hashboards et cartes de contrôle à l\'interne, et placez vos déploiements plus importants — le tout soutenu partout au Canada.',
+  hub_sub: 'Achetez des mineurs neufs et usagés, faites réparer vos hashboards et cartes de contrôle à l\'interne et planifiez vos déploiements plus importants. Soutenu partout au Canada.',
   hub_s1_tag: 'VENTE DE MATÉRIEL',
   hub_s1_title: 'Vente ASIC',
   hub_s1_desc: 'Mineurs ASIC neufs et remis à neuf disponibles depuis l\'inventaire canadien avec des prix clairs et une exécution rapide.',

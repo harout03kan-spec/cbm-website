@@ -15,7 +15,7 @@ const en = {
 
   // ── HERO ───────────────────────────────────────────
   hero_title: 'Buy, Repair & Host ASIC Miners in Canada',
-  hero_sub: 'New and used ASIC miners, in‑house Antminer repairs, and bulk deals for miners and mining sites — sold and serviced across Canada.',
+  hero_sub: 'New and used ASIC miners, in‑house Antminer repairs, and bulk deals for miners and mining sites. Sold and serviced across Canada.',
   hero_cta: 'Shop ASIC Miners',
   hero_cta2: 'Call +1 514 604 7050',
   hero_eyebrow: 'ASIC Sales · Repairs · Bulk Deals',
@@ -42,7 +42,7 @@ const en = {
   // ── SERVICES HUB ───────────────────────────────────
   hub_tag: 'OUR SERVICES',
   hub_title: 'Sales, Repairs & Hosting for ASIC Miners in Canada',
-  hub_sub: 'Buy new and used miners, get hashboards and control boards repaired in‑house, and place larger deployments — all supported across Canada.',
+  hub_sub: 'Buy new and used miners, get hashboards and control boards repaired in‑house, and plan larger deployments. Supported across Canada.',
   hub_s1_tag: 'HARDWARE SALES',
   hub_s1_title: 'ASIC Sales',
   hub_s1_desc: 'New and refurbished ASIC miners available from Canadian inventory with clear pricing and fast fulfillment.',
