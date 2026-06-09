@@ -9,12 +9,16 @@ const fr = {
   nav_shopMiners: 'Acheter',
   nav_lang: 'EN',
 
+  // ── SEO / META (homepage) ──────────────────────────
+  seo_home_title: 'Canada BTC Miners | Vente, Réparation et Lots en Gros de Mineurs ASIC au Canada',
+  seo_home_desc: 'Achetez des mineurs ASIC neufs et usagés au Canada, obtenez des réparations Antminer à l\'interne et demandez des lots de mineurs ASIC en gros chez Canada BTC Miners. Vente, réparation et hébergement de matériel de minage Bitcoin avec soutien partout au Canada.',
+
   // ── HERO ───────────────────────────────────────────
   hero_title: 'Achetez, Réparez & Hébergez des Mineurs ASIC au Canada',
-  hero_sub: 'Mineurs ASIC neufs et remis à neuf, réparations internes et placements d\'hébergement coordonnés partout au Canada et aux États-Unis.',
+  hero_sub: 'Mineurs ASIC neufs et usagés, réparations Antminer à l\'interne et lots en gros pour mineurs et sites de minage. Vendus et entretenus partout au Canada.',
   hero_cta: 'Acheter des Mineurs ASIC',
   hero_cta2: 'Appeler +1 514 604 7050',
-  hero_eyebrow: 'Matériel de Minage ASIC Premium',
+  hero_eyebrow: 'Vente · Réparation · Lots en Gros ASIC',
   hero_status: 'Minage actif',
   hero_trust: 'Propriété canadienne · Testé avant expédition · Garantie réparation 30 jours',
   hero_metric_label: 'Hashrate en temps réel',
@@ -37,15 +41,15 @@ const fr = {
 
   // ── SERVICES HUB ───────────────────────────────────
   hub_tag: 'NOS SERVICES',
-  hub_title: 'Conçu pour Soutenir Chaque Étape de Vos Opérations de Minage',
-  hub_sub: 'De l\'approvisionnement en mineurs aux réparations au niveau des cartes et à la coordination d\'hébergement, nous aidons les mineurs à acheter, maintenir et évoluer en toute confiance.',
+  hub_title: 'Vente, Réparation et Hébergement de Mineurs ASIC au Canada',
+  hub_sub: 'Achetez des mineurs neufs et usagés, faites réparer vos hashboards et cartes de contrôle à l\'interne et planifiez vos déploiements plus importants. Soutenu partout au Canada.',
   hub_s1_tag: 'VENTE DE MATÉRIEL',
   hub_s1_title: 'Vente ASIC',
   hub_s1_desc: 'Mineurs ASIC neufs et remis à neuf disponibles depuis l\'inventaire canadien avec des prix clairs et une exécution rapide.',
   hub_s1_btn: 'Acheter des Mineurs ASIC',
   hub_s2_tag: 'CENTRE DE RÉPARATION',
   hub_s2_title: 'Réparations ASIC',
-  hub_s2_desc: 'Diagnostics et réparations pour hashboards, PSU, cartes de contrôle et mineurs ASIC complets, gérés par notre équipe de service interne à Montréal.',
+  hub_s2_desc: 'Diagnostics et réparations pour hashboards, cartes de contrôle et mineurs ASIC complets, gérés par notre équipe de service interne à Montréal.',
   hub_s2_btn: 'Voir les Services de Réparation',
   hub_s3_tag: 'SOUTIEN HÉBERGEMENT',
   hub_s3_title: 'Coordination d\'Hébergement',
@@ -53,8 +57,8 @@ const fr = {
   hub_s3_btn: 'Voir les Options d\'Hébergement',
 
   // ── FEATURED PRODUCTS ──────────────────────────────
-  fp_title: 'Acheter des Mineurs ASIC',
-  fp_sub: 'Mineurs ASIC refroidis à l\'air et hydro disponibles avec livraison canadienne rapide.',
+  fp_title: 'Mineurs ASIC en Vedette',
+  fp_sub: 'Une sélection de nos mineurs ASIC neufs et usagés les plus populaires, avec vente et soutien partout au Canada.',
   fp_filter_air: 'Refroidi à l\'Air',
   fp_filter_hydro: 'Hydro',
   fp_filter_home: 'Mineurs Résidentiels',
@@ -71,6 +75,9 @@ const fr = {
   fp_view: 'Voir les Détails',
   fp_bulk: 'Commandes en gros disponibles. Contactez-nous.',
   fp_view_all: 'Voir Tous les Mineurs',
+
+  // ── BRANDS STRIP ───────────────────────────────────
+  brands_label: 'Marques que Nous Vendons et Réparons',
 
   // ── USED DEALS & BULK BATCHES (homepage secondary section) ──
   deals_title: 'Offres d\'Occasion et Lots en Gros',
@@ -119,7 +126,7 @@ const fr = {
   st_title: 'Centre de Réparation ASIC de Montréal',
   st_desc: 'Notre centre de réparation de Montréal est spécialisé dans les diagnostics au niveau des cartes et les réparations complètes de mineurs ASIC pour remettre vos unités en ligne rapidement.',
   st_models: 'Nous réparons les modèles Antminer et Whatsminer dont les S19, S19j Pro, S19 XP, S21 et les séries M30/M50.',
-  st_scope: 'Nous réparons les hashboards, les alimentations électriques, les cartes de contrôle et les unités ASIC complètes.',
+  st_scope: 'Nous offrons le diagnostic et la réparation de hashboards, le soutien des cartes de contrôle, le soutien firmware, le nettoyage, l\'entretien et les tests pour les clients partout au Canada.',
   st_p1: 'Plus de 2 300 mineurs réparés',
   st_p2: 'Taux de réussite de 92%',
   st_p3: 'Garantie de réparation 30 jours',
@@ -203,8 +210,7 @@ const fr = {
 
   // ── FAQ ────────────────────────────────────────────
   faq_title: 'Avant de Commander',
-  faq_sub: 'Réponses claires aux questions courantes sur l\'expédition, la garantie et l\'achat de mineurs ASIC au Canada.',
-  faq_footer: 'Pour les spécifications techniques, les exigences d\'hébergement ou les estimations de rentabilité, consultez les pages de produits individuelles ou les outils de calcul.',
+  faq_sub: 'Des réponses claires sur l\'expédition, la garantie, les commandes en gros et les réparations de mineurs ASIC au Canada.',
   faq_q1: 'L\'expédition est-elle incluse?',
   faq_a1: 'L\'expédition et le courtage sont inclus avec toutes les unités neuves. Les unités usagées et remises à neuf n\'incluent pas l\'expédition. L\'expédition des unités usagées est payée à la livraison directement au transporteur (Postes Canada, FedEx, DHL) selon le tarif réel. Les unités en stock peuvent également être récupérées à notre installation de Montréal.',
   faq_q2: 'Quel est le délai de livraison?',
@@ -584,6 +590,10 @@ const fr = {
   shop_empty_title: 'Aucun mineur trouvé',
   shop_empty_desc: 'Nous pouvons peut-être quand même trouver le modèle dont vous avez besoin. Contactez-nous et nous vérifierons la disponibilité pour vous.',
   shop_empty_cta: 'Nous contacter',
+  shop_help_title: 'Besoin d\'aide pour choisir un mineur?',
+  shop_help_desc: 'Vous ne trouvez pas le modèle qu\'il vous faut? Appelez-nous et nous vous aiderons à choisir le bon mineur ASIC pour votre installation, ou nous le trouverons pour vous.',
+  shop_help_call: 'Appeler +1 (514) 604-7050',
+  shop_help_contact: 'Nous contacter',
   product_specs: 'Spécifications',
   product_shipping_label: 'Expédition et Livraison',
   product_warranty: 'Garantie',

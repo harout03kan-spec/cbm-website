@@ -1,3 +1,5 @@
+import { useTranslation } from 'react-i18next';
+
 // Brand logos provided by the client, stored in public/assets/brands/.
 // All files are transparent PNG/WebP so they sit cleanly on the dark background.
 const brands = [
@@ -18,6 +20,7 @@ const brands = [
 const allBrands = [...brands, ...brands];
 
 const BrandsSection = () => {
+  const { t } = useTranslation();
   return (
     <section className="py-10 bg-[#0a0a0a] border-y border-white/[0.07] overflow-hidden">
       <style>{`
@@ -42,7 +45,7 @@ const BrandsSection = () => {
 
       {/* Label */}
       <p className="text-center font-inter text-[10px] font-semibold uppercase tracking-[0.3em] text-crimson-accent mb-7">
-        Brands We Sell &amp; Repair
+        {t('brands_label')}
       </p>
 
       <div className="brand-marquee">
