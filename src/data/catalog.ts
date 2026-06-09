@@ -619,7 +619,7 @@ export const CATALOG_PRODUCTS: Product[] = [
     "name": "Antminer S21+ 235TH",
     "slug": "antminer-s21-235th",
     "sku": "00070",
-    "price": "3900.00",
+    "price": "3228",
     "sale_price": "",
     "stock_status": "onbackorder",
     "stock_quantity": null,
@@ -1449,48 +1449,8 @@ export const CATALOG_PRODUCTS: Product[] = [
     }
   },
   {
-    "id": 799721637,
-    "name": "ElphaPex DG1+ 13G",
-    "slug": "elphapex-dg1-13g-brand-new",
-    "sku": "00088",
-    "price": "2630",
-    "sale_price": "",
-    "stock_status": "onbackorder",
-    "stock_quantity": null,
-    "condition": "New",
-    "cooling": "Air",
-    "algorithm": "Scrypt",
-    "hashrate": "13",
-    "hashrate_unit": "GH/s",
-    "power": "3920",
-    "efficiency": "0.28",
-    "efficiency_unit": "J/MH",
-    "image": "https://d2j6dbq0eux0bg.cloudfront.net/images/99673270/5423502108.png",
-    "images": [
-      "https://d2j6dbq0eux0bg.cloudfront.net/images/99673270/5423502108.png"
-    ],
-    "badge": "",
-    "short_description": "",
-    "featured": true,
-    "categories": [],
-    "permalink": "https://www.canadabtcminers.ca/asic-miner-store/ElphaPex-DG1-13G-BRAND-NEW-p799721637",
-    "brand": "ElphaPex",
-    "details": {
-      "model": "ElphaPex DG1+ 13G",
-      "release": "Jul 2024",
-      "size": "432 x 196 x 287 mm",
-      "weight": "18300 g",
-      "noise": "75 dB",
-      "fans": "4",
-      "voltage": "200-240V",
-      "interface": "RJ45 Ethernet 10/100M",
-      "temperature": "5 - 45 °C",
-      "humidity": "5 - 95 %"
-    }
-  },
-  {
     "id": 769987280,
-    "name": "ElphaPex DG1+ 14G",
+    "name": "ElphaPex DG1+",
     "slug": "elphapex-dg1-14g-brand-new",
     "sku": "00071",
     "price": "2916",
@@ -1526,7 +1486,29 @@ export const CATALOG_PRODUCTS: Product[] = [
       "interface": "RJ45 Ethernet 10/100M",
       "temperature": "5 - 45 °C",
       "humidity": "5 - 95 %"
-    }
+    },
+    "variants": [
+      {
+        "label": "14G",
+        "model": "ElphaPex DG1+ 14G",
+        "hashrate": "14",
+        "hashrate_unit": "GH/s",
+        "power": "3920",
+        "efficiency": "0.28",
+        "efficiency_unit": "J/MH",
+        "price": "2916"
+      },
+      {
+        "label": "13G",
+        "model": "ElphaPex DG1+ 13G",
+        "hashrate": "13",
+        "hashrate_unit": "GH/s",
+        "power": "3920",
+        "efficiency": "0.28",
+        "efficiency_unit": "J/MH",
+        "price": "2630"
+      }
+    ]
   },
   {
     "id": 800767975,
