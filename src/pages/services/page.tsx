@@ -88,11 +88,12 @@ export default function ServicesPage() {
     { icon: 'ri-checkbox-circle-line', title: t('srv2_flow3_title'), text: t('srv2_flow3_text') },
   ];
 
-  // High level service pillars: Diagnostic / Repair / Maintenance.
+  // Repair-bench flow: Inspect → Isolate → Repair → Test (compact strip, not cards).
   const repairStages: { icon: string; num: string; title: string; desc: string }[] = [
-    { icon: 'ri-search-eye-line', num: '01', title: t('srv_graphic_1'), desc: t('srv_graphic_1_desc') },
-    { icon: 'ri-tools-fill',      num: '02', title: t('srv_graphic_2'), desc: t('srv_graphic_2_desc') },
-    { icon: 'ri-settings-4-line', num: '03', title: t('srv_graphic_3'), desc: t('srv_graphic_3_desc') },
+    { icon: 'ri-search-eye-line',  num: '01', title: t('srv_graphic_1'), desc: t('srv_graphic_1_desc') },
+    { icon: 'ri-focus-3-line',     num: '02', title: t('srv_graphic_2'), desc: t('srv_graphic_2_desc') },
+    { icon: 'ri-tools-fill',       num: '03', title: t('srv_graphic_3'), desc: t('srv_graphic_3_desc') },
+    { icon: 'ri-pulse-line',       num: '04', title: t('srv_graphic_4'), desc: t('srv_graphic_4_desc') },
   ];
 
   // Reusable CTA cluster: direct phone call + repair quote (contact form).
@@ -217,17 +218,21 @@ export default function ServicesPage() {
           <p className="mt-4 font-inter text-sm leading-7 text-zinc-400 sm:text-base">{t('srv_graphic_sub')}</p>
         </div>
 
-        {/* Compact divided strip — intentionally different from the Repair-by-Level
-            cards: one bordered panel split into three, icon + label + one line. */}
+        {/* Repair-bench flow — one bordered panel split into four numbered steps
+            (Inspect / Isolate / Repair / Test). Intentionally different from the
+            Repair-by-Level cards; reads left-to-right on desktop, stacked on mobile. */}
         <div className="mt-10 overflow-hidden rounded-2xl border border-zinc-800 bg-[linear-gradient(160deg,rgba(24,24,27,0.6),rgba(9,9,11,0.85))]">
-          <div className="grid divide-y divide-zinc-800/80 sm:grid-cols-3 sm:divide-y-0 sm:divide-x">
+          <div className="grid grid-cols-1 divide-y divide-zinc-800/80 lg:grid-cols-4 lg:divide-y-0 lg:divide-x">
             {repairStages.map((stage, idx) => (
               <motion.div key={stage.num} {...reveal(idx * 0.08)} className="flex items-start gap-4 p-6 sm:p-7">
                 <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-red-900/40 bg-red-950/30 text-crimson-accent">
                   <i className={`${stage.icon} text-xl`} aria-hidden="true" />
                 </span>
                 <div className="min-w-0">
-                  <h3 className="font-inter text-base font-bold leading-snug text-white">{stage.title}</h3>
+                  <div className="flex items-center gap-2">
+                    <span className="font-inter text-[11px] font-bold tracking-[0.18em] text-red-400/80">{stage.num}</span>
+                    <h3 className="font-inter text-base font-bold leading-snug text-white">{stage.title}</h3>
+                  </div>
                   <p className="mt-1.5 font-inter text-sm leading-6 text-zinc-400">{stage.desc}</p>
                 </div>
               </motion.div>
