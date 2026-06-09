@@ -96,6 +96,19 @@ export default function ServicesPage() {
     { icon: 'ri-pulse-line',       num: '04', title: t('srv_graphic_4'), desc: t('srv_graphic_4_desc') },
   ];
 
+  // Quick trust signals shown right under the hero CTA.
+  const heroChips = [t('srv_chip_1'), t('srv_chip_2'), t('srv_chip_3'), t('srv_chip_4'), t('srv_chip_5'), t('srv_chip_6')];
+
+  // "Why clients choose us" — proof-based points (compact icon + text list).
+  const whyPoints = [
+    { icon: 'ri-cpu-line',          title: t('srv_why_1'), desc: t('srv_why_1_desc') },
+    { icon: 'ri-map-pin-2-line',    title: t('srv_why_2'), desc: t('srv_why_2_desc') },
+    { icon: 'ri-truck-line',        title: t('srv_why_3'), desc: t('srv_why_3_desc') },
+    { icon: 'ri-stack-line',        title: t('srv_why_4'), desc: t('srv_why_4_desc') },
+    { icon: 'ri-price-tag-3-line',  title: t('srv_why_5'), desc: t('srv_why_5_desc') },
+    { icon: 'ri-pulse-line',        title: t('srv_why_6'), desc: t('srv_why_6_desc') },
+  ];
+
   // Reusable CTA cluster: direct phone call + repair quote (contact form).
   const CtaCluster = ({ className = '' }: { className?: string }) => (
     <div className={`relative z-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap ${className}`}>
@@ -159,6 +172,16 @@ export default function ServicesPage() {
             </p>
 
             <CtaCluster />
+
+            {/* Immediate trust signals — what we repair, where, and how it works. */}
+            <ul className="mt-7 flex flex-wrap gap-2">
+              {heroChips.map((chip) => (
+                <li key={chip} className="inline-flex items-center gap-1.5 rounded-full border border-zinc-700/70 bg-white/[0.03] px-3 py-1.5 font-inter text-xs font-medium text-zinc-300">
+                  <i className="ri-checkbox-circle-fill text-sm text-crimson-accent" aria-hidden="true" />
+                  {chip}
+                </li>
+              ))}
+            </ul>
           </motion.div>
 
           <motion.div {...heroReveal(0.1)} className="relative">
@@ -210,39 +233,8 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      {/* ── 2.5 SERVICE PILLARS (Diagnostic / Repair / Maintenance) ───── */}
-      <section className="mx-auto max-w-7xl px-6 py-16 sm:py-20">
-        <div className="max-w-2xl">
-          <p className="font-inter text-sm font-semibold uppercase tracking-[0.22em] text-crimson-accent">{t('srv_graphic_tag')}</p>
-          <h2 className="mt-3 font-inter text-3xl font-bold tracking-tight sm:text-4xl">{t('srv_graphic_title')}</h2>
-          <p className="mt-4 font-inter text-sm leading-7 text-zinc-400 sm:text-base">{t('srv_graphic_sub')}</p>
-        </div>
-
-        {/* Repair-bench flow — one bordered panel split into four numbered steps
-            (Inspect / Isolate / Repair / Test). Intentionally different from the
-            Repair-by-Level cards; reads left-to-right on desktop, stacked on mobile. */}
-        <div className="mt-10 overflow-hidden rounded-2xl border border-zinc-800 bg-[linear-gradient(160deg,rgba(24,24,27,0.6),rgba(9,9,11,0.85))]">
-          <div className="grid grid-cols-1 divide-y divide-zinc-800/80 lg:grid-cols-4 lg:divide-y-0 lg:divide-x">
-            {repairStages.map((stage, idx) => (
-              <motion.div key={stage.num} {...reveal(idx * 0.08)} className="flex items-start gap-4 p-6 sm:p-7">
-                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-red-900/40 bg-red-950/30 text-crimson-accent">
-                  <i className={`${stage.icon} text-xl`} aria-hidden="true" />
-                </span>
-                <div className="min-w-0">
-                  <div className="flex items-center gap-2">
-                    <span className="font-inter text-[11px] font-bold tracking-[0.18em] text-red-400/80">{stage.num}</span>
-                    <h3 className="font-inter text-base font-bold leading-snug text-white">{stage.title}</h3>
-                  </div>
-                  <p className="mt-1.5 font-inter text-sm leading-6 text-zinc-400">{stage.desc}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── 3. REPAIR PRICING (large premium cards, Level 1/2/3 only) ─── */}
-      <section id="pricing" className="mx-auto max-w-7xl px-6 py-16 sm:py-24">
+      {/* ── 2. REPAIR PRICING (Level 1/2/3) — kept high so price is easy to find ─ */}
+      <section id="pricing" className="mx-auto max-w-7xl px-6 py-16 sm:py-20">
         <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
           <div className="max-w-2xl">
             <p className="font-inter text-sm font-semibold uppercase tracking-[0.22em] text-crimson-accent">{t('srv2_pricing_eyebrow')}</p>
@@ -305,34 +297,40 @@ export default function ServicesPage() {
             </motion.div>
           ))}
         </div>
+      </section>
 
-        {/* ── 4. SUPPORTING SERVICES (compact tiles under pricing) ────── */}
-        <div className="mt-14">
-          <div className="flex items-center gap-3">
-            <h3 className="font-inter text-sm font-semibold uppercase tracking-[0.2em] text-zinc-300">{t('srv2_support_title')}</h3>
-            <span aria-hidden="true" className="h-px flex-1 bg-gradient-to-r from-zinc-800 to-transparent" />
-          </div>
-          <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {supportServices.map((svc, idx) => (
-              <motion.div
-                key={svc.name}
-                {...reveal(idx * 0.04)}
-                className="group flex items-center gap-3 rounded-2xl border border-zinc-800 bg-white/[0.02] px-4 py-3.5 transition-colors duration-200 hover:border-red-900/50 hover:bg-red-950/10"
-              >
-                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-red-900/30 bg-red-950/20 text-crimson-accent">
-                  <i className={`${svc.icon} text-base`} aria-hidden="true" />
+      {/* ── 3. ON THE REPAIR BENCH (Inspect / Isolate / Repair / Test) ─ */}
+      <section className="mx-auto max-w-7xl px-6 pb-16 sm:pb-20">
+        <div className="max-w-2xl">
+          <p className="font-inter text-sm font-semibold uppercase tracking-[0.22em] text-crimson-accent">{t('srv_graphic_tag')}</p>
+          <h2 className="mt-3 font-inter text-3xl font-bold tracking-tight sm:text-4xl">{t('srv_graphic_title')}</h2>
+          <p className="mt-4 font-inter text-sm leading-7 text-zinc-400 sm:text-base">{t('srv_graphic_sub')}</p>
+        </div>
+
+        {/* Repair-bench flow — one bordered panel split into four numbered steps
+            (Inspect / Isolate / Repair / Test). Intentionally different from the
+            Repair-by-Level cards; reads left-to-right on desktop, stacked on mobile. */}
+        <div className="mt-10 overflow-hidden rounded-2xl border border-zinc-800 bg-[linear-gradient(160deg,rgba(24,24,27,0.6),rgba(9,9,11,0.85))]">
+          <div className="grid grid-cols-1 divide-y divide-zinc-800/80 lg:grid-cols-4 lg:divide-y-0 lg:divide-x">
+            {repairStages.map((stage, idx) => (
+              <motion.div key={stage.num} {...reveal(idx * 0.08)} className="flex items-start gap-4 p-6 sm:p-7">
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-red-900/40 bg-red-950/30 text-crimson-accent">
+                  <i className={`${stage.icon} text-xl`} aria-hidden="true" />
                 </span>
-                <span className="min-w-0 flex-1 text-sm font-medium leading-snug text-zinc-200">{svc.name}</span>
-                <span className="shrink-0 rounded-full border border-red-900/40 bg-red-950/20 px-2.5 py-1 text-[11px] font-semibold text-red-300">
-                  {svc.price}
-                </span>
+                <div className="min-w-0">
+                  <div className="flex items-center gap-2">
+                    <span className="font-inter text-[11px] font-bold tracking-[0.18em] text-red-400/80">{stage.num}</span>
+                    <h3 className="font-inter text-base font-bold leading-snug text-white">{stage.title}</h3>
+                  </div>
+                  <p className="mt-1.5 font-inter text-sm leading-6 text-zinc-400">{stage.desc}</p>
+                </div>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── 5. HOW REPAIR WORKS (custom animated power-flow process) ──── */}
+      {/* ── 4. HOW REPAIR WORKS (simple customer journey) ──── */}
       <section className="relative overflow-hidden border-y border-zinc-900 bg-zinc-950/60 py-16 sm:py-24">
         {/* ambient industrial glow */}
         <div
@@ -384,7 +382,56 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      {/* ── 6. FINAL CTA ─────────────────────────────────────────────── */}
+      {/* ── 5. WHY CLIENTS CHOOSE US (proof-based, compact list) ─────── */}
+      <section className="mx-auto max-w-7xl px-6 py-16 sm:py-20">
+        <div className="max-w-2xl">
+          <p className="font-inter text-sm font-semibold uppercase tracking-[0.22em] text-crimson-accent">{t('srv_why_tag')}</p>
+          <h2 className="mt-3 font-inter text-3xl font-bold tracking-tight sm:text-4xl">{t('srv_why_title')}</h2>
+        </div>
+        <div className="mt-10 grid gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-3">
+          {whyPoints.map((p, idx) => (
+            <motion.div key={p.title} {...reveal(idx * 0.05)} className="flex items-start gap-3">
+              <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-red-900/40 bg-red-950/30 text-crimson-accent">
+                <i className={`${p.icon} text-base`} aria-hidden="true" />
+              </span>
+              <div className="min-w-0">
+                <h3 className="font-inter text-base font-bold leading-snug text-white">{p.title}</h3>
+                <p className="mt-1 font-inter text-sm leading-6 text-zinc-400">{p.desc}</p>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── 6. SUPPORTING SERVICES (extras around the main repair) ───── */}
+      <section className="border-t border-zinc-900 bg-zinc-950/40">
+        <div className="mx-auto max-w-7xl px-6 py-16 sm:py-20">
+          <div className="flex items-center gap-3">
+            <h3 className="font-inter text-sm font-semibold uppercase tracking-[0.2em] text-zinc-300">{t('srv2_support_title')}</h3>
+            <span aria-hidden="true" className="h-px flex-1 bg-gradient-to-r from-zinc-800 to-transparent" />
+          </div>
+          <p className="mt-2 font-inter text-sm text-zinc-500">{t('srv2_support_sub')}</p>
+          <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {supportServices.map((svc, idx) => (
+              <motion.div
+                key={svc.name}
+                {...reveal(idx * 0.04)}
+                className="group flex items-center gap-3 rounded-2xl border border-zinc-800 bg-white/[0.02] px-4 py-3.5 transition-colors duration-200 hover:border-red-900/50 hover:bg-red-950/10"
+              >
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-red-900/30 bg-red-950/20 text-crimson-accent">
+                  <i className={`${svc.icon} text-base`} aria-hidden="true" />
+                </span>
+                <span className="min-w-0 flex-1 text-sm font-medium leading-snug text-zinc-200">{svc.name}</span>
+                <span className="shrink-0 rounded-full border border-red-900/40 bg-red-950/20 px-2.5 py-1 text-[11px] font-semibold text-red-300">
+                  {svc.price}
+                </span>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── 7. FINAL CTA ─────────────────────────────────────────────── */}
       <section className="relative overflow-hidden border-t border-red-950/50 bg-[radial-gradient(circle_at_top,rgba(220,38,38,0.2),transparent_40%),linear-gradient(to_bottom,rgba(24,24,27,0.82),rgba(0,0,0,1))]">
         <div className="mx-auto max-w-4xl px-6 py-20 text-center sm:py-24">
           <p className="font-inter text-sm font-semibold uppercase tracking-[0.22em] text-crimson-accent">{t('srv2_final_eyebrow')}</p>
