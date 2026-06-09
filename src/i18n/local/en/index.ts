@@ -9,12 +9,16 @@ const en = {
   nav_shopMiners: 'Shop Miners',
   nav_lang: 'FR',
 
+  // ── SEO / META (homepage) ──────────────────────────
+  seo_home_title: 'Canada BTC Miners | ASIC Miner Sales, Repair & Bulk Deals in Canada',
+  seo_home_desc: 'Buy new and used ASIC miners in Canada, get in-house Antminer repairs, and request bulk ASIC miner deals from Canada BTC Miners. Bitcoin mining hardware sales, repair, and hosting with Canada-wide support.',
+
   // ── HERO ───────────────────────────────────────────
   hero_title: 'Buy, Repair & Host ASIC Miners in Canada',
-  hero_sub: 'New and refurbished ASIC miners, in‑house repairs, and coordinated hosting placements across Canada and the U.S.',
+  hero_sub: 'New and used ASIC miners, in‑house Antminer repairs, and bulk deals for miners and mining sites — sold and serviced across Canada.',
   hero_cta: 'Shop ASIC Miners',
   hero_cta2: 'Call +1 514 604 7050',
-  hero_eyebrow: 'Premium ASIC Mining Hardware',
+  hero_eyebrow: 'ASIC Sales · Repairs · Bulk Deals',
   hero_status: 'Live mining',
   hero_trust: 'Canadian-owned · Tested before shipping · 30-day repair warranty',
   hero_metric_label: 'Real-time hashrate',
@@ -37,8 +41,8 @@ const en = {
 
   // ── SERVICES HUB ───────────────────────────────────
   hub_tag: 'OUR SERVICES',
-  hub_title: 'Built to Support Every Stage of Your Mining Operations',
-  hub_sub: 'From sourcing miners to board level repairs and hosting coordination, we help miners buy, maintain, and scale with confidence.',
+  hub_title: 'Sales, Repairs & Hosting for ASIC Miners in Canada',
+  hub_sub: 'Buy new and used miners, get hashboards and control boards repaired in‑house, and place larger deployments — all supported across Canada.',
   hub_s1_tag: 'HARDWARE SALES',
   hub_s1_title: 'ASIC Sales',
   hub_s1_desc: 'New and refurbished ASIC miners available from Canadian inventory with clear pricing and fast fulfillment.',
@@ -53,8 +57,8 @@ const en = {
   hub_s3_btn: 'View Hosting Options',
 
   // ── FEATURED PRODUCTS ──────────────────────────────
-  fp_title: 'Shop ASIC Miners',
-  fp_sub: 'Air cooled and hydro ASIC miners available with fast Canadian delivery.',
+  fp_title: 'Featured ASIC Miners',
+  fp_sub: 'A selection of our most popular new and used ASIC miners, with sales and support across Canada.',
   fp_filter_air: 'Air Cooled',
   fp_filter_hydro: 'Hydro',
   fp_filter_home: 'Home Miners',
@@ -71,6 +75,9 @@ const en = {
   fp_view: 'View Details',
   fp_bulk: 'Bulk orders available. Contact us.',
   fp_view_all: 'View All Miners',
+
+  // ── BRANDS STRIP ───────────────────────────────────
+  brands_label: 'Brands We Sell & Repair',
 
   // ── USED DEALS & BULK BATCHES (homepage secondary section) ──
   deals_title: 'Used Deals & Bulk Batches',
@@ -119,7 +126,7 @@ const en = {
   st_title: 'Montreal ASIC Miner Repair Center',
   st_desc: 'Our Montreal repair center specializes in board‑level diagnostics and full ASIC miner repairs to get your units back online quickly.',
   st_models: 'We repair Antminer and Whatsminer models including S19, S19j Pro, S19 XP, S21, and M30/M50 series.',
-  st_scope: 'We repair hashboards, power supplies, control boards, and complete ASIC units.',
+  st_scope: 'We service hashboards, power supplies, control boards, and complete ASIC units, including cleaning and preventive maintenance for clients across Canada.',
   st_p1: '2,300+ miners repaired',
   st_p2: '92% repair success rate',
   st_p3: '30-day repair warranty',
@@ -203,8 +210,7 @@ const en = {
 
   // ── FAQ ────────────────────────────────────────────
   faq_title: 'Before You Order',
-  faq_sub: 'Clear answers to common questions about shipping, warranty, and purchasing ASIC miners in Canada.',
-  faq_footer: 'For technical specifications, hosting requirements, or profitability estimates, refer to individual product pages or calculator tools.',
+  faq_sub: 'Clear answers on shipping, warranty, bulk orders, and repairs for ASIC miners in Canada.',
   faq_q1: 'Is shipping included?',
   faq_a1: 'Shipping and brokerage are included with all brand‑new units. Used and refurbished units do not include shipping. Shipping for used units is paid on delivery directly to the carrier (Canada Post, FedEx, DHL) based on actual rate. In‑stock units can also be picked up at our Montreal facility.',
   faq_q2: 'How long does delivery take?',

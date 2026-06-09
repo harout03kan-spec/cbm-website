@@ -43,9 +43,6 @@ const FAQSection = () => {
             </motion.div>
           ))}
         </div>
-        <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="text-center mt-12 text-muted-gray text-sm">
-          {t('faq_footer')}
-        </motion.p>
       </div>
     </section>
   );
