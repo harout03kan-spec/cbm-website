@@ -21,9 +21,9 @@ const HostingTeaser = () => {
               src="/hosting-facility.jpg"
               alt="Hosting facility"
               className="w-full h-full object-cover object-center absolute inset-0"
-              style={{ filter: 'grayscale(78%) brightness(0.46) contrast(1.08)' }}
+              style={{ filter: 'brightness(0.69) contrast(1.04)' }}
             />
-            <div className="absolute inset-0 pointer-events-none" style={{ background: 'linear-gradient(135deg, rgba(0,0,0,0.55), rgba(0,0,0,0.25) 60%), radial-gradient(circle at 85% 12%, rgba(220,38,38,0.06), transparent 55%)' }} />
+            <div className="absolute inset-0 pointer-events-none" style={{ background: 'rgba(0,0,0,0.34)' }} />
           </div>
         </motion.div>
 
