@@ -16,28 +16,53 @@ const brands = [
   { id: 'volcminer',   name: 'Volcminer',   src: '/assets/brands/volcminer.webp' },
 ];
 
-// Static, centered, wrapping grid — no animation. The previous CSS marquee could
-// occasionally drop its composited layer on mobile (blank/black flash) during
-// fast scroll; a static grid always renders on every device, refresh, and locale.
+// Duplicated track so the loop is seamless (translate by exactly one set = -50%).
+const track = [...brands, ...brands];
+
+// Sliding marquee, hardened against the blank/black flash seen on some mobile
+// browsers: the track is promoted to its own stable GPU layer (translateZ/
+// will-change/backface-visibility) and uses translate3d so the compositor keeps
+// it painted during fast scroll. A duplicated track always fills the viewport,
+// and prefers-reduced-motion falls back to a static (still fully visible) row.
 const BrandsSection = () => {
   const { t } = useTranslation();
   return (
-    <section className="py-10 bg-[#0a0a0a] border-y border-white/[0.07]">
-      <div className="max-w-6xl mx-auto px-6">
-        <p className="text-center font-inter text-[10px] font-semibold uppercase tracking-[0.3em] text-crimson-accent mb-7">
-          {t('brands_label')}
-        </p>
+    <section className="py-10 bg-[#0a0a0a] border-y border-white/[0.07] overflow-hidden">
+      <style>{`
+        @keyframes brand-scroll {
+          from { transform: translate3d(0, 0, 0); }
+          to   { transform: translate3d(-50%, 0, 0); }
+        }
+        .brand-track {
+          display: flex;
+          align-items: center;
+          width: max-content;
+          animation: brand-scroll 40s linear infinite;
+          will-change: transform;
+          transform: translateZ(0);
+          backface-visibility: hidden;
+        }
+        @media (min-width: 768px) { .brand-track { animation-duration: 55s; } }
+        .brand-track:hover { animation-play-state: paused; }
+        @media (prefers-reduced-motion: reduce) {
+          .brand-track { animation: none; flex-wrap: wrap; justify-content: center; width: 100%; }
+        }
+      `}</style>
 
-        <div className="flex flex-wrap items-center justify-center gap-x-7 gap-y-6 sm:gap-x-12">
-          {brands.map(({ id, name, src }) => (
+      <p className="text-center font-inter text-[10px] font-semibold uppercase tracking-[0.3em] text-crimson-accent mb-7">
+        {t('brands_label')}
+      </p>
+
+      <div className="brand-track">
+        {track.map(({ id, name, src }, idx) => (
+          <div key={`${id}-${idx}`} className="flex shrink-0 items-center justify-center px-7 sm:px-10 py-2">
             <img
-              key={id}
               src={src}
               alt={`${name} logo`}
               className="block h-6 sm:h-8 w-auto object-contain opacity-90"
             />
-          ))}
-        </div>
+          </div>
+        ))}
       </div>
     </section>
   );
