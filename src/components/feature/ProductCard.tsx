@@ -118,8 +118,8 @@ export default function ProductCard({ product, index = 0 }: { product: Product; 
         <h3 className="text-white font-inter font-bold text-base sm:text-xl mb-2 sm:mb-3 line-clamp-2">{displayName}</h3>
 
         {!unclear && miner && product.algorithm && (
-          <div className="hidden sm:block mb-3">
-            <span className="inline-flex items-center gap-1.5 rounded-md border border-white/15 bg-white/[0.04] px-2.5 py-1 text-xs font-inter font-semibold text-soft-gray">
+          <div className="mb-2 sm:mb-3">
+            <span className="inline-flex items-center gap-1 sm:gap-1.5 rounded-md border border-white/15 bg-white/[0.04] px-1.5 py-0.5 sm:px-2.5 sm:py-1 text-[10px] sm:text-xs font-inter font-semibold text-soft-gray">
               <i className="ri-cpu-line text-crimson-accent" aria-hidden="true"></i>
               {product.algorithm}
             </span>
