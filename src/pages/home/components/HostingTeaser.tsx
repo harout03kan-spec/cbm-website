@@ -21,8 +21,8 @@ const HostingTeaser = () => {
               object-cover for a clean fill. */}
           <div className="relative aspect-[4/3] overflow-hidden rounded-[20px] border border-white/[0.08] bg-[#0d0d0e] shadow-[0_20px_50px_rgba(0,0,0,0.35)] sm:aspect-auto sm:min-h-[420px]">
             <img
-              src="/hosting-facility.jpg"
-              alt="Hosting facility"
+              src="/hosting-facility-rack.jpg"
+              alt="ASIC miners hosted on racks in a mining facility"
               className="absolute inset-0 h-full w-full object-contain object-center sm:object-cover"
             />
           </div>
