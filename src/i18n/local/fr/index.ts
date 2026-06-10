@@ -128,7 +128,7 @@ const fr = {
   // ── HOMEPAGE — BANDEAU DE CONFIANCE ────────────────
   hp_proof_1: 'Centre de réparation à Montréal',
   hp_proof_2: 'Service partout au Canada',
-  hp_proof_3: 'Spécifications réelles des mineurs',
+  hp_proof_3: 'Specs des mineurs',
   hp_proof_4: 'Soutien réparation et lots en gros',
   hp_proof_call: 'Appelez +1 (514) 604-7050',
 

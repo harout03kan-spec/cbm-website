@@ -128,7 +128,7 @@ const en = {
   // ── HOMEPAGE — COMPACT TRUST ROW ───────────────────
   hp_proof_1: 'Montreal repair center',
   hp_proof_2: 'Canada-wide service',
-  hp_proof_3: 'Real miner specifications',
+  hp_proof_3: 'Miner specs',
   hp_proof_4: 'Repair and bulk support',
   hp_proof_call: 'Call +1 (514) 604-7050',
 
