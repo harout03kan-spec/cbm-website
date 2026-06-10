@@ -1,14 +1,14 @@
 import Navbar from '../../components/feature/Navbar';
 import Footer from '../../components/feature/Footer';
 import HeroSection from './components/HeroSection';
-import PlatformSection from './components/PlatformSection';
 import FeaturedProducts from './components/FeaturedProducts';
+import ProofStrip from './components/ProofStrip';
+import PlatformSection from './components/PlatformSection';
+import BrandsSection from './components/BrandsSection';
 import BulkFeatureSection from './components/BulkFeatureSection';
 import ServicesTeaser from './components/ServicesTeaser';
 import SellUpgradeSection from './components/SellUpgradeSection';
 import HostingTeaser from './components/HostingTeaser';
-import BrandsSection from './components/BrandsSection';
-import ProofStrip from './components/ProofStrip';
 import FinalCTA from './components/FinalCTA';
 import DiscountPopup from './components/DiscountPopup';
 import Seo, { organizationLd, websiteLd, localBusinessLd } from '../../components/feature/Seo';
@@ -29,29 +29,31 @@ export default function HomePage() {
       {/* 1. Hero — sales / repair / bulk across Canada */}
       <HeroSection />
 
-      {/* 2. Platform — the four business layers (Sales / Repair / Bulk / Hosting) */}
-      <PlatformSection />
-
-      {/* 3. Featured miners — six catalog cards + View All Miners */}
+      {/* 2. Featured miners — six catalog cards + View All Miners */}
       <FeaturedProducts />
 
-      {/* 4. Bulk Deals feature — real featured wholesale batch */}
-      <BulkFeatureSection />
+      {/* 3. Compact trust row — practical points + phone (no stats) */}
+      <ProofStrip />
 
-      {/* 5. Repair center preview */}
-      <ServicesTeaser />
+      {/* 4. Services gateway — Miner Sales / ASIC Repairs / Bulk Deals / Hosting */}
+      <PlatformSection />
 
-      {/* 6. Sell or Upgrade — acquisition / liquidation path */}
-      <SellUpgradeSection />
-
-      {/* 7. Hosting support */}
-      <HostingTeaser />
-
-      {/* 8. Brands ticker */}
+      {/* 5. Brands we sell and repair */}
       <BrandsSection />
 
-      {/* 9. Proof strip (no stats) + Final CTA */}
-      <ProofStrip />
+      {/* 6. Bulk Deals feature — real featured wholesale batch */}
+      <BulkFeatureSection />
+
+      {/* 7. Repair center preview */}
+      <ServicesTeaser />
+
+      {/* 8. Sell or Upgrade — acquisition / liquidation path */}
+      <SellUpgradeSection />
+
+      {/* 9. Hosting support */}
+      <HostingTeaser />
+
+      {/* 10. Final CTA — buy / repair / source */}
       <FinalCTA />
 
       <Footer />

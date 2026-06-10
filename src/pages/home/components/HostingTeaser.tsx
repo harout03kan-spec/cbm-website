@@ -21,9 +21,7 @@ const HostingTeaser = () => {
               src="/hosting-facility.jpg"
               alt="Hosting facility"
               className="w-full h-full object-cover object-center absolute inset-0"
-              style={{ filter: 'brightness(0.69) contrast(1.04)' }}
             />
-            <div className="absolute inset-0 pointer-events-none" style={{ background: 'rgba(0,0,0,0.34)' }} />
           </div>
         </motion.div>
 

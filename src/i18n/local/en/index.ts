@@ -19,7 +19,7 @@ const en = {
   hero_cta: 'Shop Miners',
   hero_cta2: 'Start a Repair Request',
   hero_cta3: 'View Bulk Deals',
-  hero_eyebrow: 'Montreal · ASIC Sales · Repairs · Bulk Deals',
+  hero_eyebrow: 'Montreal · Sales · Repair · Bulk',
   hero_status: 'Live mining',
   hero_trust: 'Canadian-owned · Tested before shipping · 30-day repair warranty',
   hero_metric_label: 'Real-time hashrate',
@@ -90,22 +90,21 @@ const en = {
   deals_bulk_desc: 'Pallets, farm liquidations, wholesale lots, mixed batches, and large quantity ASIC miner deals. Bulk inventory changes fast. Request the current list.',
   deals_bulk_cta: 'View Bulk Batch List',
 
-  // ── HOMEPAGE — PLATFORM LAYERS ─────────────────────
-  plat_tag: 'The Platform',
-  plat_lead: 'Sales. Repair. Bulk. Hosting.',
-  plat_title: 'One platform for ASIC miner sales, repair, and bulk supply.',
-  plat_sub: 'Canada Bitcoin Miners is a Montreal-based ASIC mining hardware company serving customers across Canada — four connected layers of the same business.',
+  // ── HOMEPAGE — SERVICES GATEWAY ────────────────────
+  plat_tag: 'What We Do',
+  plat_title: 'Miner sales, ASIC repairs, bulk deals, and hosting support',
+  plat_sub: 'One Montreal-based ASIC company covering every stage — buying, repairing, sourcing in bulk, and hosting — for miners across Canada.',
   plat_sales_title: 'Miner Sales',
-  plat_sales_desc: 'New and used ASIC miners with hashrate, wattage, efficiency, and pricing shown clearly.',
+  plat_sales_desc: 'New and used ASIC miners with clear hashrate, wattage, efficiency, and pricing.',
   plat_sales_cta: 'Shop Miners',
-  plat_repair_title: 'Repair Center',
-  plat_repair_desc: 'Montreal ASIC repair center for diagnostics, hashboard repair, cleaning, testing, and maintenance.',
+  plat_repair_title: 'ASIC Repairs',
+  plat_repair_desc: 'Board-level diagnostics, hashboard repair, cleaning, and testing at our Montreal center.',
   plat_repair_cta: 'Repair Services',
   plat_bulk_title: 'Bulk Deals',
-  plat_bulk_desc: 'Pallets, wholesale lots, farm liquidations, and larger ASIC miner batches.',
+  plat_bulk_desc: 'Pallets, wholesale lots, and farm-liquidation ASIC miner batches.',
   plat_bulk_cta: 'View Bulk Deals',
   plat_host_title: 'Hosting Support',
-  plat_host_desc: 'Air-cooled and hydro hosting options, monitoring, and facility support through available site partners.',
+  plat_host_desc: 'Air-cooled and hydro hosting options, monitoring, and facility support.',
   plat_host_cta: 'Hosting Info',
 
   // ── HOMEPAGE — USED & BULK SECTION ─────────────────
@@ -127,13 +126,12 @@ const en = {
   bf_empty_title: 'Bulk batches change fast',
   bf_empty_desc: 'Pallets, farm liquidations, and wholesale ASIC miner lots are sourced on request. Tell us the model, quantity, and budget and we will share the current list.',
 
-  // ── HOMEPAGE — PROOF STRIP ─────────────────────────
-  hp_proof_1: 'Montreal-based repair center',
+  // ── HOMEPAGE — COMPACT TRUST ROW ───────────────────
+  hp_proof_1: 'Montreal repair center',
   hp_proof_2: 'Canada-wide service',
-  hp_proof_3: 'ASIC-focused support',
-  hp_proof_4: 'Bulk batch sourcing',
-  hp_proof_5: 'Real miner specifications',
-  hp_proof_6: 'Repair levels with clear pricing',
+  hp_proof_3: 'Real miner specifications',
+  hp_proof_4: 'Repair and bulk support',
+  hp_proof_call: 'Call +1 (514) 604-7050',
 
   // ── BULK DEALS PAGE (/bulk-deals) ──
   bulk_seo_title: 'Bulk ASIC Miner Deals | Wholesale Batches & Pallets',

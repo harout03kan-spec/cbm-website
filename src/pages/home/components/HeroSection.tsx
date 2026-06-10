@@ -34,12 +34,12 @@ const HeroSection = () => {
             transition={{ duration: 0.8, ease: 'easeOut' }}
             className="text-center lg:text-left"
           >
-            <span className="mb-5 inline-flex items-center gap-2 rounded-full border border-crimson-accent/30 bg-crimson-accent/10 px-4 py-1.5 font-inter text-[11px] font-bold uppercase tracking-[0.18em] text-crimson-accent">
+            <span className="mb-5 inline-flex max-w-full items-center gap-2 rounded-full border border-crimson-accent/30 bg-crimson-accent/10 px-4 py-1.5 font-inter text-[10px] font-bold uppercase tracking-[0.16em] text-crimson-accent sm:text-[11px] sm:tracking-[0.18em]">
               <i className="ri-flashlight-fill text-sm" aria-hidden="true" />
               {t('hero_eyebrow')}
             </span>
 
-            <h1 className="mb-6 font-inter text-4xl font-bold leading-tight text-white md:text-5xl lg:text-6xl">
+            <h1 className="mb-6 text-balance font-inter text-[2rem] font-bold leading-[1.13] text-white sm:text-4xl md:text-5xl lg:text-6xl">
               {t('hero_title')}
             </h1>
 

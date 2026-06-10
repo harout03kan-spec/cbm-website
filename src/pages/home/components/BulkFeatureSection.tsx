@@ -33,6 +33,7 @@ export default function BulkFeatureSection() {
         [t('bulk_f_location'), batch.location],
         [t('bulk_f_condition'), batch.condition],
         [t('bulk_f_warranty'), batch.warranty],
+        [t('bulk_f_extra'), batch.extraUnits],
       ].filter(([, v]) => v && String(v).trim()) as [string, string][])
     : [];
 

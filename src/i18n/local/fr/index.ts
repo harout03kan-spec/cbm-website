@@ -19,7 +19,7 @@ const fr = {
   hero_cta: 'Acheter des Mineurs',
   hero_cta2: 'Commencer une Demande de Réparation',
   hero_cta3: 'Voir les Lots en Gros',
-  hero_eyebrow: 'Montréal · Vente · Réparation · Lots en Gros',
+  hero_eyebrow: 'Montréal · Vente · Réparation · Gros',
   hero_status: 'Minage actif',
   hero_trust: 'Propriété canadienne · Testé avant expédition · Garantie réparation 30 jours',
   hero_metric_label: 'Hashrate en temps réel',
@@ -90,22 +90,21 @@ const fr = {
   deals_bulk_desc: 'Palettes, liquidations de fermes, lots en gros, lots mixtes et achats de mineurs ASIC en grande quantité. L\'inventaire en gros change rapidement. Demandez la liste actuelle.',
   deals_bulk_cta: 'Voir la Liste des Lots en Gros',
 
-  // ── HOMEPAGE — COUCHES DE LA PLATEFORME ────────────
-  plat_tag: 'La Plateforme',
-  plat_lead: 'Vente. Réparation. Gros. Hébergement.',
-  plat_title: 'Une plateforme pour la vente, la réparation et l\'approvisionnement en gros de mineurs ASIC.',
-  plat_sub: 'Canada Bitcoin Miners est une entreprise de matériel de minage ASIC basée à Montréal qui dessert ses clients partout au Canada — quatre couches connectées de la même entreprise.',
+  // ── PAGE D'ACCUEIL — NOS SERVICES ──────────────────
+  plat_tag: 'Ce que Nous Faisons',
+  plat_title: 'Vente de mineurs, réparations ASIC, lots en gros et soutien d\'hébergement',
+  plat_sub: 'Une entreprise ASIC basée à Montréal qui couvre chaque étape — l\'achat, la réparation, l\'approvisionnement en gros et l\'hébergement — pour les mineurs partout au Canada.',
   plat_sales_title: 'Vente de Mineurs',
-  plat_sales_desc: 'Mineurs ASIC neufs et usagés avec hashrate, puissance, efficacité et prix affichés clairement.',
+  plat_sales_desc: 'Mineurs ASIC neufs et usagés avec hashrate, puissance, efficacité et prix clairs.',
   plat_sales_cta: 'Acheter des Mineurs',
-  plat_repair_title: 'Centre de Réparation',
-  plat_repair_desc: 'Centre de réparation ASIC de Montréal pour le diagnostic, la réparation de hashboard, le nettoyage, les tests et l\'entretien.',
+  plat_repair_title: 'Réparations ASIC',
+  plat_repair_desc: 'Diagnostic au niveau des cartes, réparation de hashboard, nettoyage et tests à notre centre de Montréal.',
   plat_repair_cta: 'Services de Réparation',
   plat_bulk_title: 'Lots en Gros',
-  plat_bulk_desc: 'Palettes, lots en gros, liquidations de fermes et lots de mineurs ASIC plus importants.',
+  plat_bulk_desc: 'Palettes, lots en gros et lots de mineurs ASIC de liquidation de fermes.',
   plat_bulk_cta: 'Voir les Lots en Gros',
   plat_host_title: 'Soutien Hébergement',
-  plat_host_desc: 'Options d\'hébergement refroidies à l\'air et hydro, surveillance et soutien des installations via les sites partenaires disponibles.',
+  plat_host_desc: 'Options d\'hébergement refroidies à l\'air et hydro, surveillance et soutien des installations.',
   plat_host_cta: 'Infos Hébergement',
 
   // ── HOMEPAGE — SECTION OCCASION ET GROS ────────────
@@ -130,10 +129,9 @@ const fr = {
   // ── HOMEPAGE — BANDEAU DE CONFIANCE ────────────────
   hp_proof_1: 'Centre de réparation à Montréal',
   hp_proof_2: 'Service partout au Canada',
-  hp_proof_3: 'Soutien spécialisé ASIC',
-  hp_proof_4: 'Approvisionnement en lots',
-  hp_proof_5: 'Spécifications réelles des mineurs',
-  hp_proof_6: 'Niveaux de réparation à prix clairs',
+  hp_proof_3: 'Spécifications réelles des mineurs',
+  hp_proof_4: 'Soutien réparation et lots en gros',
+  hp_proof_call: 'Appelez +1 (514) 604-7050',
 
   // ── BULK DEALS PAGE (/bulk-deals) ──
   bulk_seo_title: 'Offres de Mineurs ASIC en Gros | Lots et Palettes',

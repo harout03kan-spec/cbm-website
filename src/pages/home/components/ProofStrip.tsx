@@ -1,31 +1,34 @@
 import { useTranslation } from 'react-i18next';
 
-// Homepage proof strip — practical, verifiable trust points only (no stats, no
-// "number one"). Replaces the old metric bar.
+// Homepage compact trust row — small, practical, verifiable points only (no
+// stats, no "best in Canada", no guarantees). Sits right under the featured
+// miners as a quiet credibility band. The last item is a real, tappable phone
+// number.
 export default function ProofStrip() {
   const { t } = useTranslation();
   const points = [
     { icon: 'ri-map-pin-2-line', label: t('hp_proof_1') },
     { icon: 'ri-truck-line', label: t('hp_proof_2') },
     { icon: 'ri-cpu-line', label: t('hp_proof_3') },
-    { icon: 'ri-stack-line', label: t('hp_proof_4') },
-    { icon: 'ri-list-check-2', label: t('hp_proof_5') },
-    { icon: 'ri-price-tag-3-line', label: t('hp_proof_6') },
+    { icon: 'ri-tools-line', label: t('hp_proof_4') },
   ];
 
   return (
-    <section className="border-y border-white/[0.06] bg-[#0A0A0A] py-12">
-      <div className="mx-auto max-w-7xl px-6">
-        <div className="grid grid-cols-1 gap-x-8 gap-y-4 sm:grid-cols-2 lg:grid-cols-3">
-          {points.map((p) => (
-            <div key={p.label} className="flex items-center gap-3">
-              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-crimson-accent/25 bg-crimson-accent/10 text-crimson-accent">
-                <i className={`${p.icon} text-base`} aria-hidden="true" />
-              </span>
-              <span className="font-inter text-sm font-medium text-zinc-200">{p.label}</span>
-            </div>
-          ))}
-        </div>
+    <section className="border-y border-white/[0.06] bg-[#0A0A0A] py-7">
+      <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-x-7 gap-y-3 px-6 sm:gap-x-9">
+        {points.map((p) => (
+          <div key={p.label} className="flex items-center gap-2.5">
+            <i className={`${p.icon} text-base text-crimson-accent`} aria-hidden="true" />
+            <span className="font-inter text-[13px] font-medium text-zinc-300 sm:text-sm">{p.label}</span>
+          </div>
+        ))}
+        <a
+          href="tel:+15146047050"
+          className="flex items-center gap-2.5 font-inter text-[13px] font-semibold text-white transition-colors hover:text-crimson-accent sm:text-sm"
+        >
+          <i className="ri-phone-line text-base text-crimson-accent" aria-hidden="true" />
+          {t('hp_proof_call')}
+        </a>
       </div>
     </section>
   );
