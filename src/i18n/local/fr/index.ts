@@ -122,7 +122,6 @@ const fr = {
   bf_chip_2: 'Lots usagés en gros',
   bf_chip_3: 'Mineurs en gros',
   bf_chip_4: 'Liquidations de fermes',
-  bf_chip_5: 'Palettes',
   bf_empty_title: 'Les lots en gros changent vite',
   bf_empty_desc: 'Les palettes, liquidations de fermes et lots de mineurs ASIC en gros sont trouvés sur demande. Indiquez-nous le modèle, la quantité et le budget et nous partagerons la liste actuelle.',
 

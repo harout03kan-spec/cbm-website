@@ -122,7 +122,6 @@ const en = {
   bf_chip_2: 'Used bulk lots',
   bf_chip_3: 'Wholesale miners',
   bf_chip_4: 'Farm liquidations',
-  bf_chip_5: 'Pallets',
   bf_empty_title: 'Bulk batches change fast',
   bf_empty_desc: 'Pallets, farm liquidations, and wholesale ASIC miner lots are sourced on request. Tell us the model, quantity, and budget and we will share the current list.',
 

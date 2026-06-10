@@ -19,7 +19,8 @@ export default function BulkFeatureSection() {
   const imgs = (batch?.images ?? []).filter((src) => !failed.includes(src));
   const cur = Math.min(selected, Math.max(0, imgs.length - 1));
 
-  const chips = [t('bf_chip_1'), t('bf_chip_2'), t('bf_chip_3'), t('bf_chip_4'), t('bf_chip_5')];
+  // Four clean pills (Pallets removed — it read awkwardly on its own line).
+  const chips = [t('bf_chip_1'), t('bf_chip_2'), t('bf_chip_3'), t('bf_chip_4')];
 
   const specs = batch
     ? ([
