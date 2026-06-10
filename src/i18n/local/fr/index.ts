@@ -14,11 +14,12 @@ const fr = {
   seo_home_desc: 'Achetez des mineurs ASIC neufs et usagés au Canada, obtenez des réparations Antminer à l\'interne et demandez des lots de mineurs ASIC en gros chez Canada BTC Miners. Vente, réparation et hébergement de matériel de minage Bitcoin avec soutien partout au Canada.',
 
   // ── HERO ───────────────────────────────────────────
-  hero_title: 'Achetez, Réparez & Hébergez des Mineurs ASIC au Canada',
-  hero_sub: 'Mineurs ASIC neufs et usagés, réparations Antminer à l\'interne et lots en gros pour mineurs et sites de minage. Vendus et entretenus partout au Canada.',
-  hero_cta: 'Acheter des Mineurs ASIC',
-  hero_cta2: 'Appeler +1 514 604 7050',
-  hero_eyebrow: 'Vente · Réparation · Lots en Gros ASIC',
+  hero_title: 'Mineurs ASIC, Réparations et Lots en Gros Partout au Canada',
+  hero_sub: 'Achetez des mineurs ASIC neufs et usagés, faites réparer vos Antminer à notre centre de réparation de Montréal et demandez des lots de mineurs en gros, le tout chez une seule entreprise canadienne de matériel de minage ASIC.',
+  hero_cta: 'Acheter des Mineurs',
+  hero_cta2: 'Commencer une Demande de Réparation',
+  hero_cta3: 'Voir les Lots en Gros',
+  hero_eyebrow: 'Montréal · Vente · Réparation · Lots en Gros',
   hero_status: 'Minage actif',
   hero_trust: 'Propriété canadienne · Testé avant expédition · Garantie réparation 30 jours',
   hero_metric_label: 'Hashrate en temps réel',
@@ -89,6 +90,36 @@ const fr = {
   deals_bulk_desc: 'Palettes, liquidations de fermes, lots en gros, lots mixtes et achats de mineurs ASIC en grande quantité. L\'inventaire en gros change rapidement. Demandez la liste actuelle.',
   deals_bulk_cta: 'Voir la Liste des Lots en Gros',
 
+  // ── HOMEPAGE — COUCHES DE LA PLATEFORME ────────────
+  plat_tag: 'La Plateforme',
+  plat_title: 'Une Plateforme pour la Vente, la Réparation et l\'Approvisionnement en Gros de Mineurs ASIC',
+  plat_sub: 'Canada Bitcoin Miners est une entreprise de matériel de minage ASIC basée à Montréal qui dessert ses clients partout au Canada.',
+  plat_sales_title: 'Vente de Mineurs',
+  plat_sales_desc: 'Mineurs ASIC neufs et usagés avec hashrate, puissance, efficacité et prix affichés clairement.',
+  plat_sales_cta: 'Acheter des Mineurs',
+  plat_repair_title: 'Centre de Réparation',
+  plat_repair_desc: 'Centre de réparation ASIC de Montréal pour le diagnostic, la réparation de hashboard, le nettoyage, les tests et l\'entretien.',
+  plat_repair_cta: 'Services de Réparation',
+  plat_bulk_title: 'Lots en Gros',
+  plat_bulk_desc: 'Palettes, lots en gros, liquidations de fermes et lots de mineurs ASIC plus importants.',
+  plat_bulk_cta: 'Voir les Lots en Gros',
+  plat_host_title: 'Soutien Hébergement',
+  plat_host_desc: 'Options d\'hébergement refroidies à l\'air et hydro, surveillance et soutien des installations via les sites partenaires disponibles.',
+  plat_host_cta: 'Infos Hébergement',
+
+  // ── HOMEPAGE — SECTION OCCASION ET GROS ────────────
+  ub_tag: 'Occasion et Gros',
+  ub_bulk_quote: 'Demander un Devis en Gros',
+  ub_bulk_featured: 'Lot en vedette',
+
+  // ── HOMEPAGE — BANDEAU DE CONFIANCE ────────────────
+  hp_proof_1: 'Centre de réparation à Montréal',
+  hp_proof_2: 'Service partout au Canada',
+  hp_proof_3: 'Soutien spécialisé ASIC',
+  hp_proof_4: 'Approvisionnement en lots',
+  hp_proof_5: 'Spécifications réelles des mineurs',
+  hp_proof_6: 'Niveaux de réparation à prix clairs',
+
   // ── BULK DEALS PAGE (/bulk-deals) ──
   bulk_seo_title: 'Offres de Mineurs ASIC en Gros | Lots et Palettes',
   bulk_seo_desc: 'Lots de mineurs ASIC en gros, palettes, liquidations de fermes et grandes quantités partout au Canada. Offres en gros sur demande — demandez la disponibilité et un devis.',
@@ -146,7 +177,7 @@ const fr = {
   ht_p1: 'Coordination de placement au Canada et aux États-Unis',
   ht_p2: 'Options refroidies à l\'air et hydro',
   ht_p3: 'Surveillance et support des installations',
-  ht_cta1: 'Demander un Devis d\'Hébergement',
+  ht_cta1: 'Demander des Infos d\'Hébergement',
   ht_cta2: 'En Savoir Plus',
   ht_deploy_title: 'Grands Déploiements de Mineurs',
   ht_deploy_desc: 'Vous prévoyez de déployer plusieurs mineurs? Nous pouvons aider à coordonner l\'approvisionnement, la logistique et le placement d\'hébergement partout au Canada et aux États-Unis.',
@@ -229,12 +260,13 @@ const fr = {
   faq_a8: 'Oui. Nous offrons des services de réparation ASIC et coordonnons le placement d\'hébergement via des partenaires de confiance au Canada et aux États-Unis.',
 
   // ── FINAL CTA ──────────────────────────────────────
-  cta_tag: 'COMMENCEZ AUJOURD\'HUI',
-  cta_title1: 'Prêt à Acheter, Réparer, ou Déployer',
+  cta_tag: 'COMMENCEZ',
+  cta_title1: 'Prêt à Acheter, Réparer ou Trouver',
   cta_title2: 'des Mineurs ASIC?',
-  cta_sub: 'Parcourez les mineurs ASIC disponibles ou contactez notre équipe pour des devis de réparation, le placement d\'hébergement et les commandes en gros partout au Canada et aux États-Unis.',
-  cta_btn1: 'Voir les Mineurs Disponibles',
-  cta_btn2: 'Contacter Notre Équipe',
+  cta_sub: 'Achetez des mineurs, commencez une demande de réparation ou renseignez-vous sur les lots en gros chez Canada Bitcoin Miners.',
+  cta_btn1: 'Acheter des Mineurs',
+  cta_btn2: 'Demande de Réparation',
+  cta_btn3: 'Voir les Lots en Gros',
 
   // ── FOOTER ─────────────────────────────────────────
   footer_desc: 'Fournisseur canadien de matériel de minage Bitcoin avec inventaire, réparations et hébergement disponibles au Canada.',

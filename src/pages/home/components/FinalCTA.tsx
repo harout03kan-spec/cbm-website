@@ -18,9 +18,10 @@ const FinalCTA = () => {
             {t('cta_title1')}<br /><span className="text-crimson-accent">{t('cta_title2')}</span>
           </h2>
           <p className="text-[#94a3b8] font-inter text-xl max-w-2xl mx-auto mb-12 leading-relaxed">{t('cta_sub')}</p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex flex-col sm:flex-row flex-wrap gap-4 justify-center">
             <Link to="/shop" className="inline-flex items-center justify-center min-h-[58px] px-10 rounded-xl font-bold text-white text-lg bg-crimson-accent border border-crimson-accent hover:bg-red-700 hover:border-red-700 transition-colors font-inter whitespace-nowrap">{t('cta_btn1')}</Link>
-            <a href="https://wa.me/15146047050" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center min-h-[58px] px-10 rounded-xl font-bold text-white text-lg bg-transparent border border-white/20 hover:bg-white/[0.06] transition-colors font-inter whitespace-nowrap">{t('cta_btn2')}</a>
+            <Link to="/contact#contact-form" className="inline-flex items-center justify-center min-h-[58px] px-10 rounded-xl font-bold text-white text-lg bg-transparent border border-white/20 hover:bg-white/[0.06] transition-colors font-inter whitespace-nowrap">{t('cta_btn2')}</Link>
+            <Link to="/bulk-deals" className="inline-flex items-center justify-center min-h-[58px] px-10 rounded-xl font-bold text-white text-lg bg-transparent border border-white/20 hover:bg-white/[0.06] transition-colors font-inter whitespace-nowrap">{t('cta_btn3')}</Link>
           </div>
         </motion.div>
       </div>

@@ -1,15 +1,13 @@
 import Navbar from '../../components/feature/Navbar';
 import Footer from '../../components/feature/Footer';
 import HeroSection from './components/HeroSection';
-import HeroTrustBar from './components/HeroTrustBar';
-import ServicesHub from './components/ServicesHub';
+import PlatformSection from './components/PlatformSection';
 import FeaturedProducts from './components/FeaturedProducts';
-import TrustBar from './components/TrustBar';
 import ServicesTeaser from './components/ServicesTeaser';
-import BrandsSection from './components/BrandsSection';
+import UsedBulkSection from './components/UsedBulkSection';
 import HostingTeaser from './components/HostingTeaser';
-import SellMinersSection from './components/SellMinersSection';
-import FAQSection from './components/FAQSection';
+import BrandsSection from './components/BrandsSection';
+import ProofStrip from './components/ProofStrip';
 import FinalCTA from './components/FinalCTA';
 import DiscountPopup from './components/DiscountPopup';
 import Seo, { organizationLd, websiteLd, localBusinessLd } from '../../components/feature/Seo';
@@ -27,40 +25,33 @@ export default function HomePage() {
       />
       <Navbar />
 
-      {/* 1. Hero */}
+      {/* 1. Hero — sales / repair / bulk across Canada */}
       <HeroSection />
 
-      {/* 2. Trust Bar — 2,300+ Miners / 92% Repair / 4+ Years / Montreal */}
-      <HeroTrustBar />
+      {/* 2. Platform — the four business layers (Sales / Repair / Bulk / Hosting) */}
+      <PlatformSection />
 
-      {/* 3. Services — ASIC Sales / ASIC Repairs / Hosting cards (scroll-to links) */}
-      <ServicesHub />
-
-      {/* 4. Products — ASIC cards with specs, price, add to cart */}
+      {/* 3. Featured miners — six catalog cards + View All Miners */}
       <FeaturedProducts />
 
-      {/* 5. Info Strip — Shipping / Tax / Canadian inventory / Repairs / Warranty */}
-      <TrustBar />
-
-      {/* 6. ASIC Repair Section */}
+      {/* 4. Repair center preview */}
       <ServicesTeaser />
 
-      {/* 7. Rolling brands ticker */}
-      <BrandsSection />
+      {/* 5. Used Deals & Bulk Deals — real featured batch */}
+      <UsedBulkSection />
 
-      {/* 8. Sell Your Miners */}
-      <SellMinersSection />
-
-      {/* 9. Hosting Section */}
+      {/* 6. Hosting support */}
       <HostingTeaser />
 
-      {/* 10. FAQ */}
-      <FAQSection />
+      {/* 7. Brands ticker */}
+      <BrandsSection />
 
-      {/* 11. Final CTA */}
+      {/* 8. Proof strip — practical trust points (no stats) */}
+      <ProofStrip />
+
+      {/* 9. Final CTA — buy / repair / source */}
       <FinalCTA />
 
-      {/* 12. Footer */}
       <Footer />
 
       <DiscountPopup />

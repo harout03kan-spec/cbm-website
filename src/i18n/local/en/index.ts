@@ -14,11 +14,12 @@ const en = {
   seo_home_desc: 'Buy new and used ASIC miners in Canada, get in-house Antminer repairs, and request bulk ASIC miner deals from Canada BTC Miners. Bitcoin mining hardware sales, repair, and hosting with Canada-wide support.',
 
   // ── HERO ───────────────────────────────────────────
-  hero_title: 'Buy, Repair & Host ASIC Miners in Canada',
-  hero_sub: 'New and used ASIC miners, in‑house Antminer repairs, and bulk deals for miners and mining sites. Sold and serviced across Canada.',
-  hero_cta: 'Shop ASIC Miners',
-  hero_cta2: 'Call +1 514 604 7050',
-  hero_eyebrow: 'ASIC Sales · Repairs · Bulk Deals',
+  hero_title: 'ASIC Miners, Repairs, and Bulk Deals Across Canada',
+  hero_sub: 'Buy new and used ASIC miners, repair Antminers through our Montreal repair center, and request bulk miner deals from one Canadian ASIC mining hardware company.',
+  hero_cta: 'Shop Miners',
+  hero_cta2: 'Start a Repair Request',
+  hero_cta3: 'View Bulk Deals',
+  hero_eyebrow: 'Montreal · ASIC Sales · Repairs · Bulk Deals',
   hero_status: 'Live mining',
   hero_trust: 'Canadian-owned · Tested before shipping · 30-day repair warranty',
   hero_metric_label: 'Real-time hashrate',
@@ -89,6 +90,36 @@ const en = {
   deals_bulk_desc: 'Pallets, farm liquidations, wholesale lots, mixed batches, and large quantity ASIC miner deals. Bulk inventory changes fast. Request the current list.',
   deals_bulk_cta: 'View Bulk Batch List',
 
+  // ── HOMEPAGE — PLATFORM LAYERS ─────────────────────
+  plat_tag: 'The Platform',
+  plat_title: 'One Platform for ASIC Miner Sales, Repair, and Bulk Supply',
+  plat_sub: 'Canada Bitcoin Miners is a Montreal-based ASIC mining hardware company serving customers across Canada.',
+  plat_sales_title: 'Miner Sales',
+  plat_sales_desc: 'New and used ASIC miners with hashrate, wattage, efficiency, and pricing shown clearly.',
+  plat_sales_cta: 'Shop Miners',
+  plat_repair_title: 'Repair Center',
+  plat_repair_desc: 'Montreal ASIC repair center for diagnostics, hashboard repair, cleaning, testing, and maintenance.',
+  plat_repair_cta: 'Repair Services',
+  plat_bulk_title: 'Bulk Deals',
+  plat_bulk_desc: 'Pallets, wholesale lots, farm liquidations, and larger ASIC miner batches.',
+  plat_bulk_cta: 'View Bulk Deals',
+  plat_host_title: 'Hosting Support',
+  plat_host_desc: 'Air-cooled and hydro hosting options, monitoring, and facility support through available site partners.',
+  plat_host_cta: 'Hosting Info',
+
+  // ── HOMEPAGE — USED & BULK SECTION ─────────────────
+  ub_tag: 'Used & Bulk',
+  ub_bulk_quote: 'Request Bulk Quote',
+  ub_bulk_featured: 'Featured batch',
+
+  // ── HOMEPAGE — PROOF STRIP ─────────────────────────
+  hp_proof_1: 'Montreal-based repair center',
+  hp_proof_2: 'Canada-wide service',
+  hp_proof_3: 'ASIC-focused support',
+  hp_proof_4: 'Bulk batch sourcing',
+  hp_proof_5: 'Real miner specifications',
+  hp_proof_6: 'Repair levels with clear pricing',
+
   // ── BULK DEALS PAGE (/bulk-deals) ──
   bulk_seo_title: 'Bulk ASIC Miner Deals | Wholesale Batches & Pallets',
   bulk_seo_desc: 'Wholesale ASIC miner batches, pallets, farm liquidations, and large quantity lots across Canada. Inquiry-based bulk deals — request availability and a quote.',
@@ -146,7 +177,7 @@ const en = {
   ht_p1: 'Canada and U.S. placement coordination',
   ht_p2: 'Air‑cooled and hydro options',
   ht_p3: 'Monitoring and facility support',
-  ht_cta1: 'Request Hosting Quote',
+  ht_cta1: 'Request Hosting Info',
   ht_cta2: 'Learn More',
   ht_deploy_title: 'Large Miner Deployments',
   ht_deploy_desc: 'Planning to deploy multiple miners? We can help coordinate sourcing, logistics, and hosting placement across Canada and the U.S.',
@@ -229,12 +260,13 @@ const en = {
   faq_a8: 'Yes. We offer ASIC repair services and coordinate hosting placement through trusted partners across Canada and the U.S.',
 
   // ── FINAL CTA ──────────────────────────────────────
-  cta_tag: 'GET STARTED TODAY',
-  cta_title1: 'Ready to Buy, Repair, or Deploy',
+  cta_tag: 'GET STARTED',
+  cta_title1: 'Ready to Buy, Repair, or Source',
   cta_title2: 'ASIC Miners?',
-  cta_sub: 'Browse available ASIC miners or contact our team for repair quotes, hosting coordination, and bulk orders across Canada and the U.S.',
-  cta_btn1: 'View Available Miners',
-  cta_btn2: 'Contact Our Team',
+  cta_sub: 'Shop miners, start a repair request, or ask about bulk batches from Canada Bitcoin Miners.',
+  cta_btn1: 'Shop Miners',
+  cta_btn2: 'Start Repair Request',
+  cta_btn3: 'View Bulk Deals',
 
   // ── FOOTER ─────────────────────────────────────────
   footer_desc: 'Canadian supplier of Bitcoin mining hardware with inventory, repairs, and hosting available in Canada.',

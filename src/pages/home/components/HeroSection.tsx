@@ -54,16 +54,21 @@ const HeroSection = () => {
               >
                 {t('hero_cta')}
               </Link>
-              <a
-                href="tel:+15146047050"
+              <Link
+                to="/contact#contact-form"
                 className="relative z-10 inline-flex min-h-[56px] w-full items-center justify-center gap-2 rounded-xl border border-white/20 bg-white/[0.03] px-10 font-inter text-lg font-semibold text-white transition-colors hover:bg-white/[0.08] active:bg-white/[0.12] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/40 sm:w-auto"
               >
-                <i className="ri-phone-fill text-xl text-crimson-accent" aria-hidden="true" />
+                <i className="ri-tools-fill text-xl text-crimson-accent" aria-hidden="true" />
                 {t('hero_cta2')}
-              </a>
+              </Link>
             </div>
 
-            <p className="mt-7 font-inter text-sm text-zinc-500">{t('hero_trust')}</p>
+            <Link to="/bulk-deals" className="relative z-10 mt-6 inline-flex items-center gap-1.5 font-inter text-sm font-semibold text-soft-gray transition-colors hover:text-white">
+              {t('hero_cta3')}
+              <i className="ri-arrow-right-line text-base" aria-hidden="true" />
+            </Link>
+
+            <p className="mt-6 font-inter text-sm text-zinc-500">{t('hero_trust')}</p>
           </motion.div>
 
           {/* Right — animated power-on ASIC miner */}
