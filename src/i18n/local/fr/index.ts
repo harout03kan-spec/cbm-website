@@ -17,7 +17,7 @@ const fr = {
   hero_title: 'Mineurs ASIC, réparations et lots en gros au Canada',
   hero_sub: 'Achetez des mineurs ASIC neufs et usagés, faites réparer vos Antminer à notre centre de réparation de Montréal et demandez des lots de mineurs en gros, le tout chez une seule entreprise canadienne de matériel de minage ASIC.',
   hero_cta: 'Voir les Mineurs',
-  hero_cta2: 'Demande de Réparation',
+  hero_cta2: 'Demander une réparation',
   hero_cta3: 'Voir les Lots en Gros',
   hero_eyebrow: 'Montréal · Vente · Réparation · Lots en gros',
   hero_status: 'Minage actif',
@@ -103,9 +103,9 @@ const fr = {
   plat_bulk_title: 'Lots en Gros',
   plat_bulk_desc: 'Lots en gros et lots de mineurs ASIC de liquidation de fermes.',
   plat_bulk_cta: 'Voir les Lots en Gros',
-  plat_host_title: 'Soutien Hébergement',
+  plat_host_title: 'Soutien à l\'hébergement',
   plat_host_desc: 'Options d\'hébergement refroidies à l\'air et hydro avec surveillance et soutien des installations.',
-  plat_host_cta: 'Infos Hébergement',
+  plat_host_cta: 'Infos sur l\'hébergement',
 
   // ── HOMEPAGE — SECTION OCCASION ET GROS ────────────
   ub_tag: 'Occasion et Gros',
@@ -115,7 +115,7 @@ const fr = {
   // ── PAGE D'ACCUEIL — SECTION LOTS EN GROS ──────────
   bf_tag: 'Gros et Liquidation',
   bf_title: 'Lots de Mineurs ASIC en Gros',
-  bf_sub: 'Lots usagés en gros, palettes, liquidations de fermes et lots de mineurs ASIC en gros.',
+  bf_sub: 'Lots usagés en gros, liquidations de fermes et lots de mineurs ASIC en gros.',
   bf_featured: 'Lot en gros en vedette',
   bf_cta: 'Voir les Lots en Gros',
   bf_chip_1: 'Lots en gros',
@@ -123,7 +123,7 @@ const fr = {
   bf_chip_3: 'Mineurs en gros',
   bf_chip_4: 'Liquidations de fermes',
   bf_empty_title: 'Les lots en gros changent vite',
-  bf_empty_desc: 'Les palettes, liquidations de fermes et lots de mineurs ASIC en gros sont trouvés sur demande. Indiquez-nous le modèle, la quantité et le budget et nous partagerons la liste actuelle.',
+  bf_empty_desc: 'Les liquidations de fermes et les lots de mineurs ASIC en gros sont trouvés sur demande. Indiquez-nous le modèle, la quantité et le budget et nous partagerons la liste actuelle.',
 
   // ── HOMEPAGE — BANDEAU DE CONFIANCE ────────────────
   hp_proof_1: 'Centre de réparation à Montréal',
@@ -198,7 +198,7 @@ const fr = {
   // ── SELL MINERS ────────────────────────────────────
   sell_tag: 'VENDEZ OU AMÉLIOREZ VOS MINEURS ASIC',
   sell_title: 'Vendez ou Améliorez Vos Mineurs ASIC',
-  sell_desc: 'Vous avez des mineurs usagés, des machines en surplus ou un lot provenant d\'un site de minage? Envoyez-nous le modèle, la quantité, l\'état et l\'emplacement. Nous examinons les unités individuelles, les petits lots, les palettes et les lots de liquidation de fermes.',
+  sell_desc: 'Vous avez des mineurs usagés, des machines en surplus ou un lot provenant d\'un site de minage? Envoyez-nous le modèle, la quantité, l\'état et l\'emplacement. Nous examinons les unités individuelles, les petits lots, les lots en gros et les lots de liquidation de fermes.',
   sell_desc2: 'Nous travaillons avec des mineurs ASIC usagés et remis à neuf, incluant les modèles Antminer et Whatsminer populaires.',
   sell_models: '',
   sell_cta1: 'Demander une Offre',
@@ -206,7 +206,7 @@ const fr = {
   sell_r1_title: 'Petits Lots',
   sell_r1_desc: 'Un mineur, quelques machines supplémentaires ou des unités usagées à écouler.',
   sell_r2_title: 'Lots en Gros',
-  sell_r2_desc: 'Palettes et lots de mineurs ASIC provenant de sites de minage actifs ou inactifs.',
+  sell_r2_desc: 'Lots en gros et lots de mineurs ASIC provenant de sites de minage actifs ou inactifs.',
   sell_r3_title: 'Liquidations de Fermes',
   sell_r3_desc: 'Arrêts de fermes de minage plus importantes et ventes complètes de matériel.',
   sell_footer: 'Canada BTC Miners achète et vend des mineurs ASIC, soutenant la revente, les réparations, les mises à niveau de flotte et les liquidations de fermes de minage au Canada et à l\'international.',
@@ -273,12 +273,12 @@ const fr = {
 
   // ── FINAL CTA ──────────────────────────────────────
   cta_tag: 'COMMENCEZ',
-  cta_title1: 'Prêt à Acheter, Réparer ou Trouver',
-  cta_title2: 'des Mineurs ASIC?',
-  cta_sub: 'Achetez des mineurs, commencez une demande de réparation ou renseignez-vous sur les lots en gros chez Canada Bitcoin Miners.',
-  cta_btn1: 'Acheter des Mineurs',
-  cta_btn2: 'Demande de Réparation',
-  cta_btn3: 'Voir les Lots en Gros',
+  cta_title1: 'Prêt à acheter, réparer ou trouver',
+  cta_title2: 'des mineurs ASIC?',
+  cta_sub: 'Achetez des mineurs, lancez une demande de réparation ou renseignez-vous sur les lots en gros chez Canada Bitcoin Miners.',
+  cta_btn1: 'Acheter des mineurs',
+  cta_btn2: 'Demander une réparation',
+  cta_btn3: 'Voir les lots en gros',
 
   // ── FOOTER ─────────────────────────────────────────
   footer_desc: 'Fournisseur canadien de matériel de minage Bitcoin avec inventaire, réparations et hébergement disponibles au Canada.',

@@ -115,7 +115,7 @@ const en = {
   // ── HOMEPAGE — BULK DEALS FEATURE ──────────────────
   bf_tag: 'Wholesale & Bulk',
   bf_title: 'Bulk ASIC Miner Deals',
-  bf_sub: 'Used bulk batches, pallets, farm liquidations, and wholesale ASIC miner lots.',
+  bf_sub: 'Used bulk batches, farm liquidations, and wholesale ASIC miner lots.',
   bf_featured: 'Featured bulk batch',
   bf_cta: 'View Bulk Deals',
   bf_chip_1: 'Bulk batches',
@@ -123,7 +123,7 @@ const en = {
   bf_chip_3: 'Wholesale miners',
   bf_chip_4: 'Farm liquidations',
   bf_empty_title: 'Bulk batches change fast',
-  bf_empty_desc: 'Pallets, farm liquidations, and wholesale ASIC miner lots are sourced on request. Tell us the model, quantity, and budget and we will share the current list.',
+  bf_empty_desc: 'Farm liquidations and wholesale ASIC miner lots are sourced on request. Tell us the model, quantity, and budget and we will share the current list.',
 
   // ── HOMEPAGE — COMPACT TRUST ROW ───────────────────
   hp_proof_1: 'Montreal repair center',
@@ -198,7 +198,7 @@ const en = {
   // ── SELL MINERS ────────────────────────────────────
   sell_tag: 'SELL OR UPGRADE YOUR ASIC MINERS',
   sell_title: 'Sell or Upgrade Your ASIC Miners',
-  sell_desc: 'Have used miners, extra machines, or a batch from a mining site? Send us the model, quantity, condition, and location. We review single units, small lots, pallets, and farm liquidation batches.',
+  sell_desc: 'Have used miners, extra machines, or a batch from a mining site? Send us the model, quantity, condition, and location. We review single units, small lots, wholesale lots, and farm liquidation batches.',
   sell_desc2: 'We work with used and refurbished ASIC miners, including popular Antminer and Whatsminer models.',
   sell_models: '',
   sell_cta1: 'Request an Offer',
@@ -206,7 +206,7 @@ const en = {
   sell_r1_title: 'Small Lots',
   sell_r1_desc: 'One miner, a few extra machines, or used units you want to move.',
   sell_r2_title: 'Bulk Batches',
-  sell_r2_desc: 'Pallets and batches of ASIC miners from active or inactive mining sites.',
+  sell_r2_desc: 'Wholesale lots and ASIC miner batches from active or inactive mining sites.',
   sell_r3_title: 'Farm Liquidations',
   sell_r3_desc: 'Larger mining farm shutdowns and full hardware sell-offs.',
   sell_footer: 'Canada BTC Miners buys and sells ASIC miners, supporting resale, repairs, fleet upgrades, and mining farm liquidations across Canada and internationally.',
