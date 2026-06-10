@@ -16,53 +16,85 @@ const brands = [
   { id: 'volcminer',   name: 'Volcminer',   src: '/assets/brands/volcminer.webp' },
 ];
 
-// Duplicated track so the loop is seamless (translate by exactly one set = -50%).
-const track = [...brands, ...brands];
+// One full set of logos. Each track holds a complete set; we render two tracks.
+const BrandTrack = ({ ariaHidden }: { ariaHidden?: boolean }) => (
+  <div className="bs-track" aria-hidden={ariaHidden}>
+    {brands.map(({ id, name, src }) => (
+      <div key={id} className="bs-item">
+        <img
+          src={src}
+          alt={`${name} logo`}
+          loading="eager"
+          decoding="async"
+          className="block h-6 w-auto object-contain opacity-90 sm:h-8"
+        />
+      </div>
+    ))}
+  </div>
+);
 
-// Sliding marquee, hardened against the blank/black flash seen on some mobile
-// browsers: the track is promoted to its own stable GPU layer (translateZ/
-// will-change/backface-visibility) and uses translate3d so the compositor keeps
-// it painted during fast scroll. A duplicated track always fills the viewport,
-// and prefers-reduced-motion falls back to a static (still fully visible) row.
+// Sliding brand marquee — rebuilt to be blank-proof on mobile.
+//
+// Why the old version went black on phones: it animated `transform` on a single
+// `width: max-content` flex container, which iOS Safari intermittently fails to
+// paint (and GPU-layer promotion could drop the layer entirely). This version
+// uses the canonical two-track pattern instead:
+//   • Two identical tracks, each `min-width: 100%`, sit side by side.
+//   • Both animate translateX(0) → translateX(-100%) in lockstep, so as track 1
+//     scrolls off the left, track 2 takes its exact place — a seamless loop.
+//   • Because every track is at least a full viewport wide (min-width:100% +
+//     space-around), the band is always filled — never a blank/black gap.
+//   • Pure CSS, local assets, no JS-driven visibility, no IntersectionObserver,
+//     no opacity:0, no animation-delay, no will-change/translateZ.
+//   • No :hover or touch pause — it never stops.
+//   • If animation is disabled (reduced-motion / unsupported), one static track
+//     stays fully visible as the fallback.
 const BrandsSection = () => {
   const { t } = useTranslation();
   return (
-    <section className="py-10 bg-[#0a0a0a] border-y border-white/[0.07] overflow-hidden">
+    <section className="overflow-hidden border-y border-white/[0.07] bg-[#0a0a0a] py-10">
       <style>{`
-        @keyframes brand-scroll {
-          from { transform: translate3d(0, 0, 0); }
-          to   { transform: translate3d(-50%, 0, 0); }
+        @keyframes bs-scroll {
+          from { transform: translateX(0); }
+          to   { transform: translateX(-100%); }
         }
-        .brand-track {
+        .bs-marquee {
+          display: flex;
+          width: 100%;
+          min-height: 40px;
+          overflow: hidden;
+        }
+        .bs-track {
+          flex: 0 0 auto;
+          min-width: 100%;
           display: flex;
           align-items: center;
-          width: max-content;
-          animation: brand-scroll 40s linear infinite;
-          will-change: transform;
-          transform: translateZ(0);
-          backface-visibility: hidden;
+          justify-content: space-around;
+          animation: bs-scroll 16s linear infinite;
         }
-        @media (min-width: 768px) { .brand-track { animation-duration: 55s; } }
-        .brand-track:hover { animation-play-state: paused; }
+        .bs-item {
+          flex: 0 0 auto;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 8px 28px;
+        }
+        @media (min-width: 640px) { .bs-item { padding: 8px 40px; } }
+        @media (min-width: 768px) { .bs-track { animation-duration: 26s; } }
+        /* No :hover or touch pause — the ticker never stops. */
         @media (prefers-reduced-motion: reduce) {
-          .brand-track { animation: none; flex-wrap: wrap; justify-content: center; width: 100%; }
+          .bs-track { animation: none; flex-wrap: wrap; }
+          .bs-track + .bs-track { display: none; }
         }
       `}</style>
 
-      <p className="text-center font-inter text-[10px] font-semibold uppercase tracking-[0.3em] text-crimson-accent mb-7">
+      <p className="mb-7 text-center font-inter text-[10px] font-semibold uppercase tracking-[0.3em] text-crimson-accent">
         {t('brands_label')}
       </p>
 
-      <div className="brand-track">
-        {track.map(({ id, name, src }, idx) => (
-          <div key={`${id}-${idx}`} className="flex shrink-0 items-center justify-center px-7 sm:px-10 py-2">
-            <img
-              src={src}
-              alt={`${name} logo`}
-              className="block h-6 sm:h-8 w-auto object-contain opacity-90"
-            />
-          </div>
-        ))}
+      <div className="bs-marquee">
+        <BrandTrack />
+        <BrandTrack ariaHidden />
       </div>
     </section>
   );

@@ -33,7 +33,10 @@ const ServicesTeaser = () => {
             ))}
           </div>
 
-          <p className="text-[#94a3b8] font-inter text-[14px] mb-6">{t('st_pricing')}</p>
+          <div className="mb-6 inline-flex items-center gap-2.5 rounded-xl border border-crimson-accent/40 bg-crimson-accent/10 px-4 py-3">
+            <i className="ri-price-tag-3-line text-lg text-crimson-accent" aria-hidden="true" />
+            <span className="font-inter text-[15px] font-bold text-white">{t('st_pricing')}</span>
+          </div>
 
           <div className="mb-8">
             <div className="flex flex-col gap-2">

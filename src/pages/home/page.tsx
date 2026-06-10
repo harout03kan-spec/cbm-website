@@ -1,15 +1,14 @@
 import Navbar from '../../components/feature/Navbar';
 import Footer from '../../components/feature/Footer';
 import HeroSection from './components/HeroSection';
-import HeroTrustBar from './components/HeroTrustBar';
-import ServicesHub from './components/ServicesHub';
 import FeaturedProducts from './components/FeaturedProducts';
-import TrustBar from './components/TrustBar';
-import ServicesTeaser from './components/ServicesTeaser';
+import ProofStrip from './components/ProofStrip';
+import PlatformSection from './components/PlatformSection';
 import BrandsSection from './components/BrandsSection';
+import BulkFeatureSection from './components/BulkFeatureSection';
+import ServicesTeaser from './components/ServicesTeaser';
+import SellUpgradeSection from './components/SellUpgradeSection';
 import HostingTeaser from './components/HostingTeaser';
-import SellMinersSection from './components/SellMinersSection';
-import FAQSection from './components/FAQSection';
 import FinalCTA from './components/FinalCTA';
 import DiscountPopup from './components/DiscountPopup';
 import Seo, { organizationLd, websiteLd, localBusinessLd } from '../../components/feature/Seo';
@@ -27,40 +26,36 @@ export default function HomePage() {
       />
       <Navbar />
 
-      {/* 1. Hero */}
+      {/* 1. Hero — sales / repair / bulk across Canada */}
       <HeroSection />
 
-      {/* 2. Trust Bar — 2,300+ Miners / 92% Repair / 4+ Years / Montreal */}
-      <HeroTrustBar />
-
-      {/* 3. Services — ASIC Sales / ASIC Repairs / Hosting cards (scroll-to links) */}
-      <ServicesHub />
-
-      {/* 4. Products — ASIC cards with specs, price, add to cart */}
+      {/* 2. Featured miners — six catalog cards + View All Miners */}
       <FeaturedProducts />
 
-      {/* 5. Info Strip — Shipping / Tax / Canadian inventory / Repairs / Warranty */}
-      <TrustBar />
+      {/* 3. Compact trust row — practical points + phone (no stats) */}
+      <ProofStrip />
 
-      {/* 6. ASIC Repair Section */}
-      <ServicesTeaser />
+      {/* 4. Services gateway — Miner Sales / ASIC Repairs / Bulk Deals / Hosting */}
+      <PlatformSection />
 
-      {/* 7. Rolling brands ticker */}
+      {/* 5. Brands we sell and repair */}
       <BrandsSection />
 
-      {/* 8. Sell Your Miners */}
-      <SellMinersSection />
+      {/* 6. Bulk Deals feature — real featured wholesale batch */}
+      <BulkFeatureSection />
 
-      {/* 9. Hosting Section */}
+      {/* 7. Repair center preview */}
+      <ServicesTeaser />
+
+      {/* 8. Sell or Upgrade — acquisition / liquidation path */}
+      <SellUpgradeSection />
+
+      {/* 9. Hosting support */}
       <HostingTeaser />
 
-      {/* 10. FAQ */}
-      <FAQSection />
-
-      {/* 11. Final CTA */}
+      {/* 10. Final CTA — buy / repair / source */}
       <FinalCTA />
 
-      {/* 12. Footer */}
       <Footer />
 
       <DiscountPopup />

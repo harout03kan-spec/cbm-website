@@ -16,14 +16,15 @@ const HostingTeaser = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.7 }}
         >
-          <div className="relative overflow-hidden rounded-[20px] border border-white/[0.08] bg-[#111] shadow-[0_20px_50px_rgba(0,0,0,0.35)] min-h-[420px]">
+          {/* Mobile: 4:3 frame with object-contain so the full facility shows
+              (zoomed out, not tightly cropped). Desktop: tall frame with
+              object-cover for a clean fill. */}
+          <div className="relative aspect-[4/3] overflow-hidden rounded-[20px] border border-white/[0.08] bg-[#0d0d0e] shadow-[0_20px_50px_rgba(0,0,0,0.35)] sm:aspect-auto sm:min-h-[420px]">
             <img
-              src="/hosting-facility.jpg"
-              alt="Hosting facility"
-              className="w-full h-full object-cover object-center absolute inset-0"
-              style={{ filter: 'brightness(0.69) contrast(1.04)' }}
+              src="/hosting-facility-rack.jpg"
+              alt="ASIC miners hosted on racks in a mining facility"
+              className="absolute inset-0 h-full w-full object-contain object-center sm:object-cover"
             />
-            <div className="absolute inset-0 pointer-events-none" style={{ background: 'rgba(0,0,0,0.34)' }} />
           </div>
         </motion.div>
 
