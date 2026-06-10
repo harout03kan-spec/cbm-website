@@ -14,12 +14,12 @@ const en = {
   seo_home_desc: 'Buy new and used ASIC miners in Canada, get in-house Antminer repairs, and request bulk ASIC miner deals from Canada BTC Miners. Bitcoin mining hardware sales, repair, and hosting with Canada-wide support.',
 
   // ── HERO ───────────────────────────────────────────
-  hero_title: 'ASIC Miners, Repairs, and Bulk Deals Across Canada',
+  hero_title: 'ASIC Miners, Repairs & Bulk Deals Across Canada',
   hero_sub: 'Buy new and used ASIC miners, repair Antminers through our Montreal repair center, and request bulk miner deals from one Canadian ASIC mining hardware company.',
   hero_cta: 'Shop Miners',
   hero_cta2: 'Start a Repair Request',
   hero_cta3: 'View Bulk Deals',
-  hero_eyebrow: 'Montreal · Sales · Repair · Bulk',
+  hero_eyebrow: 'Montreal · Sales · Repairs · Bulk Deals',
   hero_status: 'Live mining',
   hero_trust: 'Canadian-owned · Tested before shipping · 30-day repair warranty',
   hero_metric_label: 'Real-time hashrate',
@@ -93,18 +93,18 @@ const en = {
   // ── HOMEPAGE — SERVICES GATEWAY ────────────────────
   plat_tag: 'What We Do',
   plat_title: 'Miner sales, ASIC repairs, bulk deals, and hosting support',
-  plat_sub: 'One Montreal-based ASIC company covering every stage — buying, repairing, sourcing in bulk, and hosting — for miners across Canada.',
+  plat_sub: 'One Montreal-based ASIC company covering miner sales, repairs, bulk sourcing, and hosting support across Canada.',
   plat_sales_title: 'Miner Sales',
   plat_sales_desc: 'New and used ASIC miners with clear hashrate, wattage, efficiency, and pricing.',
   plat_sales_cta: 'Shop Miners',
   plat_repair_title: 'ASIC Repairs',
-  plat_repair_desc: 'Board-level diagnostics, hashboard repair, cleaning, and testing at our Montreal center.',
+  plat_repair_desc: 'Board-level diagnostics, hashboard repair, cleaning, and testing at our Montreal repair center.',
   plat_repair_cta: 'Repair Services',
   plat_bulk_title: 'Bulk Deals',
-  plat_bulk_desc: 'Pallets, wholesale lots, and farm-liquidation ASIC miner batches.',
+  plat_bulk_desc: 'Wholesale lots and farm liquidation ASIC miner batches.',
   plat_bulk_cta: 'View Bulk Deals',
   plat_host_title: 'Hosting Support',
-  plat_host_desc: 'Air-cooled and hydro hosting options, monitoring, and facility support.',
+  plat_host_desc: 'Air-cooled and hydro hosting options with monitoring and facility support.',
   plat_host_cta: 'Hosting Info',
 
   // ── HOMEPAGE — USED & BULK SECTION ─────────────────

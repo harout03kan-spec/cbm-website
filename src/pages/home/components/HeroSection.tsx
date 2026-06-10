@@ -34,12 +34,12 @@ const HeroSection = () => {
             transition={{ duration: 0.8, ease: 'easeOut' }}
             className="text-center lg:text-left"
           >
-            <span className="mb-5 inline-flex max-w-full items-center gap-2 rounded-full border border-crimson-accent/30 bg-crimson-accent/10 px-4 py-1.5 font-inter text-[10px] font-bold uppercase tracking-[0.16em] text-crimson-accent sm:text-[11px] sm:tracking-[0.18em]">
-              <i className="ri-flashlight-fill text-sm" aria-hidden="true" />
+            <span className="mb-5 inline-flex max-w-full items-center gap-1.5 rounded-full border border-crimson-accent/30 bg-crimson-accent/10 px-3.5 py-1.5 font-inter text-[9px] font-bold uppercase tracking-[0.08em] text-crimson-accent sm:gap-2 sm:px-4 sm:text-[11px] sm:tracking-[0.18em]">
+              <i className="ri-flashlight-fill text-xs sm:text-sm" aria-hidden="true" />
               {t('hero_eyebrow')}
             </span>
 
-            <h1 className="mb-6 text-balance font-inter text-[2rem] font-bold leading-[1.13] text-white sm:text-4xl md:text-5xl lg:text-6xl">
+            <h1 className="mb-6 text-balance font-inter text-[1.75rem] font-bold leading-[1.15] text-white sm:text-4xl md:text-5xl lg:text-6xl">
               {t('hero_title')}
             </h1>
 
@@ -50,15 +50,15 @@ const HeroSection = () => {
             <div className="flex flex-col items-center gap-4 sm:flex-row lg:items-start lg:justify-start">
               <Link
                 to="/shop"
-                className="relative z-10 inline-flex min-h-[56px] w-full items-center justify-center rounded-xl bg-crimson-accent px-10 font-inter text-lg font-semibold text-white transition-colors hover:bg-red-700 active:bg-red-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-crimson-accent sm:w-auto"
+                className="relative z-10 inline-flex min-h-[54px] w-full items-center justify-center whitespace-nowrap rounded-xl bg-crimson-accent px-8 font-inter text-base font-semibold text-white transition-colors hover:bg-red-700 active:bg-red-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-crimson-accent sm:w-auto sm:text-lg"
               >
                 {t('hero_cta')}
               </Link>
               <Link
                 to="/contact#contact-form"
-                className="relative z-10 inline-flex min-h-[56px] w-full items-center justify-center gap-2 rounded-xl border border-white/20 bg-white/[0.03] px-10 font-inter text-lg font-semibold text-white transition-colors hover:bg-white/[0.08] active:bg-white/[0.12] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/40 sm:w-auto"
+                className="relative z-10 inline-flex min-h-[54px] w-full items-center justify-center gap-2 whitespace-nowrap rounded-xl border border-white/20 bg-white/[0.03] px-8 font-inter text-base font-semibold text-white transition-colors hover:bg-white/[0.08] active:bg-white/[0.12] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/40 sm:w-auto sm:text-lg"
               >
-                <i className="ri-tools-fill text-xl text-crimson-accent" aria-hidden="true" />
+                <i className="ri-tools-fill text-lg text-crimson-accent sm:text-xl" aria-hidden="true" />
                 {t('hero_cta2')}
               </Link>
             </div>
@@ -68,7 +68,7 @@ const HeroSection = () => {
               <i className="ri-arrow-right-line text-base" aria-hidden="true" />
             </Link>
 
-            <p className="mt-6 font-inter text-sm text-zinc-500">{t('hero_trust')}</p>
+            <p className="mt-6 font-inter text-xs text-zinc-500 sm:text-sm">{t('hero_trust')}</p>
           </motion.div>
 
           {/* Right — animated power-on ASIC miner */}

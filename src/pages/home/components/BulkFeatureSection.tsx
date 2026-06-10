@@ -128,11 +128,11 @@ export default function BulkFeatureSection() {
                 ))}
               </dl>
 
-              {batch.notes && <p className="mt-5 font-inter text-sm leading-6 text-soft-gray">{batch.notes}</p>}
+              {batch.notes && <p className="mt-6 font-inter text-sm leading-6 text-soft-gray">{batch.notes}</p>}
 
               <Link
                 to="/bulk-deals"
-                className="mt-auto inline-flex min-h-[52px] w-full items-center justify-center gap-2 rounded-xl bg-crimson-accent px-7 font-inter text-base font-semibold text-white transition-colors hover:bg-red-700 active:bg-red-800 sm:w-fit"
+                className="mt-9 inline-flex min-h-[52px] w-full items-center justify-center gap-2 rounded-xl bg-crimson-accent px-7 font-inter text-base font-semibold text-white transition-colors hover:bg-red-700 active:bg-red-800 sm:w-fit"
               >
                 {t('bf_cta')}
                 <i className="ri-arrow-right-line text-lg" aria-hidden="true" />
