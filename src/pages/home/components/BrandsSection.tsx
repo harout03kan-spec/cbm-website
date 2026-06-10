@@ -55,12 +55,14 @@ const BrandsSection = () => {
           width: max-content;
           min-height: 48px;
           align-items: center;
-          animation: brand-scroll 40s linear infinite;
-          will-change: transform;
+          animation: brand-scroll 22s linear infinite;
+          /* No GPU-layer promotion (translateZ/will-change) — that is what
+             dropped to a blank/black layer on some phones. Plain 2D transform
+             keeps the logos painted at all times. */
         }
         .brand-group { display: flex; align-items: center; flex: 0 0 auto; }
-        @media (min-width: 768px) { .brand-track { animation-duration: 55s; } }
-        .brand-track:hover { animation-play-state: paused; }
+        @media (min-width: 768px) { .brand-track { animation-duration: 30s; } }
+        /* Intentionally no :hover / touch pause — the ticker never stops. */
         @media (prefers-reduced-motion: reduce) {
           .brand-track {
             animation: none;
