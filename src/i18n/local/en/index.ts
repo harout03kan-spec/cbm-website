@@ -92,8 +92,9 @@ const en = {
 
   // ── HOMEPAGE — PLATFORM LAYERS ─────────────────────
   plat_tag: 'The Platform',
-  plat_title: 'One Platform for ASIC Miner Sales, Repair, and Bulk Supply',
-  plat_sub: 'Canada Bitcoin Miners is a Montreal-based ASIC mining hardware company serving customers across Canada.',
+  plat_lead: 'Sales. Repair. Bulk. Hosting.',
+  plat_title: 'One platform for ASIC miner sales, repair, and bulk supply.',
+  plat_sub: 'Canada Bitcoin Miners is a Montreal-based ASIC mining hardware company serving customers across Canada — four connected layers of the same business.',
   plat_sales_title: 'Miner Sales',
   plat_sales_desc: 'New and used ASIC miners with hashrate, wattage, efficiency, and pricing shown clearly.',
   plat_sales_cta: 'Shop Miners',
@@ -111,6 +112,20 @@ const en = {
   ub_tag: 'Used & Bulk',
   ub_bulk_quote: 'Request Bulk Quote',
   ub_bulk_featured: 'Featured batch',
+
+  // ── HOMEPAGE — BULK DEALS FEATURE ──────────────────
+  bf_tag: 'Wholesale & Bulk',
+  bf_title: 'Bulk ASIC Miner Deals',
+  bf_sub: 'Used bulk batches, pallets, farm liquidations, and wholesale ASIC miner lots.',
+  bf_featured: 'Featured bulk batch',
+  bf_cta: 'View Bulk Deals',
+  bf_chip_1: 'Bulk batches',
+  bf_chip_2: 'Used bulk lots',
+  bf_chip_3: 'Wholesale miners',
+  bf_chip_4: 'Farm liquidations',
+  bf_chip_5: 'Pallets',
+  bf_empty_title: 'Bulk batches change fast',
+  bf_empty_desc: 'Pallets, farm liquidations, and wholesale ASIC miner lots are sourced on request. Tell us the model, quantity, and budget and we will share the current list.',
 
   // ── HOMEPAGE — PROOF STRIP ─────────────────────────
   hp_proof_1: 'Montreal-based repair center',
@@ -186,7 +201,7 @@ const en = {
   // ── SELL MINERS ────────────────────────────────────
   sell_tag: 'SELL OR UPGRADE YOUR ASIC MINERS',
   sell_title: 'Sell or Upgrade Your ASIC Miners',
-  sell_desc: 'Looking to sell used miners, upgrade your fleet, or liquidate a mining site? Send us what you have and we’ll review the lot.',
+  sell_desc: 'Have used miners, extra machines, or a batch from a mining site? Send us the model, quantity, condition, and location. We review single units, small lots, pallets, and farm liquidation batches.',
   sell_desc2: 'We work with used and refurbished ASIC miners, including popular Antminer and Whatsminer models.',
   sell_models: '',
   sell_cta1: 'Request an Offer',

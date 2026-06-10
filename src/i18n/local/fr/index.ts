@@ -92,8 +92,9 @@ const fr = {
 
   // ── HOMEPAGE — COUCHES DE LA PLATEFORME ────────────
   plat_tag: 'La Plateforme',
-  plat_title: 'Une Plateforme pour la Vente, la Réparation et l\'Approvisionnement en Gros de Mineurs ASIC',
-  plat_sub: 'Canada Bitcoin Miners est une entreprise de matériel de minage ASIC basée à Montréal qui dessert ses clients partout au Canada.',
+  plat_lead: 'Vente. Réparation. Gros. Hébergement.',
+  plat_title: 'Une plateforme pour la vente, la réparation et l\'approvisionnement en gros de mineurs ASIC.',
+  plat_sub: 'Canada Bitcoin Miners est une entreprise de matériel de minage ASIC basée à Montréal qui dessert ses clients partout au Canada — quatre couches connectées de la même entreprise.',
   plat_sales_title: 'Vente de Mineurs',
   plat_sales_desc: 'Mineurs ASIC neufs et usagés avec hashrate, puissance, efficacité et prix affichés clairement.',
   plat_sales_cta: 'Acheter des Mineurs',
@@ -111,6 +112,20 @@ const fr = {
   ub_tag: 'Occasion et Gros',
   ub_bulk_quote: 'Demander un Devis en Gros',
   ub_bulk_featured: 'Lot en vedette',
+
+  // ── PAGE D'ACCUEIL — SECTION LOTS EN GROS ──────────
+  bf_tag: 'Gros et Liquidation',
+  bf_title: 'Lots de Mineurs ASIC en Gros',
+  bf_sub: 'Lots usagés en gros, palettes, liquidations de fermes et lots de mineurs ASIC en gros.',
+  bf_featured: 'Lot en gros en vedette',
+  bf_cta: 'Voir les Lots en Gros',
+  bf_chip_1: 'Lots en gros',
+  bf_chip_2: 'Lots usagés en gros',
+  bf_chip_3: 'Mineurs en gros',
+  bf_chip_4: 'Liquidations de fermes',
+  bf_chip_5: 'Palettes',
+  bf_empty_title: 'Les lots en gros changent vite',
+  bf_empty_desc: 'Les palettes, liquidations de fermes et lots de mineurs ASIC en gros sont trouvés sur demande. Indiquez-nous le modèle, la quantité et le budget et nous partagerons la liste actuelle.',
 
   // ── HOMEPAGE — BANDEAU DE CONFIANCE ────────────────
   hp_proof_1: 'Centre de réparation à Montréal',
@@ -186,7 +201,7 @@ const fr = {
   // ── SELL MINERS ────────────────────────────────────
   sell_tag: 'VENDEZ OU AMÉLIOREZ VOS MINEURS ASIC',
   sell_title: 'Vendez ou Améliorez Vos Mineurs ASIC',
-  sell_desc: 'Vous souhaitez vendre des mineurs usagés, améliorer votre flotte ou liquider un site de minage? Envoyez-nous ce que vous avez et nous examinerons le lot.',
+  sell_desc: 'Vous avez des mineurs usagés, des machines en surplus ou un lot provenant d\'un site de minage? Envoyez-nous le modèle, la quantité, l\'état et l\'emplacement. Nous examinons les unités individuelles, les petits lots, les palettes et les lots de liquidation de fermes.',
   sell_desc2: 'Nous travaillons avec des mineurs ASIC usagés et remis à neuf, incluant les modèles Antminer et Whatsminer populaires.',
   sell_models: '',
   sell_cta1: 'Demander une Offre',
