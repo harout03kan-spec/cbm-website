@@ -4,17 +4,16 @@ import Navbar from '../../components/feature/Navbar';
 import Footer from '../../components/feature/Footer';
 import Seo, { localBusinessLd } from '../../components/feature/Seo';
 
-const CALL_LABEL = 'Call +1 514 604 7050';
-
 export default function AboutPage() {
   const { t } = useTranslation();
+  const CALL_LABEL = t('about_call');
 
   // Non-numeric, verifiable trust points — no fabricated statistics.
   const trustPoints = [
-    { title: 'Montreal repair center', sub: 'Board-level ASIC repairs' },
-    { title: 'Canada-wide service',    sub: 'Sales, repair & sourcing' },
-    { title: 'New & used ASIC miners', sub: 'Clear CAD pricing' },
-    { title: 'Bulk & farm lots',       sub: 'Sourcing on request' },
+    { title: t('about_tp1_title'), sub: t('about_tp1_sub') },
+    { title: t('about_tp2_title'), sub: t('about_tp2_sub') },
+    { title: t('about_tp3_title'), sub: t('about_tp3_sub') },
+    { title: t('about_tp4_title'), sub: t('about_tp4_sub') },
   ];
 
   const differentiators = [
@@ -27,10 +26,10 @@ export default function AboutPage() {
   const markets = [t('about_m1'), t('about_m2'), t('about_m3'), t('about_m4'), t('about_m5')];
 
   const audiences = [
-    { icon: '⛏️', label: t('about_a1'), desc: 'From single units to small farms' },
-    { icon: '🏭', label: t('about_a2'), desc: 'Bulk sourcing, repairs & hosting' },
-    { icon: '🤝', label: t('about_a3'), desc: 'Wholesale pricing on request' },
-    { icon: '🖥️', label: t('about_a4'), desc: 'Enterprise-scale deployments' },
+    { icon: '⛏️', label: t('about_a1'), desc: t('about_a1_desc') },
+    { icon: '🏭', label: t('about_a2'), desc: t('about_a2_desc') },
+    { icon: '🤝', label: t('about_a3'), desc: t('about_a3_desc') },
+    { icon: '🖥️', label: t('about_a4'), desc: t('about_a4_desc') },
   ];
 
   const values = [
@@ -43,8 +42,8 @@ export default function AboutPage() {
   return (
     <div className="min-h-screen bg-black text-white font-sans">
       <Seo
-        title="About Canada BTC Miners | Montreal ASIC Miner Sales and Repair"
-        description="Canada BTC Miners is a Montreal based ASIC miner sales and repair company serving Canada with mining hardware, diagnostics, maintenance, and Canada wide shipping."
+        title={t('about_seo_title')}
+        description={t('about_seo_desc')}
         path="/about"
         jsonLd={[localBusinessLd]}
       />
@@ -59,12 +58,12 @@ export default function AboutPage() {
         <meta itemProp="name" content="Canada BTC Miners" />
         <meta itemProp="telephone" content="+15146047050" />
         <meta itemProp="address" content="6500 Route Transcanadienne, Suite 209, Saint-Laurent, Quebec H4T 1X4" />
-        <meta itemProp="url" content="https://canadabtcminers.ca" />
+        <meta itemProp="url" content="https://wholesaleasic.com" />
 
         {/* Background photo */}
         <img
           src="/Put%20this%20in%20the%20about%20us%20page%20background%20instead%20of%20the%20miner.jpeg"
-          alt="Bitcoin mining facility — Canada BTC Miners"
+          alt={t('about_hero_img_alt')}
           className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none"
           loading="eager"
         />
@@ -74,32 +73,29 @@ export default function AboutPage() {
 
         <div className="relative z-10 mx-auto max-w-4xl px-5 py-20 sm:px-6 sm:py-28 lg:py-32 text-center">
           <p className="text-xs font-semibold uppercase tracking-[0.28em] text-crimson-accent sm:text-sm">
-            About Canada BTC Miners
+            {t('about_hero_tag')}
           </p>
           <h1 className="mt-5 text-4xl font-semibold leading-tight sm:text-5xl lg:text-[3.4rem] lg:leading-[1.1]">
-            Canada's ASIC Miner{' '}
-            <span className="text-crimson-accent">Supplier,</span>{' '}
-            Repair &amp; Hosting Team
+            {t('about_hero_title')}{' '}
+            <span className="text-crimson-accent">{t('about_hero_accent')}</span>
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-sm leading-7 text-zinc-300 sm:text-base sm:leading-8">
-            Based in Montreal, Quebec — we supply new &amp; refurbished ASIC miners,
-            perform board-level repairs, and coordinate hosting placements across
-            Canada and the U.S. Real service. Clear pricing. Direct communication.
+            {t('about_hero_sub')}
           </p>
 
           {/* Trust badges */}
           <div className="mt-6 flex flex-wrap gap-3 justify-center text-xs text-zinc-400">
             <span className="flex items-center gap-1.5 bg-zinc-900/80 border border-zinc-800 rounded-full px-3 py-1.5">
               <span className="w-1.5 h-1.5 rounded-full bg-green-500 inline-block" />
-              Canadian Inventory
+              {t('about_badge1')}
             </span>
             <span className="flex items-center gap-1.5 bg-zinc-900/80 border border-zinc-800 rounded-full px-3 py-1.5">
               <span className="w-1.5 h-1.5 rounded-full bg-green-500 inline-block" />
-              30-Day Repair Warranty
+              {t('about_badge2')}
             </span>
             <span className="flex items-center gap-1.5 bg-zinc-900/80 border border-zinc-800 rounded-full px-3 py-1.5">
               <span className="w-1.5 h-1.5 rounded-full bg-green-500 inline-block" />
-              Tested Before Shipping
+              {t('about_badge3')}
             </span>
           </div>
 
@@ -108,7 +104,7 @@ export default function AboutPage() {
             <a
               href="tel:+15146047050"
               className="inline-flex items-center justify-center gap-2 rounded-xl bg-red-600 px-7 py-4 font-semibold hover:bg-red-500 transition-colors text-base"
-              aria-label="Call Canada BTC Miners"
+              aria-label={t('about_call_aria')}
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
@@ -119,14 +115,14 @@ export default function AboutPage() {
               to="/shop"
               className="inline-flex items-center justify-center gap-2 rounded-xl border border-zinc-700 bg-black/40 px-7 py-4 font-semibold hover:bg-zinc-900 transition-colors"
             >
-              Shop ASIC Miners
+              {t('about_shop_cta')}
             </Link>
           </div>
         </div>
       </section>
 
       {/* ── TRUST POINTS — non-numeric, no fabricated statistics ── */}
-      <section className="border-b border-zinc-900 bg-zinc-950" aria-label="What we do">
+      <section className="border-b border-zinc-900 bg-zinc-950" aria-label={t('about_tp_aria')}>
         <div className="mx-auto grid max-w-6xl grid-cols-2 gap-4 px-5 py-10 sm:px-6 sm:gap-6 sm:py-12 lg:grid-cols-4">
           {trustPoints.map((item) => (
             <div key={item.title} className="rounded-2xl border border-zinc-800 bg-black/40 px-4 py-5 text-center sm:px-5 sm:py-6 hover:border-red-800 transition-colors">
@@ -140,7 +136,7 @@ export default function AboutPage() {
       {/* ── CONTACT BAR ── */}
       <div className="bg-red-600/10 border-b border-red-900/30 px-5 py-4">
         <div className="mx-auto max-w-6xl flex flex-col sm:flex-row items-center justify-between gap-3 text-sm">
-          <span className="text-zinc-300">Questions about buying, repairing or hosting ASIC miners?</span>
+          <span className="text-zinc-300">{t('about_contactbar')}</span>
           <div className="flex gap-6 items-center flex-wrap justify-center">
             <a href="tel:+15146047050" className="font-semibold text-white hover:text-crimson-accent transition-colors flex items-center gap-1.5">
               <svg className="w-4 h-4 text-crimson-accent" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
@@ -158,10 +154,10 @@ export default function AboutPage() {
       {/* ── LEADERSHIP ── */}
       <section className="border-y border-zinc-900 bg-zinc-950/60">
         <div className="mx-auto max-w-5xl px-5 py-16 text-center sm:px-6 sm:py-20">
-          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-crimson-accent sm:text-sm">Leadership</p>
-          <h2 className="mt-4 text-3xl font-semibold sm:text-4xl">The Operators Behind The Business</h2>
+          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-crimson-accent sm:text-sm">{t('about_leadership_tag')}</p>
+          <h2 className="mt-4 text-3xl font-semibold sm:text-4xl">{t('about_leadership_title')}</h2>
           <p className="mx-auto mt-4 max-w-2xl text-sm text-zinc-400">
-            You deal directly with the people who run the operation — not a call center.
+            {t('about_leadership_sub')}
           </p>
           <div className="mt-10 grid gap-5 sm:mt-12 sm:grid-cols-2 sm:gap-6">
             {[
@@ -188,7 +184,7 @@ export default function AboutPage() {
                   <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
                   </svg>
-                  LinkedIn Profile
+                  {t('about_linkedin')}
                 </a>
               </div>
             ))}
@@ -199,18 +195,16 @@ export default function AboutPage() {
       {/* ── WHY + DIFFERENTIATORS ── */}
       <section className="mx-auto max-w-7xl px-5 py-16 sm:px-6 sm:py-20 flex flex-col gap-6">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-crimson-accent sm:text-sm">Why We Built This</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-crimson-accent sm:text-sm">{t('about_why_tag')}</p>
           <h2 className="mt-4 text-3xl font-semibold leading-tight sm:text-4xl lg:text-5xl">
-            Reliable ASIC Support In Canada<br className="hidden lg:block" /> Should Not Be Hard To Find
+            {t('about_why_title')}
           </h2>
           <p className="mt-6 max-w-2xl text-sm leading-7 text-zinc-300 sm:text-base sm:leading-8">
-            Canada BTC Miners was built to fill a real gap: ASIC miner sales, repairs, and hosting support
-            that's actually accessible to Canadian operators. We cut out the confusion —
-            you get a straight answer, a clear price, and a team that follows through.
+            {t('about_why_desc')}
           </p>
         </div>
         <div className="rounded-[2rem] border border-red-950/60 bg-zinc-950 p-6 sm:p-8">
-          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-crimson-accent sm:text-sm mb-6">What Makes Us Different</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-crimson-accent sm:text-sm mb-6">{t('about_diff_tag')}</p>
           <div className="grid gap-4 sm:grid-cols-2">
             {differentiators.map((item) => (
               <div key={item.text} className="flex items-center gap-3 rounded-2xl border border-zinc-800 bg-black/50 px-4 py-5 text-sm font-medium text-zinc-200 sm:text-base hover:border-zinc-600 transition-colors">
@@ -224,8 +218,8 @@ export default function AboutPage() {
       {/* ── LOCATION + MAP ── */}
       <section className="mx-auto max-w-7xl px-5 py-16 sm:px-6 sm:py-20 flex flex-col gap-6">
         <div className="rounded-[2rem] border border-zinc-800 bg-zinc-950 p-6 sm:p-8">
-          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-crimson-accent sm:text-sm">Location</p>
-          <h2 className="mt-4 text-3xl font-semibold leading-tight sm:text-4xl">Montreal Repair Center</h2>
+          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-crimson-accent sm:text-sm">{t('about_location_tag')}</p>
+          <h2 className="mt-4 text-3xl font-semibold leading-tight sm:text-4xl">{t('about_location_title')}</h2>
           <div className="mt-6 space-y-3 text-sm leading-7 text-zinc-300 sm:text-base sm:leading-8">
             <p>{t('about_location_p1')}</p>
             <p className="flex items-start gap-2">
@@ -233,7 +227,7 @@ export default function AboutPage() {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                 <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
               </svg>
-              <span>6500 Route Transcanadienne, Suite 209, Saint-Laurent, Quebec H4T 1X4</span>
+              <span>{t('about_address')}</span>
             </p>
             <p className="flex items-center gap-2">
               <svg className="w-5 h-5 text-crimson-accent flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
@@ -253,7 +247,7 @@ export default function AboutPage() {
         {/* Google Map — dark-themed iframe */}
         <div className="overflow-hidden rounded-[2rem] border border-red-950/60 bg-black h-72 sm:h-80 lg:h-96">
           <iframe
-            title="Canada BTC Miners Montreal location — 6500 Route Transcanadienne"
+            title={t('about_map_title')}
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2795.3!2d-73.745!3d45.498!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4cc9390c1d3e4a93%3A0x0!2s6500+Rte+Transcanadienne%2C+Saint-Laurent%2C+QC+H4T+1X4!5e0!3m2!1sen!2sca!4v1"
             width="100%"
             height="100%"
@@ -270,11 +264,10 @@ export default function AboutPage() {
         <div className="mx-auto max-w-7xl px-5 py-16 sm:px-6 sm:py-20">
           <div className="flex flex-col gap-6">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-crimson-accent sm:text-sm">Where We Sell</p>
-              <h2 className="mt-4 text-3xl font-semibold sm:text-4xl">Serving Clients Across Multiple Markets</h2>
+              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-crimson-accent sm:text-sm">{t('about_markets_tag')}</p>
+              <h2 className="mt-4 text-3xl font-semibold sm:text-4xl">{t('about_markets_title')}</h2>
               <p className="mt-6 max-w-2xl text-sm leading-7 text-zinc-300 sm:text-base sm:leading-8">
-                Based in Montreal, we ship ASIC miners and provide repair services to clients across
-                Canada and internationally. Whether you're buying one miner or deploying a full farm, we can support you.
+                {t('about_markets_desc')}
               </p>
             </div>
             <div className="rounded-[2rem] border border-red-950/60 bg-[linear-gradient(135deg,rgba(127,29,29,0.18),rgba(12,12,12,0.95))] p-6 sm:p-8">
@@ -294,8 +287,8 @@ export default function AboutPage() {
       <section className="mx-auto max-w-7xl px-5 py-16 sm:px-6 sm:py-20">
         <div className="flex flex-col gap-6">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-crimson-accent sm:text-sm">Who We Work With</p>
-            <h2 className="mt-4 text-3xl font-semibold sm:text-4xl">Support For Every Type of Mining Client</h2>
+            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-crimson-accent sm:text-sm">{t('about_who_tag')}</p>
+            <h2 className="mt-4 text-3xl font-semibold sm:text-4xl">{t('about_who_title')}</h2>
             <p className="mt-6 max-w-xl text-sm leading-7 text-zinc-300 sm:text-base sm:leading-8">{t('about_who_desc')}</p>
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
@@ -316,8 +309,8 @@ export default function AboutPage() {
       <section className="border-y border-zinc-900 bg-zinc-950">
         <div className="mx-auto max-w-7xl px-5 py-16 sm:px-6 sm:py-20">
           <div className="mx-auto max-w-3xl text-center">
-            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-crimson-accent sm:text-sm">Core Values</p>
-            <h2 className="mt-4 text-3xl font-semibold sm:text-4xl lg:text-5xl">Built On Practical Standards</h2>
+            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-crimson-accent sm:text-sm">{t('about_values_tag')}</p>
+            <h2 className="mt-4 text-3xl font-semibold sm:text-4xl lg:text-5xl">{t('about_values_title')}</h2>
           </div>
           <div className="mt-10 grid gap-5 sm:mt-12 sm:grid-cols-2 lg:grid-cols-4 sm:gap-6">
             {values.map((item) => (
@@ -333,10 +326,10 @@ export default function AboutPage() {
 
       {/* ── CLIENT FEEDBACK — link to real Google reviews, no fabricated review text ── */}
       <section className="mx-auto max-w-3xl px-5 py-16 sm:px-6 sm:py-20 text-center">
-        <p className="text-xs font-semibold uppercase tracking-[0.22em] text-crimson-accent sm:text-sm">Client Feedback</p>
-        <h2 className="mt-4 text-3xl font-semibold sm:text-4xl lg:text-5xl">See What Clients Say</h2>
+        <p className="text-xs font-semibold uppercase tracking-[0.22em] text-crimson-accent sm:text-sm">{t('about_feedback_tag')}</p>
+        <h2 className="mt-4 text-3xl font-semibold sm:text-4xl lg:text-5xl">{t('about_feedback_title')}</h2>
         <p className="mx-auto mt-4 max-w-xl text-sm leading-7 text-zinc-300 sm:text-base">
-          Read reviews from our customers on Google, or leave your own after we've worked together.
+          {t('about_feedback_desc')}
         </p>
         <a
           href="https://g.page/r/CdfEOvDvGeTDEBM/review"
@@ -350,7 +343,7 @@ export default function AboutPage() {
             <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
             <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
           </svg>
-          Read or leave a Google review
+          {t('about_feedback_cta')}
         </a>
       </section>
 
@@ -358,11 +351,10 @@ export default function AboutPage() {
       <section className="relative overflow-hidden border-t border-zinc-900 bg-[linear-gradient(135deg,#0f0f10,#171717_45%,#101012)] px-5 py-20 text-center sm:px-6 sm:py-24">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_0%,rgba(220,38,38,0.10),transparent_65%)] pointer-events-none" />
         <div className="relative z-10 mx-auto max-w-3xl">
-          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-crimson-accent sm:text-sm mb-4">Get Started Today</p>
-          <h2 className="text-3xl font-semibold sm:text-4xl lg:text-5xl">Work With A Reliable ASIC Team</h2>
+          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-crimson-accent sm:text-sm mb-4">{t('about_final_tag')}</p>
+          <h2 className="text-3xl font-semibold sm:text-4xl lg:text-5xl">{t('about_final_title')}</h2>
           <p className="mx-auto mt-6 max-w-2xl text-sm leading-8 text-zinc-300 sm:text-base">
-            Call or message us. You get a clear answer before sending anything.
-            No runaround, no vague quotes — direct support from Montreal.
+            {t('about_final_sub')}
           </p>
           <div className="mt-8 flex flex-col sm:flex-row justify-center gap-4">
             <a
@@ -375,14 +367,14 @@ export default function AboutPage() {
               {CALL_LABEL}
             </a>
             <Link to="/services" className="inline-flex items-center justify-center gap-2 rounded-xl border border-zinc-700 px-8 py-4 font-semibold hover:bg-zinc-900 transition-colors">
-              View Services
+              {t('about_final_services')}
             </Link>
             <Link to="/shop" className="inline-flex items-center justify-center gap-2 rounded-xl border border-zinc-700 px-8 py-4 font-semibold hover:bg-zinc-900 transition-colors">
-              Shop Miners
+              {t('about_shop_cta')}
             </Link>
           </div>
           <div className="mt-6 flex flex-col sm:flex-row justify-center gap-6 text-sm text-zinc-500">
-            <span>📍 6500 Route Transcanadienne, Montreal, QC</span>
+            <span>📍 {t('about_final_addr')}</span>
             <span>✉️ info@canadabtcminers.ca</span>
           </div>
         </div>

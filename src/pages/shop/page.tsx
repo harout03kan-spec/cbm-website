@@ -249,8 +249,8 @@ const ShopPage = () => {
   return (
     <div className="min-h-screen bg-[#0A0A0A]">
       <Seo
-        title="Buy ASIC Miners in Canada | Canada BTC Miners"
-        description="Shop new and used ASIC miners in Canada, including Antminer and Whatsminer models. Canada BTC Miners offers tested mining hardware, Montreal pickup, and Canada wide shipping."
+        title={t('shop_seo_title')}
+        description={t('shop_seo_desc')}
         path="/shop"
       />
       <Navbar />
