@@ -45,7 +45,7 @@ export const repairFAQ = [
   {
     id: 3,
     question: 'What is your average turnaround time?',
-    answer: 'Our average repair turnaround time is 5–12 business days depending on the issue. If specialized parts need to be ordered, turnaround time may be slightly longer.'
+    answer: 'Turnaround depends on the issue, the model, and parts availability. We confirm the expected timeline with your quote before any work begins.'
   },
   {
     id: 4,

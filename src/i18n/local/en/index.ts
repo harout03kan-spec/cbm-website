@@ -24,16 +24,6 @@ const en = {
   hero_trust: 'Canadian-owned · Tested before shipping · 30-day repair warranty',
   hero_metric_label: 'Real-time hashrate',
 
-  // ── HERO TRUST BAR ─────────────────────────────────
-  htb_v1: '2,300+',
-  htb_l1: 'Miners Repaired',
-  htb_v2: '92%',
-  htb_l2: 'Repair Success Rate',
-  htb_v3: '5+',
-  htb_l3: 'Years in ASIC Mining',
-  htb_v4: 'Montreal',
-  htb_l4: 'Canada Based Repair Center',
-
   // ── INFO TRUST BAR ─────────────────────────────────
   tb_shipping: 'Shipping options available',
   tb_tax: 'Transparent tax at checkout',
@@ -318,10 +308,6 @@ const en = {
   about_hero_tag: 'About Us',
   about_hero_title: 'Built For Canadian Bitcoin Mining Operations',
   about_hero_sub: 'Canada BTC Miners supplies, repairs, and supports ASIC mining hardware across Canada with clear pricing, real service, and direct communication.',
-  about_stats_years: 'Years Experience',
-  about_stats_repaired: 'Miners Repaired',
-  about_stats_rate: 'Repair Success Rate',
-  about_stats_sold: 'Units Sold',
   about_leadership_tag: 'Leadership',
   about_leadership_title: 'Direct Operators Behind The Business',
   about_harout_role: 'Founder & CEO',
@@ -368,10 +354,6 @@ const en = {
   about_v3_text: 'Clear pricing and direct communication without unnecessary back and forth.',
   about_v4_title: 'Long Term Support',
   about_v4_text: 'Support for repairs, sourcing, sales, and ongoing mining operations.',
-  about_reviews_tag: 'Client Feedback',
-  about_reviews_title: 'Real Reviews From Real Clients',
-  about_google_cta: 'Leave Us A Review On Google',
-  about_google_link: 'Google Business Profile Link',
   about_final_title: 'WORK WITH A RELIABLE ASIC TEAM',
   about_final_sub: 'Call or message us. You get a clear answer before sending anything.',
   about_final_contact: 'Contact Us',
