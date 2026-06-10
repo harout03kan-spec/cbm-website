@@ -24,16 +24,6 @@ const fr = {
   hero_trust: 'Propriété canadienne · Testé avant expédition · Garantie réparation 30 jours',
   hero_metric_label: 'Hashrate en temps réel',
 
-  // ── HERO TRUST BAR ─────────────────────────────────
-  htb_v1: '2 300+',
-  htb_l1: 'Mineurs Réparés',
-  htb_v2: '92%',
-  htb_l2: 'Taux de Réussite des Réparations',
-  htb_v3: '5+',
-  htb_l3: 'Ans dans le Minage ASIC',
-  htb_v4: 'Montréal',
-  htb_l4: 'Centre de Réparation Basé au Canada',
-
   // ── INFO TRUST BAR ─────────────────────────────────
   tb_shipping: 'Options d\'expédition disponibles',
   tb_tax: 'Taxes transparentes au paiement',
@@ -318,10 +308,6 @@ const fr = {
   about_hero_tag: 'À Propos de Nous',
   about_hero_title: 'Conçu pour les Opérations de Minage Bitcoin Canadiennes',
   about_hero_sub: 'Canada BTC Miners fournit, répare et soutient le matériel de minage ASIC à travers le Canada avec des prix clairs, un service réel et une communication directe.',
-  about_stats_years: 'Ans d\'Expérience',
-  about_stats_repaired: 'Mineurs Réparés',
-  about_stats_rate: 'Taux de Réussite des Réparations',
-  about_stats_sold: 'Unités Vendues',
   about_leadership_tag: 'Direction',
   about_leadership_title: 'Les Opérateurs Directs Derrière l\'Entreprise',
   about_harout_role: 'Fondateur et PDG',
@@ -368,10 +354,6 @@ const fr = {
   about_v3_text: 'Prix clairs et communication directe sans allers-retours inutiles.',
   about_v4_title: 'Support à Long Terme',
   about_v4_text: 'Soutien pour les réparations, l\'approvisionnement, les ventes et les opérations de minage en cours.',
-  about_reviews_tag: 'Avis des Clients',
-  about_reviews_title: 'Vrais Avis de Vrais Clients',
-  about_google_cta: 'Laissez-Nous un Avis sur Google',
-  about_google_link: 'Lien vers le Profil d\'Entreprise Google',
   about_final_title: 'TRAVAILLEZ AVEC UNE ÉQUIPE ASIC FIABLE',
   about_final_sub: 'Appelez-nous ou envoyez-nous un message. Vous obtenez une réponse claire avant d\'envoyer quoi que ce soit.',
   about_final_contact: 'Nous Contacter',

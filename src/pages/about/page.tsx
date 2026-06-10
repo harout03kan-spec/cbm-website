@@ -6,25 +6,15 @@ import Seo, { localBusinessLd } from '../../components/feature/Seo';
 
 const CALL_LABEL = 'Call +1 514 604 7050';
 
-
-const StarRating = ({ count = 5 }: { count?: number }) => (
-  <div className="flex gap-0.5" aria-label={`${count} out of 5 stars`}>
-    {Array.from({ length: count }).map((_, i) => (
-      <svg key={i} className="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
-        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-      </svg>
-    ))}
-  </div>
-);
-
 export default function AboutPage() {
   const { t } = useTranslation();
 
-  const stats = [
-    { value: '5+',     label: t('about_stats_years'),    sub: 'Since 2019' },
-    { value: '2,300+', label: t('about_stats_repaired'), sub: 'Board-level repairs' },
-    { value: '92%',    label: t('about_stats_rate'),     sub: 'Industry-leading' },
-    { value: '9,000+', label: t('about_stats_sold'),     sub: 'Across Canada & US' },
+  // Non-numeric, verifiable trust points — no fabricated statistics.
+  const trustPoints = [
+    { title: 'Montreal repair center', sub: 'Board-level ASIC repairs' },
+    { title: 'Canada-wide service',    sub: 'Sales, repair & sourcing' },
+    { title: 'New & used ASIC miners', sub: 'Clear CAD pricing' },
+    { title: 'Bulk & farm lots',       sub: 'Sourcing on request' },
   ];
 
   const differentiators = [
@@ -48,14 +38,6 @@ export default function AboutPage() {
     { icon: '🔬', title: t('about_v2_title'), text: t('about_v2_text') },
     { icon: '📋', title: t('about_v3_title'), text: t('about_v3_text') },
     { icon: '🔄', title: t('about_v4_title'), text: t('about_v4_text') },
-  ];
-
-  const reviews = [
-    { name: 'R M',                 stars: 5, text: 'Excellent service from start to finish. They diagnosed the issue quickly, explained everything clearly, and completed the repair on time. Pricing was fair and the miner is now working perfectly.' },
-    { name: 'Stephane Brouillard', stars: 5, text: 'Harout always gave me great prices and matching services.' },
-    { name: 'Chris Angus',         stars: 5, text: 'Ordered an S19 and received an upgraded S19 Pro at no extra cost. Arrived the next day. Great service.' },
-    { name: 'Brad Holman',         stars: 5, text: 'They were very helpful sorting out my setup issue. Pricing was reasonable and shipping to Ontario was quick.' },
-    { name: 'Will James',          stars: 5, text: 'Ordered an S21. Great service, quick response, and smooth shipping in Canada.' },
   ];
 
   return (
@@ -143,14 +125,13 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ── STATS ── */}
-      <section className="border-b border-zinc-900 bg-zinc-950" aria-label="Company statistics">
+      {/* ── TRUST POINTS — non-numeric, no fabricated statistics ── */}
+      <section className="border-b border-zinc-900 bg-zinc-950" aria-label="What we do">
         <div className="mx-auto grid max-w-6xl grid-cols-2 gap-4 px-5 py-10 sm:px-6 sm:gap-6 sm:py-12 lg:grid-cols-4">
-          {stats.map((item) => (
-            <div key={item.label} className="rounded-2xl border border-zinc-800 bg-black/40 px-4 py-5 text-center sm:px-5 sm:py-6 hover:border-red-800 transition-colors">
-              <div className="text-2xl font-semibold text-crimson-accent sm:text-3xl lg:text-4xl">{item.value}</div>
-              <div className="mt-2 text-xs text-zinc-200 font-medium sm:text-sm">{item.label}</div>
-              <div className="mt-1 text-xs text-zinc-500">{item.sub}</div>
+          {trustPoints.map((item) => (
+            <div key={item.title} className="rounded-2xl border border-zinc-800 bg-black/40 px-4 py-5 text-center sm:px-5 sm:py-6 hover:border-red-800 transition-colors">
+              <div className="text-base font-semibold text-crimson-accent sm:text-lg">{item.title}</div>
+              <div className="mt-2 text-xs text-zinc-400 sm:text-sm">{item.sub}</div>
             </div>
           ))}
         </div>
@@ -350,44 +331,27 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ── REVIEWS ── */}
-      <section className="mx-auto max-w-7xl px-5 py-16 sm:px-6 sm:py-20">
-        <div className="mx-auto max-w-3xl text-center">
-          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-crimson-accent sm:text-sm">Client Feedback</p>
-          <h2 className="mt-4 text-3xl font-semibold sm:text-4xl lg:text-5xl">Real Reviews From Real Clients</h2>
-          <p className="mt-4 text-sm text-zinc-400">All reviews from verified Google customers</p>
-        </div>
-        <div className="mt-10 grid gap-5 sm:mt-12 sm:grid-cols-2 lg:grid-cols-3">
-          {reviews.map((item) => (
-            <div
-              key={item.name}
-              itemScope
-              itemType="https://schema.org/Review"
-              className="rounded-[2rem] border border-zinc-800 bg-zinc-950 p-5 sm:p-6 flex flex-col gap-3 hover:border-zinc-600 transition-colors"
-            >
-              <StarRating count={item.stars} />
-              <p itemProp="reviewBody" className="text-sm leading-7 text-zinc-300 sm:text-base flex-1">"{item.text}"</p>
-              <div itemProp="author" className="text-sm font-semibold text-crimson-accent">— {item.name}</div>
-            </div>
-          ))}
-        </div>
-        <div className="mt-10 text-center">
-          <p className="text-sm text-zinc-300 sm:text-base mb-3">Happy with our service? Leave us a review. It helps other miners find us.</p>
-          <a
-            href="https://g.page/r/CdfEOvDvGeTDEBM/review"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 font-semibold text-crimson-accent hover:text-crimson-accent transition-colors"
-          >
-            <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none">
-              <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
-              <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
-              <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
-              <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
-            </svg>
-            Write a Google Review
-          </a>
-        </div>
+      {/* ── CLIENT FEEDBACK — link to real Google reviews, no fabricated review text ── */}
+      <section className="mx-auto max-w-3xl px-5 py-16 sm:px-6 sm:py-20 text-center">
+        <p className="text-xs font-semibold uppercase tracking-[0.22em] text-crimson-accent sm:text-sm">Client Feedback</p>
+        <h2 className="mt-4 text-3xl font-semibold sm:text-4xl lg:text-5xl">See What Clients Say</h2>
+        <p className="mx-auto mt-4 max-w-xl text-sm leading-7 text-zinc-300 sm:text-base">
+          Read reviews from our customers on Google, or leave your own after we've worked together.
+        </p>
+        <a
+          href="https://g.page/r/CdfEOvDvGeTDEBM/review"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-7 inline-flex items-center gap-2 rounded-xl border border-zinc-700 bg-black/40 px-6 py-3.5 font-semibold text-white hover:bg-zinc-900 transition-colors"
+        >
+          <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none">
+            <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+            <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+            <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+            <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+          </svg>
+          Read or leave a Google review
+        </a>
       </section>
 
       {/* ── FINAL CTA ── */}
