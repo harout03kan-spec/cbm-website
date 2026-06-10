@@ -16,11 +16,11 @@ const brands = [
   { id: 'volcminer',   name: 'Volcminer',   src: '/assets/brands/volcminer.webp' },
 ];
 
-// One full set of logos, rendered as a single inline group.
-const BrandRow = ({ ariaHidden }: { ariaHidden?: boolean }) => (
-  <div className="brand-group" aria-hidden={ariaHidden}>
+// One full set of logos. Each track holds a complete set; we render two tracks.
+const BrandTrack = ({ ariaHidden }: { ariaHidden?: boolean }) => (
+  <div className="bs-track" aria-hidden={ariaHidden}>
     {brands.map(({ id, name, src }) => (
-      <div key={id} className="flex shrink-0 items-center justify-center px-7 py-2 sm:px-10">
+      <div key={id} className="bs-item">
         <img
           src={src}
           alt={`${name} logo`}
@@ -33,45 +33,58 @@ const BrandRow = ({ ariaHidden }: { ariaHidden?: boolean }) => (
   </div>
 );
 
-// Sliding brand marquee. Two identical rows sit side by side inside a w-max
-// flex track; the track animates from 0 to -50%, so the second row seamlessly
-// takes over and the loop never shows a gap. This is also the failure mode: if
-// the animation never runs (old browser, JS off, paint glitch) the rows stay
-// fully visible and simply don't move — they never go blank or black. A solid
-// min-height keeps the band from ever collapsing, and prefers-reduced-motion
-// falls back to a centered, wrapped, fully-static set.
+// Sliding brand marquee — rebuilt to be blank-proof on mobile.
+//
+// Why the old version went black on phones: it animated `transform` on a single
+// `width: max-content` flex container, which iOS Safari intermittently fails to
+// paint (and GPU-layer promotion could drop the layer entirely). This version
+// uses the canonical two-track pattern instead:
+//   • Two identical tracks, each `min-width: 100%`, sit side by side.
+//   • Both animate translateX(0) → translateX(-100%) in lockstep, so as track 1
+//     scrolls off the left, track 2 takes its exact place — a seamless loop.
+//   • Because every track is at least a full viewport wide (min-width:100% +
+//     space-around), the band is always filled — never a blank/black gap.
+//   • Pure CSS, local assets, no JS-driven visibility, no IntersectionObserver,
+//     no opacity:0, no animation-delay, no will-change/translateZ.
+//   • No :hover or touch pause — it never stops.
+//   • If animation is disabled (reduced-motion / unsupported), one static track
+//     stays fully visible as the fallback.
 const BrandsSection = () => {
   const { t } = useTranslation();
   return (
     <section className="overflow-hidden border-y border-white/[0.07] bg-[#0a0a0a] py-10">
       <style>{`
-        @keyframes brand-scroll {
-          0%   { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
+        @keyframes bs-scroll {
+          from { transform: translateX(0); }
+          to   { transform: translateX(-100%); }
         }
-        .brand-viewport { width: 100%; overflow: hidden; }
-        .brand-track {
+        .bs-marquee {
           display: flex;
-          width: max-content;
-          min-height: 48px;
-          align-items: center;
-          animation: brand-scroll 22s linear infinite;
-          /* No GPU-layer promotion (translateZ/will-change) — that is what
-             dropped to a blank/black layer on some phones. Plain 2D transform
-             keeps the logos painted at all times. */
+          width: 100%;
+          min-height: 40px;
+          overflow: hidden;
         }
-        .brand-group { display: flex; align-items: center; flex: 0 0 auto; }
-        @media (min-width: 768px) { .brand-track { animation-duration: 30s; } }
-        /* Intentionally no :hover / touch pause — the ticker never stops. */
+        .bs-track {
+          flex: 0 0 auto;
+          min-width: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: space-around;
+          animation: bs-scroll 16s linear infinite;
+        }
+        .bs-item {
+          flex: 0 0 auto;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 8px 28px;
+        }
+        @media (min-width: 640px) { .bs-item { padding: 8px 40px; } }
+        @media (min-width: 768px) { .bs-track { animation-duration: 26s; } }
+        /* No :hover or touch pause — the ticker never stops. */
         @media (prefers-reduced-motion: reduce) {
-          .brand-track {
-            animation: none;
-            width: 100%;
-            flex-wrap: wrap;
-            justify-content: center;
-          }
-          .brand-track .brand-group:nth-child(2) { display: none; }
-          .brand-track .brand-group { flex-wrap: wrap; justify-content: center; }
+          .bs-track { animation: none; flex-wrap: wrap; }
+          .bs-track + .bs-track { display: none; }
         }
       `}</style>
 
@@ -79,11 +92,9 @@ const BrandsSection = () => {
         {t('brands_label')}
       </p>
 
-      <div className="brand-viewport">
-        <div className="brand-track">
-          <BrandRow />
-          <BrandRow ariaHidden />
-        </div>
+      <div className="bs-marquee">
+        <BrandTrack />
+        <BrandTrack ariaHidden />
       </div>
     </section>
   );
