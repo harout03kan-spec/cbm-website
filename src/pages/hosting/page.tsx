@@ -80,8 +80,8 @@ export default function HostingPage() {
   return (
     <div className="min-h-screen bg-black text-white">
       <Seo
-        title="ASIC Miner Hosting Canada | Canada BTC Miners"
-        description="ASIC miner hosting options for Canadian mining clients. Canada BTC Miners helps connect miners with hosting, repair, testing, and hardware support."
+        title={t('host_seo_title')}
+        description={t('host_seo_desc')}
         path="/hosting"
       />
       <Navbar />

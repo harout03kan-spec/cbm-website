@@ -126,8 +126,8 @@ export default function ContactPage() {
   return (
     <div className="min-h-screen bg-black text-white font-inter antialiased">
       <Seo
-        title="Contact Canada BTC Miners | ASIC Miner Sales, Repair and Hosting"
-        description="Contact Canada BTC Miners in Montreal for ASIC miner sales, repairs, hosting, and bulk orders. Call +1 514 604 7050 or send us a message and our team will reply fast."
+        title={t('ct_seo_title')}
+        description={t('ct_seo_desc')}
         path="/contact"
         jsonLd={[localBusinessLd]}
       />
