@@ -1,16 +1,20 @@
 /**
- * SEO head component — Phase 2A.
+ * SEO head component.
  *
- * Uses React 19's native document metadata support: <title>, <meta> and
- * <link> rendered here are automatically hoisted into <head> and swapped on
- * client-side route changes. No external head library is required.
- *
- * This only sets per-page <title>/description/canonical/OG/Twitter tags and
- * (optionally) one JSON-LD block. It renders nothing visible and does not
- * affect layout.
+ * Instead of rendering <title>/<meta>/<link> as JSX (which, under React 19's
+ * metadata hoisting, *appends* a second <meta name="description"> alongside the
+ * static one already in index.html — producing duplicate, stale-English
+ * descriptions), this component imperatively UPSERTS a single head tag per key.
+ * It updates the existing index.html tags in place, so:
+ *   • every route ends up with exactly one description / canonical / OG / Twitter
+ *     tag, set to the route-specific (and per-language) value, and
+ *   • the static index.html values remain as the no-JS / first-paint fallback,
+ *     without ever creating a duplicate.
+ * Renders nothing and does not affect layout.
  */
+import { useEffect } from 'react';
 
-const SITE_URL = 'https://canadabtcminers.ca';
+const SITE_URL = 'https://wholesaleasic.com';
 const SITE_NAME = 'Canada BTC Miners';
 const OG_IMAGE = `${SITE_URL}/asic-miner-hero.png`;
 
@@ -23,39 +27,65 @@ type SeoProps = {
   jsonLd?: Record<string, unknown>[];
 };
 
+// Find an existing <meta> by name/property and update it; create it only if
+// missing. Guarantees a single tag per key (no duplicates).
+function upsertMeta(attr: 'name' | 'property', key: string, content: string) {
+  let el = document.head.querySelector<HTMLMetaElement>(`meta[${attr}="${key}"]`);
+  if (!el) {
+    el = document.createElement('meta');
+    el.setAttribute(attr, key);
+    document.head.appendChild(el);
+  }
+  el.setAttribute('content', content);
+}
+
+function upsertCanonical(href: string) {
+  let el = document.head.querySelector<HTMLLinkElement>('link[rel="canonical"]');
+  if (!el) {
+    el = document.createElement('link');
+    el.setAttribute('rel', 'canonical');
+    document.head.appendChild(el);
+  }
+  el.setAttribute('href', href);
+}
+
 export default function Seo({ title, description, path, jsonLd }: SeoProps) {
   const url = `${SITE_URL}${path === '/' ? '/' : path}`;
 
-  return (
-    <>
-      <title>{title}</title>
-      <meta name="description" content={description} />
-      <link rel="canonical" href={url} />
+  useEffect(() => {
+    document.title = title;
+    upsertMeta('name', 'description', description);
+    upsertCanonical(url);
+    // Open Graph
+    upsertMeta('property', 'og:site_name', SITE_NAME);
+    upsertMeta('property', 'og:type', 'website');
+    upsertMeta('property', 'og:title', title);
+    upsertMeta('property', 'og:description', description);
+    upsertMeta('property', 'og:url', url);
+    upsertMeta('property', 'og:image', OG_IMAGE);
+    // Twitter
+    upsertMeta('name', 'twitter:card', 'summary_large_image');
+    upsertMeta('name', 'twitter:title', title);
+    upsertMeta('name', 'twitter:description', description);
+    upsertMeta('name', 'twitter:image', OG_IMAGE);
+  }, [title, description, url]);
 
-      {/* Open Graph */}
-      <meta property="og:site_name" content={SITE_NAME} />
-      <meta property="og:type" content="website" />
-      <meta property="og:title" content={title} />
-      <meta property="og:description" content={description} />
-      <meta property="og:url" content={url} />
-      <meta property="og:image" content={OG_IMAGE} />
+  // JSON-LD: append this route's structured-data blocks, remove them on unmount.
+  const ldKey = JSON.stringify(jsonLd ?? []);
+  useEffect(() => {
+    const nodes: Record<string, unknown>[] = JSON.parse(ldKey);
+    const created = nodes.map((node) => {
+      const s = document.createElement('script');
+      s.type = 'application/ld+json';
+      s.setAttribute('data-seo-jsonld', '');
+      s.textContent = JSON.stringify(node);
+      document.head.appendChild(s);
+      return s;
+    });
+    return () => created.forEach((s) => s.remove());
+  }, [ldKey]);
 
-      {/* Twitter */}
-      <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:title" content={title} />
-      <meta name="twitter:description" content={description} />
-      <meta name="twitter:image" content={OG_IMAGE} />
-
-      {(jsonLd ?? []).map((node, i) => (
-        <script
-          key={i}
-          type="application/ld+json"
-          // JSON.stringify output is safe to embed in a JSON-LD script tag.
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(node) }}
-        />
-      ))}
-    </>
-  );
+  return null;
 }
 
 /* ── Shared structured-data nodes ────────────────────────────────────────
