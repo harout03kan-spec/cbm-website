@@ -509,7 +509,7 @@ const fr = {
   srv2_flow3_text: 'Après la réparation, le mineur est testé, emballé, puis réexpédié ou récupéré à notre centre de réparation de Montréal.',
   srv2_cta_call: 'Appeler +1 (514) 604-7050',
   srv2_cta_call_aria: 'Appeler Canada BTC Miners maintenant au +1 514 604 7050',
-  srv2_cta_quote: 'Commencer une Demande de Réparation',
+  srv2_cta_quote: 'Demande de Réparation',
   srv2_cta_quote_aria: 'Aller au formulaire de contact pour commencer une demande de réparation',
   srv2_final_eyebrow: 'Faites Réparer Votre Mineur',
   srv2_final_title: 'Arrêtez de Perdre du Temps de Minage',
