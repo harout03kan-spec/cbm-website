@@ -1,4 +1,3 @@
-import { Fragment } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import Navbar from '../../components/feature/Navbar';
@@ -43,52 +42,51 @@ export default function ServicesPage() {
     { label: t('srv_trust_4'), icon: 'ri-file-list-3-line' },
   ];
 
-  // Repair pricing. Level 1/2/3 only. Real prices preserved, shown as "Starting at".
-  const repairTiers = [
-    {
-      level: t('srv_pricing_l1_level'),
-      title: t('srv_pricing_l1_title'),
-      blurb: t('srv2_l1_blurb'),
-      priceCad: '$60 CAD',
-      priceUsd: '$45 USD',
-      featured: false,
-    },
-    {
-      level: t('srv_pricing_l2_level'),
-      title: t('srv_pricing_l2_title'),
-      blurb: t('srv2_l2_blurb'),
-      priceCad: '$100 CAD',
-      priceUsd: '$75 USD',
-      featured: true,
-    },
-    {
-      level: t('srv_pricing_l3_level'),
-      title: t('srv_pricing_l3_title'),
-      blurb: t('srv2_l3_blurb'),
-      priceCad: '$130 CAD',
-      priceUsd: '$95 USD',
-      featured: false,
-    },
+  // What we repair & support — capability overview (no prices, no claims).
+  const capabilities = [
+    { icon: 'ri-search-eye-line', title: t('srv3_cap1_title'), desc: t('srv3_cap1_desc') },
+    { icon: 'ri-tools-line', title: t('srv3_cap2_title'), desc: t('srv3_cap2_desc') },
+    { icon: 'ri-cpu-line', title: t('srv3_cap3_title'), desc: t('srv3_cap3_desc') },
+    { icon: 'ri-install-line', title: t('srv3_cap4_title'), desc: t('srv3_cap4_desc') },
+    { icon: 'ri-brush-line', title: t('srv3_cap5_title'), desc: t('srv3_cap5_desc') },
+    { icon: 'ri-checkbox-circle-line', title: t('srv3_cap6_title'), desc: t('srv3_cap6_desc') },
   ];
 
-  // Supporting services. Six compact tiles, fixed order. Prices preserved exactly.
+  // Repair pricing. Level 1/2/3 only. Real prices preserved, shown as "Starting at".
+  const repairTiers = [
+    { level: t('srv_pricing_l1_level'), title: t('srv_pricing_l1_title'), blurb: t('srv2_l1_blurb'), priceCad: '$60 CAD', priceUsd: '$45 USD', featured: false },
+    { level: t('srv_pricing_l2_level'), title: t('srv_pricing_l2_title'), blurb: t('srv2_l2_blurb'), priceCad: '$100 CAD', priceUsd: '$75 USD', featured: true },
+    { level: t('srv_pricing_l3_level'), title: t('srv_pricing_l3_title'), blurb: t('srv2_l3_blurb'), priceCad: '$130 CAD', priceUsd: '$95 USD', featured: false },
+  ];
+
+  // Supporting services. Real prices preserved exactly. No PSU repair claim.
   const supportServices = [
     { icon: 'ri-search-eye-line', name: t('srv2_sup1_name'), price: t('srv2_sup1_price') },
-    { icon: 'ri-flashlight-line', name: t('srv2_sup2_name'), price: t('srv2_sup2_price') },
     { icon: 'ri-cpu-line', name: t('srv2_sup3_name'), price: t('srv2_sup3_price') },
     { icon: 'ri-temp-cold-line', name: t('srv2_sup4_name'), price: t('srv2_sup4_price') },
     { icon: 'ri-install-line', name: t('srv2_sup5_name'), price: t('srv2_sup5_price') },
     { icon: 'ri-brush-line', name: t('srv2_sup6_name'), price: t('srv2_sup6_price') },
   ];
 
-  // "How Repair Works" — three clean steps (was a seven-stage animated track).
+  // How repair works — full path from first message to a tested return (6 steps).
   const repairFlow = [
-    { icon: 'ri-customer-service-2-line', title: t('srv2_flow1_title'), text: t('srv2_flow1_text') },
-    { icon: 'ri-file-list-3-line', title: t('srv2_flow2_title'), text: t('srv2_flow2_text') },
-    { icon: 'ri-checkbox-circle-line', title: t('srv2_flow3_title'), text: t('srv2_flow3_text') },
+    { icon: 'ri-customer-service-2-line', title: t('srv3_step1_title'), text: t('srv3_step1_text') },
+    { icon: 'ri-truck-line', title: t('srv3_step2_title'), text: t('srv3_step2_text') },
+    { icon: 'ri-search-eye-line', title: t('srv3_step3_title'), text: t('srv3_step3_text') },
+    { icon: 'ri-price-tag-3-line', title: t('srv3_step4_title'), text: t('srv3_step4_text') },
+    { icon: 'ri-tools-line', title: t('srv3_step5_title'), text: t('srv3_step5_text') },
+    { icon: 'ri-send-plane-line', title: t('srv3_step6_title'), text: t('srv3_step6_text') },
   ];
 
-  // Reusable CTA cluster: direct phone call + repair quote (contact form).
+  // Bulk & farm repair — batches for farms, resellers, and mining sites.
+  const bulkPoints = [
+    { icon: 'ri-stack-line', title: t('srv3_bulk_p1_title'), desc: t('srv3_bulk_p1_desc') },
+    { icon: 'ri-server-line', title: t('srv3_bulk_p2_title'), desc: t('srv3_bulk_p2_desc') },
+    { icon: 'ri-brush-line', title: t('srv3_bulk_p3_title'), desc: t('srv3_bulk_p3_desc') },
+    { icon: 'ri-route-line', title: t('srv3_bulk_p4_title'), desc: t('srv3_bulk_p4_desc') },
+  ];
+
+  // Reusable CTA cluster: direct phone call + repair request (contact form).
   const CtaCluster = ({ className = '' }: { className?: string }) => (
     <div className={`relative z-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap ${className}`}>
       <a
@@ -120,9 +118,8 @@ export default function ServicesPage() {
       />
       <Navbar />
 
-      {/* ── 1. INTRO ─────────────────────────────────────────────────── */}
+      {/* ── 1. HERO ──────────────────────────────────────────────────── */}
       <section className="relative overflow-hidden pt-24 bg-[radial-gradient(circle_at_top_left,rgba(220,38,38,0.18),transparent_36%),linear-gradient(to_bottom,rgba(16,16,16,0.92),rgba(0,0,0,1))]">
-        {/* faint industrial circuit grid */}
         <div
           aria-hidden="true"
           className="pointer-events-none absolute inset-0 opacity-[0.06]"
@@ -141,7 +138,6 @@ export default function ServicesPage() {
               {t('srv2_hero_badge')}
             </span>
 
-            {/* Headline matches the homepage hero typography exactly. */}
             <h1 className="mb-6 font-inter text-4xl font-bold leading-tight text-white md:text-5xl lg:text-6xl">
               {t('srv2_hero_title')}
             </h1>
@@ -162,7 +158,6 @@ export default function ServicesPage() {
                   loading="lazy"
                   className="h-[260px] w-full object-cover object-center sm:h-[360px] lg:h-[460px]"
                 />
-                {/* dark industrial overlay so the bright lab photo fits the theme */}
                 <div
                   aria-hidden="true"
                   className="pointer-events-none absolute inset-0"
@@ -181,7 +176,7 @@ export default function ServicesPage() {
           </motion.div>
         </div>
 
-        {/* ── 2. TRUST STRIP — practical service points, no numbers/claims ─── */}
+        {/* Trust strip — practical service points, no numbers/claims */}
         <div className="relative mx-auto mt-14 max-w-7xl px-6 pb-14">
           <motion.div
             {...reveal()}
@@ -199,15 +194,39 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      {/* ── 2. REPAIR PRICING (Level 1/2/3) — kept high so price is easy to find ─ */}
+      {/* ── 2. WHAT WE REPAIR & SUPPORT (capabilities) ───────────────── */}
+      <section className="border-y border-zinc-900 bg-zinc-950/40">
+        <div className="mx-auto max-w-7xl px-6 py-16 sm:py-20">
+          <div className="max-w-2xl">
+            <p className="font-inter text-sm font-semibold uppercase tracking-[0.22em] text-crimson-accent">{t('srv3_cap_eyebrow')}</p>
+            <h2 className="mt-3 font-inter text-3xl font-bold tracking-tight sm:text-4xl">{t('srv3_cap_title')}</h2>
+            <p className="mt-4 font-inter text-sm leading-7 text-zinc-400 sm:text-base">{t('srv3_cap_sub')}</p>
+          </div>
+          <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {capabilities.map((cap, idx) => (
+              <motion.div
+                key={cap.title}
+                {...reveal(idx * 0.05)}
+                className="flex flex-col rounded-2xl border border-zinc-800 bg-[linear-gradient(160deg,rgba(24,24,27,0.7),rgba(9,9,11,0.92))] p-6 transition-colors duration-200 hover:border-red-900/50"
+              >
+                <span className="flex h-11 w-11 items-center justify-center rounded-xl border border-red-900/40 bg-red-950/25 text-crimson-accent">
+                  <i className={`${cap.icon} text-xl`} aria-hidden="true" />
+                </span>
+                <h3 className="mt-4 font-inter text-lg font-bold text-white">{cap.title}</h3>
+                <p className="mt-2 font-inter text-sm leading-6 text-zinc-400">{cap.desc}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── 3. REPAIR BY LEVEL (pricing) — kept high so price is easy to find ── */}
       <section id="pricing" className="mx-auto max-w-7xl px-6 py-16 sm:py-20">
         <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
           <div className="max-w-2xl">
             <p className="font-inter text-sm font-semibold uppercase tracking-[0.22em] text-crimson-accent">{t('srv2_pricing_eyebrow')}</p>
             <h2 className="mt-3 font-inter text-3xl font-bold tracking-tight sm:text-4xl">{t('srv2_pricing_title')}</h2>
-            <p className="mt-4 font-inter text-sm leading-7 text-zinc-400 sm:text-base">
-              {t('srv2_pricing_sub')}
-            </p>
+            <p className="mt-4 font-inter text-sm leading-7 text-zinc-400 sm:text-base">{t('srv2_pricing_sub')}</p>
           </div>
           <div className="rounded-xl border border-zinc-800 bg-white/[0.02] px-4 py-3 text-sm text-zinc-400">
             {t('srv2_pricing_note')}
@@ -263,11 +282,9 @@ export default function ServicesPage() {
             </motion.div>
           ))}
         </div>
-      </section>
 
-      {/* ── 3. SUPPORTING SERVICES (what else we service — right after pricing) ── */}
-      <section className="border-y border-zinc-900 bg-zinc-950/40">
-        <div className="mx-auto max-w-7xl px-6 py-16 sm:py-20">
+        {/* Supporting services — real extra prices (no PSU repair claim) */}
+        <div className="mt-12">
           <div className="flex items-center gap-3">
             <h3 className="font-inter text-sm font-semibold uppercase tracking-[0.2em] text-zinc-300">{t('srv2_support_title')}</h3>
             <span aria-hidden="true" className="h-px flex-1 bg-gradient-to-r from-zinc-800 to-transparent" />
@@ -293,49 +310,38 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      {/* ── 4. HOW REPAIR WORKS (the one process section — customer journey) ──── */}
-      <section className="relative overflow-hidden py-16 sm:py-24">
-        {/* ambient industrial glow */}
+      {/* ── 4. HOW REPAIR WORKS (6 steps) ────────────────────────────── */}
+      <section className="relative overflow-hidden border-y border-zinc-900 bg-zinc-950/40 py-16 sm:py-24">
         <div
           aria-hidden="true"
           className="pointer-events-none absolute inset-0"
-          style={{ background: 'radial-gradient(ellipse 60% 50% at 50% 24%, rgba(220,38,38,0.1), transparent 70%)' }}
+          style={{ background: 'radial-gradient(ellipse 60% 50% at 50% 18%, rgba(220,38,38,0.1), transparent 70%)' }}
         />
         <div className="relative mx-auto max-w-7xl px-6">
           <div className="max-w-2xl">
             <p className="font-inter text-sm font-semibold uppercase tracking-[0.22em] text-crimson-accent">{t('srv2_how_eyebrow')}</p>
             <h2 className="mt-3 font-inter text-3xl font-bold tracking-tight sm:text-4xl">{t('srv2_how_title')}</h2>
-            <p className="mt-4 font-inter text-sm leading-7 text-zinc-400 sm:text-base">
-              {t('srv2_how_sub')}
-            </p>
+            <p className="mt-4 font-inter text-sm leading-7 text-zinc-400 sm:text-base">{t('srv3_how_sub')}</p>
           </div>
 
-          {/* Three clean numbered step cards — identical on desktop (row) and mobile
-              (stacked). A subtle chevron connects them on desktop; no fragile rail. */}
-          <ol className="mt-12 flex flex-col gap-4 md:flex-row md:items-stretch">
+          <ol className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {repairFlow.map((step, idx) => (
-              <Fragment key={step.title}>
-                <motion.li
-                  {...reveal(idx * 0.08)}
-                  className="group relative flex flex-1 flex-col rounded-2xl border border-zinc-800 bg-[linear-gradient(160deg,rgba(24,24,27,0.8),rgba(9,9,11,0.94))] p-6 transition-colors duration-200 hover:border-red-800/60 sm:p-7"
-                >
-                  <div className="flex items-center gap-3">
-                    <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-red-900/50 bg-[radial-gradient(circle_at_30%_22%,rgba(127,29,29,0.6),rgba(9,9,11,0.97))] text-red-300">
-                      <i className={`${step.icon} text-xl`} aria-hidden="true" />
-                    </span>
-                    <span className="font-inter text-base font-bold tracking-[0.1em] text-crimson-accent">
-                      {String(idx + 1).padStart(2, '0')}
-                    </span>
-                  </div>
-                  <h3 className="mt-4 font-inter text-lg font-bold leading-snug text-white">{step.title}</h3>
-                  <p className="mt-2 font-inter text-sm leading-6 text-zinc-400">{step.text}</p>
-                </motion.li>
-                {idx < repairFlow.length - 1 && (
-                  <li aria-hidden="true" className="hidden items-center justify-center text-zinc-700 md:flex">
-                    <i className="ri-arrow-right-s-line text-3xl" />
-                  </li>
-                )}
-              </Fragment>
+              <motion.li
+                key={step.title}
+                {...reveal(idx * 0.06)}
+                className="group relative flex flex-col rounded-2xl border border-zinc-800 bg-[linear-gradient(160deg,rgba(24,24,27,0.8),rgba(9,9,11,0.94))] p-6 transition-colors duration-200 hover:border-red-800/60"
+              >
+                <div className="flex items-center gap-3">
+                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-red-900/50 bg-[radial-gradient(circle_at_30%_22%,rgba(127,29,29,0.6),rgba(9,9,11,0.97))] text-red-300">
+                    <i className={`${step.icon} text-xl`} aria-hidden="true" />
+                  </span>
+                  <span className="font-inter text-base font-bold tracking-[0.1em] text-crimson-accent">
+                    {String(idx + 1).padStart(2, '0')}
+                  </span>
+                </div>
+                <h3 className="mt-4 font-inter text-lg font-bold leading-snug text-white">{step.title}</h3>
+                <p className="mt-2 font-inter text-sm leading-6 text-zinc-400">{step.text}</p>
+              </motion.li>
             ))}
           </ol>
 
@@ -345,7 +351,38 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      {/* ── 5. FINAL CTA ─────────────────────────────────────────────── */}
+      {/* ── 5. BULK & FARM REPAIR ────────────────────────────────────── */}
+      <section className="mx-auto max-w-7xl px-6 py-16 sm:py-20">
+        <div className="overflow-hidden rounded-[2rem] border border-red-950/60 bg-[linear-gradient(150deg,rgba(127,29,29,0.18),rgba(12,12,12,0.95))] p-7 sm:p-10">
+          <div className="max-w-3xl">
+            <p className="font-inter text-sm font-semibold uppercase tracking-[0.22em] text-crimson-accent">{t('srv3_bulk_eyebrow')}</p>
+            <h2 className="mt-3 font-inter text-3xl font-bold tracking-tight sm:text-4xl">{t('srv3_bulk_title')}</h2>
+            <p className="mt-4 font-inter text-sm leading-7 text-zinc-300 sm:text-base">{t('srv3_bulk_sub')}</p>
+          </div>
+          <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2">
+            {bulkPoints.map((p, idx) => (
+              <motion.div
+                key={p.title}
+                {...reveal(idx * 0.05)}
+                className="flex items-start gap-3 rounded-2xl border border-white/[0.08] bg-black/30 p-5"
+              >
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-red-900/40 bg-red-950/25 text-crimson-accent">
+                  <i className={`${p.icon} text-lg`} aria-hidden="true" />
+                </span>
+                <div>
+                  <h3 className="font-inter text-base font-bold text-white">{p.title}</h3>
+                  <p className="mt-1 font-inter text-sm leading-6 text-zinc-400">{p.desc}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+          <div className="mt-8">
+            <CtaCluster />
+          </div>
+        </div>
+      </section>
+
+      {/* ── 6. FINAL CTA ─────────────────────────────────────────────── */}
       <section className="relative overflow-hidden border-t border-red-950/50 bg-[radial-gradient(circle_at_top,rgba(220,38,38,0.2),transparent_40%),linear-gradient(to_bottom,rgba(24,24,27,0.82),rgba(0,0,0,1))]">
         <div className="mx-auto max-w-4xl px-6 py-20 text-center sm:py-24">
           <p className="font-inter text-sm font-semibold uppercase tracking-[0.22em] text-crimson-accent">{t('srv2_final_eyebrow')}</p>
