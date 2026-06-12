@@ -470,7 +470,7 @@ const en = {
   // ── SERVICES PAGE (redesign / PR17) ────────────────
   srv2_hero_badge: 'Montreal Repair Center',
   srv2_hero_title: 'ASIC Miner Repair in Canada',
-  srv2_hero_sub: 'Montreal repair center for Antminer and Whatsminer diagnostics, hashboard repair, control board support, firmware, cleaning, and testing — with Canada-wide repair intake. Send us the model and the issue, and we quote before any work begins.',
+  srv2_hero_sub: 'Montreal repair center for Antminer and Whatsminer diagnostics, hashboard repair, control board support, firmware, cleaning, and testing. We support repair intake from across Canada.',
   srv2_hero_img_alt: 'Technician repairing an ASIC miner hashboard at the Canada BTC Miners Montreal repair center',
   srv2_hero_caption: 'Board level repair · Bench tested · Canada wide',
   srv2_pricing_eyebrow: 'Repair Pricing',
@@ -518,7 +518,7 @@ const en = {
   // ── SERVICES PAGE — capabilities / process / bulk (PR services-redesign) ──
   srv3_cap_eyebrow: 'What We Repair',
   srv3_cap_title: 'ASIC Repair & Support, End to End',
-  srv3_cap_sub: 'Board-level repair and the supporting services around it — handled in house at our Montreal repair center, with Canada-wide intake.',
+  srv3_cap_sub: 'Board-level repair and supporting services are handled at our Montreal repair center. We also support Canada-wide intake.',
   srv3_cap1_title: 'Hashboard Diagnostics',
   srv3_cap1_desc: 'Board-level fault finding to pinpoint dead or low-hashrate boards before any repair.',
   srv3_cap2_title: 'Hashboard Repair by Level',
@@ -539,7 +539,7 @@ const en = {
   srv3_step3_title: 'Diagnostic',
   srv3_step3_text: 'Board-level inspection at our Montreal repair center to find the fault.',
   srv3_step4_title: 'Quote before repair',
-  srv3_step4_text: 'You get a clear price and repair level — no work starts until you approve.',
+  srv3_step4_text: 'You get a clear price and repair level. No work starts until you approve.',
   srv3_step5_title: 'Repair & testing',
   srv3_step5_text: 'We complete the repair, then bench-test the unit until it runs stable.',
   srv3_step6_title: 'Pickup or return shipping',

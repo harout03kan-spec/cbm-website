@@ -470,7 +470,7 @@ const fr = {
   // ── SERVICES PAGE (redesign / PR17) ────────────────
   srv2_hero_badge: 'Centre de Réparation de Montréal',
   srv2_hero_title: 'Réparation de Mineurs ASIC au Canada',
-  srv2_hero_sub: 'Centre de réparation à Montréal pour le diagnostic Antminer et Whatsminer, la réparation de hashboard, le soutien des cartes de contrôle, le firmware, le nettoyage et les tests — avec prise en charge partout au Canada. Envoyez-nous le modèle et le problème, et nous chiffrons avant tout travail.',
+  srv2_hero_sub: 'Centre de réparation à Montréal pour le diagnostic Antminer et Whatsminer, la réparation de hashboard, le soutien des cartes de contrôle, le firmware, le nettoyage et les tests. Nous acceptons les réparations de partout au Canada.',
   srv2_hero_img_alt: 'Technicien réparant un hashboard de mineur ASIC au centre de réparation Canada BTC Miners de Montréal',
   srv2_hero_caption: 'Réparation au niveau des cartes · Testé sur banc · Partout au Canada',
   srv2_pricing_eyebrow: 'Tarifs de Réparation',
@@ -518,7 +518,7 @@ const fr = {
   // ── SERVICES PAGE — capacités / processus / lots (PR services-redesign) ──
   srv3_cap_eyebrow: 'Ce que Nous Réparons',
   srv3_cap_title: 'Réparation et Soutien ASIC, de A à Z',
-  srv3_cap_sub: 'La réparation au niveau des cartes et les services qui l\'entourent — gérés à l\'interne à notre centre de réparation de Montréal, avec prise en charge partout au Canada.',
+  srv3_cap_sub: 'La réparation au niveau des cartes et les services connexes sont gérés à notre centre de réparation de Montréal. Nous acceptons aussi les réparations de partout au Canada.',
   srv3_cap1_title: 'Diagnostic de Hashboard',
   srv3_cap1_desc: 'Recherche de panne au niveau des cartes pour repérer les cartes mortes ou à faible hashrate avant toute réparation.',
   srv3_cap2_title: 'Réparation de Hashboard par Niveau',
@@ -539,7 +539,7 @@ const fr = {
   srv3_step3_title: 'Diagnostic',
   srv3_step3_text: 'Inspection au niveau des cartes à notre centre de réparation de Montréal pour trouver la panne.',
   srv3_step4_title: 'Devis avant réparation',
-  srv3_step4_text: 'Vous obtenez un prix et un niveau de réparation clairs — aucun travail ne commence avant votre approbation.',
+  srv3_step4_text: 'Vous obtenez un prix et un niveau de réparation clairs. Aucun travail ne commence avant votre approbation.',
   srv3_step5_title: 'Réparation et tests',
   srv3_step5_text: 'Nous effectuons la réparation, puis testons l\'unité au banc jusqu\'à ce qu\'elle soit stable.',
   srv3_step6_title: 'Ramassage ou retour par la poste',
