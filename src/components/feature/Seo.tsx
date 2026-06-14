@@ -142,7 +142,7 @@ export const repairServiceLd: Record<string, unknown> = {
   serviceType: 'ASIC Miner Repair',
   name: 'ASIC Miner Repair and Diagnostics',
   description:
-    'ASIC miner repair services in Canada including diagnostics, hashboard repair, control board support, cleaning and maintenance, thermal paste replacement, firmware restore, and testing.',
+    'ASIC miner repair services in Canada including hashboard repair by level, PSU repair, control board repair, diagnostics, cleaning, thermal paste replacement, immersion prep, and bench testing.',
   provider: {
     '@type': 'LocalBusiness',
     name: SITE_NAME,
