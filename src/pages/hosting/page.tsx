@@ -168,69 +168,69 @@ export default function HostingPage() {
         </div>
       </section>
 
-      {/* ── HOSTING HIGHLIGHTS ───────────────────────────────────────── */}
+      {/* ── HOSTING HIGHLIGHTS (unified divided panel, not a card grid) ── */}
       <section className="bg-[#0a0a0a]">
         <div className="mx-auto max-w-7xl px-6 py-16 lg:px-10 lg:py-20">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="max-w-3xl">
-            <p className="text-sm font-medium uppercase tracking-[0.22em] text-crimson-accent">{t('host_hl_eyebrow')}</p>
-            <h2 className="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl">{t('host_hl_title')}</h2>
-          </motion.div>
-          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {highlights.map((h, idx) => (
-              <motion.div
-                key={h.title}
-                initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: idx * 0.06 }}
-                className="rounded-2xl border border-zinc-800 bg-[#141416] p-6 transition-colors duration-200 hover:border-crimson-accent/40"
-              >
-                <span className="flex h-11 w-11 items-center justify-center rounded-xl border border-crimson-accent/20 bg-crimson-accent/10 text-crimson-accent">
-                  <i className={`${h.icon} text-xl`} aria-hidden="true" />
-                </span>
-                <h3 className="mt-4 text-lg font-semibold text-white">{h.title}</h3>
-                <p className="mt-2 text-sm leading-6 text-zinc-400">{h.desc}</p>
-              </motion.div>
-            ))}
+          <div className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
+            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+              <p className="text-sm font-medium uppercase tracking-[0.22em] text-crimson-accent">{t('host_hl_eyebrow')}</p>
+              <h2 className="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl">{t('host_hl_title')}</h2>
+              <p className="mt-5 max-w-md text-base leading-7 text-zinc-400">{t('host_hl_sub')}</p>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+              className="grid grid-cols-1 divide-y divide-zinc-800/80 overflow-hidden rounded-2xl border border-zinc-800 bg-[#121214] sm:grid-cols-2 sm:divide-y-0 sm:[&>*:nth-child(even)]:border-l sm:[&>*:nth-child(even)]:border-zinc-800/80 sm:[&>*:nth-child(n+3)]:border-t sm:[&>*:nth-child(n+3)]:border-zinc-800/80"
+            >
+              {highlights.map((h) => (
+                <div key={h.title} className="flex items-start gap-3 p-5">
+                  <i className={`${h.icon} mt-0.5 text-lg text-crimson-accent`} aria-hidden="true" />
+                  <div>
+                    <h3 className="text-sm font-semibold text-white">{h.title}</h3>
+                    <p className="mt-1 text-xs leading-5 text-zinc-400">{h.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </motion.div>
           </div>
         </div>
       </section>
 
-      {/* ── HOW IT WORKS ─────────────────────────────────────────────── */}
-      <section className="bg-[#141414]">
+      {/* ── HOW IT WORKS (full-width horizontal stepper) ─────────────── */}
+      <section className="border-t border-zinc-900 bg-[#141414]">
         <div className="mx-auto max-w-7xl px-6 py-16 lg:px-10 lg:py-20">
-          <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
-            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="lg:sticky lg:top-28">
-              <p className="text-sm font-medium uppercase tracking-[0.22em] text-crimson-accent">{t('host_process_eyebrow')}</p>
-              <h2 className="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl">
-                {t('host_process')}
-              </h2>
-              <p className="mt-5 max-w-md text-base leading-7 text-zinc-400">{t('host_process_sub')}</p>
-            </motion.div>
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="max-w-2xl">
+            <p className="text-sm font-medium uppercase tracking-[0.22em] text-crimson-accent">{t('host_process_eyebrow')}</p>
+            <h2 className="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl">{t('host_process')}</h2>
+            <p className="mt-4 text-base leading-7 text-zinc-400">{t('host_process_sub')}</p>
+          </motion.div>
 
-            <div className="space-y-4">
-              {steps.map((step, idx) => (
-                <motion.div
+          <ol className="mt-12 grid gap-x-6 gap-y-9 sm:grid-cols-2 lg:grid-cols-5">
+            {steps.map((step, idx) => {
+              const isLast = idx === steps.length - 1;
+              return (
+                <motion.li
                   key={idx}
                   initial={{ opacity: 0, y: 16 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ delay: idx * 0.08 }}
-                  className="rounded-2xl bg-[#0d0d0e] p-5 ring-1 ring-zinc-700"
+                  transition={{ delay: idx * 0.07 }}
+                  className="relative"
                 >
-                  <div className="flex items-start gap-4">
-                    <div className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-crimson-accent/10 text-sm font-semibold text-crimson-accent">
-                      0{idx + 1}
-                    </div>
-                    <div>
-                      <h3 className="text-lg font-semibold text-white">{step.title}</h3>
-                      <p className="mt-2 text-sm leading-7 text-zinc-400">{step.text}</p>
-                    </div>
+                  <div className="flex items-center gap-3">
+                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-crimson-accent/30 bg-crimson-accent/10 text-sm font-semibold text-crimson-accent">
+                      {String(idx + 1).padStart(2, '0')}
+                    </span>
+                    {!isLast && (
+                      <span aria-hidden="true" className="hidden h-px flex-1 bg-gradient-to-r from-crimson-accent/40 to-transparent lg:block" />
+                    )}
                   </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
+                  <h3 className="mt-4 text-base font-semibold leading-snug text-white">{step.title}</h3>
+                  <p className="mt-2 text-sm leading-6 text-zinc-400">{step.text}</p>
+                </motion.li>
+              );
+            })}
+          </ol>
         </div>
       </section>
 
