@@ -42,30 +42,31 @@ export default function ServicesPage() {
     { label: t('srv_trust_4'), icon: 'ri-file-list-3-line' },
   ];
 
-  // What we repair & support — capability overview (no prices, no claims).
+  // What we repair & support — capability overview (covers the core service lines).
   const capabilities = [
     { icon: 'ri-search-eye-line', title: t('srv3_cap1_title'), desc: t('srv3_cap1_desc') },
     { icon: 'ri-tools-line', title: t('srv3_cap2_title'), desc: t('srv3_cap2_desc') },
     { icon: 'ri-cpu-line', title: t('srv3_cap3_title'), desc: t('srv3_cap3_desc') },
-    { icon: 'ri-install-line', title: t('srv3_cap4_title'), desc: t('srv3_cap4_desc') },
+    { icon: 'ri-flashlight-line', title: t('srv3_cap4_title'), desc: t('srv3_cap4_desc') },
     { icon: 'ri-brush-line', title: t('srv3_cap5_title'), desc: t('srv3_cap5_desc') },
-    { icon: 'ri-checkbox-circle-line', title: t('srv3_cap6_title'), desc: t('srv3_cap6_desc') },
+    { icon: 'ri-drop-line', title: t('srv3_cap6_title'), desc: t('srv3_cap6_desc') },
   ];
 
-  // Repair pricing. Level 1/2/3 only. Real prices preserved, shown as "Starting at".
+  // Repair pricing. Hashboard Level 1/2/3. Prices shown as "Starting at" (CAD).
   const repairTiers = [
-    { level: t('srv_pricing_l1_level'), title: t('srv_pricing_l1_title'), blurb: t('srv2_l1_blurb'), priceCad: '$60 CAD', priceUsd: '$45 USD', featured: false },
-    { level: t('srv_pricing_l2_level'), title: t('srv_pricing_l2_title'), blurb: t('srv2_l2_blurb'), priceCad: '$100 CAD', priceUsd: '$75 USD', featured: true },
-    { level: t('srv_pricing_l3_level'), title: t('srv_pricing_l3_title'), blurb: t('srv2_l3_blurb'), priceCad: '$130 CAD', priceUsd: '$95 USD', featured: false },
+    { level: t('srv_pricing_l1_level'), title: t('srv_pricing_l1_title'), blurb: t('srv2_l1_blurb'), priceCad: '$110 CAD', featured: false },
+    { level: t('srv_pricing_l2_level'), title: t('srv_pricing_l2_title'), blurb: t('srv2_l2_blurb'), priceCad: '$150 CAD', featured: true },
+    { level: t('srv_pricing_l3_level'), title: t('srv_pricing_l3_title'), blurb: t('srv2_l3_blurb'), priceCad: '$225 CAD', featured: false },
   ];
 
-  // Supporting services. Real prices preserved exactly. No PSU repair claim.
+  // Supporting services — standalone repair/prep lines, each at its real price.
   const supportServices = [
-    { icon: 'ri-search-eye-line', name: t('srv2_sup1_name'), price: t('srv2_sup1_price') },
-    { icon: 'ri-cpu-line', name: t('srv2_sup3_name'), price: t('srv2_sup3_price') },
-    { icon: 'ri-temp-cold-line', name: t('srv2_sup4_name'), price: t('srv2_sup4_price') },
-    { icon: 'ri-install-line', name: t('srv2_sup5_name'), price: t('srv2_sup5_price') },
-    { icon: 'ri-brush-line', name: t('srv2_sup6_name'), price: t('srv2_sup6_price') },
+    { icon: 'ri-flashlight-line', name: t('srv2_sup1_name'), price: t('srv2_sup1_price') },
+    { icon: 'ri-cpu-line', name: t('srv2_sup2_name'), price: t('srv2_sup2_price') },
+    { icon: 'ri-drop-line', name: t('srv2_sup3_name'), price: t('srv2_sup3_price') },
+    { icon: 'ri-brush-line', name: t('srv2_sup4_name'), price: t('srv2_sup4_price') },
+    { icon: 'ri-temp-cold-line', name: t('srv2_sup5_name'), price: t('srv2_sup5_price') },
+    { icon: 'ri-time-line', name: t('srv2_sup6_name'), price: t('srv2_sup6_price') },
   ];
 
   // How repair works — full path from first message to a tested return (6 steps).
@@ -266,7 +267,7 @@ export default function ServicesPage() {
               <div className="relative mt-auto pt-8">
                 <div className="font-inter text-[11px] uppercase tracking-[0.18em] text-zinc-500">{t('srv2_pricing_startingat')}</div>
                 <div className="mt-1 font-inter text-4xl font-bold text-crimson-accent">{tier.priceCad}</div>
-                <div className="mt-1 font-inter text-sm text-zinc-500">{t('srv2_pricing_startingat')} {tier.priceUsd}</div>
+                <div className="mt-1 font-inter text-sm text-zinc-500">{t('srv2_pricing_perboard')}</div>
               </div>
 
               <Link
@@ -324,25 +325,41 @@ export default function ServicesPage() {
             <p className="mt-4 font-inter text-sm leading-7 text-zinc-400 sm:text-base">{t('srv3_how_sub')}</p>
           </div>
 
-          <ol className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {repairFlow.map((step, idx) => (
-              <motion.li
-                key={step.title}
-                {...reveal(idx * 0.06)}
-                className="group relative flex flex-col rounded-2xl border border-zinc-800 bg-[linear-gradient(160deg,rgba(24,24,27,0.8),rgba(9,9,11,0.94))] p-6 transition-colors duration-200 hover:border-red-800/60"
-              >
-                <div className="flex items-center gap-3">
-                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-red-900/50 bg-[radial-gradient(circle_at_30%_22%,rgba(127,29,29,0.6),rgba(9,9,11,0.97))] text-red-300">
-                    <i className={`${step.icon} text-xl`} aria-hidden="true" />
-                  </span>
-                  <span className="font-inter text-base font-bold tracking-[0.1em] text-crimson-accent">
-                    {String(idx + 1).padStart(2, '0')}
-                  </span>
-                </div>
-                <h3 className="mt-4 font-inter text-lg font-bold leading-snug text-white">{step.title}</h3>
-                <p className="mt-2 font-inter text-sm leading-6 text-zinc-400">{step.text}</p>
-              </motion.li>
-            ))}
+          {/* Vertical process timeline — left-side numbers + connector, right-side text.
+              Deliberately different from the capability card grid above. */}
+          <ol className="relative mt-12 max-w-3xl">
+            {repairFlow.map((step, idx) => {
+              const isLast = idx === repairFlow.length - 1;
+              return (
+                <motion.li
+                  key={step.title}
+                  {...reveal(idx * 0.06)}
+                  className="relative flex gap-5 sm:gap-6"
+                >
+                  {/* Number node + connecting line */}
+                  <div className="relative flex flex-col items-center">
+                    <span className="relative z-10 flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-red-900/50 bg-[radial-gradient(circle_at_30%_22%,rgba(127,29,29,0.6),rgba(9,9,11,0.97))] font-inter text-sm font-bold tracking-[0.08em] text-red-300">
+                      {String(idx + 1).padStart(2, '0')}
+                    </span>
+                    {!isLast && (
+                      <span
+                        aria-hidden="true"
+                        className="w-px flex-1 bg-gradient-to-b from-red-800/50 via-zinc-800 to-zinc-800"
+                      />
+                    )}
+                  </div>
+
+                  {/* Step text */}
+                  <div className={`min-w-0 flex-1 ${isLast ? 'pb-0' : 'pb-9 sm:pb-10'}`}>
+                    <div className="flex items-center gap-2.5">
+                      <i className={`${step.icon} text-lg text-crimson-accent`} aria-hidden="true" />
+                      <h3 className="font-inter text-lg font-bold leading-snug text-white">{step.title}</h3>
+                    </div>
+                    <p className="mt-2 font-inter text-sm leading-6 text-zinc-400">{step.text}</p>
+                  </div>
+                </motion.li>
+              );
+            })}
           </ol>
 
           <div className="mt-12">
