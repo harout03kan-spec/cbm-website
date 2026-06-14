@@ -56,7 +56,7 @@ export default function ServicesPage() {
   const repairTiers = [
     { level: t('srv_pricing_l1_level'), title: t('srv_pricing_l1_title'), blurb: t('srv2_l1_blurb'), priceCad: '$60 CAD', priceUsd: '$45 USD', featured: false },
     { level: t('srv_pricing_l2_level'), title: t('srv_pricing_l2_title'), blurb: t('srv2_l2_blurb'), priceCad: '$100 CAD', priceUsd: '$75 USD', featured: true },
-    { level: t('srv_pricing_l3_level'), title: t('srv_pricing_l3_title'), blurb: t('srv2_l3_blurb'), priceCad: '$330 CAD', priceUsd: '$95 USD', featured: false },
+    { level: t('srv_pricing_l3_level'), title: t('srv_pricing_l3_title'), blurb: t('srv2_l3_blurb'), priceCad: '$130 CAD', priceUsd: '$95 USD', featured: false },
   ];
 
   // Supporting services — standalone repair/prep lines, each at its listed price.
@@ -69,14 +69,13 @@ export default function ServicesPage() {
     { icon: 'ri-brush-line', name: t('srv2_sup6_name'), price: t('srv2_sup6_price') },
   ];
 
-  // How repair works — full path from first message to a tested return (6 steps).
+  // How repair works — full path from first message to a tested return (5 steps).
   const repairFlow = [
     { icon: 'ri-customer-service-2-line', title: t('srv3_step1_title'), text: t('srv3_step1_text') },
-    { icon: 'ri-truck-line', title: t('srv3_step2_title'), text: t('srv3_step2_text') },
-    { icon: 'ri-search-eye-line', title: t('srv3_step3_title'), text: t('srv3_step3_text') },
-    { icon: 'ri-price-tag-3-line', title: t('srv3_step4_title'), text: t('srv3_step4_text') },
-    { icon: 'ri-tools-line', title: t('srv3_step5_title'), text: t('srv3_step5_text') },
-    { icon: 'ri-send-plane-line', title: t('srv3_step6_title'), text: t('srv3_step6_text') },
+    { icon: 'ri-search-eye-line', title: t('srv3_step2_title'), text: t('srv3_step2_text') },
+    { icon: 'ri-checkbox-circle-line', title: t('srv3_step3_title'), text: t('srv3_step3_text') },
+    { icon: 'ri-tools-line', title: t('srv3_step4_title'), text: t('srv3_step4_text') },
+    { icon: 'ri-send-plane-line', title: t('srv3_step5_title'), text: t('srv3_step5_text') },
   ];
 
   // Bulk & farm repair — B2B batches for farms, resellers, and operators.
