@@ -52,6 +52,20 @@ export default function HostingPage() {
     t('host_inc4'), t('host_inc5'), t('host_inc6'),
   ];
 
+  // Hosting highlights — what the hosting service covers (no claims/numbers).
+  const highlights = [
+    { icon: 'ri-temp-cold-line',           title: t('host_hl1_title'), desc: t('host_hl1_desc') },
+    { icon: 'ri-line-chart-line',          title: t('host_hl2_title'), desc: t('host_hl2_desc') },
+    { icon: 'ri-plug-line',                title: t('host_hl3_title'), desc: t('host_hl3_desc') },
+    { icon: 'ri-tools-line',               title: t('host_hl4_title'), desc: t('host_hl4_desc') },
+    { icon: 'ri-customer-service-2-line',  title: t('host_hl5_title'), desc: t('host_hl5_desc') },
+    { icon: 'ri-global-line',              title: t('host_hl6_title'), desc: t('host_hl6_desc') },
+  ];
+
+  // Why host with us — honest home-vs-facility comparison (no fake claims).
+  const whyHome = [t('host_why_home1'), t('host_why_home2'), t('host_why_home3'), t('host_why_home4')];
+  const whyUs   = [t('host_why_us1'), t('host_why_us2'), t('host_why_us3'), t('host_why_us4')];
+
   const faq = [
     { q: t('host_faq_q1'), a: t('host_faq_a1') },
     { q: t('host_faq_q2'), a: t('host_faq_a2') },
@@ -102,7 +116,7 @@ export default function HostingPage() {
             <div className="inline-flex rounded-full border border-crimson-accent/30 bg-crimson-accent/10 px-4 py-2 text-sm font-semibold uppercase tracking-[0.22em] text-crimson-accent">
               {t('host_hero_tag')}
             </div>
-            <h1 className="mt-6 max-w-4xl text-5xl font-semibold leading-tight tracking-tight sm:text-6xl lg:text-7xl">
+            <h1 className="mt-6 max-w-3xl text-4xl font-semibold leading-tight tracking-tight sm:text-5xl lg:text-6xl">
               {t('host_hero_title')}
               <span className="block text-crimson-accent">{t('host_hero_tagline')}</span>
             </h1>
@@ -154,15 +168,44 @@ export default function HostingPage() {
         </div>
       </section>
 
+      {/* ── HOSTING HIGHLIGHTS ───────────────────────────────────────── */}
+      <section className="bg-[#0a0a0a]">
+        <div className="mx-auto max-w-7xl px-6 py-16 lg:px-10 lg:py-20">
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="max-w-3xl">
+            <p className="text-sm font-medium uppercase tracking-[0.22em] text-crimson-accent">{t('host_hl_eyebrow')}</p>
+            <h2 className="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl">{t('host_hl_title')}</h2>
+          </motion.div>
+          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {highlights.map((h, idx) => (
+              <motion.div
+                key={h.title}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: idx * 0.06 }}
+                className="rounded-2xl border border-zinc-800 bg-[#141416] p-6 transition-colors duration-200 hover:border-crimson-accent/40"
+              >
+                <span className="flex h-11 w-11 items-center justify-center rounded-xl border border-crimson-accent/20 bg-crimson-accent/10 text-crimson-accent">
+                  <i className={`${h.icon} text-xl`} aria-hidden="true" />
+                </span>
+                <h3 className="mt-4 text-lg font-semibold text-white">{h.title}</h3>
+                <p className="mt-2 text-sm leading-6 text-zinc-400">{h.desc}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ── HOW IT WORKS ─────────────────────────────────────────────── */}
       <section className="bg-[#141414]">
-        <div className="mx-auto max-w-7xl px-6 py-20 lg:px-10">
-          <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
-            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+        <div className="mx-auto max-w-7xl px-6 py-16 lg:px-10 lg:py-20">
+          <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
+            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="lg:sticky lg:top-28">
               <p className="text-sm font-medium uppercase tracking-[0.22em] text-crimson-accent">{t('host_process_eyebrow')}</p>
-              <h2 className="mt-4 text-4xl font-semibold tracking-tight sm:text-5xl">
+              <h2 className="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl">
                 {t('host_process')}
               </h2>
+              <p className="mt-5 max-w-md text-base leading-7 text-zinc-400">{t('host_process_sub')}</p>
             </motion.div>
 
             <div className="space-y-4">
@@ -192,16 +235,16 @@ export default function HostingPage() {
       </section>
 
       {/* ── HOSTING TIERS ────────────────────────────────────────────── */}
-      <section className="bg-[#0a0a0a]">
-        <div className="mx-auto max-w-7xl px-6 py-24 lg:px-10">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-12 max-w-3xl">
+      <section className="border-t border-zinc-900 bg-[#0d0d0d]">
+        <div className="mx-auto max-w-7xl px-6 py-16 lg:px-10 lg:py-20">
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-10 max-w-3xl">
             <p className="text-sm font-medium uppercase tracking-[0.22em] text-crimson-accent">{t('host_options_eyebrow')}</p>
-            <h2 className="mt-4 text-4xl font-semibold tracking-tight sm:text-5xl">
+            <h2 className="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl">
               {t('host_tiers')}
             </h2>
           </motion.div>
 
-          <div className="grid gap-6 lg:grid-cols-3">
+          <div className="grid gap-6 lg:grid-cols-3 lg:items-start">
             {hostingTypes.map((item, idx) => (
               <motion.div
                 key={idx}
@@ -209,14 +252,14 @@ export default function HostingPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: idx * 0.1 }}
-                className={`flex h-full flex-col rounded-2xl border p-8 ${
+                className={`relative flex h-full flex-col rounded-2xl border p-8 ${
                   item.featured
                     ? 'border-crimson-accent bg-[linear-gradient(180deg,rgba(220,38,38,0.08)_0%,rgba(10,10,10,1)_100%)]'
                     : 'border-zinc-800 bg-[#151516]'
                 }`}
               >
                 {item.featured && (
-                  <div className="mb-4 inline-flex w-fit rounded-full border border-crimson-accent/30 bg-crimson-accent/10 px-4 py-2 text-sm font-semibold text-red-300">
+                  <div className="absolute right-5 top-5 inline-flex rounded-full border border-crimson-accent/30 bg-crimson-accent/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-red-300">
                     {t('host_tier2_popular')}
                   </div>
                 )}
@@ -243,14 +286,15 @@ export default function HostingPage() {
       </section>
 
       {/* ── WHAT'S INCLUDED ──────────────────────────────────────────── */}
-      <section className="bg-[#121212]">
-        <div className="mx-auto max-w-7xl px-6 py-20 lg:px-10">
-          <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
-            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+      <section className="border-t border-zinc-900 bg-[#121212]">
+        <div className="mx-auto max-w-7xl px-6 py-16 lg:px-10 lg:py-20">
+          <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
+            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="lg:sticky lg:top-28">
               <p className="text-sm font-medium uppercase tracking-[0.22em] text-crimson-accent">{t('host_included_eyebrow')}</p>
-              <h2 className="mt-4 text-4xl font-semibold tracking-tight sm:text-5xl">
+              <h2 className="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl">
                 {t('host_included_title')}
               </h2>
+              <p className="mt-5 max-w-md text-base leading-7 text-zinc-400">{t('host_included_sub')}</p>
             </motion.div>
 
             <div className="grid gap-4 sm:grid-cols-2">
@@ -261,12 +305,58 @@ export default function HostingPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: idx * 0.07 }}
-                  className="rounded-2xl bg-[#1a1a1b] px-6 py-5 text-zinc-200 ring-1 ring-zinc-700"
+                  className="flex items-start gap-3 rounded-2xl bg-[#1a1a1b] px-5 py-5 text-zinc-200 ring-1 ring-zinc-700"
                 >
-                  {item}
+                  <i className="ri-check-line mt-0.5 shrink-0 text-lg text-crimson-accent" aria-hidden="true" />
+                  <span className="leading-6">{item}</span>
                 </motion.div>
               ))}
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── WHY HOST WITH US (vs self-host) ──────────────────────────── */}
+      <section className="border-t border-zinc-900 bg-[#0a0a0a]">
+        <div className="mx-auto max-w-7xl px-6 py-16 lg:px-10 lg:py-20">
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="max-w-3xl">
+            <p className="text-sm font-medium uppercase tracking-[0.22em] text-crimson-accent">{t('host_why_eyebrow')}</p>
+            <h2 className="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl">{t('host_why_title')}</h2>
+          </motion.div>
+          <div className="mt-10 grid gap-5 lg:grid-cols-2">
+            <motion.div
+              initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+              className="rounded-2xl border border-zinc-800 bg-[#141416] p-7"
+            >
+              <h3 className="text-lg font-semibold text-zinc-300">{t('host_why_home_title')}</h3>
+              <ul className="mt-5 space-y-3">
+                {whyHome.map((p) => (
+                  <li key={p} className="flex items-start gap-3 text-sm leading-6 text-zinc-400">
+                    <i className="ri-close-line mt-0.5 shrink-0 text-lg text-zinc-500" aria-hidden="true" />
+                    <span>{p}</span>
+                  </li>
+                ))}
+              </ul>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.08 }}
+              className="rounded-2xl border border-crimson-accent/40 bg-[linear-gradient(180deg,rgba(220,38,38,0.08)_0%,rgba(10,10,10,1)_100%)] p-7"
+            >
+              <h3 className="text-lg font-semibold text-white">{t('host_why_us_title')}</h3>
+              <ul className="mt-5 space-y-3">
+                {whyUs.map((p) => (
+                  <li key={p} className="flex items-start gap-3 text-sm leading-6 text-zinc-200">
+                    <i className="ri-check-line mt-0.5 shrink-0 text-lg text-crimson-accent" aria-hidden="true" />
+                    <span>{p}</span>
+                  </li>
+                ))}
+              </ul>
+            </motion.div>
+          </div>
+          <div className="mt-10">
+            <a href="#quote-form" className="inline-block rounded-xl bg-crimson-accent px-8 py-4 text-base font-semibold text-white transition hover:bg-red-700">
+              {t('host_hero_cta1')}
+            </a>
           </div>
         </div>
       </section>
@@ -276,7 +366,7 @@ export default function HostingPage() {
         <div className="mx-auto max-w-5xl px-6 py-20 lg:px-10">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center">
             <p className="text-sm font-medium uppercase tracking-[0.22em] text-crimson-accent">{t('host_faq_eyebrow')}</p>
-            <h2 className="mt-4 text-4xl font-semibold tracking-tight sm:text-5xl">{t('host_faq_heading')}</h2>
+            <h2 className="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl">{t('host_faq_heading')}</h2>
           </motion.div>
 
           <div className="mt-12 space-y-4">
@@ -323,7 +413,7 @@ export default function HostingPage() {
           <div className="grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-start">
             <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
               <p className="text-sm font-medium uppercase tracking-[0.22em] text-crimson-accent">{t('host_form_eyebrow')}</p>
-              <h2 className="mt-4 text-4xl font-semibold tracking-tight sm:text-6xl">{t('host_form_heading')}</h2>
+              <h2 className="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl">{t('host_form_heading')}</h2>
               <p className="mt-5 max-w-2xl text-lg leading-8 text-zinc-400">
                 {t('host_form_sub')}
               </p>
