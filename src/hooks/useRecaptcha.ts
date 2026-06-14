@@ -1,7 +1,11 @@
 // Google reCAPTCHA v3 hook
-// Site key is public — secret key must ONLY be used server-side to verify tokens.
+// The site key is PUBLIC and safe in the frontend. The secret key must ONLY be
+// used server-side to verify tokens — it must never appear in this bundle.
+// Configure VITE_RECAPTCHA_SITE_KEY in the environment; the literal below is the
+// existing public site key kept as a fallback so the form keeps working.
 
-const SITE_KEY = '6Lcv4PMsAAAAADgeJokEytfxiF7WcfQYAWWQ92lV';
+const SITE_KEY =
+  import.meta.env.VITE_RECAPTCHA_SITE_KEY || '6Lcv4PMsAAAAADgeJokEytfxiF7WcfQYAWWQ92lV';
 
 declare global {
   interface Window {

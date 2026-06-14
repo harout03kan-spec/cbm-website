@@ -14,16 +14,16 @@ export default function HostingPage() {
   const [form, setForm] = useState({
     name: '', email: '', phone: '', miners: '', quantity: '', location: '', timeline: '', message: '',
   });
-  const [formStatus, setFormStatus] = useState<'idle' | 'sending' | 'sent'>('idle');
+  const [formStatus, setFormStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
 
-  const trustBar = ['Air Cooled', 'Live Monitoring', 'Ventilation', 'Canada & U.S.'];
+  const trustBar = [t('host_trust1'), t('host_trust2'), t('host_trust3'), t('host_trust4')];
 
   const steps = [
-    { title: 'Send your miner list',        text: 'Send the miner models, quantity, current location, and timeline.' },
-    { title: 'We review the batch',         text: 'The batch is reviewed based on size, miner type, and deployment needs.' },
-    { title: 'You receive options',         text: 'Available hosting options are presented based on what fits the batch best.' },
-    { title: 'Deployment gets coordinated', text: 'Once the direction is chosen, intake and deployment are coordinated.' },
-    { title: 'Support continues',           text: 'Monitoring, troubleshooting, and repair support stay part of the process.' },
+    { title: t('host_step1_title'), text: t('host_step1_text') },
+    { title: t('host_step2_title'), text: t('host_step2_text') },
+    { title: t('host_step3_title'), text: t('host_step3_text') },
+    { title: t('host_step4_title'), text: t('host_step4_text') },
+    { title: t('host_step5_title'), text: t('host_step5_text') },
   ];
 
   const hostingTypes = [
@@ -65,16 +65,21 @@ export default function HostingPage() {
     setFormStatus('sending');
     try {
       const recaptchaToken = await getToken('hosting_quote').catch(() => '');
-      // Send form + reCAPTCHA token to your backend for verification
-      // Backend should verify token at: https://www.google.com/recaptcha/api/siteverify
-      // using secret key: 6Lcv4PMsAAAAABa2AepW1UF66kAZrAHNKgWVJ4b-
-      await fetch('https://wholesaleasic.com/wp-json/cbtc/v1/hosting-quote', {
+      // The browser sends the form + a reCAPTCHA token to the backend, which
+      // verifies the token server-side at
+      // https://www.google.com/recaptcha/api/siteverify using the secret key held
+      // only in server environment variables (never in this frontend bundle).
+      const res = await fetch('https://wholesaleasic.com/wp-json/cbtc/v1/hosting-quote', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...form, recaptcha_token: recaptchaToken }),
-      }).catch(() => null); // silently fail if endpoint not yet live
-    } catch { /* noop */ }
-    setFormStatus('sent');
+      });
+      if (!res.ok) throw new Error(`Request failed with status ${res.status}`);
+      setFormStatus('sent');
+    } catch {
+      // Only surface success on a confirmed response; otherwise show an error.
+      setFormStatus('error');
+    }
   };
 
   return (
@@ -99,7 +104,7 @@ export default function HostingPage() {
             </div>
             <h1 className="mt-6 max-w-4xl text-5xl font-semibold leading-tight tracking-tight sm:text-6xl lg:text-7xl">
               {t('host_hero_title')}
-              <span className="block text-crimson-accent">Simple. Scalable. Direct.</span>
+              <span className="block text-crimson-accent">{t('host_hero_tagline')}</span>
             </h1>
             <p className="mt-6 max-w-2xl text-lg leading-8 text-zinc-400 sm:text-xl">
               {t('host_hero_sub')}
@@ -127,8 +132,8 @@ export default function HostingPage() {
             className="overflow-hidden rounded-[1.75rem] border border-zinc-800 bg-[#111214] shadow-2xl"
           >
             <img
-              src="/Put%20this%20in%20the%20hosting%20page%20pic%20on%20top%20please.jpeg"
-              alt="Mining hosting facility — Canada BTC Miners"
+              src="/hosting-hero.jpeg"
+              alt={t('host_hero_img_alt')}
               className="h-full w-full min-h-[340px] object-cover"
               onError={e => { (e.target as HTMLImageElement).style.display = 'none'; }}
             />
@@ -154,7 +159,7 @@ export default function HostingPage() {
         <div className="mx-auto max-w-7xl px-6 py-20 lg:px-10">
           <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-              <p className="text-sm font-medium uppercase tracking-[0.22em] text-crimson-accent">How hosting works</p>
+              <p className="text-sm font-medium uppercase tracking-[0.22em] text-crimson-accent">{t('host_process_eyebrow')}</p>
               <h2 className="mt-4 text-4xl font-semibold tracking-tight sm:text-5xl">
                 {t('host_process')}
               </h2>
@@ -190,7 +195,7 @@ export default function HostingPage() {
       <section className="bg-[#0a0a0a]">
         <div className="mx-auto max-w-7xl px-6 py-24 lg:px-10">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-12 max-w-3xl">
-            <p className="text-sm font-medium uppercase tracking-[0.22em] text-crimson-accent">Hosting options</p>
+            <p className="text-sm font-medium uppercase tracking-[0.22em] text-crimson-accent">{t('host_options_eyebrow')}</p>
             <h2 className="mt-4 text-4xl font-semibold tracking-tight sm:text-5xl">
               {t('host_tiers')}
             </h2>
@@ -242,7 +247,7 @@ export default function HostingPage() {
         <div className="mx-auto max-w-7xl px-6 py-20 lg:px-10">
           <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-              <p className="text-sm font-medium uppercase tracking-[0.22em] text-crimson-accent">What is included</p>
+              <p className="text-sm font-medium uppercase tracking-[0.22em] text-crimson-accent">{t('host_included_eyebrow')}</p>
               <h2 className="mt-4 text-4xl font-semibold tracking-tight sm:text-5xl">
                 {t('host_included_title')}
               </h2>
@@ -270,8 +275,8 @@ export default function HostingPage() {
       <section className="bg-[#0b0b0b]">
         <div className="mx-auto max-w-5xl px-6 py-20 lg:px-10">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center">
-            <p className="text-sm font-medium uppercase tracking-[0.22em] text-crimson-accent">FAQ</p>
-            <h2 className="mt-4 text-4xl font-semibold tracking-tight sm:text-5xl">What clients usually ask</h2>
+            <p className="text-sm font-medium uppercase tracking-[0.22em] text-crimson-accent">{t('host_faq_eyebrow')}</p>
+            <h2 className="mt-4 text-4xl font-semibold tracking-tight sm:text-5xl">{t('host_faq_heading')}</h2>
           </motion.div>
 
           <div className="mt-12 space-y-4">
@@ -317,10 +322,10 @@ export default function HostingPage() {
         <div className="mx-auto max-w-6xl px-6 py-24 lg:px-10">
           <div className="grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-start">
             <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
-              <p className="text-sm font-medium uppercase tracking-[0.22em] text-crimson-accent">Request a quote</p>
-              <h2 className="mt-4 text-4xl font-semibold tracking-tight sm:text-6xl">Send your miner list</h2>
+              <p className="text-sm font-medium uppercase tracking-[0.22em] text-crimson-accent">{t('host_form_eyebrow')}</p>
+              <h2 className="mt-4 text-4xl font-semibold tracking-tight sm:text-6xl">{t('host_form_heading')}</h2>
               <p className="mt-5 max-w-2xl text-lg leading-8 text-zinc-400">
-                Send the models, quantity, current location, and target timeline.
+                {t('host_form_sub')}
               </p>
             </motion.div>
 
@@ -331,11 +336,24 @@ export default function HostingPage() {
                   <div className="w-16 h-16 rounded-full bg-green-500/10 flex items-center justify-center">
                     <i className="ri-check-line text-3xl text-green-400"></i>
                   </div>
-                  <h3 className="text-2xl font-semibold text-white">Request Sent</h3>
+                  <h3 className="text-2xl font-semibold text-white">{t('host_form_sent_title')}</h3>
                   <p className="text-zinc-400">{t('host_form_sent')}</p>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-4">
+                  {formStatus === 'error' && (
+                    <div className="flex items-start gap-3 rounded-xl border border-red-900/50 bg-red-950/30 px-4 py-3" role="alert">
+                      <i className="ri-error-warning-line mt-0.5 text-lg text-red-400" aria-hidden="true" />
+                      <div className="text-sm leading-6 text-red-200">
+                        <p>{t('host_form_error')}</p>
+                        <p className="mt-1">
+                          <a href="tel:+15146047050" className="font-semibold underline">+1 (514) 604-7050</a>
+                          <span className="px-2 text-red-400/60" aria-hidden="true">·</span>
+                          <a href="https://wa.me/15146047050" className="font-semibold underline">WhatsApp</a>
+                        </p>
+                      </div>
+                    </div>
+                  )}
                   <div className="grid gap-4 sm:grid-cols-2">
                     {[
                       { key: 'name',     placeholder: t('host_form_name') },
