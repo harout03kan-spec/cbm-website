@@ -42,30 +42,31 @@ export default function ServicesPage() {
     { label: t('srv_trust_4'), icon: 'ri-file-list-3-line' },
   ];
 
-  // What we repair & support — capability overview (no prices, no claims).
+  // What we repair & support — capability overview (covers the core service lines).
   const capabilities = [
     { icon: 'ri-search-eye-line', title: t('srv3_cap1_title'), desc: t('srv3_cap1_desc') },
     { icon: 'ri-tools-line', title: t('srv3_cap2_title'), desc: t('srv3_cap2_desc') },
     { icon: 'ri-cpu-line', title: t('srv3_cap3_title'), desc: t('srv3_cap3_desc') },
-    { icon: 'ri-install-line', title: t('srv3_cap4_title'), desc: t('srv3_cap4_desc') },
+    { icon: 'ri-flashlight-line', title: t('srv3_cap4_title'), desc: t('srv3_cap4_desc') },
     { icon: 'ri-brush-line', title: t('srv3_cap5_title'), desc: t('srv3_cap5_desc') },
-    { icon: 'ri-checkbox-circle-line', title: t('srv3_cap6_title'), desc: t('srv3_cap6_desc') },
+    { icon: 'ri-drop-line', title: t('srv3_cap6_title'), desc: t('srv3_cap6_desc') },
   ];
 
-  // Repair pricing. Level 1/2/3 only. Real prices preserved, shown as "Starting at".
+  // Repair pricing. Hashboard Level 1/2/3. Prices shown as "Starting at" (CAD).
   const repairTiers = [
-    { level: t('srv_pricing_l1_level'), title: t('srv_pricing_l1_title'), blurb: t('srv2_l1_blurb'), priceCad: '$60 CAD', priceUsd: '$45 USD', featured: false },
-    { level: t('srv_pricing_l2_level'), title: t('srv_pricing_l2_title'), blurb: t('srv2_l2_blurb'), priceCad: '$100 CAD', priceUsd: '$75 USD', featured: true },
-    { level: t('srv_pricing_l3_level'), title: t('srv_pricing_l3_title'), blurb: t('srv2_l3_blurb'), priceCad: '$130 CAD', priceUsd: '$95 USD', featured: false },
+    { level: t('srv_pricing_l1_level'), title: t('srv_pricing_l1_title'), blurb: t('srv2_l1_blurb'), priceCad: '$110 CAD', featured: false },
+    { level: t('srv_pricing_l2_level'), title: t('srv_pricing_l2_title'), blurb: t('srv2_l2_blurb'), priceCad: '$150 CAD', featured: true },
+    { level: t('srv_pricing_l3_level'), title: t('srv_pricing_l3_title'), blurb: t('srv2_l3_blurb'), priceCad: '$225 CAD', featured: false },
   ];
 
-  // Supporting services. Real prices preserved exactly. No PSU repair claim.
+  // Supporting services — standalone repair/prep lines, each at its real price.
   const supportServices = [
-    { icon: 'ri-search-eye-line', name: t('srv2_sup1_name'), price: t('srv2_sup1_price') },
-    { icon: 'ri-cpu-line', name: t('srv2_sup3_name'), price: t('srv2_sup3_price') },
-    { icon: 'ri-temp-cold-line', name: t('srv2_sup4_name'), price: t('srv2_sup4_price') },
-    { icon: 'ri-install-line', name: t('srv2_sup5_name'), price: t('srv2_sup5_price') },
-    { icon: 'ri-brush-line', name: t('srv2_sup6_name'), price: t('srv2_sup6_price') },
+    { icon: 'ri-flashlight-line', name: t('srv2_sup1_name'), price: t('srv2_sup1_price') },
+    { icon: 'ri-cpu-line', name: t('srv2_sup2_name'), price: t('srv2_sup2_price') },
+    { icon: 'ri-drop-line', name: t('srv2_sup3_name'), price: t('srv2_sup3_price') },
+    { icon: 'ri-brush-line', name: t('srv2_sup4_name'), price: t('srv2_sup4_price') },
+    { icon: 'ri-temp-cold-line', name: t('srv2_sup5_name'), price: t('srv2_sup5_price') },
+    { icon: 'ri-time-line', name: t('srv2_sup6_name'), price: t('srv2_sup6_price') },
   ];
 
   // How repair works — full path from first message to a tested return (6 steps).
@@ -266,7 +267,7 @@ export default function ServicesPage() {
               <div className="relative mt-auto pt-8">
                 <div className="font-inter text-[11px] uppercase tracking-[0.18em] text-zinc-500">{t('srv2_pricing_startingat')}</div>
                 <div className="mt-1 font-inter text-4xl font-bold text-crimson-accent">{tier.priceCad}</div>
-                <div className="mt-1 font-inter text-sm text-zinc-500">{t('srv2_pricing_startingat')} {tier.priceUsd}</div>
+                <div className="mt-1 font-inter text-sm text-zinc-500">{t('srv2_pricing_perboard')}</div>
               </div>
 
               <Link
