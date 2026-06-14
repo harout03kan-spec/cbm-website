@@ -38,53 +38,52 @@ export default function ServicesPage() {
   const trustStrip = [
     { label: t('srv_trust_1'), icon: 'ri-map-pin-2-fill' },
     { label: t('srv_trust_2'), icon: 'ri-truck-line' },
-    { label: t('srv_trust_3'), icon: 'ri-search-eye-line' },
+    { label: t('srv_trust_3'), icon: 'ri-shield-check-line' },
     { label: t('srv_trust_4'), icon: 'ri-file-list-3-line' },
   ];
 
   // What we repair & support — capability overview (covers the core service lines).
   const capabilities = [
-    { icon: 'ri-search-eye-line', title: t('srv3_cap1_title'), desc: t('srv3_cap1_desc') },
-    { icon: 'ri-tools-line', title: t('srv3_cap2_title'), desc: t('srv3_cap2_desc') },
-    { icon: 'ri-cpu-line', title: t('srv3_cap3_title'), desc: t('srv3_cap3_desc') },
-    { icon: 'ri-flashlight-line', title: t('srv3_cap4_title'), desc: t('srv3_cap4_desc') },
-    { icon: 'ri-brush-line', title: t('srv3_cap5_title'), desc: t('srv3_cap5_desc') },
+    { icon: 'ri-tools-line', title: t('srv3_cap1_title'), desc: t('srv3_cap1_desc') },
+    { icon: 'ri-cpu-line', title: t('srv3_cap2_title'), desc: t('srv3_cap2_desc') },
+    { icon: 'ri-flashlight-line', title: t('srv3_cap3_title'), desc: t('srv3_cap3_desc') },
+    { icon: 'ri-brush-line', title: t('srv3_cap4_title'), desc: t('srv3_cap4_desc') },
+    { icon: 'ri-search-eye-line', title: t('srv3_cap5_title'), desc: t('srv3_cap5_desc') },
     { icon: 'ri-drop-line', title: t('srv3_cap6_title'), desc: t('srv3_cap6_desc') },
   ];
 
-  // Repair pricing. Hashboard Level 1/2/3. Prices shown as "Starting at" (CAD).
+  // Repair pricing. Hashboard Level 1/2/3. Prices shown as "Starting at" (CAD + USD).
   const repairTiers = [
-    { level: t('srv_pricing_l1_level'), title: t('srv_pricing_l1_title'), blurb: t('srv2_l1_blurb'), priceCad: '$110 CAD', featured: false },
-    { level: t('srv_pricing_l2_level'), title: t('srv_pricing_l2_title'), blurb: t('srv2_l2_blurb'), priceCad: '$150 CAD', featured: true },
-    { level: t('srv_pricing_l3_level'), title: t('srv_pricing_l3_title'), blurb: t('srv2_l3_blurb'), priceCad: '$225 CAD', featured: false },
+    { level: t('srv_pricing_l1_level'), title: t('srv_pricing_l1_title'), blurb: t('srv2_l1_blurb'), priceCad: '$60 CAD', priceUsd: '$45 USD', featured: false },
+    { level: t('srv_pricing_l2_level'), title: t('srv_pricing_l2_title'), blurb: t('srv2_l2_blurb'), priceCad: '$100 CAD', priceUsd: '$75 USD', featured: true },
+    { level: t('srv_pricing_l3_level'), title: t('srv_pricing_l3_title'), blurb: t('srv2_l3_blurb'), priceCad: '$130 CAD', priceUsd: '$95 USD', featured: false },
   ];
 
-  // Supporting services — standalone repair/prep lines, each at its real price.
+  // Supporting services — standalone repair/prep lines, each at its listed price.
   const supportServices = [
-    { icon: 'ri-flashlight-line', name: t('srv2_sup1_name'), price: t('srv2_sup1_price') },
-    { icon: 'ri-cpu-line', name: t('srv2_sup2_name'), price: t('srv2_sup2_price') },
-    { icon: 'ri-drop-line', name: t('srv2_sup3_name'), price: t('srv2_sup3_price') },
-    { icon: 'ri-brush-line', name: t('srv2_sup4_name'), price: t('srv2_sup4_price') },
-    { icon: 'ri-temp-cold-line', name: t('srv2_sup5_name'), price: t('srv2_sup5_price') },
-    { icon: 'ri-time-line', name: t('srv2_sup6_name'), price: t('srv2_sup6_price') },
+    { icon: 'ri-search-eye-line', name: t('srv2_sup1_name'), price: t('srv2_sup1_price') },
+    { icon: 'ri-flashlight-line', name: t('srv2_sup2_name'), price: t('srv2_sup2_price') },
+    { icon: 'ri-cpu-line', name: t('srv2_sup3_name'), price: t('srv2_sup3_price') },
+    { icon: 'ri-temp-cold-line', name: t('srv2_sup4_name'), price: t('srv2_sup4_price') },
+    { icon: 'ri-install-line', name: t('srv2_sup5_name'), price: t('srv2_sup5_price') },
+    { icon: 'ri-brush-line', name: t('srv2_sup6_name'), price: t('srv2_sup6_price') },
   ];
 
-  // How repair works — full path from first message to a tested return (6 steps).
+  // How repair works — full path from first message to a tested return (5 steps).
   const repairFlow = [
     { icon: 'ri-customer-service-2-line', title: t('srv3_step1_title'), text: t('srv3_step1_text') },
-    { icon: 'ri-truck-line', title: t('srv3_step2_title'), text: t('srv3_step2_text') },
-    { icon: 'ri-search-eye-line', title: t('srv3_step3_title'), text: t('srv3_step3_text') },
-    { icon: 'ri-price-tag-3-line', title: t('srv3_step4_title'), text: t('srv3_step4_text') },
-    { icon: 'ri-tools-line', title: t('srv3_step5_title'), text: t('srv3_step5_text') },
-    { icon: 'ri-send-plane-line', title: t('srv3_step6_title'), text: t('srv3_step6_text') },
+    { icon: 'ri-search-eye-line', title: t('srv3_step2_title'), text: t('srv3_step2_text') },
+    { icon: 'ri-checkbox-circle-line', title: t('srv3_step3_title'), text: t('srv3_step3_text') },
+    { icon: 'ri-tools-line', title: t('srv3_step4_title'), text: t('srv3_step4_text') },
+    { icon: 'ri-send-plane-line', title: t('srv3_step5_title'), text: t('srv3_step5_text') },
   ];
 
-  // Bulk & farm repair — batches for farms, resellers, and mining sites.
+  // Bulk & farm repair — B2B batches for farms, resellers, and operators.
   const bulkPoints = [
     { icon: 'ri-stack-line', title: t('srv3_bulk_p1_title'), desc: t('srv3_bulk_p1_desc') },
-    { icon: 'ri-server-line', title: t('srv3_bulk_p2_title'), desc: t('srv3_bulk_p2_desc') },
-    { icon: 'ri-brush-line', title: t('srv3_bulk_p3_title'), desc: t('srv3_bulk_p3_desc') },
-    { icon: 'ri-route-line', title: t('srv3_bulk_p4_title'), desc: t('srv3_bulk_p4_desc') },
+    { icon: 'ri-tools-line', title: t('srv3_bulk_p2_title'), desc: t('srv3_bulk_p2_desc') },
+    { icon: 'ri-price-tag-3-line', title: t('srv3_bulk_p3_title'), desc: t('srv3_bulk_p3_desc') },
+    { icon: 'ri-shield-check-line', title: t('srv3_bulk_p4_title'), desc: t('srv3_bulk_p4_desc') },
   ];
 
   // Reusable CTA cluster: direct phone call + repair request (contact form).
@@ -266,8 +265,11 @@ export default function ServicesPage() {
 
               <div className="relative mt-auto pt-8">
                 <div className="font-inter text-[11px] uppercase tracking-[0.18em] text-zinc-500">{t('srv2_pricing_startingat')}</div>
-                <div className="mt-1 font-inter text-4xl font-bold text-crimson-accent">{tier.priceCad}</div>
-                <div className="mt-1 font-inter text-sm text-zinc-500">{t('srv2_pricing_perboard')}</div>
+                <div className="mt-1 flex items-baseline gap-2">
+                  <span className="font-inter text-4xl font-bold text-crimson-accent">{tier.priceCad}</span>
+                  <span className="font-inter text-base font-semibold text-zinc-400">{tier.priceUsd}</span>
+                </div>
+                <div className="mt-1 font-inter text-xs text-zinc-500">{t('srv2_pricing_perboard')}</div>
               </div>
 
               <Link
@@ -284,7 +286,15 @@ export default function ServicesPage() {
           ))}
         </div>
 
-        {/* Supporting services — real extra prices (no PSU repair claim) */}
+        {/* Warranty reassurance — applies to all repairs */}
+        <div className="mt-8 flex items-center gap-3 rounded-2xl border border-red-900/40 bg-red-950/15 px-5 py-4">
+          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-red-900/40 bg-red-950/25 text-crimson-accent">
+            <i className="ri-shield-check-line text-base" aria-hidden="true" />
+          </span>
+          <p className="font-inter text-sm font-medium leading-snug text-zinc-200">{t('srv2_warranty_note')}</p>
+        </div>
+
+        {/* Supporting services — standalone lines with listed prices */}
         <div className="mt-12">
           <div className="flex items-center gap-3">
             <h3 className="font-inter text-sm font-semibold uppercase tracking-[0.2em] text-zinc-300">{t('srv2_support_title')}</h3>
