@@ -325,25 +325,41 @@ export default function ServicesPage() {
             <p className="mt-4 font-inter text-sm leading-7 text-zinc-400 sm:text-base">{t('srv3_how_sub')}</p>
           </div>
 
-          <ol className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {repairFlow.map((step, idx) => (
-              <motion.li
-                key={step.title}
-                {...reveal(idx * 0.06)}
-                className="group relative flex flex-col rounded-2xl border border-zinc-800 bg-[linear-gradient(160deg,rgba(24,24,27,0.8),rgba(9,9,11,0.94))] p-6 transition-colors duration-200 hover:border-red-800/60"
-              >
-                <div className="flex items-center gap-3">
-                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-red-900/50 bg-[radial-gradient(circle_at_30%_22%,rgba(127,29,29,0.6),rgba(9,9,11,0.97))] text-red-300">
-                    <i className={`${step.icon} text-xl`} aria-hidden="true" />
-                  </span>
-                  <span className="font-inter text-base font-bold tracking-[0.1em] text-crimson-accent">
-                    {String(idx + 1).padStart(2, '0')}
-                  </span>
-                </div>
-                <h3 className="mt-4 font-inter text-lg font-bold leading-snug text-white">{step.title}</h3>
-                <p className="mt-2 font-inter text-sm leading-6 text-zinc-400">{step.text}</p>
-              </motion.li>
-            ))}
+          {/* Vertical process timeline — left-side numbers + connector, right-side text.
+              Deliberately different from the capability card grid above. */}
+          <ol className="relative mt-12 max-w-3xl">
+            {repairFlow.map((step, idx) => {
+              const isLast = idx === repairFlow.length - 1;
+              return (
+                <motion.li
+                  key={step.title}
+                  {...reveal(idx * 0.06)}
+                  className="relative flex gap-5 sm:gap-6"
+                >
+                  {/* Number node + connecting line */}
+                  <div className="relative flex flex-col items-center">
+                    <span className="relative z-10 flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-red-900/50 bg-[radial-gradient(circle_at_30%_22%,rgba(127,29,29,0.6),rgba(9,9,11,0.97))] font-inter text-sm font-bold tracking-[0.08em] text-red-300">
+                      {String(idx + 1).padStart(2, '0')}
+                    </span>
+                    {!isLast && (
+                      <span
+                        aria-hidden="true"
+                        className="w-px flex-1 bg-gradient-to-b from-red-800/50 via-zinc-800 to-zinc-800"
+                      />
+                    )}
+                  </div>
+
+                  {/* Step text */}
+                  <div className={`min-w-0 flex-1 ${isLast ? 'pb-0' : 'pb-9 sm:pb-10'}`}>
+                    <div className="flex items-center gap-2.5">
+                      <i className={`${step.icon} text-lg text-crimson-accent`} aria-hidden="true" />
+                      <h3 className="font-inter text-lg font-bold leading-snug text-white">{step.title}</h3>
+                    </div>
+                    <p className="mt-2 font-inter text-sm leading-6 text-zinc-400">{step.text}</p>
+                  </div>
+                </motion.li>
+              );
+            })}
           </ol>
 
           <div className="mt-12">
