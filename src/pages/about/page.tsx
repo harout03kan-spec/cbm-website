@@ -12,40 +12,39 @@ export default function AboutPage() {
   const { t } = useTranslation();
   const CALL_LABEL = t('about_call');
 
-  // What we do — the four parts of the business, each links to its page.
-  const whatWeDo = [
-    { icon: 'ri-shopping-cart-2-line', title: t('about_wwd_c1_title'), desc: t('about_wwd_c1_desc'), cta: t('about_wwd_c1_cta'), to: '/shop' },
-    { icon: 'ri-tools-line', title: t('about_wwd_c2_title'), desc: t('about_wwd_c2_desc'), cta: t('about_wwd_c2_cta'), to: '/services' },
-    { icon: 'ri-stack-line', title: t('about_wwd_c3_title'), desc: t('about_wwd_c3_desc'), cta: t('about_wwd_c3_cta'), to: '/bulk-deals' },
-    { icon: 'ri-server-line', title: t('about_wwd_c4_title'), desc: t('about_wwd_c4_desc'), cta: t('about_wwd_c4_cta'), to: '/hosting' },
-  ];
-
-  // Montreal repair center capabilities — non-numeric, no fabricated claims.
-  const repairCaps = [
-    'about_repair_p1', 'about_repair_p2', 'about_repair_p3',
-    'about_repair_p4', 'about_repair_p5', 'about_repair_p6',
-  ].map((k) => t(k));
-
-  // Bulk & sourcing points.
-  const sourcing = [
-    { icon: 'ri-refresh-line', title: t('about_src_p1_title'), desc: t('about_src_p1_desc') },
-    { icon: 'ri-stack-line', title: t('about_src_p2_title'), desc: t('about_src_p2_desc') },
-    { icon: 'ri-building-line', title: t('about_src_p3_title'), desc: t('about_src_p3_desc') },
-    { icon: 'ri-team-line', title: t('about_src_p4_title'), desc: t('about_src_p4_desc') },
-  ];
-
-  // How we work — honest trust points, no numbers/guarantees.
-  const howWeWork = [
-    { icon: 'ri-price-tag-3-line', label: t('about_how_1') },
-    { icon: 'ri-file-list-3-line', label: t('about_how_2') },
-    { icon: 'ri-phone-line', label: t('about_how_3') },
-    { icon: 'ri-truck-line', label: t('about_how_4') },
-    { icon: 'ri-stack-line', label: t('about_how_5') },
-  ];
-
+  // The operators — real names, kept for legitimacy.
   const leadership = [
     { initials: 'HK', name: 'Harout Kantanakian', role: t('about_harout_role'), bio: t('about_harout_bio') },
     { initials: 'PD', name: 'Patrice Destin', role: t('about_patrice_role'), bio: t('about_patrice_bio') },
+  ];
+
+  // One connected operation — a lifecycle, each stage links to its page.
+  const connectedFlow = [
+    { icon: 'ri-shopping-cart-2-line', label: t('about_role_n1'), to: '/shop' },
+    { icon: 'ri-tools-line', label: t('about_role_n2'), to: '/services' },
+    { icon: 'ri-stack-line', label: t('about_role_n3'), to: '/bulk-deals' },
+    { icon: 'ri-server-line', label: t('about_role_n4'), to: '/hosting' },
+  ];
+
+  // Why a physical repair center matters — narrative trust points, not a service list.
+  const repairWhy = [t('about_repair_w1'), t('about_repair_w2'), t('about_repair_w3'), t('about_repair_w4')];
+
+  // Bulk & sourcing credibility points.
+  const sourcing = [
+    { title: t('about_src_p1_title'), desc: t('about_src_p1_desc') },
+    { title: t('about_src_p2_title'), desc: t('about_src_p2_desc') },
+    { title: t('about_src_p3_title'), desc: t('about_src_p3_desc') },
+    { title: t('about_src_p4_title'), desc: t('about_src_p4_desc') },
+  ];
+
+  // Why customers trust us — stronger, non-generic trust points.
+  const trust = [
+    { icon: 'ri-map-pin-2-line', label: t('about_how_1') },
+    { icon: 'ri-scales-3-line', label: t('about_how_2') },
+    { icon: 'ri-chat-3-line', label: t('about_how_3') },
+    { icon: 'ri-stack-line', label: t('about_how_4') },
+    { icon: 'ri-tools-line', label: t('about_how_5') },
+    { icon: 'ri-truck-line', label: t('about_how_6') },
   ];
 
   return (
@@ -75,20 +74,22 @@ export default function AboutPage() {
           className="absolute inset-0 h-full w-full object-cover object-center pointer-events-none"
           loading="eager"
         />
-        <div className="absolute inset-0 bg-black/72 pointer-events-none" />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/70 pointer-events-none" />
+        {/* Darker treatment for strong white-text contrast (desktop + mobile) */}
+        <div className="absolute inset-0 bg-black/82 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/55 to-black/90 pointer-events-none" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_20%,rgba(220,38,38,0.12),transparent_60%)] pointer-events-none" />
 
         <div className="relative z-10 mx-auto max-w-4xl px-5 py-20 text-center sm:px-6 sm:py-28 lg:py-32">
           <p className="text-xs font-semibold uppercase tracking-[0.28em] text-crimson-accent sm:text-sm">{t('about_hero_tag')}</p>
-          <h1 className="mt-5 text-balance text-4xl font-semibold leading-tight sm:text-5xl lg:text-[3.4rem] lg:leading-[1.1]">
+          <h1 className="mt-5 text-balance text-4xl font-semibold leading-tight drop-shadow-[0_2px_12px_rgba(0,0,0,0.8)] sm:text-5xl lg:text-[3.4rem] lg:leading-[1.1]">
             {t('about_hero_title')}{' '}
             <span className="text-crimson-accent">{t('about_hero_accent')}</span>
           </h1>
-          <p className="mx-auto mt-6 max-w-2xl text-sm leading-7 text-zinc-300 sm:text-base sm:leading-8">{t('about_hero_sub')}</p>
+          <p className="mx-auto mt-6 max-w-2xl text-sm leading-7 text-zinc-200 drop-shadow-[0_1px_8px_rgba(0,0,0,0.9)] sm:text-base sm:leading-8">{t('about_hero_sub')}</p>
 
-          <div className="mt-6 flex flex-wrap justify-center gap-3 text-xs text-zinc-300">
+          <div className="mt-6 flex flex-wrap justify-center gap-3 text-xs text-zinc-200">
             {[t('about_badge1'), t('about_badge2'), t('about_badge3')].map((b) => (
-              <span key={b} className="flex items-center gap-1.5 rounded-full border border-zinc-800 bg-zinc-900/80 px-3 py-1.5">
+              <span key={b} className="flex items-center gap-1.5 rounded-full border border-zinc-700 bg-black/70 px-3 py-1.5 backdrop-blur-sm">
                 <span className="inline-block h-1.5 w-1.5 rounded-full bg-green-500" />
                 {b}
               </span>
@@ -100,7 +101,7 @@ export default function AboutPage() {
               <i className="ri-phone-fill text-lg" aria-hidden="true" />
               {CALL_LABEL}
             </a>
-            <Link to="/shop" className="inline-flex min-h-[52px] items-center justify-center gap-2 rounded-xl border border-zinc-700 bg-black/40 px-7 font-semibold text-white transition-colors hover:bg-zinc-900">
+            <Link to="/shop" className="inline-flex min-h-[52px] items-center justify-center gap-2 rounded-xl border border-zinc-600 bg-black/50 px-7 font-semibold text-white backdrop-blur-sm transition-colors hover:bg-zinc-900">
               {t('about_shop_cta')}
             </Link>
           </div>
@@ -110,71 +111,77 @@ export default function AboutPage() {
       {/* ── 2. WHO WE ARE ────────────────────────────────────────────── */}
       <section className="border-b border-zinc-900 bg-zinc-950/40">
         <div className="mx-auto max-w-7xl px-5 py-16 sm:px-6 sm:py-20">
-          <div className="max-w-3xl">
-            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-crimson-accent sm:text-sm">{t('about_wwa_tag')}</p>
-            <h2 className="mt-4 text-3xl font-semibold leading-tight sm:text-4xl lg:text-5xl">{t('about_wwa_title')}</h2>
-            <p className="mt-6 text-sm leading-7 text-zinc-300 sm:text-base sm:leading-8">{t('about_wwa_p1')}</p>
-            <p className="mt-4 text-sm leading-7 text-zinc-400 sm:text-base sm:leading-8">{t('about_wwa_p2')}</p>
-          </div>
+          <div className="grid gap-10 lg:grid-cols-[1fr_0.95fr] lg:items-start lg:gap-14">
+            <div className="max-w-2xl">
+              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-crimson-accent sm:text-sm">{t('about_wwa_tag')}</p>
+              <h2 className="mt-4 text-3xl font-semibold leading-tight sm:text-4xl lg:text-5xl">{t('about_wwa_title')}</h2>
+              <p className="mt-6 text-sm leading-7 text-zinc-300 sm:text-base sm:leading-8">{t('about_wwa_p1')}</p>
+              <p className="mt-4 text-sm leading-7 text-zinc-400 sm:text-base sm:leading-8">{t('about_wwa_p2')}</p>
+            </div>
 
-          {/* Real operators — keeps legitimacy without fluff */}
-          <div className="mt-10 grid gap-5 sm:grid-cols-2 sm:gap-6">
-            {leadership.map((person) => (
-              <div key={person.name} className="rounded-[2rem] border border-zinc-800 bg-black/40 p-6 sm:p-7">
-                <div className="mb-4 flex items-center gap-3">
-                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-red-900/40 bg-red-600/20 text-base font-bold text-crimson-accent">{person.initials}</div>
-                  <div>
-                    <div className="text-xl font-semibold">{person.name}</div>
-                    <div className="text-sm text-crimson-accent">{person.role}</div>
+            {/* Real operators */}
+            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-1">
+              {leadership.map((person) => (
+                <div key={person.name} className="rounded-[1.75rem] border border-zinc-800 bg-black/40 p-6">
+                  <div className="flex items-center gap-3">
+                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-red-900/40 bg-red-600/20 text-base font-bold text-crimson-accent">{person.initials}</div>
+                    <div>
+                      <div className="text-lg font-semibold">{person.name}</div>
+                      <div className="text-sm text-crimson-accent">{person.role}</div>
+                    </div>
                   </div>
+                  <p className="mt-4 text-sm leading-7 text-zinc-400">{person.bio}</p>
                 </div>
-                <p className="text-sm leading-7 text-zinc-300 sm:text-base">{person.bio}</p>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ── 3. WHAT WE DO ────────────────────────────────────────────── */}
+      {/* ── 3. ONE CONNECTED OPERATION (editorial, not service cards) ── */}
       <section className="mx-auto max-w-7xl px-5 py-16 sm:px-6 sm:py-20">
-        <div className="max-w-2xl">
-          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-crimson-accent sm:text-sm">{t('about_wwd_tag')}</p>
-          <h2 className="mt-4 text-3xl font-semibold sm:text-4xl">{t('about_wwd_title')}</h2>
-          <p className="mt-4 text-sm leading-7 text-zinc-400 sm:text-base">{t('about_wwd_sub')}</p>
+        <div className="max-w-3xl">
+          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-crimson-accent sm:text-sm">{t('about_role_tag')}</p>
+          <h2 className="mt-4 text-3xl font-semibold sm:text-4xl">{t('about_role_title')}</h2>
+          <p className="mt-6 text-sm leading-7 text-zinc-300 sm:text-base sm:leading-8">{t('about_role_p1')}</p>
+          <p className="mt-4 text-sm leading-7 text-zinc-400 sm:text-base sm:leading-8">{t('about_role_p2')}</p>
         </div>
-        <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {whatWeDo.map((c) => (
-            <Link
-              key={c.to}
-              to={c.to}
-              className="group flex h-full flex-col rounded-2xl border border-zinc-800 bg-[linear-gradient(160deg,rgba(24,24,27,0.7),rgba(9,9,11,0.92))] p-6 transition-all duration-200 hover:-translate-y-1 hover:border-red-900/50"
-            >
-              <span className="flex h-11 w-11 items-center justify-center rounded-xl border border-red-900/40 bg-red-950/25 text-crimson-accent">
-                <i className={`${c.icon} text-xl`} aria-hidden="true" />
-              </span>
-              <h3 className="mt-4 text-lg font-bold text-white">{c.title}</h3>
-              <p className="mt-2 flex-1 text-sm leading-6 text-zinc-400">{c.desc}</p>
-              <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-white transition-colors group-hover:text-crimson-accent">
-                {c.cta}
-                <i className="ri-arrow-right-line text-base transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
-              </span>
-            </Link>
+
+        {/* Connected lifecycle — Buy → Repair → Source → Deploy, each links out */}
+        <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-stretch">
+          {connectedFlow.map((node, idx) => (
+            <div key={node.label} className="flex items-center gap-3 sm:flex-1">
+              <Link
+                to={node.to}
+                className="group flex w-full items-center gap-3 rounded-2xl border border-zinc-800 bg-[linear-gradient(160deg,rgba(24,24,27,0.7),rgba(9,9,11,0.92))] px-5 py-4 transition-colors duration-200 hover:border-red-900/50"
+              >
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-red-900/40 bg-red-950/25 text-crimson-accent">
+                  <i className={`${node.icon} text-lg`} aria-hidden="true" />
+                </span>
+                <span className="flex-1 text-base font-semibold text-white">{node.label}</span>
+                <i className="ri-arrow-right-up-line text-lg text-zinc-500 transition-colors group-hover:text-crimson-accent" aria-hidden="true" />
+              </Link>
+              {idx < connectedFlow.length - 1 && (
+                <i className="ri-arrow-right-line hidden shrink-0 text-xl text-zinc-700 sm:block" aria-hidden="true" />
+              )}
+            </div>
           ))}
         </div>
+        <p className="mt-5 text-sm text-zinc-500">{t('about_role_caption')}</p>
       </section>
 
-      {/* ── 4. MONTREAL REPAIR CENTER ────────────────────────────────── */}
+      {/* ── 4. WHY A REAL REPAIR CENTER MATTERS ──────────────────────── */}
       <section className="border-y border-zinc-900 bg-zinc-950/40">
         <div className="mx-auto grid max-w-7xl gap-8 px-5 py-16 sm:px-6 sm:py-20 lg:grid-cols-2 lg:gap-12">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.22em] text-crimson-accent sm:text-sm">{t('about_repair_tag')}</p>
             <h2 className="mt-4 text-3xl font-semibold leading-tight sm:text-4xl">{t('about_repair_title')}</h2>
             <p className="mt-4 text-sm leading-7 text-zinc-300 sm:text-base sm:leading-8">{t('about_repair_sub')}</p>
-            <ul className="mt-6 grid grid-cols-1 gap-2.5 sm:grid-cols-2">
-              {repairCaps.map((cap) => (
-                <li key={cap} className="flex items-start gap-2.5 text-sm text-zinc-200">
+            <ul className="mt-6 space-y-3">
+              {repairWhy.map((point) => (
+                <li key={point} className="flex items-start gap-3 text-sm leading-6 text-zinc-200 sm:text-base">
                   <i className="ri-checkbox-circle-line mt-0.5 shrink-0 text-crimson-accent" aria-hidden="true" />
-                  {cap}
+                  <span>{point}</span>
                 </li>
               ))}
             </ul>
@@ -213,29 +220,27 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ── 5. BULK & SOURCING ───────────────────────────────────────── */}
+      {/* ── 5. BULK & SOURCING (credibility) ─────────────────────────── */}
       <section className="mx-auto max-w-7xl px-5 py-16 sm:px-6 sm:py-20">
-        <div className="max-w-2xl">
+        <div className="max-w-3xl">
           <p className="text-xs font-semibold uppercase tracking-[0.22em] text-crimson-accent sm:text-sm">{t('about_src_tag')}</p>
           <h2 className="mt-4 text-3xl font-semibold sm:text-4xl">{t('about_src_title')}</h2>
-          <p className="mt-4 text-sm leading-7 text-zinc-400 sm:text-base">{t('about_src_sub')}</p>
+          <p className="mt-4 text-sm leading-7 text-zinc-400 sm:text-base sm:leading-8">{t('about_src_sub')}</p>
         </div>
-        <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2">
-          {sourcing.map((s) => (
-            <div key={s.title} className="flex items-start gap-4 rounded-2xl border border-zinc-800 bg-zinc-950 px-5 py-5 transition-colors hover:border-red-900/50">
-              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-red-900/40 bg-red-950/25 text-crimson-accent">
-                <i className={`${s.icon} text-lg`} aria-hidden="true" />
-              </span>
-              <div>
+        <div className="mt-10 grid grid-cols-1 gap-x-10 gap-y-7 sm:grid-cols-2">
+          {sourcing.map((s, idx) => (
+            <div key={s.title} className="border-t border-zinc-800 pt-5">
+              <div className="flex items-baseline gap-3">
+                <span className="font-inter text-sm font-semibold text-crimson-accent">{String(idx + 1).padStart(2, '0')}</span>
                 <h3 className="text-base font-bold text-white">{s.title}</h3>
-                <p className="mt-1 text-sm leading-6 text-zinc-400">{s.desc}</p>
               </div>
+              <p className="mt-2 text-sm leading-6 text-zinc-400">{s.desc}</p>
             </div>
           ))}
         </div>
-        <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+        <div className="mt-9 flex flex-col gap-3 sm:flex-row">
           <Link to="/bulk-deals" className="inline-flex min-h-[50px] items-center justify-center gap-2 rounded-xl bg-red-600 px-7 font-semibold text-white transition-colors hover:bg-red-500">
-            {t('about_wwd_c3_cta')}
+            {t('about_src_cta')}
             <i className="ri-arrow-right-line text-base" aria-hidden="true" />
           </Link>
           <Link to="/contact#contact-form" className="inline-flex min-h-[50px] items-center justify-center gap-2 rounded-xl border border-zinc-700 px-7 font-semibold text-white transition-colors hover:bg-zinc-900">
@@ -244,7 +249,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ── 6. HOW WE WORK ───────────────────────────────────────────── */}
+      {/* ── 6. WHY CUSTOMERS TRUST US ────────────────────────────────── */}
       <section className="border-y border-zinc-900 bg-zinc-950">
         <div className="mx-auto max-w-7xl px-5 py-16 sm:px-6 sm:py-20">
           <div className="mx-auto max-w-2xl text-center">
@@ -252,9 +257,9 @@ export default function AboutPage() {
             <h2 className="mt-4 text-3xl font-semibold sm:text-4xl lg:text-5xl">{t('about_how_title')}</h2>
             <p className="mt-4 text-sm leading-7 text-zinc-400 sm:text-base">{t('about_how_sub')}</p>
           </div>
-          <div className="mx-auto mt-10 grid max-w-4xl grid-cols-1 gap-3 sm:grid-cols-2">
-            {howWeWork.map((p) => (
-              <div key={p.label} className="flex items-center gap-3 rounded-2xl border border-zinc-800 bg-black/40 px-5 py-4">
+          <div className="mx-auto mt-10 grid max-w-4xl grid-cols-1 gap-x-8 gap-y-4 sm:grid-cols-2">
+            {trust.map((p) => (
+              <div key={p.label} className="flex items-start gap-3 border-b border-zinc-800/70 pb-4">
                 <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-red-900/40 bg-red-950/25 text-crimson-accent">
                   <i className={`${p.icon} text-base`} aria-hidden="true" />
                 </span>
@@ -265,7 +270,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ── 7. CLIENT FEEDBACK — honest Google review link only ──────── */}
+      {/* ── 7. WHAT CLIENTS SAY — honest Google callout, no fake quotes ── */}
       <section className="mx-auto max-w-3xl px-5 py-16 text-center sm:px-6 sm:py-20">
         <p className="text-xs font-semibold uppercase tracking-[0.22em] text-crimson-accent sm:text-sm">{t('about_feedback_tag')}</p>
         <h2 className="mt-4 text-3xl font-semibold sm:text-4xl lg:text-5xl">{t('about_feedback_title')}</h2>
@@ -274,9 +279,9 @@ export default function AboutPage() {
           href={GOOGLE_REVIEW}
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-7 inline-flex items-center gap-2 rounded-xl border border-zinc-700 bg-black/40 px-6 py-3.5 font-semibold text-white transition-colors hover:bg-zinc-900"
+          className="mt-7 inline-flex items-center gap-2.5 rounded-xl border border-zinc-700 bg-black/40 px-6 py-3.5 font-semibold text-white transition-colors hover:bg-zinc-900"
         >
-          <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none">
+          <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
             <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
             <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
