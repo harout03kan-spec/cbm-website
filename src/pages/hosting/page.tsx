@@ -14,16 +14,16 @@ export default function HostingPage() {
   const [form, setForm] = useState({
     name: '', email: '', phone: '', miners: '', quantity: '', location: '', timeline: '', message: '',
   });
-  const [formStatus, setFormStatus] = useState<'idle' | 'sending' | 'sent'>('idle');
+  const [formStatus, setFormStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
 
-  const trustBar = ['Air Cooled', 'Live Monitoring', 'Ventilation', 'Canada & U.S.'];
+  const trustBar = [t('host_trust1'), t('host_trust2'), t('host_trust3'), t('host_trust4')];
 
   const steps = [
-    { title: 'Send your miner list',        text: 'Send the miner models, quantity, current location, and timeline.' },
-    { title: 'We review the batch',         text: 'The batch is reviewed based on size, miner type, and deployment needs.' },
-    { title: 'You receive options',         text: 'Available hosting options are presented based on what fits the batch best.' },
-    { title: 'Deployment gets coordinated', text: 'Once the direction is chosen, intake and deployment are coordinated.' },
-    { title: 'Support continues',           text: 'Monitoring, troubleshooting, and repair support stay part of the process.' },
+    { title: t('host_step1_title'), text: t('host_step1_text') },
+    { title: t('host_step2_title'), text: t('host_step2_text') },
+    { title: t('host_step3_title'), text: t('host_step3_text') },
+    { title: t('host_step4_title'), text: t('host_step4_text') },
+    { title: t('host_step5_title'), text: t('host_step5_text') },
   ];
 
   const hostingTypes = [
@@ -52,6 +52,20 @@ export default function HostingPage() {
     t('host_inc4'), t('host_inc5'), t('host_inc6'),
   ];
 
+  // Hosting highlights — what the hosting service covers (no claims/numbers).
+  const highlights = [
+    { icon: 'ri-temp-cold-line',           title: t('host_hl1_title'), desc: t('host_hl1_desc') },
+    { icon: 'ri-line-chart-line',          title: t('host_hl2_title'), desc: t('host_hl2_desc') },
+    { icon: 'ri-plug-line',                title: t('host_hl3_title'), desc: t('host_hl3_desc') },
+    { icon: 'ri-tools-line',               title: t('host_hl4_title'), desc: t('host_hl4_desc') },
+    { icon: 'ri-customer-service-2-line',  title: t('host_hl5_title'), desc: t('host_hl5_desc') },
+    { icon: 'ri-global-line',              title: t('host_hl6_title'), desc: t('host_hl6_desc') },
+  ];
+
+  // Why host with us — honest home-vs-facility comparison (no fake claims).
+  const whyHome = [t('host_why_home1'), t('host_why_home2'), t('host_why_home3'), t('host_why_home4')];
+  const whyUs   = [t('host_why_us1'), t('host_why_us2'), t('host_why_us3'), t('host_why_us4')];
+
   const faq = [
     { q: t('host_faq_q1'), a: t('host_faq_a1') },
     { q: t('host_faq_q2'), a: t('host_faq_a2') },
@@ -65,16 +79,21 @@ export default function HostingPage() {
     setFormStatus('sending');
     try {
       const recaptchaToken = await getToken('hosting_quote').catch(() => '');
-      // Send form + reCAPTCHA token to your backend for verification
-      // Backend should verify token at: https://www.google.com/recaptcha/api/siteverify
-      // using secret key: 6Lcv4PMsAAAAABa2AepW1UF66kAZrAHNKgWVJ4b-
-      await fetch('https://wholesaleasic.com/wp-json/cbtc/v1/hosting-quote', {
+      // The browser sends the form + a reCAPTCHA token to the backend, which
+      // verifies the token server-side at
+      // https://www.google.com/recaptcha/api/siteverify using the secret key held
+      // only in server environment variables (never in this frontend bundle).
+      const res = await fetch('https://wholesaleasic.com/wp-json/cbtc/v1/hosting-quote', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...form, recaptcha_token: recaptchaToken }),
-      }).catch(() => null); // silently fail if endpoint not yet live
-    } catch { /* noop */ }
-    setFormStatus('sent');
+      });
+      if (!res.ok) throw new Error(`Request failed with status ${res.status}`);
+      setFormStatus('sent');
+    } catch {
+      // Only surface success on a confirmed response; otherwise show an error.
+      setFormStatus('error');
+    }
   };
 
   return (
@@ -97,9 +116,9 @@ export default function HostingPage() {
             <div className="inline-flex rounded-full border border-crimson-accent/30 bg-crimson-accent/10 px-4 py-2 text-sm font-semibold uppercase tracking-[0.22em] text-crimson-accent">
               {t('host_hero_tag')}
             </div>
-            <h1 className="mt-6 max-w-4xl text-5xl font-semibold leading-tight tracking-tight sm:text-6xl lg:text-7xl">
+            <h1 className="mt-6 max-w-3xl text-4xl font-semibold leading-tight tracking-tight sm:text-5xl lg:text-6xl">
               {t('host_hero_title')}
-              <span className="block text-crimson-accent">Simple. Scalable. Direct.</span>
+              <span className="block text-crimson-accent">{t('host_hero_tagline')}</span>
             </h1>
             <p className="mt-6 max-w-2xl text-lg leading-8 text-zinc-400 sm:text-xl">
               {t('host_hero_sub')}
@@ -127,8 +146,8 @@ export default function HostingPage() {
             className="overflow-hidden rounded-[1.75rem] border border-zinc-800 bg-[#111214] shadow-2xl"
           >
             <img
-              src="/Put%20this%20in%20the%20hosting%20page%20pic%20on%20top%20please.jpeg"
-              alt="Mining hosting facility — Canada BTC Miners"
+              src="/hosting-hero.jpeg"
+              alt={t('host_hero_img_alt')}
               className="h-full w-full min-h-[340px] object-cover"
               onError={e => { (e.target as HTMLImageElement).style.display = 'none'; }}
             />
@@ -149,54 +168,83 @@ export default function HostingPage() {
         </div>
       </section>
 
-      {/* ── HOW IT WORKS ─────────────────────────────────────────────── */}
-      <section className="bg-[#141414]">
-        <div className="mx-auto max-w-7xl px-6 py-20 lg:px-10">
-          <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
+      {/* ── HOSTING HIGHLIGHTS (unified divided panel, not a card grid) ── */}
+      <section className="bg-[#0a0a0a]">
+        <div className="mx-auto max-w-7xl px-6 py-16 lg:px-10 lg:py-20">
+          <div className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-              <p className="text-sm font-medium uppercase tracking-[0.22em] text-crimson-accent">How hosting works</p>
-              <h2 className="mt-4 text-4xl font-semibold tracking-tight sm:text-5xl">
-                {t('host_process')}
-              </h2>
+              <p className="text-sm font-medium uppercase tracking-[0.22em] text-crimson-accent">{t('host_hl_eyebrow')}</p>
+              <h2 className="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl">{t('host_hl_title')}</h2>
+              <p className="mt-5 max-w-md text-base leading-7 text-zinc-400">{t('host_hl_sub')}</p>
             </motion.div>
 
-            <div className="space-y-4">
-              {steps.map((step, idx) => (
-                <motion.div
-                  key={idx}
-                  initial={{ opacity: 0, y: 16 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: idx * 0.08 }}
-                  className="rounded-2xl bg-[#0d0d0e] p-5 ring-1 ring-zinc-700"
-                >
-                  <div className="flex items-start gap-4">
-                    <div className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-crimson-accent/10 text-sm font-semibold text-crimson-accent">
-                      0{idx + 1}
-                    </div>
-                    <div>
-                      <h3 className="text-lg font-semibold text-white">{step.title}</h3>
-                      <p className="mt-2 text-sm leading-7 text-zinc-400">{step.text}</p>
-                    </div>
+            <motion.div
+              initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+              className="grid grid-cols-1 divide-y divide-zinc-800/80 overflow-hidden rounded-2xl border border-zinc-800 bg-[#121214] sm:grid-cols-2 sm:divide-y-0 sm:[&>*:nth-child(even)]:border-l sm:[&>*:nth-child(even)]:border-zinc-800/80 sm:[&>*:nth-child(n+3)]:border-t sm:[&>*:nth-child(n+3)]:border-zinc-800/80"
+            >
+              {highlights.map((h) => (
+                <div key={h.title} className="flex items-start gap-3 p-5">
+                  <i className={`${h.icon} mt-0.5 text-lg text-crimson-accent`} aria-hidden="true" />
+                  <div>
+                    <h3 className="text-sm font-semibold text-white">{h.title}</h3>
+                    <p className="mt-1 text-xs leading-5 text-zinc-400">{h.desc}</p>
                   </div>
-                </motion.div>
+                </div>
               ))}
-            </div>
+            </motion.div>
           </div>
         </div>
       </section>
 
+      {/* ── HOW IT WORKS (full-width horizontal stepper) ─────────────── */}
+      <section className="border-t border-zinc-900 bg-[#141414]">
+        <div className="mx-auto max-w-7xl px-6 py-16 lg:px-10 lg:py-20">
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="max-w-2xl">
+            <p className="text-sm font-medium uppercase tracking-[0.22em] text-crimson-accent">{t('host_process_eyebrow')}</p>
+            <h2 className="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl">{t('host_process')}</h2>
+            <p className="mt-4 text-base leading-7 text-zinc-400">{t('host_process_sub')}</p>
+          </motion.div>
+
+          <ol className="mt-12 grid gap-x-6 gap-y-9 sm:grid-cols-2 lg:grid-cols-5">
+            {steps.map((step, idx) => {
+              const isLast = idx === steps.length - 1;
+              return (
+                <motion.li
+                  key={idx}
+                  initial={{ opacity: 0, y: 16 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: idx * 0.07 }}
+                  className="relative"
+                >
+                  <div className="flex items-center gap-3">
+                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-crimson-accent/30 bg-crimson-accent/10 text-sm font-semibold text-crimson-accent">
+                      {String(idx + 1).padStart(2, '0')}
+                    </span>
+                    {!isLast && (
+                      <span aria-hidden="true" className="hidden h-px flex-1 bg-gradient-to-r from-crimson-accent/40 to-transparent lg:block" />
+                    )}
+                  </div>
+                  <h3 className="mt-4 text-base font-semibold leading-snug text-white">{step.title}</h3>
+                  <p className="mt-2 text-sm leading-6 text-zinc-400">{step.text}</p>
+                </motion.li>
+              );
+            })}
+          </ol>
+        </div>
+      </section>
+
       {/* ── HOSTING TIERS ────────────────────────────────────────────── */}
-      <section className="bg-[#0a0a0a]">
-        <div className="mx-auto max-w-7xl px-6 py-24 lg:px-10">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-12 max-w-3xl">
-            <p className="text-sm font-medium uppercase tracking-[0.22em] text-crimson-accent">Hosting options</p>
-            <h2 className="mt-4 text-4xl font-semibold tracking-tight sm:text-5xl">
+      <section className="border-t border-zinc-900 bg-[#0d0d0d]">
+        <div className="mx-auto max-w-7xl px-6 py-16 lg:px-10 lg:py-20">
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-10 max-w-3xl">
+            <p className="text-sm font-medium uppercase tracking-[0.22em] text-crimson-accent">{t('host_options_eyebrow')}</p>
+            <h2 className="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl">
               {t('host_tiers')}
             </h2>
           </motion.div>
 
-          <div className="grid gap-6 lg:grid-cols-3">
+          <div className="grid gap-6 lg:grid-cols-3 lg:items-start">
             {hostingTypes.map((item, idx) => (
               <motion.div
                 key={idx}
@@ -204,14 +252,14 @@ export default function HostingPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: idx * 0.1 }}
-                className={`flex h-full flex-col rounded-2xl border p-8 ${
+                className={`relative flex h-full flex-col rounded-2xl border p-8 ${
                   item.featured
                     ? 'border-crimson-accent bg-[linear-gradient(180deg,rgba(220,38,38,0.08)_0%,rgba(10,10,10,1)_100%)]'
                     : 'border-zinc-800 bg-[#151516]'
                 }`}
               >
                 {item.featured && (
-                  <div className="mb-4 inline-flex w-fit rounded-full border border-crimson-accent/30 bg-crimson-accent/10 px-4 py-2 text-sm font-semibold text-red-300">
+                  <div className="absolute right-5 top-5 inline-flex rounded-full border border-crimson-accent/30 bg-crimson-accent/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-red-300">
                     {t('host_tier2_popular')}
                   </div>
                 )}
@@ -238,14 +286,15 @@ export default function HostingPage() {
       </section>
 
       {/* ── WHAT'S INCLUDED ──────────────────────────────────────────── */}
-      <section className="bg-[#121212]">
-        <div className="mx-auto max-w-7xl px-6 py-20 lg:px-10">
-          <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
-            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-              <p className="text-sm font-medium uppercase tracking-[0.22em] text-crimson-accent">What is included</p>
-              <h2 className="mt-4 text-4xl font-semibold tracking-tight sm:text-5xl">
+      <section className="border-t border-zinc-900 bg-[#121212]">
+        <div className="mx-auto max-w-7xl px-6 py-16 lg:px-10 lg:py-20">
+          <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
+            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="lg:sticky lg:top-28">
+              <p className="text-sm font-medium uppercase tracking-[0.22em] text-crimson-accent">{t('host_included_eyebrow')}</p>
+              <h2 className="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl">
                 {t('host_included_title')}
               </h2>
+              <p className="mt-5 max-w-md text-base leading-7 text-zinc-400">{t('host_included_sub')}</p>
             </motion.div>
 
             <div className="grid gap-4 sm:grid-cols-2">
@@ -256,12 +305,58 @@ export default function HostingPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: idx * 0.07 }}
-                  className="rounded-2xl bg-[#1a1a1b] px-6 py-5 text-zinc-200 ring-1 ring-zinc-700"
+                  className="flex items-start gap-3 rounded-2xl bg-[#1a1a1b] px-5 py-5 text-zinc-200 ring-1 ring-zinc-700"
                 >
-                  {item}
+                  <i className="ri-check-line mt-0.5 shrink-0 text-lg text-crimson-accent" aria-hidden="true" />
+                  <span className="leading-6">{item}</span>
                 </motion.div>
               ))}
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── WHY HOST WITH US (vs self-host) ──────────────────────────── */}
+      <section className="border-t border-zinc-900 bg-[#0a0a0a]">
+        <div className="mx-auto max-w-7xl px-6 py-16 lg:px-10 lg:py-20">
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="max-w-3xl">
+            <p className="text-sm font-medium uppercase tracking-[0.22em] text-crimson-accent">{t('host_why_eyebrow')}</p>
+            <h2 className="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl">{t('host_why_title')}</h2>
+          </motion.div>
+          <div className="mt-10 grid gap-5 lg:grid-cols-2">
+            <motion.div
+              initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+              className="rounded-2xl border border-zinc-800 bg-[#141416] p-7"
+            >
+              <h3 className="text-lg font-semibold text-zinc-300">{t('host_why_home_title')}</h3>
+              <ul className="mt-5 space-y-3">
+                {whyHome.map((p) => (
+                  <li key={p} className="flex items-start gap-3 text-sm leading-6 text-zinc-400">
+                    <i className="ri-close-line mt-0.5 shrink-0 text-lg text-zinc-500" aria-hidden="true" />
+                    <span>{p}</span>
+                  </li>
+                ))}
+              </ul>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.08 }}
+              className="rounded-2xl border border-crimson-accent/40 bg-[linear-gradient(180deg,rgba(220,38,38,0.08)_0%,rgba(10,10,10,1)_100%)] p-7"
+            >
+              <h3 className="text-lg font-semibold text-white">{t('host_why_us_title')}</h3>
+              <ul className="mt-5 space-y-3">
+                {whyUs.map((p) => (
+                  <li key={p} className="flex items-start gap-3 text-sm leading-6 text-zinc-200">
+                    <i className="ri-check-line mt-0.5 shrink-0 text-lg text-crimson-accent" aria-hidden="true" />
+                    <span>{p}</span>
+                  </li>
+                ))}
+              </ul>
+            </motion.div>
+          </div>
+          <div className="mt-10">
+            <a href="#quote-form" className="inline-block rounded-xl bg-crimson-accent px-8 py-4 text-base font-semibold text-white transition hover:bg-red-700">
+              {t('host_hero_cta1')}
+            </a>
           </div>
         </div>
       </section>
@@ -270,8 +365,8 @@ export default function HostingPage() {
       <section className="bg-[#0b0b0b]">
         <div className="mx-auto max-w-5xl px-6 py-20 lg:px-10">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center">
-            <p className="text-sm font-medium uppercase tracking-[0.22em] text-crimson-accent">FAQ</p>
-            <h2 className="mt-4 text-4xl font-semibold tracking-tight sm:text-5xl">What clients usually ask</h2>
+            <p className="text-sm font-medium uppercase tracking-[0.22em] text-crimson-accent">{t('host_faq_eyebrow')}</p>
+            <h2 className="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl">{t('host_faq_heading')}</h2>
           </motion.div>
 
           <div className="mt-12 space-y-4">
@@ -317,10 +412,10 @@ export default function HostingPage() {
         <div className="mx-auto max-w-6xl px-6 py-24 lg:px-10">
           <div className="grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-start">
             <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
-              <p className="text-sm font-medium uppercase tracking-[0.22em] text-crimson-accent">Request a quote</p>
-              <h2 className="mt-4 text-4xl font-semibold tracking-tight sm:text-6xl">Send your miner list</h2>
+              <p className="text-sm font-medium uppercase tracking-[0.22em] text-crimson-accent">{t('host_form_eyebrow')}</p>
+              <h2 className="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl">{t('host_form_heading')}</h2>
               <p className="mt-5 max-w-2xl text-lg leading-8 text-zinc-400">
-                Send the models, quantity, current location, and target timeline.
+                {t('host_form_sub')}
               </p>
             </motion.div>
 
@@ -331,11 +426,24 @@ export default function HostingPage() {
                   <div className="w-16 h-16 rounded-full bg-green-500/10 flex items-center justify-center">
                     <i className="ri-check-line text-3xl text-green-400"></i>
                   </div>
-                  <h3 className="text-2xl font-semibold text-white">Request Sent</h3>
+                  <h3 className="text-2xl font-semibold text-white">{t('host_form_sent_title')}</h3>
                   <p className="text-zinc-400">{t('host_form_sent')}</p>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-4">
+                  {formStatus === 'error' && (
+                    <div className="flex items-start gap-3 rounded-xl border border-red-900/50 bg-red-950/30 px-4 py-3" role="alert">
+                      <i className="ri-error-warning-line mt-0.5 text-lg text-red-400" aria-hidden="true" />
+                      <div className="text-sm leading-6 text-red-200">
+                        <p>{t('host_form_error')}</p>
+                        <p className="mt-1">
+                          <a href="tel:+15146047050" className="font-semibold underline">+1 (514) 604-7050</a>
+                          <span className="px-2 text-red-400/60" aria-hidden="true">·</span>
+                          <a href="https://wa.me/15146047050" className="font-semibold underline">WhatsApp</a>
+                        </p>
+                      </div>
+                    </div>
+                  )}
                   <div className="grid gap-4 sm:grid-cols-2">
                     {[
                       { key: 'name',     placeholder: t('host_form_name') },

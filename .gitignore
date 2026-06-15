@@ -5,6 +5,8 @@ __pycache__/
 # Environment files
 .env
 .env.*
+# ...but keep the placeholder example file in version control
+!.env.example
 
 # Node / Vite
 node_modules/
