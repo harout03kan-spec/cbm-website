@@ -70,7 +70,7 @@ export default function AboutPage() {
         <meta itemProp="url" content="https://wholesaleasic.com" />
 
         <img
-          src="/Put%20this%20in%20the%20about%20us%20page%20background%20instead%20of%20the%20miner.jpeg"
+          src="/about-hero.jpeg"
           alt={t('about_hero_img_alt')}
           className="absolute inset-0 h-full w-full object-cover object-center pointer-events-none"
           loading="eager"
