@@ -4,39 +4,47 @@ import Navbar from '../../components/feature/Navbar';
 import Footer from '../../components/feature/Footer';
 import Seo, { localBusinessLd } from '../../components/feature/Seo';
 
+const TEL = 'tel:+15146047050';
+const EMAIL = 'info@canadabtcminers.ca';
+const GOOGLE_REVIEW = 'https://g.page/r/CdfEOvDvGeTDEBM/review';
+
 export default function AboutPage() {
   const { t } = useTranslation();
   const CALL_LABEL = t('about_call');
 
-  // Non-numeric, verifiable trust points — no fabricated statistics.
-  const trustPoints = [
-    { title: t('about_tp1_title'), sub: t('about_tp1_sub') },
-    { title: t('about_tp2_title'), sub: t('about_tp2_sub') },
-    { title: t('about_tp3_title'), sub: t('about_tp3_sub') },
-    { title: t('about_tp4_title'), sub: t('about_tp4_sub') },
+  // The operators — real names, kept for legitimacy.
+  const leadership = [
+    { initials: 'HK', name: 'Harout Kantanakian', role: t('about_harout_role'), bio: t('about_harout_bio') },
+    { initials: 'PD', name: 'Patrice Destin', role: t('about_patrice_role'), bio: t('about_patrice_bio') },
   ];
 
-  const differentiators = [
-    { icon: '🔧', text: t('about_diff_1') },
-    { icon: '💰', text: t('about_diff_2') },
-    { icon: '✅', text: t('about_diff_3') },
-    { icon: '🇨🇦', text: t('about_diff_4') },
+  // One connected operation — a lifecycle, each stage links to its page.
+  const connectedFlow = [
+    { icon: 'ri-shopping-cart-2-line', label: t('about_role_n1'), to: '/shop' },
+    { icon: 'ri-tools-line', label: t('about_role_n2'), to: '/services' },
+    { icon: 'ri-stack-line', label: t('about_role_n3'), to: '/bulk-deals' },
+    { icon: 'ri-server-line', label: t('about_role_n4'), to: '/hosting' },
   ];
 
-  const markets = [t('about_m1'), t('about_m2'), t('about_m3'), t('about_m4'), t('about_m5')];
+  // Why a physical repair center matters — narrative trust points, not a service list.
+  const repairWhy = [t('about_repair_w1'), t('about_repair_w2'), t('about_repair_w3'), t('about_repair_w4')];
 
-  const audiences = [
-    { icon: '⛏️', label: t('about_a1'), desc: t('about_a1_desc') },
-    { icon: '🏭', label: t('about_a2'), desc: t('about_a2_desc') },
-    { icon: '🤝', label: t('about_a3'), desc: t('about_a3_desc') },
-    { icon: '🖥️', label: t('about_a4'), desc: t('about_a4_desc') },
+  // Bulk & sourcing credibility points.
+  const sourcing = [
+    { title: t('about_src_p1_title'), desc: t('about_src_p1_desc') },
+    { title: t('about_src_p2_title'), desc: t('about_src_p2_desc') },
+    { title: t('about_src_p3_title'), desc: t('about_src_p3_desc') },
+    { title: t('about_src_p4_title'), desc: t('about_src_p4_desc') },
   ];
 
-  const values = [
-    { icon: '🇨🇦', title: t('about_v1_title'), text: t('about_v1_text') },
-    { icon: '🔬', title: t('about_v2_title'), text: t('about_v2_text') },
-    { icon: '📋', title: t('about_v3_title'), text: t('about_v3_text') },
-    { icon: '🔄', title: t('about_v4_title'), text: t('about_v4_text') },
+  // Why customers trust us — stronger, non-generic trust points.
+  const trust = [
+    { icon: 'ri-map-pin-2-line', label: t('about_how_1') },
+    { icon: 'ri-scales-3-line', label: t('about_how_2') },
+    { icon: 'ri-chat-3-line', label: t('about_how_3') },
+    { icon: 'ri-stack-line', label: t('about_how_4') },
+    { icon: 'ri-tools-line', label: t('about_how_5') },
+    { icon: 'ri-truck-line', label: t('about_how_6') },
   ];
 
   return (
@@ -49,7 +57,7 @@ export default function AboutPage() {
       />
       <Navbar />
 
-      {/* ── HERO ── */}
+      {/* ── 1. HERO ──────────────────────────────────────────────────── */}
       <section
         className="relative overflow-hidden border-b border-zinc-900 pt-24"
         itemScope
@@ -60,284 +68,220 @@ export default function AboutPage() {
         <meta itemProp="address" content="6500 Route Transcanadienne, Suite 209, Saint-Laurent, Quebec H4T 1X4" />
         <meta itemProp="url" content="https://wholesaleasic.com" />
 
-        {/* Background photo */}
         <img
-          src="/Put%20this%20in%20the%20about%20us%20page%20background%20instead%20of%20the%20miner.jpeg"
+          src="/about-hero.jpeg"
           alt={t('about_hero_img_alt')}
-          className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none"
+          className="absolute inset-0 h-full w-full object-cover object-center pointer-events-none"
           loading="eager"
         />
-        {/* Dark overlay so text stays readable */}
-        <div className="absolute inset-0 bg-black/70 pointer-events-none" />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/60 pointer-events-none" />
+        {/* Darker treatment for strong white-text contrast (desktop + mobile) */}
+        <div className="absolute inset-0 bg-black/82 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/55 to-black/90 pointer-events-none" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_20%,rgba(220,38,38,0.12),transparent_60%)] pointer-events-none" />
 
-        <div className="relative z-10 mx-auto max-w-4xl px-5 py-20 sm:px-6 sm:py-28 lg:py-32 text-center">
-          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-crimson-accent sm:text-sm">
-            {t('about_hero_tag')}
-          </p>
-          <h1 className="mt-5 text-4xl font-semibold leading-tight sm:text-5xl lg:text-[3.4rem] lg:leading-[1.1]">
+        <div className="relative z-10 mx-auto max-w-4xl px-5 py-20 text-center sm:px-6 sm:py-28 lg:py-32">
+          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-crimson-accent sm:text-sm">{t('about_hero_tag')}</p>
+          <h1 className="mt-5 text-balance text-4xl font-semibold leading-tight drop-shadow-[0_2px_12px_rgba(0,0,0,0.8)] sm:text-5xl lg:text-[3.4rem] lg:leading-[1.1]">
             {t('about_hero_title')}{' '}
             <span className="text-crimson-accent">{t('about_hero_accent')}</span>
           </h1>
-          <p className="mx-auto mt-6 max-w-2xl text-sm leading-7 text-zinc-300 sm:text-base sm:leading-8">
-            {t('about_hero_sub')}
-          </p>
+          <p className="mx-auto mt-6 max-w-2xl text-sm leading-7 text-zinc-200 drop-shadow-[0_1px_8px_rgba(0,0,0,0.9)] sm:text-base sm:leading-8">{t('about_hero_sub')}</p>
 
-          {/* Trust badges */}
-          <div className="mt-6 flex flex-wrap gap-3 justify-center text-xs text-zinc-400">
-            <span className="flex items-center gap-1.5 bg-zinc-900/80 border border-zinc-800 rounded-full px-3 py-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-green-500 inline-block" />
-              {t('about_badge1')}
-            </span>
-            <span className="flex items-center gap-1.5 bg-zinc-900/80 border border-zinc-800 rounded-full px-3 py-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-green-500 inline-block" />
-              {t('about_badge2')}
-            </span>
-            <span className="flex items-center gap-1.5 bg-zinc-900/80 border border-zinc-800 rounded-full px-3 py-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-green-500 inline-block" />
-              {t('about_badge3')}
-            </span>
+          <div className="mt-6 flex flex-wrap justify-center gap-3 text-xs text-zinc-200">
+            {[t('about_badge1'), t('about_badge2'), t('about_badge3')].map((b) => (
+              <span key={b} className="flex items-center gap-1.5 rounded-full border border-zinc-700 bg-black/70 px-3 py-1.5 backdrop-blur-sm">
+                <span className="inline-block h-1.5 w-1.5 rounded-full bg-green-500" />
+                {b}
+              </span>
+            ))}
           </div>
 
-          {/* Hero CTAs */}
-          <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
-            <a
-              href="tel:+15146047050"
-              className="inline-flex items-center justify-center gap-2 rounded-xl bg-red-600 px-7 py-4 font-semibold hover:bg-red-500 transition-colors text-base"
-              aria-label={t('about_call_aria')}
-            >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-              </svg>
+          <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
+            <a href={TEL} aria-label={t('about_call_aria')} className="inline-flex min-h-[52px] items-center justify-center gap-2 rounded-xl bg-red-600 px-7 font-semibold text-white transition-colors hover:bg-red-500">
+              <i className="ri-phone-fill text-lg" aria-hidden="true" />
               {CALL_LABEL}
             </a>
-            <Link
-              to="/shop"
-              className="inline-flex items-center justify-center gap-2 rounded-xl border border-zinc-700 bg-black/40 px-7 py-4 font-semibold hover:bg-zinc-900 transition-colors"
-            >
+            <Link to="/shop" className="inline-flex min-h-[52px] items-center justify-center gap-2 rounded-xl border border-zinc-600 bg-black/50 px-7 font-semibold text-white backdrop-blur-sm transition-colors hover:bg-zinc-900">
               {t('about_shop_cta')}
             </Link>
           </div>
         </div>
       </section>
 
-      {/* ── TRUST POINTS — non-numeric, no fabricated statistics ── */}
-      <section className="border-b border-zinc-900 bg-zinc-950" aria-label={t('about_tp_aria')}>
-        <div className="mx-auto grid max-w-6xl grid-cols-2 gap-4 px-5 py-10 sm:px-6 sm:gap-6 sm:py-12 lg:grid-cols-4">
-          {trustPoints.map((item) => (
-            <div key={item.title} className="rounded-2xl border border-zinc-800 bg-black/40 px-4 py-5 text-center sm:px-5 sm:py-6 hover:border-red-800 transition-colors">
-              <div className="text-base font-semibold text-crimson-accent sm:text-lg">{item.title}</div>
-              <div className="mt-2 text-xs text-zinc-400 sm:text-sm">{item.sub}</div>
+      {/* ── 2. WHO WE ARE ────────────────────────────────────────────── */}
+      <section className="border-b border-zinc-900 bg-zinc-950/40">
+        <div className="mx-auto max-w-7xl px-5 py-16 sm:px-6 sm:py-20">
+          <div className="grid gap-10 lg:grid-cols-[1fr_0.95fr] lg:items-start lg:gap-14">
+            <div className="max-w-2xl">
+              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-crimson-accent sm:text-sm">{t('about_wwa_tag')}</p>
+              <h2 className="mt-4 text-3xl font-semibold leading-tight sm:text-4xl lg:text-5xl">{t('about_wwa_title')}</h2>
+              <p className="mt-6 text-sm leading-7 text-zinc-300 sm:text-base sm:leading-8">{t('about_wwa_p1')}</p>
+              <p className="mt-4 text-sm leading-7 text-zinc-400 sm:text-base sm:leading-8">{t('about_wwa_p2')}</p>
+            </div>
+
+            {/* Real operators */}
+            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-1">
+              {leadership.map((person) => (
+                <div key={person.name} className="rounded-[1.75rem] border border-zinc-800 bg-black/40 p-6">
+                  <div className="flex items-center gap-3">
+                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-red-900/40 bg-red-600/20 text-base font-bold text-crimson-accent">{person.initials}</div>
+                    <div>
+                      <div className="text-lg font-semibold">{person.name}</div>
+                      <div className="text-sm text-crimson-accent">{person.role}</div>
+                    </div>
+                  </div>
+                  <p className="mt-4 text-sm leading-7 text-zinc-400">{person.bio}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── 3. ONE CONNECTED OPERATION (editorial, not service cards) ── */}
+      <section className="mx-auto max-w-7xl px-5 py-16 sm:px-6 sm:py-20">
+        <div className="max-w-3xl">
+          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-crimson-accent sm:text-sm">{t('about_role_tag')}</p>
+          <h2 className="mt-4 text-3xl font-semibold sm:text-4xl">{t('about_role_title')}</h2>
+          <p className="mt-6 text-sm leading-7 text-zinc-300 sm:text-base sm:leading-8">{t('about_role_p1')}</p>
+          <p className="mt-4 text-sm leading-7 text-zinc-400 sm:text-base sm:leading-8">{t('about_role_p2')}</p>
+        </div>
+
+        {/* Connected lifecycle — Buy → Repair → Source → Deploy, each links out */}
+        <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-stretch">
+          {connectedFlow.map((node, idx) => (
+            <div key={node.label} className="flex items-center gap-3 sm:flex-1">
+              <Link
+                to={node.to}
+                className="group flex w-full items-center gap-3 rounded-2xl border border-zinc-800 bg-[linear-gradient(160deg,rgba(24,24,27,0.7),rgba(9,9,11,0.92))] px-5 py-4 transition-colors duration-200 hover:border-red-900/50"
+              >
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-red-900/40 bg-red-950/25 text-crimson-accent">
+                  <i className={`${node.icon} text-lg`} aria-hidden="true" />
+                </span>
+                <span className="flex-1 text-base font-semibold text-white">{node.label}</span>
+                <i className="ri-arrow-right-up-line text-lg text-zinc-500 transition-colors group-hover:text-crimson-accent" aria-hidden="true" />
+              </Link>
+              {idx < connectedFlow.length - 1 && (
+                <i className="ri-arrow-right-line hidden shrink-0 text-xl text-zinc-700 sm:block" aria-hidden="true" />
+              )}
             </div>
           ))}
         </div>
+        <p className="mt-5 text-sm text-zinc-500">{t('about_role_caption')}</p>
       </section>
 
-      {/* ── CONTACT BAR ── */}
-      <div className="bg-red-600/10 border-b border-red-900/30 px-5 py-4">
-        <div className="mx-auto max-w-6xl flex flex-col sm:flex-row items-center justify-between gap-3 text-sm">
-          <span className="text-zinc-300">{t('about_contactbar')}</span>
-          <div className="flex gap-6 items-center flex-wrap justify-center">
-            <a href="tel:+15146047050" className="font-semibold text-white hover:text-crimson-accent transition-colors flex items-center gap-1.5">
-              <svg className="w-4 h-4 text-crimson-accent" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-              </svg>
-              {CALL_LABEL}
-            </a>
-            <a href="mailto:info@canadabtcminers.ca" className="font-semibold text-crimson-accent hover:text-crimson-accent transition-colors">
-              info@canadabtcminers.ca
-            </a>
-          </div>
-        </div>
-      </div>
+      {/* ── 4. WHY A REAL REPAIR CENTER MATTERS ──────────────────────── */}
+      <section className="border-y border-zinc-900 bg-zinc-950/40">
+        <div className="mx-auto grid max-w-7xl gap-8 px-5 py-16 sm:px-6 sm:py-20 lg:grid-cols-2 lg:gap-12">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-crimson-accent sm:text-sm">{t('about_repair_tag')}</p>
+            <h2 className="mt-4 text-3xl font-semibold leading-tight sm:text-4xl">{t('about_repair_title')}</h2>
+            <p className="mt-4 text-sm leading-7 text-zinc-300 sm:text-base sm:leading-8">{t('about_repair_sub')}</p>
+            <ul className="mt-6 space-y-3">
+              {repairWhy.map((point) => (
+                <li key={point} className="flex items-start gap-3 text-sm leading-6 text-zinc-200 sm:text-base">
+                  <i className="ri-checkbox-circle-line mt-0.5 shrink-0 text-crimson-accent" aria-hidden="true" />
+                  <span>{point}</span>
+                </li>
+              ))}
+            </ul>
 
-      {/* ── LEADERSHIP ── */}
-      <section className="border-y border-zinc-900 bg-zinc-950/60">
-        <div className="mx-auto max-w-5xl px-5 py-16 text-center sm:px-6 sm:py-20">
-          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-crimson-accent sm:text-sm">{t('about_leadership_tag')}</p>
-          <h2 className="mt-4 text-3xl font-semibold sm:text-4xl">{t('about_leadership_title')}</h2>
-          <p className="mx-auto mt-4 max-w-2xl text-sm text-zinc-400">
-            {t('about_leadership_sub')}
-          </p>
-          <div className="mt-10 grid gap-5 sm:mt-12 sm:grid-cols-2 sm:gap-6">
-            {[
-              { initials: 'HK', name: 'Harout Kantanakian', role: t('about_harout_role'), bio: t('about_harout_bio') },
-              { initials: 'PD', name: 'Patrice Destin',      role: t('about_patrice_role'), bio: t('about_patrice_bio') },
-            ].map((person) => (
-              <div key={person.name} className="rounded-[2rem] border border-zinc-800 bg-black/40 p-6 sm:p-7 text-left hover:border-zinc-600 transition-colors">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-12 h-12 rounded-full bg-red-600/20 border border-red-900/40 flex items-center justify-center text-base font-bold text-crimson-accent flex-shrink-0">
-                    {person.initials}
-                  </div>
-                  <div>
-                    <div className="text-xl font-semibold">{person.name}</div>
-                    <div className="text-sm text-crimson-accent">{person.role}</div>
-                  </div>
-                </div>
-                <div className="text-sm leading-7 text-zinc-300 sm:text-base">{person.bio}</div>
-                <a
-                  href="https://linkedin.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-5 inline-flex items-center gap-1.5 text-sm font-medium text-crimson-accent hover:text-crimson-accent transition-colors"
-                >
-                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-                  </svg>
-                  {t('about_linkedin')}
-                </a>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── WHY + DIFFERENTIATORS ── */}
-      <section className="mx-auto max-w-7xl px-5 py-16 sm:px-6 sm:py-20 flex flex-col gap-6">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-crimson-accent sm:text-sm">{t('about_why_tag')}</p>
-          <h2 className="mt-4 text-3xl font-semibold leading-tight sm:text-4xl lg:text-5xl">
-            {t('about_why_title')}
-          </h2>
-          <p className="mt-6 max-w-2xl text-sm leading-7 text-zinc-300 sm:text-base sm:leading-8">
-            {t('about_why_desc')}
-          </p>
-        </div>
-        <div className="rounded-[2rem] border border-red-950/60 bg-zinc-950 p-6 sm:p-8">
-          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-crimson-accent sm:text-sm mb-6">{t('about_diff_tag')}</p>
-          <div className="grid gap-4 sm:grid-cols-2">
-            {differentiators.map((item) => (
-              <div key={item.text} className="flex items-center gap-3 rounded-2xl border border-zinc-800 bg-black/50 px-4 py-5 text-sm font-medium text-zinc-200 sm:text-base hover:border-zinc-600 transition-colors">
-                {item.text}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── LOCATION + MAP ── */}
-      <section className="mx-auto max-w-7xl px-5 py-16 sm:px-6 sm:py-20 flex flex-col gap-6">
-        <div className="rounded-[2rem] border border-zinc-800 bg-zinc-950 p-6 sm:p-8">
-          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-crimson-accent sm:text-sm">{t('about_location_tag')}</p>
-          <h2 className="mt-4 text-3xl font-semibold leading-tight sm:text-4xl">{t('about_location_title')}</h2>
-          <div className="mt-6 space-y-3 text-sm leading-7 text-zinc-300 sm:text-base sm:leading-8">
-            <p>{t('about_location_p1')}</p>
-            <p className="flex items-start gap-2">
-              <svg className="w-5 h-5 text-crimson-accent mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-              </svg>
-              <span>{t('about_address')}</span>
-            </p>
-            <p className="flex items-center gap-2">
-              <svg className="w-5 h-5 text-crimson-accent flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-              </svg>
-              <a href="tel:+15146047050" className="font-semibold text-white hover:text-crimson-accent transition-colors">{CALL_LABEL}</a>
-            </p>
-            <p className="flex items-center gap-2">
-              <svg className="w-5 h-5 text-crimson-accent flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-              </svg>
-              <a href="mailto:info@canadabtcminers.ca" className="font-semibold text-white hover:text-crimson-accent transition-colors">info@canadabtcminers.ca</a>
-            </p>
-          </div>
-        </div>
-
-        {/* Google Map — dark-themed iframe */}
-        <div className="overflow-hidden rounded-[2rem] border border-red-950/60 bg-black h-72 sm:h-80 lg:h-96">
-          <iframe
-            title={t('about_map_title')}
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2795.3!2d-73.745!3d45.498!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4cc9390c1d3e4a93%3A0x0!2s6500+Rte+Transcanadienne%2C+Saint-Laurent%2C+QC+H4T+1X4!5e0!3m2!1sen!2sca!4v1"
-            width="100%"
-            height="100%"
-            style={{ border: 0, filter: 'invert(90%) hue-rotate(180deg) saturate(0.7)' }}
-            allowFullScreen
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
-          />
-        </div>
-      </section>
-
-      {/* ── MARKETS ── */}
-      <section className="border-y border-zinc-900 bg-zinc-950/60">
-        <div className="mx-auto max-w-7xl px-5 py-16 sm:px-6 sm:py-20">
-          <div className="flex flex-col gap-6">
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-crimson-accent sm:text-sm">{t('about_markets_tag')}</p>
-              <h2 className="mt-4 text-3xl font-semibold sm:text-4xl">{t('about_markets_title')}</h2>
-              <p className="mt-6 max-w-2xl text-sm leading-7 text-zinc-300 sm:text-base sm:leading-8">
-                {t('about_markets_desc')}
+            {/* Address + contact */}
+            <div className="mt-8 space-y-3 text-sm leading-7 text-zinc-300 sm:text-base">
+              <p className="flex items-start gap-2">
+                <i className="ri-map-pin-2-line mt-0.5 shrink-0 text-crimson-accent" aria-hidden="true" />
+                <span>{t('about_address')}</span>
+              </p>
+              <p className="flex items-center gap-2">
+                <i className="ri-phone-line shrink-0 text-crimson-accent" aria-hidden="true" />
+                <a href={TEL} className="font-semibold text-white hover:text-crimson-accent">{CALL_LABEL}</a>
+              </p>
+              <p className="flex items-center gap-2">
+                <i className="ri-mail-line shrink-0 text-crimson-accent" aria-hidden="true" />
+                <a href={`mailto:${EMAIL}`} className="font-semibold text-white hover:text-crimson-accent">{EMAIL}</a>
               </p>
             </div>
-            <div className="rounded-[2rem] border border-red-950/60 bg-[linear-gradient(135deg,rgba(127,29,29,0.18),rgba(12,12,12,0.95))] p-6 sm:p-8">
-              <div className="grid grid-cols-2 gap-3 sm:gap-4 sm:grid-cols-3">
-                {markets.map((item) => (
-                  <div key={item} className="rounded-2xl border border-red-900/30 bg-black/30 px-3 py-4 text-center text-sm font-medium text-zinc-100 sm:px-4 sm:py-5 sm:text-base">
-                    {item}
-                  </div>
-                ))}
-              </div>
-            </div>
+          </div>
+
+          {/* Google Map — dark-themed iframe */}
+          <div className="overflow-hidden rounded-[2rem] border border-red-950/60 bg-black min-h-[300px] lg:min-h-0">
+            <iframe
+              title={t('about_map_title')}
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2795.3!2d-73.745!3d45.498!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4cc9390c1d3e4a93%3A0x0!2s6500+Rte+Transcanadienne%2C+Saint-Laurent%2C+QC+H4T+1X4!5e0!3m2!1sen!2sca!4v1"
+              width="100%"
+              height="100%"
+              className="h-full w-full"
+              style={{ border: 0, minHeight: '300px', filter: 'invert(90%) hue-rotate(180deg) saturate(0.7)' }}
+              allowFullScreen
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            />
           </div>
         </div>
       </section>
 
-      {/* ── WHO WE WORK WITH ── */}
+      {/* ── 5. BULK & SOURCING (credibility) ─────────────────────────── */}
       <section className="mx-auto max-w-7xl px-5 py-16 sm:px-6 sm:py-20">
-        <div className="flex flex-col gap-6">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-crimson-accent sm:text-sm">{t('about_who_tag')}</p>
-            <h2 className="mt-4 text-3xl font-semibold sm:text-4xl">{t('about_who_title')}</h2>
-            <p className="mt-6 max-w-xl text-sm leading-7 text-zinc-300 sm:text-base sm:leading-8">{t('about_who_desc')}</p>
-          </div>
-          <div className="grid gap-4 sm:grid-cols-2">
-            {audiences.map((item) => (
-              <div key={item.label} className="flex items-start gap-4 rounded-2xl border border-zinc-800 bg-zinc-950 px-5 py-5 hover:border-zinc-600 transition-colors">
-                <span className="text-2xl mt-0.5">{item.icon}</span>
-                <div>
-                  <div className="font-semibold text-white sm:text-lg">{item.label}</div>
-                  <div className="mt-1 text-sm text-zinc-400">{item.desc}</div>
-                </div>
+        <div className="max-w-3xl">
+          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-crimson-accent sm:text-sm">{t('about_src_tag')}</p>
+          <h2 className="mt-4 text-3xl font-semibold sm:text-4xl">{t('about_src_title')}</h2>
+          <p className="mt-4 text-sm leading-7 text-zinc-400 sm:text-base sm:leading-8">{t('about_src_sub')}</p>
+        </div>
+        <div className="mt-10 grid grid-cols-1 gap-x-10 gap-y-7 sm:grid-cols-2">
+          {sourcing.map((s, idx) => (
+            <div key={s.title} className="border-t border-zinc-800 pt-5">
+              <div className="flex items-baseline gap-3">
+                <span className="font-inter text-sm font-semibold text-crimson-accent">{String(idx + 1).padStart(2, '0')}</span>
+                <h3 className="text-base font-bold text-white">{s.title}</h3>
               </div>
-            ))}
-          </div>
+              <p className="mt-2 text-sm leading-6 text-zinc-400">{s.desc}</p>
+            </div>
+          ))}
+        </div>
+        <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+          <Link to="/bulk-deals" className="inline-flex min-h-[50px] items-center justify-center gap-2 rounded-xl bg-red-600 px-7 font-semibold text-white transition-colors hover:bg-red-500">
+            {t('about_src_cta')}
+            <i className="ri-arrow-right-line text-base" aria-hidden="true" />
+          </Link>
+          <Link to="/contact#contact-form" className="inline-flex min-h-[50px] items-center justify-center gap-2 rounded-xl border border-zinc-700 px-7 font-semibold text-white transition-colors hover:bg-zinc-900">
+            {t('about_final_contact')}
+          </Link>
         </div>
       </section>
 
-      {/* ── CORE VALUES ── */}
+      {/* ── 6. WHY CUSTOMERS TRUST US ────────────────────────────────── */}
       <section className="border-y border-zinc-900 bg-zinc-950">
         <div className="mx-auto max-w-7xl px-5 py-16 sm:px-6 sm:py-20">
-          <div className="mx-auto max-w-3xl text-center">
-            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-crimson-accent sm:text-sm">{t('about_values_tag')}</p>
-            <h2 className="mt-4 text-3xl font-semibold sm:text-4xl lg:text-5xl">{t('about_values_title')}</h2>
+          <div className="mx-auto max-w-2xl text-center">
+            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-crimson-accent sm:text-sm">{t('about_how_tag')}</p>
+            <h2 className="mt-4 text-3xl font-semibold sm:text-4xl lg:text-5xl">{t('about_how_title')}</h2>
+            <p className="mt-4 text-sm leading-7 text-zinc-400 sm:text-base">{t('about_how_sub')}</p>
           </div>
-          <div className="mt-10 grid gap-5 sm:mt-12 sm:grid-cols-2 lg:grid-cols-4 sm:gap-6">
-            {values.map((item) => (
-              <div key={item.title} className="rounded-[2rem] border border-zinc-800 bg-black p-6 text-center transition hover:border-red-600 sm:p-7 group">
-                <div className="text-3xl mb-3">{item.icon}</div>
-                <div className="text-lg font-semibold text-white group-hover:text-crimson-accent transition-colors">{item.title}</div>
-                <div className="mt-3 text-sm leading-7 text-zinc-400">{item.text}</div>
+          <div className="mx-auto mt-10 grid max-w-4xl grid-cols-1 gap-x-8 gap-y-4 sm:grid-cols-2">
+            {trust.map((p) => (
+              <div key={p.label} className="flex items-start gap-3 border-b border-zinc-800/70 pb-4">
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-red-900/40 bg-red-950/25 text-crimson-accent">
+                  <i className={`${p.icon} text-base`} aria-hidden="true" />
+                </span>
+                <span className="text-sm font-medium leading-snug text-zinc-200">{p.label}</span>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── CLIENT FEEDBACK — link to real Google reviews, no fabricated review text ── */}
-      <section className="mx-auto max-w-3xl px-5 py-16 sm:px-6 sm:py-20 text-center">
+      {/* ── 7. WHAT CLIENTS SAY — honest Google callout, no fake quotes ── */}
+      <section className="mx-auto max-w-3xl px-5 py-16 text-center sm:px-6 sm:py-20">
         <p className="text-xs font-semibold uppercase tracking-[0.22em] text-crimson-accent sm:text-sm">{t('about_feedback_tag')}</p>
         <h2 className="mt-4 text-3xl font-semibold sm:text-4xl lg:text-5xl">{t('about_feedback_title')}</h2>
-        <p className="mx-auto mt-4 max-w-xl text-sm leading-7 text-zinc-300 sm:text-base">
-          {t('about_feedback_desc')}
-        </p>
+        <p className="mx-auto mt-4 max-w-xl text-sm leading-7 text-zinc-300 sm:text-base">{t('about_feedback_desc')}</p>
         <a
-          href="https://g.page/r/CdfEOvDvGeTDEBM/review"
+          href={GOOGLE_REVIEW}
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-7 inline-flex items-center gap-2 rounded-xl border border-zinc-700 bg-black/40 px-6 py-3.5 font-semibold text-white hover:bg-zinc-900 transition-colors"
+          className="mt-7 inline-flex items-center gap-2.5 rounded-xl border border-zinc-700 bg-black/40 px-6 py-3.5 font-semibold text-white transition-colors hover:bg-zinc-900"
         >
-          <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none">
+          <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
             <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
             <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
@@ -347,35 +291,27 @@ export default function AboutPage() {
         </a>
       </section>
 
-      {/* ── FINAL CTA ── */}
+      {/* ── 8. FINAL CTA ─────────────────────────────────────────────── */}
       <section className="relative overflow-hidden border-t border-zinc-900 bg-[linear-gradient(135deg,#0f0f10,#171717_45%,#101012)] px-5 py-20 text-center sm:px-6 sm:py-24">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_0%,rgba(220,38,38,0.10),transparent_65%)] pointer-events-none" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_0%,rgba(220,38,38,0.1),transparent_65%)] pointer-events-none" />
         <div className="relative z-10 mx-auto max-w-3xl">
-          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-crimson-accent sm:text-sm mb-4">{t('about_final_tag')}</p>
-          <h2 className="text-3xl font-semibold sm:text-4xl lg:text-5xl">{t('about_final_title')}</h2>
-          <p className="mx-auto mt-6 max-w-2xl text-sm leading-8 text-zinc-300 sm:text-base">
-            {t('about_final_sub')}
-          </p>
-          <div className="mt-8 flex flex-col sm:flex-row justify-center gap-4">
-            <a
-              href="tel:+15146047050"
-              className="inline-flex items-center justify-center gap-2 rounded-xl bg-red-600 px-8 py-4 font-semibold hover:bg-red-500 transition-colors text-lg"
-            >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-              </svg>
-              {CALL_LABEL}
-            </a>
-            <Link to="/services" className="inline-flex items-center justify-center gap-2 rounded-xl border border-zinc-700 px-8 py-4 font-semibold hover:bg-zinc-900 transition-colors">
-              {t('about_final_services')}
-            </Link>
-            <Link to="/shop" className="inline-flex items-center justify-center gap-2 rounded-xl border border-zinc-700 px-8 py-4 font-semibold hover:bg-zinc-900 transition-colors">
+          <p className="mb-4 text-xs font-semibold uppercase tracking-[0.28em] text-crimson-accent sm:text-sm">{t('about_final_tag')}</p>
+          <h2 className="text-balance text-3xl font-semibold sm:text-4xl lg:text-5xl">{t('about_final_title')}</h2>
+          <p className="mx-auto mt-6 max-w-2xl text-sm leading-8 text-zinc-300 sm:text-base">{t('about_final_sub')}</p>
+          <div className="mt-8 flex flex-col flex-wrap justify-center gap-4 sm:flex-row">
+            <Link to="/shop" className="inline-flex min-h-[52px] items-center justify-center gap-2 whitespace-nowrap rounded-xl bg-red-600 px-8 font-semibold text-white transition-colors hover:bg-red-500">
               {t('about_shop_cta')}
             </Link>
+            <Link to="/contact#contact-form" className="inline-flex min-h-[52px] items-center justify-center gap-2 whitespace-nowrap rounded-xl border border-zinc-700 px-8 font-semibold text-white transition-colors hover:bg-zinc-900">
+              {t('about_final_repair')}
+            </Link>
+            <Link to="/contact" className="inline-flex min-h-[52px] items-center justify-center gap-2 whitespace-nowrap rounded-xl border border-zinc-700 px-8 font-semibold text-white transition-colors hover:bg-zinc-900">
+              {t('about_final_contact')}
+            </Link>
           </div>
-          <div className="mt-6 flex flex-col sm:flex-row justify-center gap-6 text-sm text-zinc-500">
+          <div className="mt-6 flex flex-col justify-center gap-2 text-sm text-zinc-500 sm:flex-row sm:gap-6">
             <span>📍 {t('about_final_addr')}</span>
-            <span>✉️ info@canadabtcminers.ca</span>
+            <span>✉️ {EMAIL}</span>
           </div>
         </div>
       </section>
