@@ -3,6 +3,17 @@
     "@21st-dev/magic": {
       "command": "npx",
       "args": ["-y", "@21st-dev/magic@latest", "API_KEY=\"${MAGIC_API_KEY}\""]
+    },
+    "nano-banana": {
+      "command": "npx",
+      "args": ["-y", "@saroby/nanobanana-mcp"],
+      "env": {
+        "GEMINI_API_KEY": "${GEMINI_API_KEY}"
+      }
+    },
+    "stitch": {
+      "command": "npx",
+      "args": ["-y", "@_davideast/stitch-mcp", "proxy"]
     }
   }
 }

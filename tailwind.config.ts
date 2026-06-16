@@ -29,6 +29,10 @@ export default {
         'current-flow': 'current-flow 1.2s linear infinite',
         'energy-rise': 'energy-rise 3.2s ease-in-out infinite',
         'orbit': 'orbit 14s linear infinite',
+        'fan-glow': 'fan-glow 2.6s ease-in-out infinite',
+        'eth-blink': 'eth-blink 1.4s steps(1, end) infinite',
+        'packet-flow': 'packet-flow 2.4s linear infinite',
+        'drift': 'drift 9s ease-in-out infinite',
       },
       keyframes: {
         float: {
@@ -57,6 +61,25 @@ export default {
         orbit: {
           from: { transform: 'rotate(0deg)' },
           to: { transform: 'rotate(360deg)' },
+        },
+        'fan-glow': {
+          '0%, 100%': { opacity: '0.35' },
+          '50%': { opacity: '0.8' },
+        },
+        'eth-blink': {
+          '0%, 45%': { opacity: '1' },
+          '50%, 70%': { opacity: '0.25' },
+          '75%, 100%': { opacity: '1' },
+        },
+        'packet-flow': {
+          '0%': { offsetDistance: '0%', opacity: '0' },
+          '12%': { opacity: '1' },
+          '88%': { opacity: '1' },
+          '100%': { offsetDistance: '100%', opacity: '0' },
+        },
+        drift: {
+          '0%, 100%': { transform: 'translateY(0) translateX(0)', opacity: '0.18' },
+          '50%': { transform: 'translateY(-22px) translateX(6px)', opacity: '0.4' },
         },
       },
     },
