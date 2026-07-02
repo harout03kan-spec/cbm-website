@@ -14,7 +14,7 @@ const en = {
   seo_home_desc: 'Buy new and used ASIC miners in Canada, get in-house Antminer repairs, and request bulk ASIC miner deals from Canada BTC Miners. Bitcoin mining hardware sales, repair, and hosting with Canada-wide support.',
 
   // ── HERO ───────────────────────────────────────────
-  hero_title: 'ASIC Miners, Repairs & Bulk Deals Across Canada',
+  hero_title: 'Canada Bitcoin Miners — ASIC Miner Sales, Repairs & Bulk Deals',
   hero_sub: 'Buy new and used ASIC miners, repair Antminers through our Montreal repair center, and request bulk miner deals from one Canadian ASIC mining hardware company.',
   hero_cta: 'Shop Miners',
   hero_cta2: 'Start a Repair Request',

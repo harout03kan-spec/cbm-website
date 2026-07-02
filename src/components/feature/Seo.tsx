@@ -14,7 +14,7 @@
  */
 import { useEffect } from 'react';
 
-const SITE_URL = 'https://wholesaleasic.com';
+const SITE_URL = 'https://canadabtcminers.ca';
 const SITE_NAME = 'Canada BTC Miners';
 const OG_IMAGE = `${SITE_URL}/asic-miner-hero.png`;
 
