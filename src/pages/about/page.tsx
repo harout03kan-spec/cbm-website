@@ -58,7 +58,7 @@ export default function AboutPage() {
         <meta itemProp="name" content="Canada BTC Miners" />
         <meta itemProp="telephone" content="+15146047050" />
         <meta itemProp="address" content="6500 Route Transcanadienne, Suite 209, Saint-Laurent, Quebec H4T 1X4" />
-        <meta itemProp="url" content="https://wholesaleasic.com" />
+        <meta itemProp="url" content="https://canadabtcminers.ca" />
 
         {/* Background photo */}
         <img

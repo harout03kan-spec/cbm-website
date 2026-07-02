@@ -14,7 +14,7 @@ const fr = {
   seo_home_desc: 'Achetez des mineurs ASIC neufs et usagés au Canada, obtenez des réparations Antminer à l\'interne et demandez des lots de mineurs ASIC en gros chez Canada BTC Miners. Vente, réparation et hébergement de matériel de minage Bitcoin avec soutien partout au Canada.',
 
   // ── HERO ───────────────────────────────────────────
-  hero_title: 'Mineurs ASIC, réparations et lots en gros au Canada',
+  hero_title: 'Canada Bitcoin Miners — Vente, réparation et lots en gros de mineurs ASIC',
   hero_sub: 'Achetez des mineurs ASIC neufs et usagés, faites réparer vos Antminer à notre centre de réparation de Montréal et demandez des lots de mineurs en gros, le tout chez une seule entreprise canadienne de matériel de minage ASIC.',
   hero_cta: 'Voir les Mineurs',
   hero_cta2: 'Demander une réparation',
