@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import Navbar from '../../components/feature/Navbar';
 import Footer from '../../components/feature/Footer';
 import Seo, { localBusinessLd } from '../../components/feature/Seo';
@@ -7,6 +7,10 @@ import Seo, { localBusinessLd } from '../../components/feature/Seo';
 export default function AboutPage() {
   const { t } = useTranslation();
   const CALL_LABEL = t('about_call');
+  const { pathname } = useLocation();
+  const isFrench = pathname === '/fr' || pathname.startsWith('/fr/');
+  // Keep on-page CTAs within the active locale (e.g. /fr/about → /fr/shop).
+  const localize = (path: string) => (isFrench ? `/fr${path === '/' ? '' : path}` : path);
 
   // Non-numeric, verifiable trust points — no fabricated statistics.
   const trustPoints = [
@@ -17,26 +21,26 @@ export default function AboutPage() {
   ];
 
   const differentiators = [
-    { icon: '🔧', text: t('about_diff_1') },
-    { icon: '💰', text: t('about_diff_2') },
-    { icon: '✅', text: t('about_diff_3') },
-    { icon: '🇨🇦', text: t('about_diff_4') },
+    { text: t('about_diff_1') },
+    { text: t('about_diff_2') },
+    { text: t('about_diff_3') },
+    { text: t('about_diff_4') },
   ];
 
-  const markets = [t('about_m1'), t('about_m2'), t('about_m3'), t('about_m4'), t('about_m5')];
+  const markets = [t('about_m1'), t('about_m2'), t('about_m3')];
 
   const audiences = [
-    { icon: '⛏️', label: t('about_a1'), desc: t('about_a1_desc') },
-    { icon: '🏭', label: t('about_a2'), desc: t('about_a2_desc') },
-    { icon: '🤝', label: t('about_a3'), desc: t('about_a3_desc') },
-    { icon: '🖥️', label: t('about_a4'), desc: t('about_a4_desc') },
+    { icon: 'ri-user-line', label: t('about_a1'), desc: t('about_a1_desc') },
+    { icon: 'ri-tools-line', label: t('about_a2'), desc: t('about_a2_desc') },
+    { icon: 'ri-store-2-line', label: t('about_a3'), desc: t('about_a3_desc') },
+    { icon: 'ri-server-line', label: t('about_a4'), desc: t('about_a4_desc') },
   ];
 
   const values = [
-    { icon: '🇨🇦', title: t('about_v1_title'), text: t('about_v1_text') },
-    { icon: '🔬', title: t('about_v2_title'), text: t('about_v2_text') },
-    { icon: '📋', title: t('about_v3_title'), text: t('about_v3_text') },
-    { icon: '🔄', title: t('about_v4_title'), text: t('about_v4_text') },
+    { icon: 'ri-map-pin-line', title: t('about_v1_title'), text: t('about_v1_text') },
+    { icon: 'ri-tools-line', title: t('about_v2_title'), text: t('about_v2_text') },
+    { icon: 'ri-price-tag-3-line', title: t('about_v3_title'), text: t('about_v3_text') },
+    { icon: 'ri-customer-service-2-line', title: t('about_v4_title'), text: t('about_v4_text') },
   ];
 
   return (
@@ -112,7 +116,7 @@ export default function AboutPage() {
               {CALL_LABEL}
             </a>
             <Link
-              to="/shop"
+              to={localize('/shop')}
               className="inline-flex items-center justify-center gap-2 rounded-xl border border-zinc-700 bg-black/40 px-7 py-4 font-semibold hover:bg-zinc-900 transition-colors"
             >
               {t('about_shop_cta')}
@@ -175,17 +179,6 @@ export default function AboutPage() {
                   </div>
                 </div>
                 <div className="text-sm leading-7 text-zinc-300 sm:text-base">{person.bio}</div>
-                <a
-                  href="https://linkedin.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-5 inline-flex items-center gap-1.5 text-sm font-medium text-crimson-accent hover:text-crimson-accent transition-colors"
-                >
-                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-                  </svg>
-                  {t('about_linkedin')}
-                </a>
               </div>
             ))}
           </div>
@@ -294,7 +287,7 @@ export default function AboutPage() {
           <div className="grid gap-4 sm:grid-cols-2">
             {audiences.map((item) => (
               <div key={item.label} className="flex items-start gap-4 rounded-2xl border border-zinc-800 bg-zinc-950 px-5 py-5 hover:border-zinc-600 transition-colors">
-                <span className="text-2xl mt-0.5">{item.icon}</span>
+                <i className={`${item.icon} text-2xl text-crimson-accent mt-0.5`} aria-hidden="true"></i>
                 <div>
                   <div className="font-semibold text-white sm:text-lg">{item.label}</div>
                   <div className="mt-1 text-sm text-zinc-400">{item.desc}</div>
@@ -315,7 +308,7 @@ export default function AboutPage() {
           <div className="mt-10 grid gap-5 sm:mt-12 sm:grid-cols-2 lg:grid-cols-4 sm:gap-6">
             {values.map((item) => (
               <div key={item.title} className="rounded-[2rem] border border-zinc-800 bg-black p-6 text-center transition hover:border-red-600 sm:p-7 group">
-                <div className="text-3xl mb-3">{item.icon}</div>
+                <div className="mb-3"><i className={`${item.icon} text-3xl text-crimson-accent`} aria-hidden="true"></i></div>
                 <div className="text-lg font-semibold text-white group-hover:text-crimson-accent transition-colors">{item.title}</div>
                 <div className="mt-3 text-sm leading-7 text-zinc-400">{item.text}</div>
               </div>
@@ -356,7 +349,7 @@ export default function AboutPage() {
           <p className="mx-auto mt-6 max-w-2xl text-sm leading-8 text-zinc-300 sm:text-base">
             {t('about_final_sub')}
           </p>
-          <div className="mt-8 flex flex-col sm:flex-row justify-center gap-4">
+          <div className="mt-8 flex flex-col sm:flex-row flex-wrap justify-center gap-4">
             <a
               href="tel:+15146047050"
               className="inline-flex items-center justify-center gap-2 rounded-xl bg-red-600 px-8 py-4 font-semibold hover:bg-red-500 transition-colors text-lg"
@@ -366,16 +359,25 @@ export default function AboutPage() {
               </svg>
               {CALL_LABEL}
             </a>
-            <Link to="/services" className="inline-flex items-center justify-center gap-2 rounded-xl border border-zinc-700 px-8 py-4 font-semibold hover:bg-zinc-900 transition-colors">
+            <Link to={localize('/contact')} className="inline-flex items-center justify-center gap-2 rounded-xl border border-zinc-700 px-8 py-4 font-semibold hover:bg-zinc-900 transition-colors">
+              {t('about_final_contact')}
+            </Link>
+            <Link to={localize('/services')} className="inline-flex items-center justify-center gap-2 rounded-xl border border-zinc-700 px-8 py-4 font-semibold hover:bg-zinc-900 transition-colors">
               {t('about_final_services')}
             </Link>
-            <Link to="/shop" className="inline-flex items-center justify-center gap-2 rounded-xl border border-zinc-700 px-8 py-4 font-semibold hover:bg-zinc-900 transition-colors">
+            <Link to={localize('/shop')} className="inline-flex items-center justify-center gap-2 rounded-xl border border-zinc-700 px-8 py-4 font-semibold hover:bg-zinc-900 transition-colors">
               {t('about_shop_cta')}
             </Link>
           </div>
-          <div className="mt-6 flex flex-col sm:flex-row justify-center gap-6 text-sm text-zinc-500">
-            <span>📍 {t('about_final_addr')}</span>
-            <span>✉️ info@canadabtcminers.ca</span>
+          <div className="mt-8 flex flex-col items-center gap-3 text-sm text-zinc-500">
+            <address className="not-italic flex items-start gap-2 leading-relaxed">
+              <i className="ri-map-pin-line text-crimson-accent mt-0.5" aria-hidden="true"></i>
+              <span>{t('about_final_addr')}<br />Saint-Laurent, QC H4T 1X4<br />Canada</span>
+            </address>
+            <a href="mailto:info@canadabtcminers.ca" className="flex items-center gap-2 hover:text-white transition-colors">
+              <i className="ri-mail-line text-crimson-accent" aria-hidden="true"></i>
+              info@canadabtcminers.ca
+            </a>
           </div>
         </div>
       </section>
