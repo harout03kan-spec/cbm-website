@@ -10,9 +10,12 @@
  *     tag, set to the route-specific (and per-language) value, and
  *   • the static index.html values remain as the no-JS / first-paint fallback,
  *     without ever creating a duplicate.
- * Renders nothing and does not affect layout.
+ * It also emits EN/FR hreflang alternates, canonicalizes each language to its
+ * own URL (English "/shop", French "/fr/shop"), and sets <html lang> to the
+ * active locale. Renders nothing and does not affect layout.
  */
 import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 
 const SITE_URL = 'https://canadabtcminers.ca';
 const SITE_NAME = 'Canada BTC Miners';
@@ -49,26 +52,54 @@ function upsertCanonical(href: string) {
   el.setAttribute('href', href);
 }
 
+// Upsert a single hreflang alternate link (keyed by hreflang value), so the EN
+// and FR variants of a page point at each other for search engines. One tag per
+// hreflang — updated in place on navigation, never duplicated.
+function upsertAlternate(hreflang: string, href: string) {
+  let el = document.head.querySelector<HTMLLinkElement>(
+    `link[rel="alternate"][hreflang="${hreflang}"]`,
+  );
+  if (!el) {
+    el = document.createElement('link');
+    el.setAttribute('rel', 'alternate');
+    el.setAttribute('hreflang', hreflang);
+    document.head.appendChild(el);
+  }
+  el.setAttribute('href', href);
+}
+
 export default function Seo({ title, description, path, jsonLd }: SeoProps) {
-  const url = `${SITE_URL}${path === '/' ? '/' : path}`;
+  // `path` is always the English path (e.g. "/shop"). Derive the EN + FR URL
+  // pair from it and detect the current locale from the live pathname so each
+  // language canonicalizes to its own URL (English → "/shop", French → "/fr/shop").
+  const { pathname } = useLocation();
+  const isFrench = pathname === '/fr' || pathname.startsWith('/fr/');
+  const enUrl = `${SITE_URL}${path}`;
+  const frUrl = `${SITE_URL}/fr${path === '/' ? '' : path}`;
+  const canonical = isFrench ? frUrl : enUrl;
 
   useEffect(() => {
+    document.documentElement.lang = isFrench ? 'fr' : 'en';
     document.title = title;
     upsertMeta('name', 'description', description);
-    upsertCanonical(url);
+    upsertCanonical(canonical);
+    // hreflang alternates — EN/FR point at each other; x-default falls back to EN.
+    upsertAlternate('en', enUrl);
+    upsertAlternate('fr', frUrl);
+    upsertAlternate('x-default', enUrl);
     // Open Graph
     upsertMeta('property', 'og:site_name', SITE_NAME);
     upsertMeta('property', 'og:type', 'website');
     upsertMeta('property', 'og:title', title);
     upsertMeta('property', 'og:description', description);
-    upsertMeta('property', 'og:url', url);
+    upsertMeta('property', 'og:url', canonical);
     upsertMeta('property', 'og:image', OG_IMAGE);
     // Twitter
     upsertMeta('name', 'twitter:card', 'summary_large_image');
     upsertMeta('name', 'twitter:title', title);
     upsertMeta('name', 'twitter:description', description);
     upsertMeta('name', 'twitter:image', OG_IMAGE);
-  }, [title, description, url]);
+  }, [title, description, canonical, enUrl, frUrl, isFrench]);
 
   // JSON-LD: append this route's structured-data blocks, remove them on unmount.
   const ldKey = JSON.stringify(jsonLd ?? []);
