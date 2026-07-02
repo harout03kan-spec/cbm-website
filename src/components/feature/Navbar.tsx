@@ -42,7 +42,6 @@ const Navbar = () => {
         <div className="flex items-center justify-between">
           <Link to="/" className="flex flex-col cursor-pointer group">
             <h1 className="text-xl font-orbitron font-bold text-white tracking-wider leading-tight group-hover:text-crimson-accent transition-colors">Canada BTC Miners</h1>
-            <p className="text-xs text-crimson-accent font-inter tracking-wide">Premium Mining Hardware</p>
           </Link>
 
           <div className="hidden md:flex items-center gap-8">
