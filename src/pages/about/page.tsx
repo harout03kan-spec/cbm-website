@@ -68,7 +68,7 @@ export default function AboutPage() {
         <img
           src="/Put%20this%20in%20the%20about%20us%20page%20background%20instead%20of%20the%20miner.jpeg"
           alt={t('about_hero_img_alt')}
-          className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none"
+          className="absolute inset-0 w-full h-full object-cover object-top sm:object-center pointer-events-none"
           loading="eager"
         />
         {/* Dark overlay so text stays readable */}
@@ -215,13 +215,19 @@ export default function AboutPage() {
           <h2 className="mt-4 text-3xl font-semibold leading-tight sm:text-4xl">{t('about_location_title')}</h2>
           <div className="mt-6 space-y-3 text-sm leading-7 text-zinc-300 sm:text-base sm:leading-8">
             <p>{t('about_location_p1')}</p>
-            <p className="flex items-start gap-2">
+            <a
+              href="https://www.google.com/maps/search/?api=1&query=6500%20Rte%20Transcanadienne%2C%20Suite%20209%2C%20Saint-Laurent%2C%20QC%20H4T%201X4%2C%20Canada"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Open address in Google Maps"
+              className="flex items-start gap-2 hover:text-white transition-colors"
+            >
               <svg className="w-5 h-5 text-crimson-accent mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                 <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
               </svg>
               <span>{t('about_address')}</span>
-            </p>
+            </a>
             <p className="flex items-center gap-2">
               <svg className="w-5 h-5 text-crimson-accent flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
@@ -264,7 +270,7 @@ export default function AboutPage() {
               </p>
             </div>
             <div className="rounded-[2rem] border border-red-950/60 bg-[linear-gradient(135deg,rgba(127,29,29,0.18),rgba(12,12,12,0.95))] p-6 sm:p-8">
-              <div className="grid grid-cols-2 gap-3 sm:gap-4 sm:grid-cols-3">
+              <div className="grid grid-cols-1 gap-3 sm:gap-4 sm:grid-cols-3">
                 {markets.map((item) => (
                   <div key={item} className="rounded-2xl border border-red-900/30 bg-black/30 px-3 py-4 text-center text-sm font-medium text-zinc-100 sm:px-4 sm:py-5 sm:text-base">
                     {item}
@@ -368,16 +374,6 @@ export default function AboutPage() {
             <Link to={localize('/shop')} className="inline-flex items-center justify-center gap-2 rounded-xl border border-zinc-700 px-8 py-4 font-semibold hover:bg-zinc-900 transition-colors">
               {t('about_shop_cta')}
             </Link>
-          </div>
-          <div className="mt-8 flex flex-col items-center gap-3 text-sm text-zinc-500">
-            <address className="not-italic flex items-start gap-2 leading-relaxed">
-              <i className="ri-map-pin-line text-crimson-accent mt-0.5" aria-hidden="true"></i>
-              <span>{t('about_final_addr')}<br />Saint-Laurent, QC H4T 1X4<br />Canada</span>
-            </address>
-            <a href="mailto:info@canadabtcminers.ca" className="flex items-center gap-2 hover:text-white transition-colors">
-              <i className="ri-mail-line text-crimson-accent" aria-hidden="true"></i>
-              info@canadabtcminers.ca
-            </a>
           </div>
         </div>
       </section>
