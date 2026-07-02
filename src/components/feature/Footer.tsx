@@ -22,7 +22,6 @@ export default function Footer() {
           <div className="md:col-span-1">
             <div className="mb-4">
               <h2 className="text-lg font-orbitron font-bold text-white tracking-wider leading-tight">Canada BTC Miners</h2>
-              <p className="text-xs text-crimson-accent font-inter tracking-wide">Premium Mining Hardware</p>
             </div>
             <p className="text-gray-400 text-sm max-w-xs mb-4">{t('footer_desc')}</p>
             <a href="tel:+15146047050" className="flex items-center gap-2 text-white font-semibold text-sm mb-2 hover:text-crimson-accent transition-colors" aria-label="Call +1 514 604 7050">
