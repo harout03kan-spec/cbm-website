@@ -1,8 +1,13 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 export default function Footer() {
   const { t } = useTranslation();
+  const { pathname } = useLocation();
+  const isFrench = pathname === '/fr' || pathname.startsWith('/fr/');
+  // Keep footer navigation within the active locale (e.g. from /fr/about the
+  // Services link goes to /fr/services, not /services).
+  const localize = (path: string) => (isFrench ? `/fr${path === '/' ? '' : path}` : path);
 
   // Accepted payment methods. Generic RemixIcon glyphs only — no brand logos,
   // no new dependencies.
@@ -28,10 +33,15 @@ export default function Footer() {
               <i className="ri-phone-fill text-lg text-crimson-accent"></i>
               +1 (514) 604-7050
             </a>
-            <a href="mailto:info@canadabtcminers.ca" className="flex items-center gap-2 text-gray-300 text-sm mb-5 hover:text-white transition-colors">
+            <a href="mailto:info@canadabtcminers.ca" className="flex items-center gap-2 text-gray-300 text-sm mb-3 hover:text-white transition-colors">
               <i className="ri-mail-fill text-lg text-crimson-accent"></i>
               info@canadabtcminers.ca
             </a>
+            <address className="not-italic text-gray-400 text-sm mb-5 leading-relaxed">
+              6500 Rte Transcanadienne, Suite 209<br />
+              Saint-Laurent, QC H4T 1X4<br />
+              Canada
+            </address>
             <div className="flex items-center gap-3">
               <a href="https://t.me/CanadaBTCMiners" target="_blank" rel="noopener noreferrer nofollow" className="w-10 h-10 flex items-center justify-center bg-white/5 rounded-lg hover:bg-white/10 transition-colors" aria-label="Telegram"><i className="ri-telegram-fill text-lg text-white"></i></a>
               <a href="https://www.facebook.com/profile.php?id=61576904563276" target="_blank" rel="noopener noreferrer nofollow" className="w-10 h-10 flex items-center justify-center bg-white/5 rounded-lg hover:bg-white/10 transition-colors" aria-label="Facebook"><i className="ri-facebook-fill text-lg text-white"></i></a>
@@ -41,24 +51,24 @@ export default function Footer() {
           <div>
             <h3 className="text-white font-semibold mb-4">{t('footer_products')}</h3>
             <ul className="space-y-3">
-              <li><Link to="/shop" className="text-gray-400 hover:text-white transition-colors">{t('footer_asic')}</Link></li>
-              <li><Link to="/shop" className="text-gray-400 hover:text-white transition-colors">{t('footer_accessories')}</Link></li>
-              <li><Link to="/bulk-deals" className="text-gray-400 hover:text-white transition-colors">{t('footer_bulk')}</Link></li>
+              <li><Link to={localize('/shop')} className="text-gray-400 hover:text-white transition-colors">{t('footer_asic')}</Link></li>
+              <li><Link to={localize('/shop')} className="text-gray-400 hover:text-white transition-colors">{t('footer_accessories')}</Link></li>
+              <li><Link to={localize('/bulk-deals')} className="text-gray-400 hover:text-white transition-colors">{t('footer_bulk')}</Link></li>
             </ul>
           </div>
           <div>
             <h3 className="text-white font-semibold mb-4">{t('footer_services')}</h3>
             <ul className="space-y-3">
-              <li><Link to="/services" className="text-gray-400 hover:text-white transition-colors">{t('footer_repairs')}</Link></li>
-              <li><Link to="/hosting" className="text-gray-400 hover:text-white transition-colors">{t('footer_hosting')}</Link></li>
+              <li><Link to={localize('/services')} className="text-gray-400 hover:text-white transition-colors">{t('footer_repairs')}</Link></li>
+              <li><Link to={localize('/hosting')} className="text-gray-400 hover:text-white transition-colors">{t('footer_hosting')}</Link></li>
             </ul>
           </div>
           <div>
             <h3 className="text-white font-semibold mb-4">{t('footer_company')}</h3>
             <ul className="space-y-3">
-              <li><Link to="/about" className="text-gray-400 hover:text-white transition-colors">{t('footer_about')}</Link></li>
-              <li><Link to="/contact" className="text-gray-400 hover:text-white transition-colors">{t('footer_contact')}</Link></li>
-              <li><Link to="/services" className="text-gray-400 hover:text-white transition-colors">{t('footer_warranty')}</Link></li>
+              <li><Link to={localize('/about')} className="text-gray-400 hover:text-white transition-colors">{t('footer_about')}</Link></li>
+              <li><Link to={localize('/contact')} className="text-gray-400 hover:text-white transition-colors">{t('footer_contact')}</Link></li>
+              <li><Link to={localize('/services')} className="text-gray-400 hover:text-white transition-colors">{t('footer_warranty')}</Link></li>
             </ul>
           </div>
           <div>
@@ -84,8 +94,8 @@ export default function Footer() {
         <div className="border-t border-[#1A1A1A] pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-gray-500 text-sm">{t('footer_rights')}</p>
           <div className="flex items-center gap-6">
-            <span className="text-gray-500 text-sm hover:text-white cursor-pointer transition-colors">{t('footer_privacy')}</span>
-            <span className="text-gray-500 text-sm hover:text-white cursor-pointer transition-colors">{t('footer_terms')}</span>
+            <span className="text-gray-500 text-sm">{t('footer_privacy')}</span>
+            <span className="text-gray-500 text-sm">{t('footer_terms')}</span>
           </div>
         </div>
       </div>
