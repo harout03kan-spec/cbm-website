@@ -27,6 +27,7 @@ export default function Footer() {
           <div className="md:col-span-1">
             <div className="mb-4">
               <h2 className="text-lg font-orbitron font-bold text-white tracking-wider leading-tight">Canada BTC Miners</h2>
+              <p className="text-xs text-crimson-accent font-inter tracking-wide">ASIC Sales · Repairs · Hosting</p>
             </div>
             <p className="text-gray-400 text-sm max-w-xs mb-4">{t('footer_desc')}</p>
             <a href="tel:+15146047050" className="flex items-center gap-2 text-white font-semibold text-sm mb-2 hover:text-crimson-accent transition-colors" aria-label="Call +1 514 604 7050">
@@ -37,11 +38,20 @@ export default function Footer() {
               <i className="ri-mail-fill text-lg text-crimson-accent"></i>
               info@canadabtcminers.ca
             </a>
-            <address className="not-italic text-gray-400 text-sm mb-5 leading-relaxed">
-              6500 Rte Transcanadienne, Suite 209<br />
-              Saint-Laurent, QC H4T 1X4<br />
-              Canada
-            </address>
+            <a
+              href="https://www.google.com/maps/search/?api=1&query=6500%20Rte%20Transcanadienne%2C%20Suite%20209%2C%20Saint-Laurent%2C%20QC%20H4T%201X4%2C%20Canada"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Open address in Google Maps"
+              className="flex items-start gap-2 text-gray-400 text-sm mb-5 leading-relaxed hover:text-white transition-colors"
+            >
+              <i className="ri-map-pin-fill text-lg text-crimson-accent mt-0.5"></i>
+              <address className="not-italic">
+                6500 Rte Transcanadienne, Suite 209<br />
+                Saint-Laurent, QC H4T 1X4<br />
+                Canada
+              </address>
+            </a>
             <div className="flex items-center gap-3">
               <a href="https://t.me/CanadaBTCMiners" target="_blank" rel="noopener noreferrer nofollow" className="w-10 h-10 flex items-center justify-center bg-white/5 rounded-lg hover:bg-white/10 transition-colors" aria-label="Telegram"><i className="ri-telegram-fill text-lg text-white"></i></a>
               <a href="https://www.facebook.com/profile.php?id=61576904563276" target="_blank" rel="noopener noreferrer nofollow" className="w-10 h-10 flex items-center justify-center bg-white/5 rounded-lg hover:bg-white/10 transition-colors" aria-label="Facebook"><i className="ri-facebook-fill text-lg text-white"></i></a>
@@ -61,6 +71,7 @@ export default function Footer() {
             <ul className="space-y-3">
               <li><Link to={localize('/services')} className="text-gray-400 hover:text-white transition-colors">{t('footer_repairs')}</Link></li>
               <li><Link to={localize('/hosting')} className="text-gray-400 hover:text-white transition-colors">{t('footer_hosting')}</Link></li>
+              <li><Link to={localize('/contact')} className="text-gray-400 hover:text-white transition-colors">{t('footer_consulting')}</Link></li>
             </ul>
           </div>
           <div>
