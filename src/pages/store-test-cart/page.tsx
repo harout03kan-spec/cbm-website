@@ -149,7 +149,7 @@ export default function StoreTestCartPage() {
             type="button"
             onClick={addSample}
             disabled={!apiReady}
-            className={`${btnBase} bg-gradient-crimson text-white hover:scale-105`}
+            className={`${btnBase} bg-crimson-accent text-white hover:bg-red-700`}
           >
             Add sample product to Ecwid cart
           </button>
@@ -192,7 +192,7 @@ export default function StoreTestCartPage() {
                   Secure Checkout
                 </span>
               </div>
-              <span className="text-xs text-soft-gray">Moneris payment · Ships from Canada</span>
+              <span className="text-xs text-soft-gray">Secure payment via Moneris</span>
             </div>
             <div className="px-3 py-5 sm:px-6">
               <div id={CONTAINER_ID} />
