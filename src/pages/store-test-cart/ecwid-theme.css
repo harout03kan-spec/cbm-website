@@ -154,3 +154,114 @@
 #ecwid-cart-handoff-99673270 .ec-cart__products > * {
   border-color: var(--cbm-border) !important;
 }
+
+/* ======================================================================
+ * Option B polish — typography, spacing and layout (no elements hidden).
+ * We keep all of Ecwid's links/icons; this only makes the embedded cart /
+ * checkout read as part of the Canada BTC Miners site.
+ * ==================================================================== */
+
+/* Match the site font (Inter). Applied to text elements only, not <i>/pseudo
+ * elements or SVGs, so Ecwid's own icons are left intact. */
+#ecwid-cart-handoff-99673270,
+#ecwid-cart-handoff-99673270 h1,
+#ecwid-cart-handoff-99673270 h2,
+#ecwid-cart-handoff-99673270 h3,
+#ecwid-cart-handoff-99673270 h4,
+#ecwid-cart-handoff-99673270 p,
+#ecwid-cart-handoff-99673270 a,
+#ecwid-cart-handoff-99673270 span,
+#ecwid-cart-handoff-99673270 label,
+#ecwid-cart-handoff-99673270 li,
+#ecwid-cart-handoff-99673270 td,
+#ecwid-cart-handoff-99673270 th,
+#ecwid-cart-handoff-99673270 input,
+#ecwid-cart-handoff-99673270 select,
+#ecwid-cart-handoff-99673270 textarea,
+#ecwid-cart-handoff-99673270 button {
+  font-family: 'Inter', ui-sans-serif, system-ui, sans-serif !important;
+}
+
+/* Let the React "Secure Checkout" card own the width; centre Ecwid's content. */
+#ecwid-cart-handoff-99673270 .ec-store,
+#ecwid-cart-handoff-99673270 .ec-store__content-wrapper,
+#ecwid-cart-handoff-99673270 .ec-cart,
+#ecwid-cart-handoff-99673270 .ec-form {
+  max-width: 100% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+/* More breathing room between cart / checkout sections. */
+#ecwid-cart-handoff-99673270 .ec-cart__body,
+#ecwid-cart-handoff-99673270 .ec-cart__products,
+#ecwid-cart-handoff-99673270 .ec-cart__summary,
+#ecwid-cart-handoff-99673270 .ec-form__row {
+  margin-bottom: 1.25rem !important;
+}
+
+/* Rounded, padded panels for the cart / summary / coupon cards. */
+#ecwid-cart-handoff-99673270 .ec-cart__products,
+#ecwid-cart-handoff-99673270 .ec-cart__summary,
+#ecwid-cart-handoff-99673270 .ec-cart__coupon {
+  border-radius: 0.75rem !important;
+  padding: 1rem 1.25rem !important;
+}
+
+/* Softer, consistent inputs. */
+#ecwid-cart-handoff-99673270 .form-control__text,
+#ecwid-cart-handoff-99673270 input[type="text"],
+#ecwid-cart-handoff-99673270 input[type="email"],
+#ecwid-cart-handoff-99673270 input[type="tel"],
+#ecwid-cart-handoff-99673270 input[type="number"],
+#ecwid-cart-handoff-99673270 input[type="search"],
+#ecwid-cart-handoff-99673270 input[type="password"],
+#ecwid-cart-handoff-99673270 select,
+#ecwid-cart-handoff-99673270 textarea {
+  border-radius: 0.5rem !important;
+  padding: 0.65rem 0.85rem !important;
+}
+
+/* Consistent, rounded primary buttons. */
+#ecwid-cart-handoff-99673270 .form-control--button .form-control__button,
+#ecwid-cart-handoff-99673270 button.form-control__button {
+  border-radius: 0.5rem !important;
+  padding: 0.7rem 1.4rem !important;
+  font-weight: 700 !important;
+}
+
+/* Slightly stronger headings, matching the site. */
+#ecwid-cart-handoff-99673270 .ec-cart__title,
+#ecwid-cart-handoff-99673270 .ec-form__title,
+#ecwid-cart-handoff-99673270 h1,
+#ecwid-cart-handoff-99673270 h2 {
+  font-weight: 700 !important;
+  letter-spacing: -0.01em !important;
+}
+
+/* KEEP all Ecwid links/icons (breadcrumbs, footer "My Account / Track Orders /
+ * Shopping Bag") — but make sure they stay readable on the dark theme instead
+ * of disappearing. Text -> soft-gray, links -> brand red, icons -> soft-gray. */
+#ecwid-cart-handoff-99673270 .ec-breadcrumbs,
+#ecwid-cart-handoff-99673270 .ec-breadcrumbs *,
+#ecwid-cart-handoff-99673270 .ec-footer,
+#ecwid-cart-handoff-99673270 .ec-footer *,
+#ecwid-cart-handoff-99673270 .ec-store__footer,
+#ecwid-cart-handoff-99673270 .ec-store__footer * {
+  color: var(--cbm-text-dim) !important;
+}
+
+#ecwid-cart-handoff-99673270 .ec-breadcrumbs a,
+#ecwid-cart-handoff-99673270 .ec-breadcrumbs .ec-link,
+#ecwid-cart-handoff-99673270 .ec-footer a,
+#ecwid-cart-handoff-99673270 .ec-footer .ec-link,
+#ecwid-cart-handoff-99673270 .ec-store__footer a,
+#ecwid-cart-handoff-99673270 .ec-store__footer .ec-link {
+  color: var(--cbm-red) !important;
+}
+
+#ecwid-cart-handoff-99673270 .ec-footer svg,
+#ecwid-cart-handoff-99673270 .ec-store__footer svg,
+#ecwid-cart-handoff-99673270 .ec-minicart__icon svg {
+  fill: var(--cbm-text-dim) !important;
+}

@@ -176,12 +176,28 @@ export default function StoreTestCartPage() {
         </p>
 
         {/*
-          Ecwid renders the cart / checkout into this container. It stays visually
-          hidden (sr-only) until the shopper opens cart or checkout, so the
-          storefront category grid is never shown as the main view.
+          Ecwid renders the cart / checkout into this container, wrapped in a
+          branded React "Secure Checkout" card for a cleaner, on-brand frame.
+          It stays visually hidden (sr-only) until the shopper opens cart or
+          checkout, so the storefront category grid is never shown as the main
+          view. We KEEP all of Ecwid's own links/icons — they are only restyled
+          to the dark/red theme, never hidden.
         */}
         <div className={storeOpen ? 'mt-10' : 'sr-only'} aria-hidden={!storeOpen}>
-          <div id={CONTAINER_ID} />
+          <div className="overflow-hidden rounded-2xl border border-crimson-accent/20 bg-graphite shadow-xl shadow-black/30">
+            <div className="flex items-center justify-between gap-3 border-b border-white/10 px-5 py-4 sm:px-6">
+              <div className="flex items-center gap-2">
+                <i className="ri-lock-2-line text-lg text-crimson-accent" aria-hidden="true"></i>
+                <span className="font-inter text-sm font-bold uppercase tracking-wide text-white">
+                  Secure Checkout
+                </span>
+              </div>
+              <span className="text-xs text-soft-gray">Moneris payment · Ships from Canada</span>
+            </div>
+            <div className="px-3 py-5 sm:px-6">
+              <div id={CONTAINER_ID} />
+            </div>
+          </div>
         </div>
       </section>
 
