@@ -428,6 +428,32 @@ body.cbm-ecwid-test-active .form-control__checkbox:checked ~ .form-control__chec
   color: #ffffff !important;
 }
 
+/* Checkbox LAYOUT: the enlarged box was overlapping/clipping the label (the "K"
+ * in "Keep me up to date..." was half cut off) because Ecwid positions the box
+ * absolutely and reserves a fixed label offset sized for its smaller default.
+ * Lay the box + label out with flexbox and a real gap instead: box out of
+ * absolute flow, label offset reset, nothing clipped. No negative margins, no
+ * overlay, one visible checkbox. */
+body.cbm-ecwid-test-active .form-control--checkbox {
+  display: flex !important;
+  align-items: flex-start !important;
+  gap: 10px !important;
+  overflow: visible !important;
+}
+body.cbm-ecwid-test-active .form-control--checkbox .form-control__checkbox-view {
+  position: static !important;
+  flex: none !important;
+  top: auto !important;
+  left: auto !important;
+  margin: 1px 0 0 0 !important;
+}
+body.cbm-ecwid-test-active .form-control--checkbox .form-control__label {
+  padding-left: 0 !important;
+  margin-left: 0 !important;
+  overflow: visible !important;
+  line-height: 1.45 !important;
+}
+
 /* ---- Stray gray animated loading / progress bar ---------------------- */
 /* Make Ecwid's loading indicator invisible/subtle so no gray moving bar shows
  * under the header. Loaders/spinners only — validation messages and real
