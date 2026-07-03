@@ -305,3 +305,130 @@
   color: var(--cbm-red) !important;
   opacity: 1 !important;
 }
+
+/* ======================================================================
+ * Final polish fixes (PR #55 review round).
+ * ==================================================================== */
+
+/* Prevent any stray horizontal scrollbar / overflow "bar" inside the card. */
+#ecwid-cart-handoff-99673270 {
+  overflow-x: hidden !important;
+}
+#ecwid-cart-handoff-99673270 * {
+  box-sizing: border-box !important;
+}
+#ecwid-cart-handoff-99673270 img,
+#ecwid-cart-handoff-99673270 table {
+  max-width: 100% !important;
+}
+
+/* Ecwid loading indicator: theme it (transparent track, brand-red bar) so it
+ * never appears as a stray gray bar under the header on the dark card. Only
+ * its colour changes — behaviour is untouched. */
+#ecwid-cart-handoff-99673270 .ec-loader,
+#ecwid-cart-handoff-99673270 .ec-progress,
+#ecwid-cart-handoff-99673270 [class*="loader"],
+#ecwid-cart-handoff-99673270 [class*="progress-bar"] {
+  background-color: transparent !important;
+}
+#ecwid-cart-handoff-99673270 .ec-loader__bar,
+#ecwid-cart-handoff-99673270 .ec-progress__bar,
+#ecwid-cart-handoff-99673270 [class*="loader"] [class*="bar"] {
+  background-color: var(--cbm-red) !important;
+}
+
+/* Promo / coupon (Redeem) icon: make it clearly visible in brand red. */
+#ecwid-cart-handoff-99673270 .ec-cart__coupon svg,
+#ecwid-cart-handoff-99673270 .ec-cart__coupon i,
+#ecwid-cart-handoff-99673270 .ec-cart__coupon [class*="icon"] {
+  fill: var(--cbm-red) !important;
+  color: var(--cbm-red) !important;
+  opacity: 1 !important;
+}
+
+/* Bottom Ecwid footer (My Account / Track Orders / Shopping Bag): one tidy
+ * centered row that wraps cleanly instead of stacking awkwardly, with
+ * slightly larger, clearer icons. Still fully visible — never hidden. This
+ * later rule also bumps the icon size set earlier (1.25rem -> 1.4rem). */
+#ecwid-cart-handoff-99673270 .ec-footer,
+#ecwid-cart-handoff-99673270 .ec-store__footer {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: 0.6rem 1.25rem !important;
+  text-align: center !important;
+}
+#ecwid-cart-handoff-99673270 .ec-footer svg,
+#ecwid-cart-handoff-99673270 .ec-store__footer svg,
+#ecwid-cart-handoff-99673270 .ec-minicart__icon svg {
+  width: 1.4rem !important;
+  height: 1.4rem !important;
+  fill: var(--cbm-red) !important;
+  opacity: 1 !important;
+}
+
+/* ---------------------------------------------------------------------
+ * Ecwid privacy / cookie notice popup.
+ * Ecwid injects this at the document-body level (OUTSIDE our container),
+ * so these rules are intentionally NOT prefixed with the container id.
+ * They match ONLY Ecwid's own cookie-notice classes, which exist only
+ * while the Ecwid storefront is loaded (this hidden route), so they do
+ * not affect the rest of the site. If Ecwid changes these class names the
+ * popup falls back to its default look — see the dashboard note in the PR.
+ * ------------------------------------------------------------------- */
+.ec-cookie-message,
+.ecwid-cookie-message,
+.gdpr-cookie-message,
+[class*="cookie-message"],
+[class*="ec-cookie"] {
+  background-color: #141414 !important;
+  color: #f5f5f5 !important;
+  border: 1px solid rgba(255, 255, 255, 0.16) !important;
+  border-radius: 0.75rem !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5) !important;
+}
+
+.ec-cookie-message *,
+.ecwid-cookie-message *,
+.gdpr-cookie-message *,
+[class*="cookie-message"] *,
+[class*="ec-cookie"] * {
+  color: #f5f5f5 !important;
+}
+
+.ec-cookie-message a,
+[class*="cookie-message"] a,
+[class*="ec-cookie"] a {
+  color: #dc2626 !important;
+}
+
+.ec-cookie-message__button,
+.ec-cookie-message button,
+[class*="cookie-message"] button,
+[class*="ec-cookie"] button,
+[class*="cookie"] .form-control__button {
+  background-color: #dc2626 !important;
+  border: 1px solid #dc2626 !important;
+  color: #ffffff !important;
+  border-radius: 0.5rem !important;
+}
+
+.ec-cookie-message__button:hover,
+[class*="cookie-message"] button:hover,
+[class*="ec-cookie"] button:hover {
+  background-color: #b91c1c !important;
+  border-color: #b91c1c !important;
+  color: #ffffff !important;
+}
+
+.ec-cookie-message [class*="close"],
+[class*="cookie-message"] [class*="close"],
+[class*="ec-cookie"] [class*="close"],
+.ec-cookie-message svg,
+[class*="cookie-message"] svg,
+[class*="ec-cookie"] svg {
+  color: #f5f5f5 !important;
+  fill: #f5f5f5 !important;
+  opacity: 1 !important;
+}

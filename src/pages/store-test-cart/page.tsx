@@ -185,14 +185,14 @@ export default function StoreTestCartPage() {
         */}
         <div className={storeOpen ? 'mt-10' : 'sr-only'} aria-hidden={!storeOpen}>
           <div className="overflow-hidden rounded-2xl border border-crimson-accent/20 bg-graphite shadow-xl shadow-black/30">
-            <div className="flex items-center justify-between gap-3 border-b border-white/10 px-5 py-4 sm:px-6">
+            <div className="flex flex-col gap-1 border-b border-white/10 px-5 py-4 sm:flex-row sm:items-center sm:justify-between sm:gap-3 sm:px-6">
               <div className="flex items-center gap-2">
                 <i className="ri-lock-2-line text-lg text-crimson-accent" aria-hidden="true"></i>
                 <span className="font-inter text-sm font-bold uppercase tracking-wide text-white">
                   Secure Checkout
                 </span>
               </div>
-              <span className="text-xs text-soft-gray">Secure payment via Moneris</span>
+              <span className="text-xs text-soft-gray sm:text-right">Secure payment via Moneris</span>
             </div>
             <div className="px-3 py-5 sm:px-6">
               <div id={CONTAINER_ID} />
