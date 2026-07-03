@@ -14,6 +14,8 @@ const Cart = lazy(() => import('../pages/cart/page'));
 const Checkout = lazy(() => import('../pages/checkout/page'));
 const OrderSuccess = lazy(() => import('../pages/order-success/page'));
 const Crm = lazy(() => import('../pages/crm/page'));
+// Hidden internal PoC route — Ecwid storefront embed. Not in nav or sitemap.
+const StoreTest = lazy(() => import('../pages/store-test/page'));
 const NotFound = lazy(() => import('../pages/NotFound'));
 
 const routes: RouteObject[] = [
@@ -64,6 +66,11 @@ const routes: RouteObject[] = [
   {
     path: '/crm',
     element: <Crm />,
+  },
+  // Hidden internal PoC — Ecwid storefront test. Not linked in nav; noindex; not in sitemap.
+  {
+    path: '/store-test',
+    element: <StoreTest />,
   },
   // Localized French URLs. Same pages, French locale. Keeps English routes intact.
   {
