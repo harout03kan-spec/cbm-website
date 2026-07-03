@@ -368,162 +368,19 @@
   opacity: 1 !important;
 }
 
-/* ---------------------------------------------------------------------
- * Ecwid privacy / cookie notice popup.
- * Ecwid injects this at the document-body level (OUTSIDE our container),
- * so these rules are intentionally NOT prefixed with the container id.
- * They match ONLY Ecwid's own cookie-notice classes, which exist only
- * while the Ecwid storefront is loaded (this hidden route), so they do
- * not affect the rest of the site. If Ecwid changes these class names the
- * popup falls back to its default look — see the dashboard note in the PR.
- * ------------------------------------------------------------------- */
-.ec-cookie-message,
-.ecwid-cookie-message,
-.gdpr-cookie-message,
-[class*="cookie-message"],
-[class*="ec-cookie"] {
-  background-color: #141414 !important;
-  color: #f5f5f5 !important;
-  border: 1px solid rgba(255, 255, 255, 0.16) !important;
-  border-radius: 0.75rem !important;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5) !important;
-}
-
-.ec-cookie-message *,
-.ecwid-cookie-message *,
-.gdpr-cookie-message *,
-[class*="cookie-message"] *,
-[class*="ec-cookie"] * {
-  color: #f5f5f5 !important;
-}
-
-.ec-cookie-message a,
-[class*="cookie-message"] a,
-[class*="ec-cookie"] a {
-  color: #dc2626 !important;
-}
-
-.ec-cookie-message__button,
-.ec-cookie-message button,
-[class*="cookie-message"] button,
-[class*="ec-cookie"] button,
-[class*="cookie"] .form-control__button {
-  background-color: #dc2626 !important;
-  border: 1px solid #dc2626 !important;
-  color: #ffffff !important;
-  border-radius: 0.5rem !important;
-}
-
-.ec-cookie-message__button:hover,
-[class*="cookie-message"] button:hover,
-[class*="ec-cookie"] button:hover {
-  background-color: #b91c1c !important;
-  border-color: #b91c1c !important;
-  color: #ffffff !important;
-}
-
-.ec-cookie-message [class*="close"],
-[class*="cookie-message"] [class*="close"],
-[class*="ec-cookie"] [class*="close"],
-.ec-cookie-message svg,
-[class*="cookie-message"] svg,
-[class*="ec-cookie"] svg {
-  color: #f5f5f5 !important;
-  fill: #f5f5f5 !important;
-  opacity: 1 !important;
-}
-
 /* ======================================================================
- * STRONGER route-active overrides (PR #55 review round 2).
+ * Route-active checkout/cart overrides (scoped to /store-test-cart only).
  *
- * The page adds `cbm-ecwid-test-active` to <body> while /store-test-cart is
- * open and removes it on leave, so everything below applies ONLY on this
- * hidden route and never touches the rest of the site. Because Ecwid's exact
- * popup / checkbox / loader class names are version-dependent and cannot be
- * inspected from this build environment, these use broad-but-safe token nets
- * (cookie / consent / gdpr / privacy / loader / coupon) plus the standards-
- * based `accent-color` for the checkbox — a much wider net than exact classes.
- * If any element is still missed live, the guaranteed fix is the Ecwid
- * dashboard (see the PR notes).
+ * The page adds `cbm-ecwid-test-active` to <body> while this route is open and
+ * removes it on leave, so everything below applies ONLY on this hidden route.
+ *
+ * NOTE: the Ecwid cookie/privacy banner is intentionally NOT styled here. It is
+ * injected at the document-body level with runtime, version-specific classes,
+ * so broad CSS to catch it risked touching other Ecwid elements. The Ecwid
+ * cookie/privacy banner is controlled in the Ecwid dashboard
+ * (Settings -> Legal -> Customers' consent -> Cookie consent banner) and MUST
+ * be configured there before production.
  * ==================================================================== */
-
-/* ---- Privacy / cookie / consent popup (Ecwid injects it at body level) - */
-/* Dark background on any cookie/consent/gdpr/privacy/notice container, plus
- * mobile size limits so it can't fill the screen. Tokens are Ecwid-specific
- * words the React site never uses as class names, so this is safe on-route. */
-body.cbm-ecwid-test-active [class*="cookie"],
-body.cbm-ecwid-test-active [class*="Cookie"],
-body.cbm-ecwid-test-active [class*="consent"],
-body.cbm-ecwid-test-active [class*="Consent"],
-body.cbm-ecwid-test-active [class*="gdpr"],
-body.cbm-ecwid-test-active [class*="Gdpr"],
-body.cbm-ecwid-test-active [class*="privacy"],
-body.cbm-ecwid-test-active [class*="Privacy"],
-body.cbm-ecwid-test-active [class*="notice"],
-body.cbm-ecwid-test-active [class*="Notice"],
-body.cbm-ecwid-test-active [id*="cookie"],
-body.cbm-ecwid-test-active [id*="consent"],
-body.cbm-ecwid-test-active [id*="notice"] {
-  background-color: #141414 !important;
-  color: #f5f5f5 !important;
-  border-color: rgba(255, 255, 255, 0.16) !important;
-  border-radius: 0.75rem !important;
-  max-width: 90vw !important;
-  max-height: 80vh !important;
-  overflow-y: auto !important;
-  padding: 1rem 1.1rem !important;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.55) !important;
-}
-
-/* Readable light text on everything inside the popup. Colour only — no
- * background override here (that previously fought the dark container and let
- * a white wrapper show through). */
-body.cbm-ecwid-test-active [class*="cookie"] *,
-body.cbm-ecwid-test-active [class*="consent"] *,
-body.cbm-ecwid-test-active [class*="gdpr"] *,
-body.cbm-ecwid-test-active [class*="privacy"] *,
-body.cbm-ecwid-test-active [class*="notice"] * {
-  color: #f5f5f5 !important;
-}
-
-body.cbm-ecwid-test-active [class*="cookie"] a,
-body.cbm-ecwid-test-active [class*="consent"] a,
-body.cbm-ecwid-test-active [class*="gdpr"] a,
-body.cbm-ecwid-test-active [class*="privacy"] a,
-body.cbm-ecwid-test-active [class*="notice"] a {
-  color: #dc2626 !important;
-}
-
-body.cbm-ecwid-test-active [class*="cookie"] button,
-body.cbm-ecwid-test-active [class*="consent"] button,
-body.cbm-ecwid-test-active [class*="gdpr"] button,
-body.cbm-ecwid-test-active [class*="privacy"] button,
-body.cbm-ecwid-test-active [class*="notice"] button,
-body.cbm-ecwid-test-active [class*="cookie"] [class*="button"],
-body.cbm-ecwid-test-active [class*="consent"] [class*="button"],
-body.cbm-ecwid-test-active [class*="notice"] [class*="button"] {
-  background-color: #dc2626 !important;
-  border: 1px solid #dc2626 !important;
-  color: #ffffff !important;
-  border-radius: 0.5rem !important;
-}
-
-body.cbm-ecwid-test-active [class*="cookie"] button:hover,
-body.cbm-ecwid-test-active [class*="consent"] button:hover,
-body.cbm-ecwid-test-active [class*="notice"] button:hover {
-  background-color: #b91c1c !important;
-  border-color: #b91c1c !important;
-}
-
-body.cbm-ecwid-test-active [class*="cookie"] svg,
-body.cbm-ecwid-test-active [class*="cookie"] [class*="close"],
-body.cbm-ecwid-test-active [class*="consent"] [class*="close"],
-body.cbm-ecwid-test-active [class*="privacy"] [class*="close"],
-body.cbm-ecwid-test-active [class*="notice"] [class*="close"] {
-  color: #f5f5f5 !important;
-  fill: #f5f5f5 !important;
-  opacity: 1 !important;
-}
 
 /* ---- Marketing / newsletter checkbox --------------------------------- */
 /* MINIMAL, native-only fix: just recolour the real checkbox red and size it to
