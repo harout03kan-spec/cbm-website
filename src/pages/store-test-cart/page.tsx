@@ -41,14 +41,21 @@ export default function StoreTestCartPage() {
   const [storeOpen, setStoreOpen] = useState(false);
   const [status, setStatus] = useState('');
 
-  // Keep this internal test route out of search engines.
+  // Keep this internal test route out of search engines, and flag the route as
+  // active on <body>. The body flag lets ecwid-theme.css safely restyle the few
+  // things Ecwid injects at the document-body level (its cookie/privacy popup)
+  // ONLY while this hidden route is open — never on the rest of the site.
   useEffect(() => {
     document.title = 'Cart Handoff Test (internal) — Canada BTC Miners';
     const robots = document.createElement('meta');
     robots.setAttribute('name', 'robots');
     robots.setAttribute('content', 'noindex, nofollow');
     document.head.appendChild(robots);
-    return () => { robots.remove(); };
+    document.body.classList.add('cbm-ecwid-test-active');
+    return () => {
+      robots.remove();
+      document.body.classList.remove('cbm-ecwid-test-active');
+    };
   }, []);
 
   // Load the public Ecwid storefront script and wire up the JS API.

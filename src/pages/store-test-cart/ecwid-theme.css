@@ -432,3 +432,143 @@
   fill: #f5f5f5 !important;
   opacity: 1 !important;
 }
+
+/* ======================================================================
+ * STRONGER route-active overrides (PR #55 review round 2).
+ *
+ * The page adds `cbm-ecwid-test-active` to <body> while /store-test-cart is
+ * open and removes it on leave, so everything below applies ONLY on this
+ * hidden route and never touches the rest of the site. Because Ecwid's exact
+ * popup / checkbox / loader class names are version-dependent and cannot be
+ * inspected from this build environment, these use broad-but-safe token nets
+ * (cookie / consent / gdpr / privacy / loader / coupon) plus the standards-
+ * based `accent-color` for the checkbox — a much wider net than exact classes.
+ * If any element is still missed live, the guaranteed fix is the Ecwid
+ * dashboard (see the PR notes).
+ * ==================================================================== */
+
+/* ---- Privacy / cookie / consent popup (Ecwid injects it at body level) - */
+body.cbm-ecwid-test-active [class*="cookie"],
+body.cbm-ecwid-test-active [class*="Cookie"],
+body.cbm-ecwid-test-active [class*="consent"],
+body.cbm-ecwid-test-active [class*="Consent"],
+body.cbm-ecwid-test-active [class*="gdpr"],
+body.cbm-ecwid-test-active [class*="Gdpr"],
+body.cbm-ecwid-test-active [class*="privacy"],
+body.cbm-ecwid-test-active [class*="Privacy"],
+body.cbm-ecwid-test-active [id*="cookie"],
+body.cbm-ecwid-test-active [id*="consent"] {
+  background-color: #141414 !important;
+  color: #f5f5f5 !important;
+  border-color: rgba(255, 255, 255, 0.16) !important;
+  border-radius: 0.75rem !important;
+}
+
+body.cbm-ecwid-test-active [class*="cookie"] *,
+body.cbm-ecwid-test-active [class*="consent"] *,
+body.cbm-ecwid-test-active [class*="gdpr"] *,
+body.cbm-ecwid-test-active [class*="privacy"] * {
+  color: #f5f5f5 !important;
+  background-color: transparent !important;
+}
+
+body.cbm-ecwid-test-active [class*="cookie"] a,
+body.cbm-ecwid-test-active [class*="consent"] a,
+body.cbm-ecwid-test-active [class*="gdpr"] a,
+body.cbm-ecwid-test-active [class*="privacy"] a {
+  color: #dc2626 !important;
+}
+
+body.cbm-ecwid-test-active [class*="cookie"] button,
+body.cbm-ecwid-test-active [class*="consent"] button,
+body.cbm-ecwid-test-active [class*="gdpr"] button,
+body.cbm-ecwid-test-active [class*="privacy"] button,
+body.cbm-ecwid-test-active [class*="cookie"] [class*="button"],
+body.cbm-ecwid-test-active [class*="consent"] [class*="button"] {
+  background-color: #dc2626 !important;
+  border: 1px solid #dc2626 !important;
+  color: #ffffff !important;
+  border-radius: 0.5rem !important;
+}
+
+body.cbm-ecwid-test-active [class*="cookie"] button:hover,
+body.cbm-ecwid-test-active [class*="consent"] button:hover {
+  background-color: #b91c1c !important;
+  border-color: #b91c1c !important;
+}
+
+body.cbm-ecwid-test-active [class*="cookie"] svg,
+body.cbm-ecwid-test-active [class*="cookie"] [class*="close"],
+body.cbm-ecwid-test-active [class*="consent"] [class*="close"],
+body.cbm-ecwid-test-active [class*="privacy"] [class*="close"] {
+  color: #f5f5f5 !important;
+  fill: #f5f5f5 !important;
+  opacity: 1 !important;
+}
+
+/* ---- Marketing / newsletter checkbox --------------------------------- */
+/* Force a normal-size native checkbox with a brand-red accent. accent-color is
+ * a web standard, so this recolours the check regardless of Ecwid's classes;
+ * no tiny blue box, no invisible white checked state. Consent behaviour and the
+ * default checked/unchecked state are untouched. */
+body.cbm-ecwid-test-active input[type="checkbox"],
+body.cbm-ecwid-test-active input[type="radio"] {
+  -webkit-appearance: auto !important;
+  -moz-appearance: auto !important;
+  appearance: auto !important;
+  opacity: 1 !important;
+  position: static !important;
+  width: 18px !important;
+  height: 18px !important;
+  min-width: 18px !important;
+  min-height: 18px !important;
+  margin: 0 8px 0 0 !important;
+  padding: 0 !important;
+  accent-color: #dc2626 !important;
+  clip: auto !important;
+  clip-path: none !important;
+  pointer-events: auto !important;
+  filter: none !important;
+  box-shadow: none !important;
+}
+
+/* Recolour any Ecwid custom checkbox overlay to red too (belt & suspenders). */
+body.cbm-ecwid-test-active [class*="checkbox"] svg,
+body.cbm-ecwid-test-active [class*="checkbox"] [class*="icon"] {
+  fill: #dc2626 !important;
+  color: #dc2626 !important;
+  opacity: 1 !important;
+}
+
+/* ---- Stray gray animated loading / progress bar ---------------------- */
+/* Make Ecwid's loading indicator invisible/subtle so no gray moving bar shows
+ * under the header. Loaders/spinners only — validation messages and real
+ * controls are untouched. */
+body.cbm-ecwid-test-active [class*="loader"],
+body.cbm-ecwid-test-active [class*="loading"],
+body.cbm-ecwid-test-active [class*="spinner"],
+body.cbm-ecwid-test-active [class*="progress-bar"],
+body.cbm-ecwid-test-active .ec-loader,
+body.cbm-ecwid-test-active .ec-progress,
+#ecwid-cart-handoff-99673270 [class*="loader"],
+#ecwid-cart-handoff-99673270 [class*="progress-bar"] {
+  background-color: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  animation: none !important;
+}
+
+/* ---- Promo / coupon (Redeem) icon — wider net ------------------------ */
+body.cbm-ecwid-test-active [class*="coupon"] svg,
+body.cbm-ecwid-test-active [class*="coupon"] i,
+body.cbm-ecwid-test-active [class*="coupon"] [class*="icon"],
+body.cbm-ecwid-test-active [class*="discount"] svg,
+body.cbm-ecwid-test-active [class*="promo"] svg,
+#ecwid-cart-handoff-99673270 [class*="coupon"] svg,
+#ecwid-cart-handoff-99673270 [class*="coupon"] [class*="icon"] {
+  fill: #dc2626 !important;
+  color: #dc2626 !important;
+  opacity: 1 !important;
+  width: 1.15rem !important;
+  height: 1.15rem !important;
+}
