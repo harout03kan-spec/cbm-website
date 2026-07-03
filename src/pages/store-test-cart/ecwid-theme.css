@@ -1,0 +1,462 @@
+/*
+ * Scoped dark/red theme for the embedded Ecwid cart / checkout on the hidden
+ * /store-test-cart proof-of-concept route ONLY.
+ *
+ * Every selector is prefixed with #ecwid-cart-handoff-99673270 (the container
+ * Ecwid renders its cart/checkout into), so these rules cannot affect any other
+ * page and do NOT touch the real /shop, /cart or /checkout. This is host-side
+ * CSS only — it changes nothing in the Ecwid store itself.
+ *
+ * Design goals:
+ *   - ONE clean dark checkout card: the React wrapper is graphite (#141414),
+ *     and Ecwid's content is made transparent so it sits on that single surface
+ *     (no nested gray-on-black-on-gray boxes). Sections are separated by subtle
+ *     dividers, not filled panels.
+ *   - ONE red everywhere: #DC2626 (the site's crimson-accent — the same red as
+ *     the "Shop Miners" CTA), hover #B91C1C (red-700). No other reds.
+ *   - Dark inputs with a red focus ring (no blue/white browser artifacts).
+ *   - All Ecwid links/icons kept VISIBLE (breadcrumbs, My Account, Track Orders,
+ *     Shopping Bag, Continue shopping, Redeem, quantity controls) — never hidden.
+ *
+ * The Moneris credit-card fields render in a PCI iframe Ecwid controls and
+ * CANNOT be restyled from host CSS. !important is required to beat Ecwid's own
+ * specific/inline styles.
+ */
+
+#ecwid-cart-handoff-99673270 {
+  --cbm-red: #dc2626;         /* crimson-accent — same as site "Shop Miners" CTA */
+  --cbm-red-hover: #b91c1c;   /* red-700 — same hover as the site CTA */
+  --cbm-text: #f5f5f5;
+  --cbm-text-muted: #a3a3a3;  /* soft-gray */
+  --cbm-input: #101010;       /* input surface — slightly inset from the card */
+  --cbm-border: rgba(255, 255, 255, 0.10);
+  --cbm-border-strong: rgba(255, 255, 255, 0.16);
+}
+
+/* ---- Match the site font (text elements only; icons/SVGs untouched) --- */
+#ecwid-cart-handoff-99673270,
+#ecwid-cart-handoff-99673270 h1,
+#ecwid-cart-handoff-99673270 h2,
+#ecwid-cart-handoff-99673270 h3,
+#ecwid-cart-handoff-99673270 h4,
+#ecwid-cart-handoff-99673270 p,
+#ecwid-cart-handoff-99673270 a,
+#ecwid-cart-handoff-99673270 span,
+#ecwid-cart-handoff-99673270 label,
+#ecwid-cart-handoff-99673270 li,
+#ecwid-cart-handoff-99673270 td,
+#ecwid-cart-handoff-99673270 th,
+#ecwid-cart-handoff-99673270 input,
+#ecwid-cart-handoff-99673270 select,
+#ecwid-cart-handoff-99673270 textarea,
+#ecwid-cart-handoff-99673270 button {
+  font-family: 'Inter', ui-sans-serif, system-ui, sans-serif !important;
+}
+
+/* ---- Flatten to ONE surface ------------------------------------------ */
+/* Everything transparent so it inherits the single graphite React card —
+   no extra boxes behind text. Center + full-width within the card. */
+#ecwid-cart-handoff-99673270,
+#ecwid-cart-handoff-99673270 .ec-store,
+#ecwid-cart-handoff-99673270 .ec-store__content-wrapper,
+#ecwid-cart-handoff-99673270 .ecwid,
+#ecwid-cart-handoff-99673270 .ec-cart,
+#ecwid-cart-handoff-99673270 .ec-cart__body,
+#ecwid-cart-handoff-99673270 .ec-cart__products,
+#ecwid-cart-handoff-99673270 .ec-cart__summary,
+#ecwid-cart-handoff-99673270 .ec-cart__coupon,
+#ecwid-cart-handoff-99673270 .ec-cart-item,
+#ecwid-cart-handoff-99673270 .ec-form,
+#ecwid-cart-handoff-99673270 .ec-form__cell,
+#ecwid-cart-handoff-99673270 .ec-form__row {
+  background: transparent !important;
+  box-shadow: none !important;
+  color: var(--cbm-text) !important;
+}
+
+#ecwid-cart-handoff-99673270 .ec-store,
+#ecwid-cart-handoff-99673270 .ec-store__content-wrapper,
+#ecwid-cart-handoff-99673270 .ec-cart,
+#ecwid-cart-handoff-99673270 .ec-form {
+  max-width: 100% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+/* Section separation via subtle dividers instead of filled panels */
+#ecwid-cart-handoff-99673270 .ec-cart-item {
+  border: 0 !important;
+  border-bottom: 1px solid var(--cbm-border) !important;
+  border-radius: 0 !important;
+  padding: 1rem 0 !important;
+}
+
+#ecwid-cart-handoff-99673270 .ec-cart__summary {
+  border-top: 1px solid var(--cbm-border) !important;
+  padding-top: 1.1rem !important;
+  margin-top: 0.5rem !important;
+}
+
+#ecwid-cart-handoff-99673270 .ec-cart__coupon {
+  padding: 0.75rem 0 !important;
+}
+
+/* Breathing room between checkout rows */
+#ecwid-cart-handoff-99673270 .ec-form__row {
+  margin-bottom: 1rem !important;
+}
+
+/* ---- Text ------------------------------------------------------------- */
+#ecwid-cart-handoff-99673270 .ec-cart__title,
+#ecwid-cart-handoff-99673270 .ec-form__title,
+#ecwid-cart-handoff-99673270 .ec-cart-item__title,
+#ecwid-cart-handoff-99673270 .ec-cart-item__price,
+#ecwid-cart-handoff-99673270 .ec-cart-item__subtotal,
+#ecwid-cart-handoff-99673270 .ec-cart__total,
+#ecwid-cart-handoff-99673270 .form-control__label,
+#ecwid-cart-handoff-99673270 label,
+#ecwid-cart-handoff-99673270 h1,
+#ecwid-cart-handoff-99673270 h2,
+#ecwid-cart-handoff-99673270 h3,
+#ecwid-cart-handoff-99673270 p,
+#ecwid-cart-handoff-99673270 span,
+#ecwid-cart-handoff-99673270 td,
+#ecwid-cart-handoff-99673270 th {
+  color: var(--cbm-text) !important;
+}
+
+#ecwid-cart-handoff-99673270 .ec-cart__title,
+#ecwid-cart-handoff-99673270 .ec-form__title,
+#ecwid-cart-handoff-99673270 h1,
+#ecwid-cart-handoff-99673270 h2 {
+  font-weight: 700 !important;
+  letter-spacing: -0.01em !important;
+}
+
+#ecwid-cart-handoff-99673270 .ec-cart-item__sku,
+#ecwid-cart-handoff-99673270 .ec-cart__note,
+#ecwid-cart-handoff-99673270 .form-control__help {
+  color: var(--cbm-text-muted) !important;
+}
+
+/* ---- Links (Continue shopping, Redeem, Quantity/edit) -> ONE red ------ */
+#ecwid-cart-handoff-99673270 a,
+#ecwid-cart-handoff-99673270 .ec-link,
+#ecwid-cart-handoff-99673270 .ec-link--muted,
+#ecwid-cart-handoff-99673270 .ec-link--inherit,
+#ecwid-cart-handoff-99673270 .ec-link__text,
+#ecwid-cart-handoff-99673270 .form-control__inline-link,
+#ecwid-cart-handoff-99673270 .ec-cart-item__control .ec-link,
+#ecwid-cart-handoff-99673270 .ec-cart__coupon .ec-link {
+  color: var(--cbm-red) !important;
+}
+
+#ecwid-cart-handoff-99673270 a:hover,
+#ecwid-cart-handoff-99673270 .ec-link:hover,
+#ecwid-cart-handoff-99673270 .ec-link__text:hover {
+  color: var(--cbm-red-hover) !important;
+}
+
+/* ---- Primary buttons (Checkout / Place order / Apply) -> ONE red ------ */
+#ecwid-cart-handoff-99673270 .form-control--button .form-control__button,
+#ecwid-cart-handoff-99673270 button.form-control__button,
+#ecwid-cart-handoff-99673270 .ec-cart__button .form-control__button,
+#ecwid-cart-handoff-99673270 .ec-form__button .form-control__button {
+  background-color: var(--cbm-red) !important;
+  border: 1px solid var(--cbm-red) !important;
+  color: #ffffff !important;
+  border-radius: 0.5rem !important;
+  padding: 0.7rem 1.4rem !important;
+  font-weight: 700 !important;
+  box-shadow: none !important;
+}
+
+#ecwid-cart-handoff-99673270 .form-control--button .form-control__button:hover,
+#ecwid-cart-handoff-99673270 button.form-control__button:hover {
+  background-color: var(--cbm-red-hover) !important;
+  border-color: var(--cbm-red-hover) !important;
+  color: #ffffff !important;
+}
+
+#ecwid-cart-handoff-99673270 .form-control__button-text {
+  color: #ffffff !important;
+}
+
+/* ---- Inputs ----------------------------------------------------------- */
+/* Neutralise Ecwid's own field-wrapper box so we don't get nested boxes... */
+#ecwid-cart-handoff-99673270 .form-control:not(.form-control--button) {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+
+/* ...and style the input element itself as the single dark field. */
+#ecwid-cart-handoff-99673270 .form-control__text,
+#ecwid-cart-handoff-99673270 .form-control__input,
+#ecwid-cart-handoff-99673270 input[type="text"],
+#ecwid-cart-handoff-99673270 input[type="email"],
+#ecwid-cart-handoff-99673270 input[type="tel"],
+#ecwid-cart-handoff-99673270 input[type="number"],
+#ecwid-cart-handoff-99673270 input[type="search"],
+#ecwid-cart-handoff-99673270 input[type="password"],
+#ecwid-cart-handoff-99673270 select,
+#ecwid-cart-handoff-99673270 textarea {
+  background-color: var(--cbm-input) !important;
+  color: var(--cbm-text) !important;
+  border: 1px solid var(--cbm-border-strong) !important;
+  border-radius: 0.5rem !important;
+  padding: 0.65rem 0.85rem !important;
+  box-shadow: none !important;
+  outline: none !important;
+  -webkit-appearance: none !important;
+  appearance: none !important;
+}
+
+/* Focus: red ring only — no blue outline, no white corner/box artifacts. */
+#ecwid-cart-handoff-99673270 .form-control__text:focus,
+#ecwid-cart-handoff-99673270 .form-control__input:focus,
+#ecwid-cart-handoff-99673270 input:focus,
+#ecwid-cart-handoff-99673270 select:focus,
+#ecwid-cart-handoff-99673270 textarea:focus,
+#ecwid-cart-handoff-99673270 input:focus-visible,
+#ecwid-cart-handoff-99673270 select:focus-visible,
+#ecwid-cart-handoff-99673270 textarea:focus-visible {
+  background-color: var(--cbm-input) !important;
+  color: var(--cbm-text) !important;
+  border-color: var(--cbm-red) !important;
+  box-shadow: 0 0 0 1px var(--cbm-red) !important;
+  outline: none !important;
+}
+
+/* Ecwid sometimes flags the field-wrapper as focused — keep it flat/red too. */
+#ecwid-cart-handoff-99673270 .form-control:not(.form-control--button):focus-within,
+#ecwid-cart-handoff-99673270 .form-control--focus:not(.form-control--button) {
+  border: 0 !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+/* Kill the browser autofill white/blue wash (the odd white-corner artifact). */
+#ecwid-cart-handoff-99673270 input:-webkit-autofill,
+#ecwid-cart-handoff-99673270 input:-webkit-autofill:hover,
+#ecwid-cart-handoff-99673270 input:-webkit-autofill:focus,
+#ecwid-cart-handoff-99673270 textarea:-webkit-autofill,
+#ecwid-cart-handoff-99673270 select:-webkit-autofill {
+  -webkit-text-fill-color: var(--cbm-text) !important;
+  -webkit-box-shadow: 0 0 0 1000px var(--cbm-input) inset !important;
+  box-shadow: 0 0 0 1000px var(--cbm-input) inset !important;
+  border: 1px solid var(--cbm-border-strong) !important;
+  border-radius: 0.5rem !important;
+  caret-color: var(--cbm-text) !important;
+}
+
+#ecwid-cart-handoff-99673270 input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 1000px var(--cbm-input) inset, 0 0 0 1px var(--cbm-red) !important;
+  box-shadow: 0 0 0 1000px var(--cbm-input) inset, 0 0 0 1px var(--cbm-red) !important;
+  border-color: var(--cbm-red) !important;
+}
+
+#ecwid-cart-handoff-99673270 ::placeholder {
+  color: var(--cbm-text-muted) !important;
+  opacity: 1 !important;
+}
+
+/* ---- Dividers --------------------------------------------------------- */
+#ecwid-cart-handoff-99673270 hr {
+  border-color: var(--cbm-border) !important;
+}
+
+/* ---- Bottom Ecwid labels + icons (My Account / Track Orders / Shopping
+ * Bag): KEEP them visible, and make them clearer — brand red, readable
+ * weight, higher-contrast icons. Never hidden. */
+#ecwid-cart-handoff-99673270 .ec-footer,
+#ecwid-cart-handoff-99673270 .ec-footer *,
+#ecwid-cart-handoff-99673270 .ec-store__footer,
+#ecwid-cart-handoff-99673270 .ec-store__footer * {
+  color: var(--cbm-red) !important;
+}
+
+#ecwid-cart-handoff-99673270 .ec-footer a,
+#ecwid-cart-handoff-99673270 .ec-footer .ec-link,
+#ecwid-cart-handoff-99673270 .ec-store__footer a,
+#ecwid-cart-handoff-99673270 .ec-store__footer .ec-link {
+  color: var(--cbm-red) !important;
+  font-weight: 600 !important;
+}
+
+#ecwid-cart-handoff-99673270 .ec-footer a:hover,
+#ecwid-cart-handoff-99673270 .ec-store__footer a:hover {
+  color: var(--cbm-red-hover) !important;
+}
+
+/* High-contrast footer icons (svg + icon-font glyphs). */
+#ecwid-cart-handoff-99673270 .ec-footer svg,
+#ecwid-cart-handoff-99673270 .ec-store__footer svg,
+#ecwid-cart-handoff-99673270 .ec-minicart__icon svg {
+  fill: var(--cbm-red) !important;
+  opacity: 1 !important;
+  width: 1.25rem !important;
+  height: 1.25rem !important;
+}
+
+#ecwid-cart-handoff-99673270 .ec-footer [class*="icon"],
+#ecwid-cart-handoff-99673270 .ec-store__footer [class*="icon"] {
+  color: var(--cbm-red) !important;
+  opacity: 1 !important;
+}
+
+/* ======================================================================
+ * Final polish fixes (PR #55 review round).
+ * ==================================================================== */
+
+/* Prevent any stray horizontal scrollbar / overflow "bar" inside the card. */
+#ecwid-cart-handoff-99673270 {
+  overflow-x: hidden !important;
+}
+#ecwid-cart-handoff-99673270 * {
+  box-sizing: border-box !important;
+}
+#ecwid-cart-handoff-99673270 img,
+#ecwid-cart-handoff-99673270 table {
+  max-width: 100% !important;
+}
+
+/* Ecwid loading indicator: theme it (transparent track, brand-red bar) so it
+ * never appears as a stray gray bar under the header on the dark card. Only
+ * its colour changes — behaviour is untouched. */
+#ecwid-cart-handoff-99673270 .ec-loader,
+#ecwid-cart-handoff-99673270 .ec-progress,
+#ecwid-cart-handoff-99673270 [class*="loader"],
+#ecwid-cart-handoff-99673270 [class*="progress-bar"] {
+  background-color: transparent !important;
+}
+#ecwid-cart-handoff-99673270 .ec-loader__bar,
+#ecwid-cart-handoff-99673270 .ec-progress__bar,
+#ecwid-cart-handoff-99673270 [class*="loader"] [class*="bar"] {
+  background-color: var(--cbm-red) !important;
+}
+
+/* Promo / coupon (Redeem) icon: make it clearly visible in brand red. */
+#ecwid-cart-handoff-99673270 .ec-cart__coupon svg,
+#ecwid-cart-handoff-99673270 .ec-cart__coupon i,
+#ecwid-cart-handoff-99673270 .ec-cart__coupon [class*="icon"] {
+  fill: var(--cbm-red) !important;
+  color: var(--cbm-red) !important;
+  opacity: 1 !important;
+}
+
+/* Bottom Ecwid footer (My Account / Track Orders / Shopping Bag): one tidy
+ * centered row that wraps cleanly instead of stacking awkwardly, with
+ * slightly larger, clearer icons. Still fully visible — never hidden. This
+ * later rule also bumps the icon size set earlier (1.25rem -> 1.4rem). */
+#ecwid-cart-handoff-99673270 .ec-footer,
+#ecwid-cart-handoff-99673270 .ec-store__footer {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: 0.6rem 1.25rem !important;
+  text-align: center !important;
+}
+#ecwid-cart-handoff-99673270 .ec-footer svg,
+#ecwid-cart-handoff-99673270 .ec-store__footer svg,
+#ecwid-cart-handoff-99673270 .ec-minicart__icon svg {
+  width: 1.4rem !important;
+  height: 1.4rem !important;
+  fill: var(--cbm-red) !important;
+  opacity: 1 !important;
+}
+
+/* ======================================================================
+ * Route-active checkout/cart overrides (scoped to /store-test-cart only).
+ *
+ * The page adds `cbm-ecwid-test-active` to <body> while this route is open and
+ * removes it on leave, so everything below applies ONLY on this hidden route.
+ *
+ * NOTE: the Ecwid cookie/privacy banner is intentionally NOT styled here. It is
+ * injected at the document-body level with runtime, version-specific classes,
+ * so broad CSS to catch it risked touching other Ecwid elements. The Ecwid
+ * cookie/privacy banner is controlled in the Ecwid dashboard
+ * (Settings -> Legal -> Customers' consent -> Cookie consent banner) and MUST
+ * be configured there before production.
+ * ==================================================================== */
+
+/* ---- Marketing / newsletter checkbox --------------------------------- */
+/* MINIMAL, native-only fix: just recolour the real checkbox red and size it to
+ * 18px. accent-color is a web standard, so it colours the checkmark regardless
+ * of Ecwid's classes. We do NOT force appearance/position or add any overlay —
+ * that earlier attempt created the oversized red box on top of the label. This
+ * keeps exactly one native checkbox, aligned before the label. Consent
+ * behaviour and the default checked/unchecked state are untouched. */
+body.cbm-ecwid-test-active input[type="checkbox"],
+body.cbm-ecwid-test-active input[type="radio"] {
+  accent-color: #dc2626 !important;
+  width: 18px !important;
+  height: 18px !important;
+  flex: none !important;
+  vertical-align: middle !important;
+  margin: 0 8px 0 0 !important;
+}
+
+/* ---- Stray gray animated loading / progress bar ---------------------- */
+/* Make Ecwid's loading indicator invisible/subtle so no gray moving bar shows
+ * under the header. Loaders/spinners only — validation messages and real
+ * controls are untouched. */
+body.cbm-ecwid-test-active [class*="loader"],
+body.cbm-ecwid-test-active [class*="loading"],
+body.cbm-ecwid-test-active [class*="Loading"],
+body.cbm-ecwid-test-active [class*="spinner"],
+body.cbm-ecwid-test-active [class*="progress-bar"],
+body.cbm-ecwid-test-active [class*="progressbar"],
+body.cbm-ecwid-test-active [class*="ec-loading"],
+body.cbm-ecwid-test-active [class*="ecwid-loading"],
+body.cbm-ecwid-test-active [id*="loading"],
+body.cbm-ecwid-test-active [id*="Loading"],
+body.cbm-ecwid-test-active [role="progressbar"],
+body.cbm-ecwid-test-active progress,
+body.cbm-ecwid-test-active .ec-loader,
+body.cbm-ecwid-test-active .ec-progress,
+#ecwid-cart-handoff-99673270 [class*="loader"],
+#ecwid-cart-handoff-99673270 [class*="loading"],
+#ecwid-cart-handoff-99673270 [class*="progress-bar"],
+#ecwid-cart-handoff-99673270 [role="progressbar"] {
+  background-color: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  animation: none !important;
+  min-height: 0 !important;
+}
+
+/* ---- Promo / coupon (Redeem) icon — wider net ------------------------ */
+/* Recolour the icon before "Promo coupon" to brand red. Covers svg + its inner
+ * <path>/<use> (an svg whose colour is on the path, not the svg, was missed
+ * before), icon-fonts (<i>/currentColor), and coupon/discount/promo/redeem
+ * wrappers. If the icon is a CSS background-image, host CSS can't recolour it —
+ * that case needs the exact class (see PR notes). */
+body.cbm-ecwid-test-active [class*="coupon"] svg,
+body.cbm-ecwid-test-active [class*="coupon"] svg path,
+body.cbm-ecwid-test-active [class*="coupon"] svg use,
+body.cbm-ecwid-test-active [class*="coupon"] i,
+body.cbm-ecwid-test-active [class*="coupon"] [class*="icon"],
+body.cbm-ecwid-test-active [class*="discount"] svg,
+body.cbm-ecwid-test-active [class*="discount"] svg path,
+body.cbm-ecwid-test-active [class*="promo"] svg,
+body.cbm-ecwid-test-active [class*="promo"] svg path,
+body.cbm-ecwid-test-active [class*="redeem"] svg,
+#ecwid-cart-handoff-99673270 [class*="coupon"] svg,
+#ecwid-cart-handoff-99673270 [class*="coupon"] svg path,
+#ecwid-cart-handoff-99673270 [class*="coupon"] [class*="icon"] {
+  fill: #dc2626 !important;
+  color: #dc2626 !important;
+  stroke: #dc2626 !important;
+  opacity: 1 !important;
+}
+/* Size only the icon itself, not inner paths. */
+body.cbm-ecwid-test-active [class*="coupon"] svg,
+body.cbm-ecwid-test-active [class*="discount"] svg,
+body.cbm-ecwid-test-active [class*="promo"] svg,
+#ecwid-cart-handoff-99673270 [class*="coupon"] svg {
+  width: 1.2rem !important;
+  height: 1.2rem !important;
+}
