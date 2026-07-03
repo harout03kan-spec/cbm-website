@@ -2,6 +2,8 @@ import { useEffect, useState, useCallback } from 'react';
 import Navbar from '../../components/feature/Navbar';
 import Footer from '../../components/feature/Footer';
 import { loadEcwid, getEcwid, ECWID_STORE_ID, type EcwidCart } from '../../lib/ecwid';
+// Scoped dark/red theme for the embedded Ecwid cart/checkout (this route only).
+import './ecwid-theme.css';
 
 /**
  * INTERNAL, HIDDEN test route (/store-test-cart).

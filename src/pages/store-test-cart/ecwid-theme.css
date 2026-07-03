@@ -1,0 +1,156 @@
+/*
+ * Scoped dark/red theme for the embedded Ecwid cart / checkout on the hidden
+ * /store-test-cart proof-of-concept route ONLY.
+ *
+ * Every selector is prefixed with #ecwid-cart-handoff-99673270 (the container
+ * Ecwid renders its cart/checkout into), so these rules cannot affect any other
+ * page, and they do NOT touch the real /shop, /cart or /checkout. Nothing here
+ * changes the Ecwid store itself — this is host-side CSS only.
+ *
+ * Ecwid renders the cart/checkout chrome (links, buttons, inputs) inline in the
+ * light DOM, so it is stylable from here. The Moneris credit-card fields are
+ * rendered in a PCI iframe Ecwid controls and CANNOT be restyled from host CSS
+ * (those are a dashboard / payment-gateway concern — see the PR notes).
+ *
+ * !important is required because Ecwid ships its own specific/inline styles.
+ * Selectors are intentionally broad + best-effort: Ecwid's class names are
+ * stable but numerous, so a few edge elements may still need tuning after a
+ * live look. Brand red is #e51c3d as requested.
+ */
+
+#ecwid-cart-handoff-99673270 {
+  --cbm-red: #e51c3d;
+  --cbm-red-dark: #c2172f;
+  --cbm-bg: #0a0a0a;      /* midnight */
+  --cbm-panel: #141414;   /* graphite */
+  --cbm-input: #1c1c1c;   /* input surface — dark, not bright white */
+  --cbm-border: rgba(255, 255, 255, 0.14);
+  --cbm-text: #f5f5f5;
+  --cbm-text-dim: #a3a3a3; /* soft-gray */
+}
+
+/* ---- Base surfaces + text --------------------------------------------- */
+#ecwid-cart-handoff-99673270,
+#ecwid-cart-handoff-99673270 .ec-store,
+#ecwid-cart-handoff-99673270 .ec-store__content-wrapper,
+#ecwid-cart-handoff-99673270 .ecwid,
+#ecwid-cart-handoff-99673270 .ec-cart,
+#ecwid-cart-handoff-99673270 .ec-cart__body {
+  background-color: var(--cbm-bg) !important;
+  color: var(--cbm-text) !important;
+}
+
+/* Default Ecwid body/label/heading text -> readable light on dark */
+#ecwid-cart-handoff-99673270 .ec-cart__title,
+#ecwid-cart-handoff-99673270 .ec-header h1,
+#ecwid-cart-handoff-99673270 .ec-cart-item__title,
+#ecwid-cart-handoff-99673270 .ec-cart-item__price,
+#ecwid-cart-handoff-99673270 .ec-cart-item__subtotal,
+#ecwid-cart-handoff-99673270 .ec-cart__total,
+#ecwid-cart-handoff-99673270 .ec-cart__summary,
+#ecwid-cart-handoff-99673270 .ec-form__title,
+#ecwid-cart-handoff-99673270 .form-control__label,
+#ecwid-cart-handoff-99673270 label,
+#ecwid-cart-handoff-99673270 h1,
+#ecwid-cart-handoff-99673270 h2,
+#ecwid-cart-handoff-99673270 h3,
+#ecwid-cart-handoff-99673270 p,
+#ecwid-cart-handoff-99673270 span,
+#ecwid-cart-handoff-99673270 td,
+#ecwid-cart-handoff-99673270 th {
+  color: var(--cbm-text) !important;
+}
+
+/* Muted / secondary text */
+#ecwid-cart-handoff-99673270 .ec-cart-item__sku,
+#ecwid-cart-handoff-99673270 .ec-cart__note,
+#ecwid-cart-handoff-99673270 .form-control__help {
+  color: var(--cbm-text-dim) !important;
+}
+
+/* ---- Links (Continue shopping, Redeem, Quantity/edit) -> brand red ---- */
+#ecwid-cart-handoff-99673270 a,
+#ecwid-cart-handoff-99673270 .ec-link,
+#ecwid-cart-handoff-99673270 .ec-link--muted,
+#ecwid-cart-handoff-99673270 .ec-link--inherit,
+#ecwid-cart-handoff-99673270 .ec-link__text,
+#ecwid-cart-handoff-99673270 .form-control__inline-link,
+#ecwid-cart-handoff-99673270 .ec-cart-item__control .ec-link,
+#ecwid-cart-handoff-99673270 .ec-cart__coupon .ec-link {
+  color: var(--cbm-red) !important;
+}
+
+#ecwid-cart-handoff-99673270 a:hover,
+#ecwid-cart-handoff-99673270 .ec-link:hover,
+#ecwid-cart-handoff-99673270 .ec-link__text:hover {
+  color: var(--cbm-red-dark) !important;
+}
+
+/* ---- Primary buttons (Checkout / Place order / Apply) -> brand red ---- */
+#ecwid-cart-handoff-99673270 .form-control--button .form-control__button,
+#ecwid-cart-handoff-99673270 button.form-control__button,
+#ecwid-cart-handoff-99673270 .ec-cart__button .form-control__button,
+#ecwid-cart-handoff-99673270 .ec-form__button .form-control__button {
+  background-color: var(--cbm-red) !important;
+  border-color: var(--cbm-red) !important;
+  color: #ffffff !important;
+  box-shadow: none !important;
+}
+
+#ecwid-cart-handoff-99673270 .form-control--button .form-control__button:hover,
+#ecwid-cart-handoff-99673270 button.form-control__button:hover {
+  background-color: var(--cbm-red-dark) !important;
+  border-color: var(--cbm-red-dark) !important;
+  color: #ffffff !important;
+}
+
+/* Button loading/pending state text stays white */
+#ecwid-cart-handoff-99673270 .form-control__button-text {
+  color: #ffffff !important;
+}
+
+/* ---- Inputs / selects / textareas -> dark surface, light text -------- */
+#ecwid-cart-handoff-99673270 .form-control__text,
+#ecwid-cart-handoff-99673270 input.form-control__text,
+#ecwid-cart-handoff-99673270 input[type="text"],
+#ecwid-cart-handoff-99673270 input[type="email"],
+#ecwid-cart-handoff-99673270 input[type="tel"],
+#ecwid-cart-handoff-99673270 input[type="number"],
+#ecwid-cart-handoff-99673270 input[type="search"],
+#ecwid-cart-handoff-99673270 input[type="password"],
+#ecwid-cart-handoff-99673270 select,
+#ecwid-cart-handoff-99673270 textarea {
+  background-color: var(--cbm-input) !important;
+  color: var(--cbm-text) !important;
+  border: 1px solid var(--cbm-border) !important;
+  box-shadow: none !important;
+}
+
+#ecwid-cart-handoff-99673270 .form-control__text:focus,
+#ecwid-cart-handoff-99673270 input:focus,
+#ecwid-cart-handoff-99673270 select:focus,
+#ecwid-cart-handoff-99673270 textarea:focus {
+  border-color: var(--cbm-red) !important;
+  outline: none !important;
+}
+
+#ecwid-cart-handoff-99673270 ::placeholder {
+  color: var(--cbm-text-dim) !important;
+  opacity: 1 !important;
+}
+
+/* ---- Panels / cards / dividers --------------------------------------- */
+#ecwid-cart-handoff-99673270 .ec-cart__products,
+#ecwid-cart-handoff-99673270 .ec-cart__summary,
+#ecwid-cart-handoff-99673270 .ec-cart-item,
+#ecwid-cart-handoff-99673270 .ec-form__cell,
+#ecwid-cart-handoff-99673270 .ec-cart__coupon {
+  background-color: var(--cbm-panel) !important;
+  border-color: var(--cbm-border) !important;
+}
+
+#ecwid-cart-handoff-99673270 .ec-cart-item,
+#ecwid-cart-handoff-99673270 hr,
+#ecwid-cart-handoff-99673270 .ec-cart__products > * {
+  border-color: var(--cbm-border) !important;
+}
