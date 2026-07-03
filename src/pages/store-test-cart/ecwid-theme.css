@@ -448,6 +448,9 @@
  * ==================================================================== */
 
 /* ---- Privacy / cookie / consent popup (Ecwid injects it at body level) - */
+/* Dark background on any cookie/consent/gdpr/privacy/notice container, plus
+ * mobile size limits so it can't fill the screen. Tokens are Ecwid-specific
+ * words the React site never uses as class names, so this is safe on-route. */
 body.cbm-ecwid-test-active [class*="cookie"],
 body.cbm-ecwid-test-active [class*="Cookie"],
 body.cbm-ecwid-test-active [class*="consent"],
@@ -456,26 +459,38 @@ body.cbm-ecwid-test-active [class*="gdpr"],
 body.cbm-ecwid-test-active [class*="Gdpr"],
 body.cbm-ecwid-test-active [class*="privacy"],
 body.cbm-ecwid-test-active [class*="Privacy"],
+body.cbm-ecwid-test-active [class*="notice"],
+body.cbm-ecwid-test-active [class*="Notice"],
 body.cbm-ecwid-test-active [id*="cookie"],
-body.cbm-ecwid-test-active [id*="consent"] {
+body.cbm-ecwid-test-active [id*="consent"],
+body.cbm-ecwid-test-active [id*="notice"] {
   background-color: #141414 !important;
   color: #f5f5f5 !important;
   border-color: rgba(255, 255, 255, 0.16) !important;
   border-radius: 0.75rem !important;
+  max-width: 90vw !important;
+  max-height: 80vh !important;
+  overflow-y: auto !important;
+  padding: 1rem 1.1rem !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.55) !important;
 }
 
+/* Readable light text on everything inside the popup. Colour only — no
+ * background override here (that previously fought the dark container and let
+ * a white wrapper show through). */
 body.cbm-ecwid-test-active [class*="cookie"] *,
 body.cbm-ecwid-test-active [class*="consent"] *,
 body.cbm-ecwid-test-active [class*="gdpr"] *,
-body.cbm-ecwid-test-active [class*="privacy"] * {
+body.cbm-ecwid-test-active [class*="privacy"] *,
+body.cbm-ecwid-test-active [class*="notice"] * {
   color: #f5f5f5 !important;
-  background-color: transparent !important;
 }
 
 body.cbm-ecwid-test-active [class*="cookie"] a,
 body.cbm-ecwid-test-active [class*="consent"] a,
 body.cbm-ecwid-test-active [class*="gdpr"] a,
-body.cbm-ecwid-test-active [class*="privacy"] a {
+body.cbm-ecwid-test-active [class*="privacy"] a,
+body.cbm-ecwid-test-active [class*="notice"] a {
   color: #dc2626 !important;
 }
 
@@ -483,8 +498,10 @@ body.cbm-ecwid-test-active [class*="cookie"] button,
 body.cbm-ecwid-test-active [class*="consent"] button,
 body.cbm-ecwid-test-active [class*="gdpr"] button,
 body.cbm-ecwid-test-active [class*="privacy"] button,
+body.cbm-ecwid-test-active [class*="notice"] button,
 body.cbm-ecwid-test-active [class*="cookie"] [class*="button"],
-body.cbm-ecwid-test-active [class*="consent"] [class*="button"] {
+body.cbm-ecwid-test-active [class*="consent"] [class*="button"],
+body.cbm-ecwid-test-active [class*="notice"] [class*="button"] {
   background-color: #dc2626 !important;
   border: 1px solid #dc2626 !important;
   color: #ffffff !important;
@@ -492,7 +509,8 @@ body.cbm-ecwid-test-active [class*="consent"] [class*="button"] {
 }
 
 body.cbm-ecwid-test-active [class*="cookie"] button:hover,
-body.cbm-ecwid-test-active [class*="consent"] button:hover {
+body.cbm-ecwid-test-active [class*="consent"] button:hover,
+body.cbm-ecwid-test-active [class*="notice"] button:hover {
   background-color: #b91c1c !important;
   border-color: #b91c1c !important;
 }
@@ -500,44 +518,28 @@ body.cbm-ecwid-test-active [class*="consent"] button:hover {
 body.cbm-ecwid-test-active [class*="cookie"] svg,
 body.cbm-ecwid-test-active [class*="cookie"] [class*="close"],
 body.cbm-ecwid-test-active [class*="consent"] [class*="close"],
-body.cbm-ecwid-test-active [class*="privacy"] [class*="close"] {
+body.cbm-ecwid-test-active [class*="privacy"] [class*="close"],
+body.cbm-ecwid-test-active [class*="notice"] [class*="close"] {
   color: #f5f5f5 !important;
   fill: #f5f5f5 !important;
   opacity: 1 !important;
 }
 
 /* ---- Marketing / newsletter checkbox --------------------------------- */
-/* Force a normal-size native checkbox with a brand-red accent. accent-color is
- * a web standard, so this recolours the check regardless of Ecwid's classes;
- * no tiny blue box, no invisible white checked state. Consent behaviour and the
- * default checked/unchecked state are untouched. */
+/* MINIMAL, native-only fix: just recolour the real checkbox red and size it to
+ * 18px. accent-color is a web standard, so it colours the checkmark regardless
+ * of Ecwid's classes. We do NOT force appearance/position or add any overlay —
+ * that earlier attempt created the oversized red box on top of the label. This
+ * keeps exactly one native checkbox, aligned before the label. Consent
+ * behaviour and the default checked/unchecked state are untouched. */
 body.cbm-ecwid-test-active input[type="checkbox"],
 body.cbm-ecwid-test-active input[type="radio"] {
-  -webkit-appearance: auto !important;
-  -moz-appearance: auto !important;
-  appearance: auto !important;
-  opacity: 1 !important;
-  position: static !important;
+  accent-color: #dc2626 !important;
   width: 18px !important;
   height: 18px !important;
-  min-width: 18px !important;
-  min-height: 18px !important;
+  flex: none !important;
+  vertical-align: middle !important;
   margin: 0 8px 0 0 !important;
-  padding: 0 !important;
-  accent-color: #dc2626 !important;
-  clip: auto !important;
-  clip-path: none !important;
-  pointer-events: auto !important;
-  filter: none !important;
-  box-shadow: none !important;
-}
-
-/* Recolour any Ecwid custom checkbox overlay to red too (belt & suspenders). */
-body.cbm-ecwid-test-active [class*="checkbox"] svg,
-body.cbm-ecwid-test-active [class*="checkbox"] [class*="icon"] {
-  fill: #dc2626 !important;
-  color: #dc2626 !important;
-  opacity: 1 !important;
 }
 
 /* ---- Stray gray animated loading / progress bar ---------------------- */
@@ -546,29 +548,58 @@ body.cbm-ecwid-test-active [class*="checkbox"] [class*="icon"] {
  * controls are untouched. */
 body.cbm-ecwid-test-active [class*="loader"],
 body.cbm-ecwid-test-active [class*="loading"],
+body.cbm-ecwid-test-active [class*="Loading"],
 body.cbm-ecwid-test-active [class*="spinner"],
 body.cbm-ecwid-test-active [class*="progress-bar"],
+body.cbm-ecwid-test-active [class*="progressbar"],
+body.cbm-ecwid-test-active [class*="ec-loading"],
+body.cbm-ecwid-test-active [class*="ecwid-loading"],
+body.cbm-ecwid-test-active [id*="loading"],
+body.cbm-ecwid-test-active [id*="Loading"],
+body.cbm-ecwid-test-active [role="progressbar"],
+body.cbm-ecwid-test-active progress,
 body.cbm-ecwid-test-active .ec-loader,
 body.cbm-ecwid-test-active .ec-progress,
 #ecwid-cart-handoff-99673270 [class*="loader"],
-#ecwid-cart-handoff-99673270 [class*="progress-bar"] {
+#ecwid-cart-handoff-99673270 [class*="loading"],
+#ecwid-cart-handoff-99673270 [class*="progress-bar"],
+#ecwid-cart-handoff-99673270 [role="progressbar"] {
   background-color: transparent !important;
   background-image: none !important;
   box-shadow: none !important;
   animation: none !important;
+  min-height: 0 !important;
 }
 
 /* ---- Promo / coupon (Redeem) icon — wider net ------------------------ */
+/* Recolour the icon before "Promo coupon" to brand red. Covers svg + its inner
+ * <path>/<use> (an svg whose colour is on the path, not the svg, was missed
+ * before), icon-fonts (<i>/currentColor), and coupon/discount/promo/redeem
+ * wrappers. If the icon is a CSS background-image, host CSS can't recolour it —
+ * that case needs the exact class (see PR notes). */
 body.cbm-ecwid-test-active [class*="coupon"] svg,
+body.cbm-ecwid-test-active [class*="coupon"] svg path,
+body.cbm-ecwid-test-active [class*="coupon"] svg use,
 body.cbm-ecwid-test-active [class*="coupon"] i,
 body.cbm-ecwid-test-active [class*="coupon"] [class*="icon"],
 body.cbm-ecwid-test-active [class*="discount"] svg,
+body.cbm-ecwid-test-active [class*="discount"] svg path,
 body.cbm-ecwid-test-active [class*="promo"] svg,
+body.cbm-ecwid-test-active [class*="promo"] svg path,
+body.cbm-ecwid-test-active [class*="redeem"] svg,
 #ecwid-cart-handoff-99673270 [class*="coupon"] svg,
+#ecwid-cart-handoff-99673270 [class*="coupon"] svg path,
 #ecwid-cart-handoff-99673270 [class*="coupon"] [class*="icon"] {
   fill: #dc2626 !important;
   color: #dc2626 !important;
+  stroke: #dc2626 !important;
   opacity: 1 !important;
-  width: 1.15rem !important;
-  height: 1.15rem !important;
+}
+/* Size only the icon itself, not inner paths. */
+body.cbm-ecwid-test-active [class*="coupon"] svg,
+body.cbm-ecwid-test-active [class*="discount"] svg,
+body.cbm-ecwid-test-active [class*="promo"] svg,
+#ecwid-cart-handoff-99673270 [class*="coupon"] svg {
+  width: 1.2rem !important;
+  height: 1.2rem !important;
 }
