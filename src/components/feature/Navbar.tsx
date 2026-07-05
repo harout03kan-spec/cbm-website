@@ -2,14 +2,15 @@ import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
-import { useCart } from '../../hooks/useCart';
+import { useEcwidCart } from '../../hooks/useEcwidCart';
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
   const { t, i18n } = useTranslation();
-  const { totalQuantity } = useCart();
+  // Cart badge/button reflect the real Ecwid cart and open the Ecwid cart drawer.
+  const { count: totalQuantity, openCart } = useEcwidCart();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
@@ -51,12 +52,12 @@ const Navbar = () => {
                 {link.label}
               </Link>
             ))}
-            <Link to="/cart" className="relative w-10 h-10 flex items-center justify-center text-white hover:text-crimson-accent transition-colors">
+            <button type="button" onClick={openCart} aria-label="Open cart" className="relative w-10 h-10 flex items-center justify-center text-white hover:text-crimson-accent transition-colors">
               <i className="ri-shopping-cart-line text-2xl"></i>
               {totalQuantity > 0 && (
                 <span className="absolute -top-1 -right-1 w-5 h-5 flex items-center justify-center bg-crimson-accent text-white text-xs font-bold rounded-full">{totalQuantity > 99 ? '99+' : totalQuantity}</span>
               )}
-            </Link>
+            </button>
           </div>
 
           <div className="flex items-center gap-3">

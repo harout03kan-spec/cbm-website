@@ -677,6 +677,8 @@ const fr = {
   shop_sort_hash: 'Hashrate le Plus Élevé',
   shop_no_results: 'Aucun produit ne correspond à vos filtres.',
   shop_add_cart: 'Ajouter au Panier',
+  shop_adding: 'Ajout…',
+  shop_add_retry: 'Réessayer',
   shop_buy_now: 'Acheter Maintenant',
   shop_in_stock: 'En Stock',
   shop_out_stock: 'Rupture de Stock',

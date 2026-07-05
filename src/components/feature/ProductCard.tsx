@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { useCart } from '../../hooks/useCart';
+import { useEcwidCart } from '../../hooks/useEcwidCart';
 import type { Product } from '../../lib/api';
 
 // Shared product card — the same layout/badges/specs the shop grid uses, so the
@@ -70,8 +70,9 @@ const cleanName = (name: string): string => {
 
 export default function ProductCard({ product, index = 0 }: { product: Product; index?: number }) {
   const { t } = useTranslation();
-  const { addItem } = useCart();
-  const [added, setAdded] = useState(false);
+  const { addProduct, openCart } = useEcwidCart();
+  const [adding, setAdding] = useState(false);
+  const [failed, setFailed] = useState(false);
 
   const unclear = isUnclear(product);
   const miner = isMiner(product);
@@ -86,10 +87,20 @@ export default function ProductCard({ product, index = 0 }: { product: Product; 
   const coinKey = coinTypeKey(product);
   const displayName = unclear ? t('shop_pending_name') : cleanName(product.name);
 
-  const handleAdd = () => {
-    addItem(product.id, 1);
-    setAdded(true);
-    setTimeout(() => setAdded(false), 1500);
+  // Add the product to the real Ecwid cart, then open the cart drawer.
+  const handleAdd = async () => {
+    if (adding) return;
+    setFailed(false);
+    setAdding(true);
+    try {
+      await addProduct(product.id, 1);
+      openCart();
+    } catch {
+      setFailed(true);
+      setTimeout(() => setFailed(false), 2500);
+    } finally {
+      setAdding(false);
+    }
   };
 
   return (
@@ -153,9 +164,9 @@ export default function ProductCard({ product, index = 0 }: { product: Product; 
 
         <div className="mt-auto flex flex-col sm:flex-row gap-2 sm:gap-3">
           {showPrice ? (
-            <button onClick={handleAdd}
-              className="relative z-10 flex-1 min-h-[44px] py-3 bg-crimson-accent text-white font-inter font-semibold text-sm sm:text-base rounded-lg hover:bg-red-700 active:bg-red-800 transition-colors cursor-pointer whitespace-nowrap focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-crimson-accent">
-              {added ? t('fp_added') : t('shop_add_cart')}
+            <button onClick={handleAdd} disabled={adding} aria-busy={adding}
+              className="relative z-10 flex-1 min-h-[44px] py-3 bg-crimson-accent text-white font-inter font-semibold text-sm sm:text-base rounded-lg hover:bg-red-700 active:bg-red-800 transition-colors cursor-pointer whitespace-nowrap disabled:opacity-60 disabled:cursor-not-allowed focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-crimson-accent">
+              {adding ? t('shop_adding') : failed ? t('shop_add_retry') : t('shop_add_cart')}
             </button>
           ) : (
             <Link to="/contact#contact-form"

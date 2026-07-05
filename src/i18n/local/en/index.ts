@@ -677,6 +677,8 @@ const en = {
   shop_sort_hash: 'Highest Hashrate',
   shop_no_results: 'No products match your filters.',
   shop_add_cart: 'Add to Cart',
+  shop_adding: 'Adding…',
+  shop_add_retry: 'Try again',
   shop_buy_now: 'Buy Now',
   shop_in_stock: 'In Stock',
   shop_out_stock: 'Out of Stock',

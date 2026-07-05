@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import Navbar from '../../components/feature/Navbar';
 import Footer from '../../components/feature/Footer';
 import { useProduct, useProducts } from '../../hooks/useProducts';
-import { useCart } from '../../hooks/useCart';
+import { useEcwidCart } from '../../hooks/useEcwidCart';
 import { useTranslation } from 'react-i18next';
 
 const ProductPage = () => {
@@ -13,11 +13,13 @@ const ProductPage = () => {
   const productId = Number(searchParams.get('id')) || 0;
   const { product, loading } = useProduct(productId);
   const { products: allProducts } = useProducts();
-  const { addItem } = useCart();
+  const { addProduct, openCart } = useEcwidCart();
 
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
-  const [showNotification, setShowNotification] = useState(false);
+  const [adding, setAdding] = useState(false);
+  const [addingCable, setAddingCable] = useState(false);
+  const [failed, setFailed] = useState(false);
   const [selectedVariant, setSelectedVariant] = useState(0);
 
   const images = product?.images?.length ? product.images : product ? [product.image] : [];
@@ -34,12 +36,34 @@ const ProductPage = () => {
   const POWER_CABLE_ID = 799701739; // C20 to C19 power extension cable
   const powerCable = allProducts.find(p => p.id === POWER_CABLE_ID) || null;
 
-  const handleAddToCart = () => {
-    if (!product) return;
-    const variantLabel = product.variants?.[selectedVariant]?.label;
-    addItem(product.id, quantity, variantLabel);
-    setShowNotification(true);
-    setTimeout(() => setShowNotification(false), 3000);
+  // Add to the real Ecwid cart, then open the cart drawer. (Variant selection is
+  // visual here; Ecwid handles product options in its own cart/checkout.)
+  const handleAddToCart = async () => {
+    if (!product || adding) return;
+    setFailed(false);
+    setAdding(true);
+    try {
+      await addProduct(product.id, quantity);
+      openCart();
+    } catch {
+      setFailed(true);
+      setTimeout(() => setFailed(false), 2500);
+    } finally {
+      setAdding(false);
+    }
+  };
+
+  const handleAddCable = async (cableId: number) => {
+    if (addingCable) return;
+    setAddingCable(true);
+    try {
+      await addProduct(cableId, 1);
+      openCart();
+    } catch {
+      /* leave the button state; user can retry */
+    } finally {
+      setAddingCable(false);
+    }
   };
 
   // Returning to the shop — flag the navigation so ScrollManager restores the
@@ -132,14 +156,6 @@ const ProductPage = () => {
   return (
     <div className="min-h-screen bg-midnight">
       <Navbar />
-
-      {showNotification && (
-        <motion.div initial={{ opacity: 0, y: -50 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
-          className="fixed top-24 right-6 z-50 bg-crimson-accent text-white px-6 py-4 rounded-lg shadow-2xl font-inter font-semibold"
-        >
-          <i className="ri-checkbox-circle-fill mr-2"></i>Added to cart successfully!
-        </motion.div>
-      )}
 
       <section className="pt-32 pb-8 bg-graphite border-b border-crimson-accent/20">
         <div className="max-w-7xl mx-auto px-6">
@@ -285,11 +301,11 @@ const ProductPage = () => {
                 </div>
               </div>
 
-              <button onClick={handleAddToCart}
-                className="w-full py-4 mb-6 bg-gradient-crimson text-white font-inter font-bold text-lg rounded-xl hover:scale-105 transition-transform cursor-pointer whitespace-nowrap"
+              <button onClick={handleAddToCart} disabled={adding} aria-busy={adding}
+                className="w-full py-4 mb-6 bg-gradient-crimson text-white font-inter font-bold text-lg rounded-xl hover:scale-105 transition-transform cursor-pointer whitespace-nowrap disabled:opacity-60 disabled:cursor-not-allowed"
               >
-                <i className="ri-shopping-cart-fill mr-2"></i>
-                {t('product_add_cart')}
+                <i className={`${adding ? 'ri-loader-4-line animate-spin' : 'ri-shopping-cart-fill'} mr-2`}></i>
+                {adding ? t('shop_adding') : failed ? t('shop_add_retry') : t('product_add_cart')}
               </button>
 
             </div>
@@ -309,8 +325,8 @@ const ProductPage = () => {
                       <h4 className="text-white font-inter font-semibold text-sm mb-1">{powerCable.name}</h4>
                       <div className="text-crimson-accent font-inter font-bold text-lg">${Number(powerCable.price).toFixed(2)} CAD</div>
                     </div>
-                    <button onClick={() => addItem(powerCable.id, 1)}
-                      className="px-4 py-2 bg-crimson-accent/10 border border-crimson-accent text-crimson-accent font-inter font-semibold text-sm rounded-lg hover:bg-crimson-accent hover:text-white transition-colors cursor-pointer whitespace-nowrap">Add</button>
+                    <button onClick={() => handleAddCable(powerCable.id)} disabled={addingCable} aria-busy={addingCable}
+                      className="px-4 py-2 bg-crimson-accent/10 border border-crimson-accent text-crimson-accent font-inter font-semibold text-sm rounded-lg hover:bg-crimson-accent hover:text-white transition-colors cursor-pointer whitespace-nowrap disabled:opacity-60 disabled:cursor-not-allowed">{addingCable ? t('shop_adding') : 'Add'}</button>
                   </div>
                 ) : (
                   <p className="text-soft-gray font-inter text-sm">Power cable available on request.</p>

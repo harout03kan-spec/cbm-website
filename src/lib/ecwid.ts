@@ -89,3 +89,46 @@ export function loadEcwid(containerId: string): void {
   script.setAttribute('data-cfasync', 'false');
   document.body.appendChild(script);
 }
+
+/**
+ * Add a product to the real Ecwid cart by its Ecwid product id (which is the
+ * same as catalog `id`). Resolves with the updated cart, rejects if Ecwid is not
+ * ready or the store declines the product. Uses only the public JS API.
+ */
+export function addToEcwidCart(id: number, quantity = 1): Promise<EcwidCart> {
+  return new Promise((resolve, reject) => {
+    const ecwid = getEcwid();
+    if (!ecwid || !ecwid.Cart || typeof ecwid.Cart.addProduct !== 'function') {
+      reject(new Error('Ecwid is not ready'));
+      return;
+    }
+    ecwid.Cart.addProduct({
+      id,
+      quantity: Math.max(1, Math.floor(quantity)),
+      callback: (success, _product, cart) => {
+        if (success) resolve(cart);
+        else reject(new Error(`Ecwid could not add product ${id}`));
+      },
+    });
+  });
+}
+
+/** Open the Ecwid cart page inside the current ProductBrowser container. */
+export function openEcwidCart(): void {
+  getEcwid()?.openPage('cart');
+}
+
+/** Jump straight to Ecwid checkout (Moneris + order emails live in Ecwid). */
+export function openEcwidCheckout(): void {
+  getEcwid()?.Cart.gotoCheckout();
+}
+
+/** Register a callback for the live cart (fires on every cart change). */
+export function onEcwidCartChanged(cb: (cart: EcwidCart) => void): void {
+  getEcwid()?.OnCartChanged.add(cb);
+}
+
+/** Register a callback for when the Ecwid JS API has finished loading. */
+export function onEcwidApiLoaded(cb: () => void): void {
+  getEcwid()?.OnAPILoaded.add(cb);
+}
