@@ -383,81 +383,14 @@
  * ==================================================================== */
 
 /* ---- Marketing / newsletter checkbox --------------------------------- */
-/* Ecwid renders a CUSTOM checkbox: a native <input class="form-control__checkbox">
- * plus a visible box <div class="form-control__checkbox-view">. Earlier we sized
- * + accent-coloured the native input, which UN-HID the browser's blue checkbox,
- * so two boxes showed. Correct approach: show ONLY the custom red box, and keep
- * the native input in the DOM but visually hidden (still focusable + clickable,
- * sitting invisibly over the box). No accent-color / sizing that would reveal the
- * native box. Consent behaviour and the checked/unchecked state are untouched. */
-
-/* Wrapper: flex so box + label never overlap/clip; relative to anchor the hidden
- * native input over the visible box. */
-body.cbm-ecwid-test-active .form-control--checkbox {
-  display: flex !important;
-  align-items: flex-start !important;
-  gap: 10px !important;
-  position: relative !important;
-  overflow: visible !important;
-}
-
-/* Hide the native input (no blue browser checkbox) but keep it accessible and
- * clickable: transparent, appearance:none, positioned over the visible box. */
-body.cbm-ecwid-test-active .form-control--checkbox .form-control__checkbox,
-body.cbm-ecwid-test-active .form-control--checkbox input[type="checkbox"] {
-  position: absolute !important;
-  top: 0 !important;
-  left: 0 !important;
-  width: 18px !important;
-  height: 18px !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  opacity: 0 !important;
-  z-index: 2 !important;
-  cursor: pointer !important;
-  -webkit-appearance: none !important;
-  appearance: none !important;
-}
-
-/* The SINGLE visible checkbox = the custom box, brand red, ~18px. */
-body.cbm-ecwid-test-active .form-control--checkbox .form-control__checkbox-view {
-  position: static !important;
-  flex: none !important;
-  width: 18px !important;
-  height: 18px !important;
-  margin: 1px 0 0 0 !important;
-  border: 2px solid #dc2626 !important;
-  border-radius: 4px !important;
-  background-color: transparent !important;
-  box-shadow: none !important;
-}
-
-/* Checked = solid red box. Cover several Ecwid patterns: input:checked as a
- * general/adjacent sibling of the box, and a checked modifier on the wrapper. */
-body.cbm-ecwid-test-active .form-control--checkbox .form-control__checkbox:checked ~ .form-control__checkbox-view,
-body.cbm-ecwid-test-active .form-control--checkbox input[type="checkbox"]:checked ~ .form-control__checkbox-view,
-body.cbm-ecwid-test-active .form-control--checkbox input[type="checkbox"]:checked + .form-control__checkbox-view,
-body.cbm-ecwid-test-active .form-control--checked .form-control__checkbox-view,
-body.cbm-ecwid-test-active .form-control--checkbox--checked .form-control__checkbox-view {
-  background-color: #dc2626 !important;
-  border-color: #dc2626 !important;
-}
-
-/* Keep the checkmark visible (white) whether drawn as a border tick or a glyph. */
-body.cbm-ecwid-test-active .form-control--checkbox .form-control__checkbox:checked ~ .form-control__checkbox-view::before,
-body.cbm-ecwid-test-active .form-control--checkbox .form-control__checkbox:checked ~ .form-control__checkbox-view::after,
-body.cbm-ecwid-test-active .form-control--checked .form-control__checkbox-view::before,
-body.cbm-ecwid-test-active .form-control--checked .form-control__checkbox-view::after {
-  border-color: #ffffff !important;
-  color: #ffffff !important;
-}
-
-/* Label starts cleanly after the box (drop Ecwid's reserved offset); no clip. */
-body.cbm-ecwid-test-active .form-control--checkbox .form-control__label {
-  padding-left: 0 !important;
-  margin-left: 0 !important;
-  overflow: visible !important;
-  line-height: 1.45 !important;
+/* Per review: keep Ecwid's NATIVE browser checkbox as the single visible control
+ * and simply hide the custom box that was rendering on top of it. No red styling,
+ * no accent-color, no custom checked state, no repositioning — the native
+ * checkbox keeps its original look, size, alignment and checked behaviour exactly
+ * as Ecwid renders it. This removes the double-checkbox and any label clipping
+ * that the enlarged custom box caused. */
+body.cbm-ecwid-test-active .form-control__checkbox-view {
+  display: none !important;
 }
 
 /* ---- Stray gray animated loading / progress bar ---------------------- */
