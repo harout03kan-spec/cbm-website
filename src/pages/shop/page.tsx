@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { useProducts } from '../../hooks/useProducts';
+import { useEcwidCart } from '../../hooks/useEcwidCart';
 import { useTranslation } from 'react-i18next';
 import Seo from '../../components/feature/Seo';
 import type { Product } from '../../lib/api';
@@ -19,6 +20,26 @@ const ShopPage = () => {
   const [searchQuery, setSearchQuery] = useState(() => searchParams.get('q') || '');
   const [sortBy, setSortBy] = useState('');
   const { products, loading } = useProducts();
+  const { addProduct, openCart } = useEcwidCart();
+  // Per-card add state (which product id is adding / last failed).
+  const [addingId, setAddingId] = useState<number | null>(null);
+  const [failedId, setFailedId] = useState<number | null>(null);
+
+  // Add a shop product to the real Ecwid cart, then open the cart drawer.
+  const handleAddToCart = async (id: number) => {
+    if (addingId) return;
+    setFailedId(null);
+    setAddingId(id);
+    try {
+      await addProduct(id, 1);
+      openCart();
+    } catch {
+      setFailedId(id);
+      setTimeout(() => setFailedId((cur) => (cur === id ? null : cur)), 2500);
+    } finally {
+      setAddingId(null);
+    }
+  };
 
   // Persist the shop scroll position so returning from a product page — via the
   // Shop / Back to Shop buttons (PUSH) or the browser Back button (POP) — lands
@@ -453,8 +474,9 @@ const ShopPage = () => {
 
                   <div className="mt-auto flex flex-col sm:flex-row gap-2 sm:gap-3">
                     {showPrice ? (
-                      <button className="relative z-10 flex-1 min-h-[44px] py-3 bg-crimson-accent text-white font-inter font-semibold text-sm sm:text-base rounded-lg hover:bg-red-700 active:bg-red-800 transition-colors cursor-pointer whitespace-nowrap focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-crimson-accent">
-                        {t('shop_add_cart')}
+                      <button onClick={() => handleAddToCart(product.id)} disabled={addingId === product.id} aria-busy={addingId === product.id}
+                        className="relative z-10 flex-1 min-h-[44px] py-3 bg-crimson-accent text-white font-inter font-semibold text-sm sm:text-base rounded-lg hover:bg-red-700 active:bg-red-800 transition-colors cursor-pointer whitespace-nowrap disabled:opacity-60 disabled:cursor-not-allowed focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-crimson-accent">
+                        {addingId === product.id ? t('shop_adding') : failedId === product.id ? t('shop_add_retry') : t('shop_add_cart')}
                       </button>
                     ) : (
                       <Link to="/contact#contact-form"

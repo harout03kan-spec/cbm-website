@@ -2,7 +2,7 @@ import {
   createContext, useContext, useState, useEffect, useCallback, useRef, ReactNode,
 } from 'react';
 import {
-  loadEcwid, getEcwid, addToEcwidCart, type EcwidCart, ECWID_STORE_ID,
+  loadEcwid, getEcwid, type EcwidCart, ECWID_STORE_ID,
 } from '../lib/ecwid';
 
 /**
@@ -84,24 +84,72 @@ export function EcwidCartProvider({ children }: { children: ReactNode }) {
     if (open && apiReady) getEcwid()?.openPage('cart');
   }, [open, apiReady]);
 
-  // Add to the real Ecwid cart. Waits briefly for the API if a shopper clicks
-  // before the script has finished loading.
+  // Add to the real Ecwid cart, using the SAME proven pattern as /store-test-cart:
+  //   1. wait for Ecwid.OnAPILoaded (the cart API is only ready after this — the
+  //      old code added as soon as Cart.addProduct existed, which is BEFORE the
+  //      store is initialised, so the add was silently dropped and the cart
+  //      opened empty),
+  //   2. Ecwid.Cart.addProduct({ id, quantity, callback }),
+  //   3. verify with Ecwid.Cart.get() that the quantity actually went up before
+  //      resolving — so callers only open the drawer on a real, confirmed add.
+  // Temporary [cbm-ecwid] console logs make the behaviour visible on the preview.
   const addProduct = useCallback((id: number, quantity = 1): Promise<EcwidCart> => {
     ensureLoaded();
+    const pid = Number(id);
+    const qty = Math.max(1, Math.floor(quantity));
     return new Promise((resolve, reject) => {
-      if (!id || Number.isNaN(id)) { reject(new Error('Missing product id')); return; }
+      if (!pid || Number.isNaN(pid)) { reject(new Error('Missing/invalid product id')); return; }
+      // eslint-disable-next-line no-console
+      console.log('[cbm-ecwid] add request → id:', pid, 'qty:', qty);
+
       let waited = 0;
-      const attempt = () => {
+      const start = () => {
         const ecwid = getEcwid();
-        if (ecwid && ecwid.Cart && typeof ecwid.Cart.addProduct === 'function') {
-          addToEcwidCart(id, quantity).then(resolve).catch(reject);
+        if (!ecwid || !ecwid.OnAPILoaded || !ecwid.Cart) {
+          if (waited >= 12000) {
+            // eslint-disable-next-line no-console
+            console.error('[cbm-ecwid] Ecwid never finished loading');
+            reject(new Error('Ecwid did not load'));
+            return;
+          }
+          waited += 250;
+          setTimeout(start, 250);
           return;
         }
-        if (waited >= 8000) { reject(new Error('Ecwid did not finish loading')); return; }
-        waited += 250;
-        setTimeout(attempt, 250);
+        // OnAPILoaded is sticky: fires immediately if the API is already loaded.
+        ecwid.OnAPILoaded.add(() => {
+          ecwid.Cart.get((before) => {
+            const beforeQty = before?.productsQuantity ?? 0;
+            ecwid.Cart.addProduct({
+              id: pid,
+              quantity: qty,
+              callback: (success, _product, cart) => {
+                // eslint-disable-next-line no-console
+                console.log('[cbm-ecwid] addProduct callback → success:', success, 'cart:', cart);
+                if (!success) {
+                  // eslint-disable-next-line no-console
+                  console.error('[cbm-ecwid] Ecwid declined product', pid);
+                  reject(new Error(`Ecwid declined product ${pid}`));
+                  return;
+                }
+                ecwid.Cart.get((after) => {
+                  const afterQty = after?.productsQuantity ?? 0;
+                  // eslint-disable-next-line no-console
+                  console.log('[cbm-ecwid] cart qty before:', beforeQty, '→ after:', afterQty);
+                  if (afterQty > beforeQty) {
+                    resolve(after);
+                  } else {
+                    // eslint-disable-next-line no-console
+                    console.error(`[cbm-ecwid] product ${pid} did not land in the cart — it may be disabled, out of stock, or require options in Ecwid.`);
+                    reject(new Error(`Product ${pid} was not added to the Ecwid cart`));
+                  }
+                });
+              },
+            });
+          });
+        });
       };
-      attempt();
+      start();
     });
   }, [ensureLoaded]);
 
