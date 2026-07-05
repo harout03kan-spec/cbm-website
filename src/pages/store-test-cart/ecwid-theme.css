@@ -382,16 +382,10 @@
  * be configured there before production.
  * ==================================================================== */
 
-/* ---- Marketing / newsletter checkbox --------------------------------- */
-/* Per review: keep Ecwid's NATIVE browser checkbox as the single visible control
- * and simply hide the custom box that was rendering on top of it. No red styling,
- * no accent-color, no custom checked state, no repositioning — the native
- * checkbox keeps its original look, size, alignment and checked behaviour exactly
- * as Ecwid renders it. This removes the double-checkbox and any label clipping
- * that the enlarged custom box caused. */
-body.cbm-ecwid-test-active .form-control__checkbox-view {
-  display: none !important;
-}
+/* Newsletter checkbox: intentionally NOT styled. Ecwid already hides the native
+ * input and shows its own .form-control__checkbox-view box; any custom CSS here
+ * caused a double/hidden checkbox, so the checkbox is left entirely at Ecwid's
+ * defaults. */
 
 /* ---- Stray gray animated loading / progress bar ---------------------- */
 /* Make Ecwid's loading indicator invisible/subtle so no gray moving bar shows
