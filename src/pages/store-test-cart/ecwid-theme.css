@@ -382,21 +382,37 @@
  * be configured there before production.
  * ==================================================================== */
 
-/* ---- Marketing / newsletter checkbox --------------------------------- */
-/* MINIMAL, native-only fix: just recolour the real checkbox red and size it to
- * 18px. accent-color is a web standard, so it colours the checkmark regardless
- * of Ecwid's classes. We do NOT force appearance/position or add any overlay —
- * that earlier attempt created the oversized red box on top of the label. This
- * keeps exactly one native checkbox, aligned before the label. Consent
- * behaviour and the default checked/unchecked state are untouched. */
-body.cbm-ecwid-test-active input[type="checkbox"],
-body.cbm-ecwid-test-active input[type="radio"] {
-  accent-color: #dc2626 !important;
+/* ---- Marketing / newsletter checkbox — size/shape only --------------- */
+/* Ecwid keeps the native input hidden and shows its own box
+ * (.form-control__checkbox-view), which was rendering as a skinny vertical pill.
+ * Give ONLY that box a normal ~18px square shape, and lay it out before the label
+ * with a gap so the "K" in "Keep..." is never clipped. No colour/red styling, no
+ * accent-color; the native input is untouched and the box is not hidden. */
+body.cbm-ecwid-test-active .form-control--checkbox {
+  display: flex !important;
+  align-items: flex-start !important;
+  gap: 10px !important;
+}
+body.cbm-ecwid-test-active .form-control--checkbox .form-control__checkbox-view,
+body.cbm-ecwid-test-active .form-control__checkbox-view {
+  position: static !important;
+  flex: none !important;
   width: 18px !important;
   height: 18px !important;
-  flex: none !important;
+  min-width: 18px !important;
+  min-height: 18px !important;
+  border-radius: 4px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
   vertical-align: middle !important;
-  margin: 0 8px 0 0 !important;
+  box-sizing: border-box !important;
+  margin: 1px 0 0 0 !important;
+}
+body.cbm-ecwid-test-active .form-control--checkbox .form-control__label {
+  padding-left: 0 !important;
+  margin-left: 0 !important;
+  line-height: 1.45 !important;
 }
 
 /* ---- Stray gray animated loading / progress bar ---------------------- */
