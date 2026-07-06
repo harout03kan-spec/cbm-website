@@ -206,14 +206,20 @@
   color: var(--cbm-text) !important;
   border: 1px solid var(--cbm-border-strong) !important;
   border-radius: 0.5rem !important;
-  /* Normal, comfortable field — value sits naturally inside (no big top gap).
-     The label is placed ABOVE the field instead (see the field-layout rules). */
+  /* Normal, comfortable field — value sits naturally inside (no big top gap). */
   min-height: 2.75rem !important;
   padding: 0.7rem 0.85rem !important;
   box-shadow: none !important;
   outline: none !important;
   -webkit-appearance: none !important;
   appearance: none !important;
+  /* GUESS-FREE overlap kill: the input box is opaque and stacks ABOVE any label
+     Ecwid overlays inside the field, so an in-box "floating" label (Street, City,
+     Postal, Province, ...) can never sit on top of the customer's value. Labels
+     that Ecwid places ABOVE the box (First/last name, Phone) are not covered and
+     stay visible. */
+  position: relative !important;
+  z-index: 2 !important;
 }
 :is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) textarea {
   min-height: 5rem !important;
@@ -566,6 +572,21 @@
 }
 :is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) [class*="payment"] .form-control--radio {
   gap: 0 !important;
+}
+/* Payment card: NO big selected-card look — no red/blue border, no box-shadow,
+ * no background. Show "Moneris Payment" as a clean, plain static method. More
+ * specific than the shipping selected-border rule below, so it wins. Payment
+ * selection behaviour is unchanged (only the box chrome is removed). */
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) [class*="payment"] .form-control--radio,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) [class*="payment"] .form-control--checked,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) [class*="payment"] [class*="--checked"],
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) [class*="payment"] [class*="--selected"],
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) [class*="payment"] label {
+  border: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  outline: none !important;
+  padding: 0 !important;
 }
 
 /* Shipping-method (and other) option cards: kill the bright-blue selected /
