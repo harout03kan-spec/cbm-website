@@ -41,8 +41,8 @@ const Navbar = () => {
     >
       <div className="max-w-7xl mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
-          <Link to="/" className="flex flex-col cursor-pointer group">
-            <div className="text-xl font-orbitron font-bold text-white tracking-wider leading-tight group-hover:text-crimson-accent transition-colors">Canada BTC Miners</div>
+          <Link to="/" className="flex flex-col cursor-pointer group min-w-0">
+            <div className="whitespace-nowrap text-lg sm:text-xl font-orbitron font-bold text-white tracking-wide sm:tracking-wider leading-tight group-hover:text-crimson-accent transition-colors">Canada BTC Miners</div>
             <p className="text-[10px] sm:text-xs text-crimson-accent font-inter tracking-wide">ASIC Sales · Repairs · Hosting</p>
           </Link>
 
@@ -60,7 +60,7 @@ const Navbar = () => {
             </button>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-1.5 sm:gap-3">
             <a
               href="tel:+15146047050"
               className="hidden lg:flex items-center gap-1.5 text-xs font-semibold text-zinc-300 hover:text-white transition-colors whitespace-nowrap"
