@@ -17,7 +17,7 @@ import '../../pages/store-test-cart/ecwid-theme.css';
  * inside the same container via Ecwid's own flow.
  */
 export default function EcwidCartDrawer() {
-  const { open, closeCart, openCheckout, count } = useEcwidCart();
+  const { open, closeCart, count } = useEcwidCart();
 
   return (
     <div
@@ -58,15 +58,10 @@ export default function EcwidCartDrawer() {
           <div id={ECWID_CART_CONTAINER_ID} />
         </div>
 
+        {/* No extra Checkout button here — Ecwid's own Checkout / Go to Payment
+            buttons live inside its cart/checkout flow. Keep only the trust line. */}
         <footer className="border-t border-white/10 p-4">
-          <button
-            type="button"
-            onClick={openCheckout}
-            className="w-full rounded-lg bg-crimson-accent py-3 font-inter font-bold text-white transition-colors hover:bg-red-700 active:bg-red-800"
-          >
-            Checkout
-          </button>
-          <p className="mt-2 text-center text-xs text-soft-gray">Secure payment via Moneris</p>
+          <p className="text-center text-xs text-soft-gray">Secure payment via Moneris</p>
         </footer>
       </aside>
     </div>

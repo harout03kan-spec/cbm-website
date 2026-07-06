@@ -476,3 +476,53 @@
   width: 1.2rem !important;
   height: 1.2rem !important;
 }
+
+/* ======================================================================
+ * Checkout form fixes (PR #57 drawer review): Ecwid select fields + the
+ * payment-method radios. Scoped to the same containers as the rest of the
+ * theme (store-test-cart id + drawer id).
+ * ==================================================================== */
+
+/* Province / State (and other) SELECT dropdowns use Ecwid's floating label.
+ * With too little top room the label ("Province") overlaps the selected value
+ * ("Nunavut"). Give selects a comfortable height and enough top padding so the
+ * floated label sits cleanly ABOVE the value. */
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) select,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control__select {
+  min-height: 3rem !important;
+  height: auto !important;
+  padding: 1.4rem 0.85rem 0.45rem !important;
+  line-height: 1.25 !important;
+}
+
+/* Reserve room in the select's field wrapper so the floated label has space. */
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control--select {
+  min-height: 3rem !important;
+}
+
+/* Payment-method radios ("Moneris Payment" etc.): Ecwid renders a custom radio
+ * box (.form-control__radio-view). Make it a normal round circle at a proper
+ * size, aligned before the label — no tiny/odd pill. Selection dot + behaviour
+ * stay Ecwid's own (not touched), so payment selection is unaffected. */
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control--radio {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+}
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control--radio .form-control__radio-view,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control__radio-view {
+  position: static !important;
+  flex: none !important;
+  width: 18px !important;
+  height: 18px !important;
+  min-width: 18px !important;
+  min-height: 18px !important;
+  border-radius: 50% !important;
+  box-sizing: border-box !important;
+  margin: 0 !important;
+}
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control--radio .form-control__label {
+  padding-left: 0 !important;
+  margin-left: 0 !important;
+  line-height: 1.45 !important;
+}
