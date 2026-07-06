@@ -75,6 +75,13 @@ const Navbar = () => {
             <Link to="/shop" className="hidden sm:block px-6 py-2.5 bg-gradient-crimson text-white font-inter font-semibold rounded-lg hover:scale-105 transition-transform whitespace-nowrap">
               {t('nav_shopMiners')}
             </Link>
+            {/* Mobile cart (desktop cart lives in the md:flex nav above) */}
+            <button type="button" onClick={openCart} aria-label="Open cart" className="md:hidden relative w-10 h-10 flex items-center justify-center text-white hover:text-crimson-accent transition-colors">
+              <i className="ri-shopping-cart-line text-2xl"></i>
+              {totalQuantity > 0 && (
+                <span className="absolute -top-1 -right-1 w-5 h-5 flex items-center justify-center bg-crimson-accent text-white text-xs font-bold rounded-full">{totalQuantity > 99 ? '99+' : totalQuantity}</span>
+              )}
+            </button>
             <button onClick={() => setMobileOpen(!mobileOpen)} className="md:hidden w-10 h-10 flex items-center justify-center text-white hover:text-crimson-accent transition-colors">
               <i className={`${mobileOpen ? 'ri-close-line' : 'ri-menu-line'} text-2xl`}></i>
             </button>

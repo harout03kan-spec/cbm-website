@@ -1,4 +1,9 @@
 import { useEcwidCart, ECWID_CART_CONTAINER_ID } from '../../hooks/useEcwidCart';
+// Reuse the exact approved dark/red Ecwid theme from /store-test-cart. Its
+// selectors match both the test container id and the shared `.cbm-ecwid-cart`
+// class (added on the container below), so the drawer gets the identical polish
+// without changing anything on /store-test-cart.
+import '../../pages/store-test-cart/ecwid-theme.css';
 
 /**
  * Shared slide-in cart drawer that renders the REAL Ecwid cart / checkout.
@@ -46,9 +51,9 @@ export default function EcwidCartDrawer() {
           </button>
         </header>
 
-        {/* Ecwid renders the cart / checkout here */}
+        {/* Ecwid renders the cart / checkout here (themed via .cbm-ecwid-cart) */}
         <div className="flex-1 overflow-y-auto px-3 py-4">
-          <div id={ECWID_CART_CONTAINER_ID} />
+          <div id={ECWID_CART_CONTAINER_ID} className="cbm-ecwid-cart" />
         </div>
 
         <footer className="border-t border-white/10 p-4">
