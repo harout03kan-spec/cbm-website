@@ -206,11 +206,17 @@
   color: var(--cbm-text) !important;
   border: 1px solid var(--cbm-border-strong) !important;
   border-radius: 0.5rem !important;
-  padding: 0.65rem 0.85rem !important;
+  /* Top padding reserves room for Ecwid's floating label so the label never
+     overlaps the entered value (Address, City, Postal, Province, etc.). */
+  min-height: 3.4rem !important;
+  padding: 1.5rem 0.85rem 0.4rem !important;
   box-shadow: none !important;
   outline: none !important;
   -webkit-appearance: none !important;
   appearance: none !important;
+}
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) textarea {
+  min-height: 5rem !important;
 }
 
 /* Focus: red ring only — no blue outline, no white corner/box artifacts. */
@@ -483,33 +489,21 @@
  * theme (store-test-cart id + drawer id).
  * ==================================================================== */
 
-/* Province / State (and other) SELECT dropdowns use Ecwid's floating label.
- * Earlier fix (just adding top padding) pushed the selected value DOWN into the
- * floated label, so they still overlapped. Proper fix: pin the label to the
- * top-left (small) and give the select value enough top padding to sit clearly
- * BELOW it. :has(select) targets only select fields, so text inputs are
- * unaffected. */
-:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control--select,
-:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control:has(select) {
+/* Ecwid floating-label overlap fix — ALL checkout fields (Address, City, Postal,
+ * Province, ...), not just selects. Ecwid overlays a floating label on the field;
+ * with a value present it must sit SMALL at the top-left, never over the value.
+ * The input rule above reserves top padding + min-height; here we make each field
+ * wrapper the positioning context and PIN the floating label to the top-left.
+ * Checkbox/radio wrappers are excluded (their label is handled separately). */
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control:not(.form-control--button):not(.form-control--checkbox):not(.form-control--radio) {
   position: relative !important;
   min-height: 3.4rem !important;
 }
-:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) select,
-:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control__select {
-  min-height: 3.4rem !important;
-  height: auto !important;
-  padding: 1.55rem 0.85rem 0.4rem !important;
-  line-height: 1.2 !important;
-}
-/* Pin the floating label of a SELECT field to the top-left, small — never over
- * the value. Covers Ecwid's placeholder + label element names. */
-:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control--select .form-control__placeholder,
-:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control:has(select) .form-control__placeholder,
-:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control:has(select) .form-control__label,
-:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control:has(select) > label {
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control:not(.form-control--checkbox):not(.form-control--radio) .form-control__placeholder,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control:not(.form-control--checkbox):not(.form-control--radio) .form-control__placeholder-inner {
   position: absolute !important;
-  top: 0.4rem !important;
-  left: 0.85rem !important;
+  top: 0.42rem !important;
+  left: 0.9rem !important;
   right: auto !important;
   bottom: auto !important;
   transform: none !important;
@@ -520,6 +514,10 @@
   color: var(--cbm-text-muted) !important;
   pointer-events: none !important;
   z-index: 2 !important;
+  max-width: calc(100% - 1.8rem) !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
 }
 
 /* Payment-method radios ("Moneris Payment" etc.): Ecwid renders a custom radio
@@ -549,69 +547,40 @@
   line-height: 1.45 !important;
 }
 
+/* Shipping-method (and other) option cards: kill the bright-blue selected /
+ * focus border and use brand red instead. Covers the browser focus outline and
+ * Ecwid's own selected-card border/box-shadow. Scoped to the container so it
+ * only affects the Ecwid checkout, and it does not change selection behaviour. */
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) *:focus,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) *:focus-visible {
+  outline-color: var(--cbm-red) !important;
+}
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control--checked,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) [class*="--checked"],
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) [class*="--selected"],
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) [class*="shipping"] [class*="checked"],
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) [class*="shipping"] [class*="selected"] {
+  border-color: var(--cbm-red) !important;
+  box-shadow: 0 0 0 1px var(--cbm-red) !important;
+  outline: none !important;
+}
+/* Any option/card/method that gets a focus ring: red, not blue. */
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) [class*="shipping"] label:focus-within,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) [class*="method"]:focus-within,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) [class*="option"]:focus-within,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control--radio:focus-within {
+  outline: none !important;
+  box-shadow: 0 0 0 1px var(--cbm-red) !important;
+}
+
 /* ======================================================================
- * Ecwid cookie / privacy CONSENT popup (body-level; Ecwid injects it).
+ * Ecwid cookie / privacy CONSENT popup — NOT styled here (Ecwid DASHBOARD task).
  *
- * These rules are intentionally NOT container-scoped (the popup is at the
- * document-body level), but they match ONLY Ecwid-specific cookie/consent
- * class names — words the rest of the React site never uses as classes — so
- * they cannot affect any other website modal.
- *
- * BEST-EFFORT: Ecwid's consent markup is version-specific and could not be
- * inspected from the build environment. If the popup still looks unstyled on
- * the live store, it is an Ecwid DASHBOARD task:
+ * This popup is injected by Ecwid at the document-body level with runtime,
+ * version-specific class names. Multiple host-CSS attempts (broad and narrow)
+ * did NOT change it on the live store, and it cannot be inspected from this
+ * build environment, so no popup CSS is shipped (broad guesses also risked
+ * other site modals). It must be disabled or customised in the Ecwid dashboard
+ * before production:
  *   Settings -> Legal -> Customers' consent -> Cookie consent banner
- *   (disable or customise it there before production).
  * ==================================================================== */
-.ec-cookie-message,
-[class*="ec-cookie"],
-[class*="cookie-message"],
-[class*="ec-consent"],
-[class*="TrackingConsent"] {
-  background-color: #141414 !important;
-  color: #f5f5f5 !important;
-  border: 1px solid rgba(255, 255, 255, 0.16) !important;
-  border-radius: 0.75rem !important;
-  max-width: 90vw !important;
-  max-height: 80vh !important;
-  overflow-y: auto !important;
-  padding: 1rem 1.1rem !important;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.55) !important;
-}
-.ec-cookie-message *,
-[class*="ec-cookie"] *,
-[class*="cookie-message"] *,
-[class*="ec-consent"] *,
-[class*="TrackingConsent"] * {
-  color: #f5f5f5 !important;
-}
-.ec-cookie-message a,
-[class*="cookie-message"] a,
-[class*="ec-cookie"] a,
-[class*="ec-consent"] a {
-  color: #dc2626 !important;
-}
-.ec-cookie-message button,
-[class*="cookie-message"] button,
-[class*="ec-cookie"] button,
-[class*="ec-consent"] button {
-  background-color: #dc2626 !important;
-  border: 1px solid #dc2626 !important;
-  color: #ffffff !important;
-  border-radius: 0.5rem !important;
-}
-.ec-cookie-message button:hover,
-[class*="cookie-message"] button:hover,
-[class*="ec-consent"] button:hover {
-  background-color: #b91c1c !important;
-  border-color: #b91c1c !important;
-}
-.ec-cookie-message [class*="close"],
-[class*="cookie-message"] [class*="close"],
-[class*="ec-cookie"] [class*="close"],
-.ec-cookie-message svg,
-[class*="cookie-message"] svg {
-  color: #f5f5f5 !important;
-  fill: #f5f5f5 !important;
-  opacity: 1 !important;
-}
