@@ -206,10 +206,10 @@
   color: var(--cbm-text) !important;
   border: 1px solid var(--cbm-border-strong) !important;
   border-radius: 0.5rem !important;
-  /* Top padding reserves room for Ecwid's floating label so the label never
-     overlaps the entered value (Address, City, Postal, Province, etc.). */
-  min-height: 3.4rem !important;
-  padding: 1.5rem 0.85rem 0.4rem !important;
+  /* Normal, comfortable field — value sits naturally inside (no big top gap).
+     The label is placed ABOVE the field instead (see the field-layout rules). */
+  min-height: 2.75rem !important;
+  padding: 0.7rem 0.85rem !important;
   box-shadow: none !important;
   outline: none !important;
   -webkit-appearance: none !important;
@@ -489,35 +489,43 @@
  * theme (store-test-cart id + drawer id).
  * ==================================================================== */
 
-/* Ecwid floating-label overlap fix — ALL checkout fields (Address, City, Postal,
- * Province, ...), not just selects. Ecwid overlays a floating label on the field;
- * with a value present it must sit SMALL at the top-left, never over the value.
- * The input rule above reserves top padding + min-height; here we make each field
- * wrapper the positioning context and PIN the floating label to the top-left.
- * Checkbox/radio wrappers are excluded (their label is handled separately). */
+/* Ecwid checkout fields — label ABOVE the field (option A). Instead of a floating
+ * label overlaid on the input (which either overlaps the value or leaves a big
+ * top gap), lay each field wrapper out as a column and move Ecwid's label to the
+ * top as a normal static block. The input keeps normal padding, so the value sits
+ * naturally inside. Applies to Email, Street address, City, Postal code, Province
+ * and every other text/select/textarea field; checkbox/radio excluded. */
 :is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control:not(.form-control--button):not(.form-control--checkbox):not(.form-control--radio) {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
   position: relative !important;
-  min-height: 3.4rem !important;
+  min-height: 0 !important;
 }
-:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control:not(.form-control--checkbox):not(.form-control--radio) .form-control__placeholder,
-:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control:not(.form-control--checkbox):not(.form-control--radio) .form-control__placeholder-inner {
-  position: absolute !important;
-  top: 0.42rem !important;
-  left: 0.9rem !important;
+/* Ecwid's floating label -> static block ABOVE the input (order:-1), small. */
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control:not(.form-control--checkbox):not(.form-control--radio) .form-control__placeholder {
+  position: static !important;
+  order: -1 !important;
+  top: auto !important;
+  left: auto !important;
   right: auto !important;
   bottom: auto !important;
   transform: none !important;
-  margin: 0 !important;
+  margin: 0 0 0.35rem 0 !important;
   padding: 0 !important;
-  font-size: 0.66rem !important;
-  line-height: 1 !important;
+  font-size: 0.78rem !important;
+  line-height: 1.2 !important;
   color: var(--cbm-text-muted) !important;
-  pointer-events: none !important;
-  z-index: 2 !important;
-  max-width: calc(100% - 1.8rem) !important;
-  white-space: nowrap !important;
-  overflow: hidden !important;
-  text-overflow: ellipsis !important;
+  max-width: 100% !important;
+  white-space: normal !important;
+  pointer-events: auto !important;
+}
+/* Keep the input/select in normal flow below the label. */
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control:not(.form-control--checkbox):not(.form-control--radio) .form-control__text,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control:not(.form-control--checkbox):not(.form-control--radio) .form-control__input,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control:not(.form-control--checkbox):not(.form-control--radio) select,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control:not(.form-control--checkbox):not(.form-control--radio) input {
+  order: 0 !important;
 }
 
 /* Payment-method radios ("Moneris Payment" etc.): Ecwid renders a custom radio
@@ -545,6 +553,19 @@
   padding-left: 0 !important;
   margin-left: 0 !important;
   line-height: 1.45 !important;
+}
+
+/* PAYMENT method (Moneris) is currently the only option, so its radio circle
+ * adds nothing and looked odd — hide ONLY the payment radio circle and show the
+ * "Moneris Payment" label as the selected method. Scoped to the payment section,
+ * so SHIPPING method radios are NOT affected. The native input + Ecwid's payment
+ * selection behaviour are untouched. */
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) [class*="payment"] .form-control__radio-view,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) [class*="payment"] .form-control--radio .form-control__radio-view {
+  display: none !important;
+}
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) [class*="payment"] .form-control--radio {
+  gap: 0 !important;
 }
 
 /* Shipping-method (and other) option cards: kill the bright-blue selected /
