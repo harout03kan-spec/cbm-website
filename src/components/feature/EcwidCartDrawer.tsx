@@ -1,8 +1,10 @@
 import { useEcwidCart, ECWID_CART_CONTAINER_ID } from '../../hooks/useEcwidCart';
 // Reuse the exact approved dark/red Ecwid theme from /store-test-cart. Its
-// selectors match both the test container id and the shared `.cbm-ecwid-cart`
-// class (added on the container below), so the drawer gets the identical polish
-// without changing anything on /store-test-cart.
+// selectors match this drawer's container id as well as the test container id, so
+// the drawer gets the identical polish without changing anything on
+// /store-test-cart. NOTE: it must be scoped to the container ID (not a class) —
+// Ecwid overwrites the mount element's className when it initialises, but keeps
+// its id, so an id scope survives and a class scope would not.
 import '../../pages/store-test-cart/ecwid-theme.css';
 
 /**
@@ -51,9 +53,9 @@ export default function EcwidCartDrawer() {
           </button>
         </header>
 
-        {/* Ecwid renders the cart / checkout here (themed via .cbm-ecwid-cart) */}
+        {/* Ecwid renders the cart / checkout here; themed via the container id. */}
         <div className="flex-1 overflow-y-auto px-3 py-4">
-          <div id={ECWID_CART_CONTAINER_ID} className="cbm-ecwid-cart" />
+          <div id={ECWID_CART_CONTAINER_ID} />
         </div>
 
         <footer className="border-t border-white/10 p-4">

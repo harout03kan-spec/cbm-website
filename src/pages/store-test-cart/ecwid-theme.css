@@ -23,7 +23,7 @@
  * specific/inline styles.
  */
 
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) {
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) {
   --cbm-red: #dc2626;         /* crimson-accent — same as site "Shop Miners" CTA */
   --cbm-red-hover: #b91c1c;   /* red-700 — same hover as the site CTA */
   --cbm-text: #f5f5f5;
@@ -34,134 +34,134 @@
 }
 
 /* ---- Match the site font (text elements only; icons/SVGs untouched) --- */
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart),
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) h1,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) h2,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) h3,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) h4,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) p,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) a,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) span,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) label,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) li,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) td,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) th,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) input,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) select,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) textarea,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) button {
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270),
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) h1,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) h2,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) h3,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) h4,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) p,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) a,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) span,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) label,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) li,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) td,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) th,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) input,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) select,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) textarea,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) button {
   font-family: 'Inter', ui-sans-serif, system-ui, sans-serif !important;
 }
 
 /* ---- Flatten to ONE surface ------------------------------------------ */
 /* Everything transparent so it inherits the single graphite React card —
    no extra boxes behind text. Center + full-width within the card. */
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart),
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) .ec-store,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) .ec-store__content-wrapper,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) .ecwid,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) .ec-cart,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) .ec-cart__body,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) .ec-cart__products,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) .ec-cart__summary,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) .ec-cart__coupon,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) .ec-cart-item,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) .ec-form,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) .ec-form__cell,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) .ec-form__row {
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270),
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-store,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-store__content-wrapper,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ecwid,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-cart,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-cart__body,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-cart__products,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-cart__summary,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-cart__coupon,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-cart-item,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-form,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-form__cell,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-form__row {
   background: transparent !important;
   box-shadow: none !important;
   color: var(--cbm-text) !important;
 }
 
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) .ec-store,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) .ec-store__content-wrapper,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) .ec-cart,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) .ec-form {
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-store,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-store__content-wrapper,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-cart,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-form {
   max-width: 100% !important;
   margin-left: auto !important;
   margin-right: auto !important;
 }
 
 /* Section separation via subtle dividers instead of filled panels */
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) .ec-cart-item {
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-cart-item {
   border: 0 !important;
   border-bottom: 1px solid var(--cbm-border) !important;
   border-radius: 0 !important;
   padding: 1rem 0 !important;
 }
 
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) .ec-cart__summary {
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-cart__summary {
   border-top: 1px solid var(--cbm-border) !important;
   padding-top: 1.1rem !important;
   margin-top: 0.5rem !important;
 }
 
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) .ec-cart__coupon {
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-cart__coupon {
   padding: 0.75rem 0 !important;
 }
 
 /* Breathing room between checkout rows */
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) .ec-form__row {
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-form__row {
   margin-bottom: 1rem !important;
 }
 
 /* ---- Text ------------------------------------------------------------- */
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) .ec-cart__title,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) .ec-form__title,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) .ec-cart-item__title,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) .ec-cart-item__price,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) .ec-cart-item__subtotal,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) .ec-cart__total,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) .form-control__label,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) label,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) h1,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) h2,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) h3,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) p,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) span,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) td,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) th {
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-cart__title,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-form__title,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-cart-item__title,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-cart-item__price,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-cart-item__subtotal,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-cart__total,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control__label,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) label,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) h1,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) h2,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) h3,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) p,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) span,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) td,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) th {
   color: var(--cbm-text) !important;
 }
 
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) .ec-cart__title,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) .ec-form__title,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) h1,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) h2 {
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-cart__title,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-form__title,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) h1,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) h2 {
   font-weight: 700 !important;
   letter-spacing: -0.01em !important;
 }
 
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) .ec-cart-item__sku,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) .ec-cart__note,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) .form-control__help {
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-cart-item__sku,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-cart__note,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control__help {
   color: var(--cbm-text-muted) !important;
 }
 
 /* ---- Links (Continue shopping, Redeem, Quantity/edit) -> ONE red ------ */
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) a,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) .ec-link,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) .ec-link--muted,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) .ec-link--inherit,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) .ec-link__text,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) .form-control__inline-link,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) .ec-cart-item__control .ec-link,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) .ec-cart__coupon .ec-link {
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) a,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-link,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-link--muted,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-link--inherit,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-link__text,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control__inline-link,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-cart-item__control .ec-link,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-cart__coupon .ec-link {
   color: var(--cbm-red) !important;
 }
 
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) a:hover,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) .ec-link:hover,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) .ec-link__text:hover {
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) a:hover,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-link:hover,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-link__text:hover {
   color: var(--cbm-red-hover) !important;
 }
 
 /* ---- Primary buttons (Checkout / Place order / Apply) -> ONE red ------ */
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) .form-control--button .form-control__button,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) button.form-control__button,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) .ec-cart__button .form-control__button,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) .ec-form__button .form-control__button {
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control--button .form-control__button,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) button.form-control__button,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-cart__button .form-control__button,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-form__button .form-control__button {
   background-color: var(--cbm-red) !important;
   border: 1px solid var(--cbm-red) !important;
   color: #ffffff !important;
@@ -171,20 +171,20 @@
   box-shadow: none !important;
 }
 
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) .form-control--button .form-control__button:hover,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) button.form-control__button:hover {
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control--button .form-control__button:hover,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) button.form-control__button:hover {
   background-color: var(--cbm-red-hover) !important;
   border-color: var(--cbm-red-hover) !important;
   color: #ffffff !important;
 }
 
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) .form-control__button-text {
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control__button-text {
   color: #ffffff !important;
 }
 
 /* ---- Inputs ----------------------------------------------------------- */
 /* Neutralise Ecwid's own field-wrapper box so we don't get nested boxes... */
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) .form-control:not(.form-control--button) {
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control:not(.form-control--button) {
   background: transparent !important;
   border: 0 !important;
   box-shadow: none !important;
@@ -192,16 +192,16 @@
 }
 
 /* ...and style the input element itself as the single dark field. */
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) .form-control__text,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) .form-control__input,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) input[type="text"],
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) input[type="email"],
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) input[type="tel"],
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) input[type="number"],
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) input[type="search"],
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) input[type="password"],
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) select,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) textarea {
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control__text,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control__input,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) input[type="text"],
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) input[type="email"],
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) input[type="tel"],
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) input[type="number"],
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) input[type="search"],
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) input[type="password"],
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) select,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) textarea {
   background-color: var(--cbm-input) !important;
   color: var(--cbm-text) !important;
   border: 1px solid var(--cbm-border-strong) !important;
@@ -214,14 +214,14 @@
 }
 
 /* Focus: red ring only — no blue outline, no white corner/box artifacts. */
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) .form-control__text:focus,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) .form-control__input:focus,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) input:focus,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) select:focus,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) textarea:focus,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) input:focus-visible,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) select:focus-visible,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) textarea:focus-visible {
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control__text:focus,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control__input:focus,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) input:focus,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) select:focus,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) textarea:focus,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) input:focus-visible,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) select:focus-visible,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) textarea:focus-visible {
   background-color: var(--cbm-input) !important;
   color: var(--cbm-text) !important;
   border-color: var(--cbm-red) !important;
@@ -230,19 +230,19 @@
 }
 
 /* Ecwid sometimes flags the field-wrapper as focused — keep it flat/red too. */
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) .form-control:not(.form-control--button):focus-within,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) .form-control--focus:not(.form-control--button) {
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control:not(.form-control--button):focus-within,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control--focus:not(.form-control--button) {
   border: 0 !important;
   box-shadow: none !important;
   outline: none !important;
 }
 
 /* Kill the browser autofill white/blue wash (the odd white-corner artifact). */
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) input:-webkit-autofill,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) input:-webkit-autofill:hover,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) input:-webkit-autofill:focus,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) textarea:-webkit-autofill,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) select:-webkit-autofill {
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) input:-webkit-autofill,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) input:-webkit-autofill:hover,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) input:-webkit-autofill:focus,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) textarea:-webkit-autofill,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) select:-webkit-autofill {
   -webkit-text-fill-color: var(--cbm-text) !important;
   -webkit-box-shadow: 0 0 0 1000px var(--cbm-input) inset !important;
   box-shadow: 0 0 0 1000px var(--cbm-input) inset !important;
@@ -251,57 +251,57 @@
   caret-color: var(--cbm-text) !important;
 }
 
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) input:-webkit-autofill:focus {
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) input:-webkit-autofill:focus {
   -webkit-box-shadow: 0 0 0 1000px var(--cbm-input) inset, 0 0 0 1px var(--cbm-red) !important;
   box-shadow: 0 0 0 1000px var(--cbm-input) inset, 0 0 0 1px var(--cbm-red) !important;
   border-color: var(--cbm-red) !important;
 }
 
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) ::placeholder {
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) ::placeholder {
   color: var(--cbm-text-muted) !important;
   opacity: 1 !important;
 }
 
 /* ---- Dividers --------------------------------------------------------- */
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) hr {
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) hr {
   border-color: var(--cbm-border) !important;
 }
 
 /* ---- Bottom Ecwid labels + icons (My Account / Track Orders / Shopping
  * Bag): KEEP them visible, and make them clearer — brand red, readable
  * weight, higher-contrast icons. Never hidden. */
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) .ec-footer,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) .ec-footer *,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) .ec-store__footer,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) .ec-store__footer * {
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-footer,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-footer *,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-store__footer,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-store__footer * {
   color: var(--cbm-red) !important;
 }
 
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) .ec-footer a,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) .ec-footer .ec-link,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) .ec-store__footer a,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) .ec-store__footer .ec-link {
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-footer a,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-footer .ec-link,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-store__footer a,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-store__footer .ec-link {
   color: var(--cbm-red) !important;
   font-weight: 600 !important;
 }
 
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) .ec-footer a:hover,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) .ec-store__footer a:hover {
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-footer a:hover,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-store__footer a:hover {
   color: var(--cbm-red-hover) !important;
 }
 
 /* High-contrast footer icons (svg + icon-font glyphs). */
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) .ec-footer svg,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) .ec-store__footer svg,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) .ec-minicart__icon svg {
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-footer svg,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-store__footer svg,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-minicart__icon svg {
   fill: var(--cbm-red) !important;
   opacity: 1 !important;
   width: 1.25rem !important;
   height: 1.25rem !important;
 }
 
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) .ec-footer [class*="icon"],
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) .ec-store__footer [class*="icon"] {
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-footer [class*="icon"],
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-store__footer [class*="icon"] {
   color: var(--cbm-red) !important;
   opacity: 1 !important;
 }
@@ -311,36 +311,36 @@
  * ==================================================================== */
 
 /* Prevent any stray horizontal scrollbar / overflow "bar" inside the card. */
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) {
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) {
   overflow-x: hidden !important;
 }
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) * {
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) * {
   box-sizing: border-box !important;
 }
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) img,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) table {
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) img,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) table {
   max-width: 100% !important;
 }
 
 /* Ecwid loading indicator: theme it (transparent track, brand-red bar) so it
  * never appears as a stray gray bar under the header on the dark card. Only
  * its colour changes — behaviour is untouched. */
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) .ec-loader,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) .ec-progress,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) [class*="loader"],
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) [class*="progress-bar"] {
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-loader,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-progress,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) [class*="loader"],
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) [class*="progress-bar"] {
   background-color: transparent !important;
 }
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) .ec-loader__bar,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) .ec-progress__bar,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) [class*="loader"] [class*="bar"] {
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-loader__bar,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-progress__bar,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) [class*="loader"] [class*="bar"] {
   background-color: var(--cbm-red) !important;
 }
 
 /* Promo / coupon (Redeem) icon: make it clearly visible in brand red. */
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) .ec-cart__coupon svg,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) .ec-cart__coupon i,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) .ec-cart__coupon [class*="icon"] {
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-cart__coupon svg,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-cart__coupon i,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-cart__coupon [class*="icon"] {
   fill: var(--cbm-red) !important;
   color: var(--cbm-red) !important;
   opacity: 1 !important;
@@ -350,8 +350,8 @@
  * centered row that wraps cleanly instead of stacking awkwardly, with
  * slightly larger, clearer icons. Still fully visible — never hidden. This
  * later rule also bumps the icon size set earlier (1.25rem -> 1.4rem). */
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) .ec-footer,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) .ec-store__footer {
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-footer,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-store__footer {
   display: flex !important;
   flex-wrap: wrap !important;
   justify-content: center !important;
@@ -359,9 +359,9 @@
   gap: 0.6rem 1.25rem !important;
   text-align: center !important;
 }
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) .ec-footer svg,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) .ec-store__footer svg,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) .ec-minicart__icon svg {
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-footer svg,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-store__footer svg,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-minicart__icon svg {
   width: 1.4rem !important;
   height: 1.4rem !important;
   fill: var(--cbm-red) !important;
@@ -388,13 +388,13 @@
  * Give ONLY that box a normal ~18px square shape, and lay it out before the label
  * with a gap so the "K" in "Keep..." is never clipped. No colour/red styling, no
  * accent-color; the native input is untouched and the box is not hidden. */
-:is(body.cbm-ecwid-test-active, .cbm-ecwid-cart) .form-control--checkbox {
+:is(body.cbm-ecwid-test-active, #cbm-ecwid-cart-99673270) .form-control--checkbox {
   display: flex !important;
   align-items: flex-start !important;
   gap: 10px !important;
 }
-:is(body.cbm-ecwid-test-active, .cbm-ecwid-cart) .form-control--checkbox .form-control__checkbox-view,
-:is(body.cbm-ecwid-test-active, .cbm-ecwid-cart) .form-control__checkbox-view {
+:is(body.cbm-ecwid-test-active, #cbm-ecwid-cart-99673270) .form-control--checkbox .form-control__checkbox-view,
+:is(body.cbm-ecwid-test-active, #cbm-ecwid-cart-99673270) .form-control__checkbox-view {
   position: static !important;
   flex: none !important;
   width: 18px !important;
@@ -409,7 +409,7 @@
   box-sizing: border-box !important;
   margin: 1px 0 0 0 !important;
 }
-:is(body.cbm-ecwid-test-active, .cbm-ecwid-cart) .form-control--checkbox .form-control__label {
+:is(body.cbm-ecwid-test-active, #cbm-ecwid-cart-99673270) .form-control--checkbox .form-control__label {
   padding-left: 0 !important;
   margin-left: 0 !important;
   line-height: 1.45 !important;
@@ -419,24 +419,24 @@
 /* Make Ecwid's loading indicator invisible/subtle so no gray moving bar shows
  * under the header. Loaders/spinners only — validation messages and real
  * controls are untouched. */
-:is(body.cbm-ecwid-test-active, .cbm-ecwid-cart) [class*="loader"],
-:is(body.cbm-ecwid-test-active, .cbm-ecwid-cart) [class*="loading"],
-:is(body.cbm-ecwid-test-active, .cbm-ecwid-cart) [class*="Loading"],
-:is(body.cbm-ecwid-test-active, .cbm-ecwid-cart) [class*="spinner"],
-:is(body.cbm-ecwid-test-active, .cbm-ecwid-cart) [class*="progress-bar"],
-:is(body.cbm-ecwid-test-active, .cbm-ecwid-cart) [class*="progressbar"],
-:is(body.cbm-ecwid-test-active, .cbm-ecwid-cart) [class*="ec-loading"],
-:is(body.cbm-ecwid-test-active, .cbm-ecwid-cart) [class*="ecwid-loading"],
-:is(body.cbm-ecwid-test-active, .cbm-ecwid-cart) [id*="loading"],
-:is(body.cbm-ecwid-test-active, .cbm-ecwid-cart) [id*="Loading"],
-:is(body.cbm-ecwid-test-active, .cbm-ecwid-cart) [role="progressbar"],
-:is(body.cbm-ecwid-test-active, .cbm-ecwid-cart) progress,
-:is(body.cbm-ecwid-test-active, .cbm-ecwid-cart) .ec-loader,
-:is(body.cbm-ecwid-test-active, .cbm-ecwid-cart) .ec-progress,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) [class*="loader"],
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) [class*="loading"],
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) [class*="progress-bar"],
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) [role="progressbar"] {
+:is(body.cbm-ecwid-test-active, #cbm-ecwid-cart-99673270) [class*="loader"],
+:is(body.cbm-ecwid-test-active, #cbm-ecwid-cart-99673270) [class*="loading"],
+:is(body.cbm-ecwid-test-active, #cbm-ecwid-cart-99673270) [class*="Loading"],
+:is(body.cbm-ecwid-test-active, #cbm-ecwid-cart-99673270) [class*="spinner"],
+:is(body.cbm-ecwid-test-active, #cbm-ecwid-cart-99673270) [class*="progress-bar"],
+:is(body.cbm-ecwid-test-active, #cbm-ecwid-cart-99673270) [class*="progressbar"],
+:is(body.cbm-ecwid-test-active, #cbm-ecwid-cart-99673270) [class*="ec-loading"],
+:is(body.cbm-ecwid-test-active, #cbm-ecwid-cart-99673270) [class*="ecwid-loading"],
+:is(body.cbm-ecwid-test-active, #cbm-ecwid-cart-99673270) [id*="loading"],
+:is(body.cbm-ecwid-test-active, #cbm-ecwid-cart-99673270) [id*="Loading"],
+:is(body.cbm-ecwid-test-active, #cbm-ecwid-cart-99673270) [role="progressbar"],
+:is(body.cbm-ecwid-test-active, #cbm-ecwid-cart-99673270) progress,
+:is(body.cbm-ecwid-test-active, #cbm-ecwid-cart-99673270) .ec-loader,
+:is(body.cbm-ecwid-test-active, #cbm-ecwid-cart-99673270) .ec-progress,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) [class*="loader"],
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) [class*="loading"],
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) [class*="progress-bar"],
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) [role="progressbar"] {
   background-color: transparent !important;
   background-image: none !important;
   box-shadow: none !important;
@@ -450,29 +450,29 @@
  * before), icon-fonts (<i>/currentColor), and coupon/discount/promo/redeem
  * wrappers. If the icon is a CSS background-image, host CSS can't recolour it —
  * that case needs the exact class (see PR notes). */
-:is(body.cbm-ecwid-test-active, .cbm-ecwid-cart) [class*="coupon"] svg,
-:is(body.cbm-ecwid-test-active, .cbm-ecwid-cart) [class*="coupon"] svg path,
-:is(body.cbm-ecwid-test-active, .cbm-ecwid-cart) [class*="coupon"] svg use,
-:is(body.cbm-ecwid-test-active, .cbm-ecwid-cart) [class*="coupon"] i,
-:is(body.cbm-ecwid-test-active, .cbm-ecwid-cart) [class*="coupon"] [class*="icon"],
-:is(body.cbm-ecwid-test-active, .cbm-ecwid-cart) [class*="discount"] svg,
-:is(body.cbm-ecwid-test-active, .cbm-ecwid-cart) [class*="discount"] svg path,
-:is(body.cbm-ecwid-test-active, .cbm-ecwid-cart) [class*="promo"] svg,
-:is(body.cbm-ecwid-test-active, .cbm-ecwid-cart) [class*="promo"] svg path,
-:is(body.cbm-ecwid-test-active, .cbm-ecwid-cart) [class*="redeem"] svg,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) [class*="coupon"] svg,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) [class*="coupon"] svg path,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) [class*="coupon"] [class*="icon"] {
+:is(body.cbm-ecwid-test-active, #cbm-ecwid-cart-99673270) [class*="coupon"] svg,
+:is(body.cbm-ecwid-test-active, #cbm-ecwid-cart-99673270) [class*="coupon"] svg path,
+:is(body.cbm-ecwid-test-active, #cbm-ecwid-cart-99673270) [class*="coupon"] svg use,
+:is(body.cbm-ecwid-test-active, #cbm-ecwid-cart-99673270) [class*="coupon"] i,
+:is(body.cbm-ecwid-test-active, #cbm-ecwid-cart-99673270) [class*="coupon"] [class*="icon"],
+:is(body.cbm-ecwid-test-active, #cbm-ecwid-cart-99673270) [class*="discount"] svg,
+:is(body.cbm-ecwid-test-active, #cbm-ecwid-cart-99673270) [class*="discount"] svg path,
+:is(body.cbm-ecwid-test-active, #cbm-ecwid-cart-99673270) [class*="promo"] svg,
+:is(body.cbm-ecwid-test-active, #cbm-ecwid-cart-99673270) [class*="promo"] svg path,
+:is(body.cbm-ecwid-test-active, #cbm-ecwid-cart-99673270) [class*="redeem"] svg,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) [class*="coupon"] svg,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) [class*="coupon"] svg path,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) [class*="coupon"] [class*="icon"] {
   fill: #dc2626 !important;
   color: #dc2626 !important;
   stroke: #dc2626 !important;
   opacity: 1 !important;
 }
 /* Size only the icon itself, not inner paths. */
-:is(body.cbm-ecwid-test-active, .cbm-ecwid-cart) [class*="coupon"] svg,
-:is(body.cbm-ecwid-test-active, .cbm-ecwid-cart) [class*="discount"] svg,
-:is(body.cbm-ecwid-test-active, .cbm-ecwid-cart) [class*="promo"] svg,
-:is(#ecwid-cart-handoff-99673270, .cbm-ecwid-cart) [class*="coupon"] svg {
+:is(body.cbm-ecwid-test-active, #cbm-ecwid-cart-99673270) [class*="coupon"] svg,
+:is(body.cbm-ecwid-test-active, #cbm-ecwid-cart-99673270) [class*="discount"] svg,
+:is(body.cbm-ecwid-test-active, #cbm-ecwid-cart-99673270) [class*="promo"] svg,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) [class*="coupon"] svg {
   width: 1.2rem !important;
   height: 1.2rem !important;
 }
