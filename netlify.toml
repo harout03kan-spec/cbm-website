@@ -18,3 +18,16 @@
   from = "/*"
   to = "/index.html"
   status = 200
+
+# Minimal, third-party-safe security headers. These are response headers on our
+# own pages; they do NOT affect the external scripts we load (Ecwid, fonts, CDNs)
+# or the iframes we embed (Moneris card fields), or Netlify Forms.
+# NOTE: no Content-Security-Policy is set on purpose — a CSP must be tested against
+# every required domain (Ecwid, Moneris, Google Fonts, jsDelivr, reCAPTCHA, etc.)
+# before enabling, or it will break the storefront/checkout.
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "SAMEORIGIN"
+    Referrer-Policy = "strict-origin-when-cross-origin"
