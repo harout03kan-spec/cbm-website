@@ -206,9 +206,11 @@
   color: var(--cbm-text) !important;
   border: 1px solid var(--cbm-border-strong) !important;
   border-radius: 0.5rem !important;
-  /* Normal, comfortable field — value sits naturally inside (no big top gap). */
-  min-height: 2.75rem !important;
-  padding: 0.7rem 0.85rem !important;
+  /* Slightly taller, a touch more vertical padding so the entered value sits
+     comfortably centred and never touches the label above it — without leaving a
+     big empty box. */
+  min-height: 3.1rem !important;
+  padding: 0.9rem 0.85rem !important;
   box-shadow: none !important;
   outline: none !important;
   -webkit-appearance: none !important;

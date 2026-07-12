@@ -258,7 +258,7 @@ function replacePaymentCard(container: HTMLElement): void {
     'stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ' +
     'aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="2"></rect>' +
     '<line x1="2" y1="10" x2="22" y2="10"></line></svg>' +
-    '<span>Secure credit card payment via Moneris</span>';
+    '<span>Secure credit and debit card payment via Moneris</span>';
   card.parentElement.insertBefore(row, card);
   card.classList.add(SRONLY_CARD_CLASS); // hide navy card; radio stays accessible
 }
