@@ -42,6 +42,9 @@ export interface EcwidApi {
   openPage: (page: string, params?: Record<string, unknown>) => void;
   OnAPILoaded: { add: (cb: () => void) => void };
   OnCartChanged: { add: (cb: (cart: EcwidCart) => void) => void };
+  // Fires on every storefront page render. `page.type` is CART, CHECKOUT_*,
+  // ORDER_CONFIRMATION, CATEGORY, PRODUCT, SEARCH, etc.
+  OnPageLoaded: { add: (cb: (page: { type?: string }) => void) => void };
 }
 
 // Minimal window shape we read/write. Accessed through a local cast so this

@@ -4,6 +4,7 @@ import {
 import {
   loadEcwid, getEcwid, type EcwidCart, ECWID_STORE_ID,
 } from '../lib/ecwid';
+import { enhanceCheckoutLabels } from '../lib/ecwidCheckoutEnhancer';
 
 /**
  * App-wide bridge to the real Ecwid / Lightspeed eCom cart (store 99673270).
@@ -44,6 +45,10 @@ export function EcwidCartProvider({ children }: { children: ReactNode }) {
   const [apiReady, setApiReady] = useState(false);
   const [open, setOpen] = useState(false);
   const loadedRef = useRef(false);
+  // Read the live drawer-open state inside Ecwid's OnPageLoaded callback (which is
+  // registered once). Kept in sync with `open` below.
+  const openRef = useRef(false);
+  openRef.current = open;
 
   // Ensure the Ecwid storefront script is loaded and cart callbacks are wired.
   const ensureLoaded = useCallback(() => {
@@ -69,6 +74,38 @@ export function EcwidCartProvider({ children }: { children: ReactNode }) {
         setApiReady(true);
         ecwid.Cart.get((cart) => { if (!cancelled) setCount(cart.productsQuantity ?? 0); });
       });
+      // "Browse Store" / "Continue shopping" (shown on the empty cart) makes Ecwid
+      // navigate to its own storefront category grid. We never want that grid — the
+      // shop is our React /shop page. So whenever the drawer is open and Ecwid tries
+      // to render a storefront-browse page, send the shopper back to OUR /shop.
+      // A root-relative path uses the CURRENT domain, so it works on Netlify deploy
+      // previews AND on the production canadabtcminers.ca site — no hard-coded URL,
+      // and it never opens Ecwid's default storefront / Instant Site.
+      if (ecwid.OnPageLoaded) {
+        const BROWSE = /^(CATEGORY|PRODUCT|SEARCH|DEFAULT|FAVORITES)/;
+        ecwid.OnPageLoaded.add((page) => {
+          if (cancelled) return;
+          const type = String(page?.type ?? '');
+          // "Browse Store" / "Continue shopping": return to OUR /shop, not the grid.
+          if (openRef.current && BROWSE.test(type)) {
+            if (window.location.pathname !== '/shop') {
+              window.location.assign('/shop');
+            } else {
+              setOpen(false); // already on /shop — just close the cart drawer
+            }
+            return;
+          }
+          // On the checkout pages, promote Ecwid's placeholder-style address fields
+          // to permanent visible labels above each box. Re-run a couple of times to
+          // catch fields Ecwid renders asynchronously after the page event.
+          if (/^CHECKOUT/.test(type)) {
+            const run = () => enhanceCheckoutLabels(document.getElementById(ECWID_CART_CONTAINER_ID));
+            run();
+            setTimeout(run, 350);
+            setTimeout(run, 1000);
+          }
+        });
+      }
       return true;
     };
 

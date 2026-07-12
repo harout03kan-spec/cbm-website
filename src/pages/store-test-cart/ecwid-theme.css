@@ -496,52 +496,47 @@
  * theme (store-test-cart id + drawer id).
  * ==================================================================== */
 
-/* Ecwid checkout fields — label ALWAYS ABOVE the box, class-agnostic.
- * We don't know Ecwid's label class for the address block (it differs from the
- * name/phone fields), so instead of targeting the label by name: make the field
- * wrapper a column, force ALL its children into normal flow (this drops any
- * absolutely-overlaid floating label into the layout), send the input/select to
- * the BOTTOM, and let the label (= any other child) sit ABOVE it as a normal
- * static label. Works for Street, City, Postal, Province and every text/select
- * field regardless of label markup. Checkbox/radio excluded. The label stays
- * above on focus too (it is a normal block, not a floating label). */
-:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control:not(.form-control--button):not(.form-control--checkbox):not(.form-control--radio) {
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: stretch !important;
-  position: relative !important;
-  min-height: 0 !important;
-}
-/* Every direct child into normal flow (kills absolute/transform floating). */
-:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control:not(.form-control--button):not(.form-control--checkbox):not(.form-control--radio) > * {
-  position: static !important;
-  transform: none !important;
-  top: auto !important;
-  left: auto !important;
-  right: auto !important;
-  bottom: auto !important;
-}
-/* Input / select / textarea -> bottom of the column. */
-:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control:not(.form-control--button):not(.form-control--checkbox):not(.form-control--radio) > input,
-:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control:not(.form-control--button):not(.form-control--checkbox):not(.form-control--radio) > select,
-:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control:not(.form-control--button):not(.form-control--checkbox):not(.form-control--radio) > textarea,
-:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control:not(.form-control--button):not(.form-control--checkbox):not(.form-control--radio) > .form-control__text,
-:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control:not(.form-control--button):not(.form-control--checkbox):not(.form-control--radio) > .form-control__input,
-:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control:not(.form-control--button):not(.form-control--checkbox):not(.form-control--radio) > .form-control__select {
-  order: 2 !important;
-}
-/* Any OTHER direct child (the label, whatever its class) -> ABOVE, small, muted. */
-:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control:not(.form-control--button):not(.form-control--checkbox):not(.form-control--radio) > *:not(input):not(select):not(textarea):not(.form-control__text):not(.form-control__input):not(.form-control__select) {
-  order: 1 !important;
-  font-size: 0.78rem !important;
+/* Checkout field LABELS.
+ * We deliberately do NOT reorder / re-flow Ecwid's field children here. The old
+ * blanket rule (make every .form-control a column, force every child static, send
+ * the input to order:2 and treat *every other child* as a label) was far too broad
+ * — it moved Ecwid's own <select> internals, dropdown arrows, wrappers and
+ * validation elements, which broke the Country / Province dropdowns and made field
+ * text behave like a placeholder. Ecwid's native fields lay out and validate
+ * correctly on their own, so we leave their structure alone and only recolour them
+ * (backgrounds / borders / brand red) via the rules above.
+ *
+ * Turning the placeholder-style field texts (Street address, City, Postal code,
+ * Apartment) into permanent visible labels ABOVE the box requires inserting real
+ * <label for=…> elements next to the exact Ecwid inputs — which must target Ecwid's
+ * actual checkout markup precisely. That is done in JS against the live DOM (see
+ * the checkout-label enhancer) rather than with a guess-based blanket CSS rule. */
+
+/* Permanent field labels injected by the enhancer (ecwidCheckoutEnhancer.ts):
+ * a normal static label ABOVE the field — visible before, during and after typing,
+ * never a floating placeholder. order:-1 keeps it above even if Ecwid lays the
+ * field wrapper out as a flex column. */
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .cbm-ext-label {
+  display: block !important;
+  order: -1 !important;
+  font-size: 0.8rem !important;
   line-height: 1.2 !important;
+  font-weight: 500 !important;
   color: var(--cbm-text-muted) !important;
   margin: 0 0 0.3rem 0 !important;
   padding: 0 !important;
   text-align: left !important;
-  max-width: 100% !important;
-  white-space: normal !important;
   background: transparent !important;
+}
+
+/* The single "Secure payment via Moneris" line placed where the redundant Moneris
+ * selection card sat (the radio itself stays in the DOM, sr-only). */
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .cbm-moneris-line {
+  font-size: 0.95rem !important;
+  font-weight: 500 !important;
+  color: var(--cbm-text) !important;
+  padding: 0.4rem 0 !important;
+  margin: 0 !important;
 }
 
 /* Payment-method radios ("Moneris Payment" etc.): Ecwid renders a custom radio
