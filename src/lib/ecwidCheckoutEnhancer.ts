@@ -1,28 +1,29 @@
 /**
  * Checkout enhancer for the embedded Ecwid checkout (address labels + Moneris row).
  *
- * Two jobs, both done WITHOUT touching Ecwid's own field structure, validation,
- * dropdowns or payment flow:
+ * Targets Ecwid's REAL storefront markup (class names taken from the live
+ * storefront bundle): each field is a `.form-control` wrapper containing the input
+ * (`.form-control__text` / `.form-control__select`) and a FLOATING label
+ * `.form-control__placeholder` (> `.form-control__placeholder-inner`) that Ecwid
+ * positions inside the box — which is what overlaps the entered value on the
+ * address fields.
  *
- *  1. ADDRESS LABELS — Ecwid renders Street address / Apartment / City / Postal
- *     code / Province with placeholder-style text that disappears on typing. This
- *     inserts a real, permanent `<label for=…>` OUTSIDE and ABOVE the *full* field
- *     wrapper (never inside the positioned inner input container, so it can't
- *     overlap the value), then — only once the label is in place — clears the now
- *     redundant placeholder. Country / name / phone are left alone (they already
- *     show correct labels).
+ * Job 1 — ADDRESS LABELS: for the address block only (Street / Apartment / City /
+ * Postal / Province / State) it inserts a real, permanent `<label for=…>` OUTSIDE
+ * and ABOVE the full field wrapper, hides Ecwid's floating `.form-control__placeholder`
+ * for that field (so nothing sits inside the box but the value), and copies the
+ * typography of the store's existing correct labels. Country / name / phone are
+ * left exactly as Ecwid renders them.
  *
- *  2. MONERIS — there is one payment method, so Ecwid's navy "Moneris Payment"
- *     selector card is redundant. This visually hides that whole card (the radio
- *     stays in the DOM and accessible, so the method stays selected and the flow
- *     works) and drops ONE compact row in its place: a red credit-card icon +
- *     "Secure credit card payment via Moneris". If it can't cleanly isolate the
- *     card, it does nothing (so it never produces a duplicate row or hides the
- *     card-entry fields).
+ * Job 2 — MONERIS: replaces Ecwid's redundant navy single-method card with one
+ * compact row (red credit-card icon + "Secure credit and debit card payment via
+ * Moneris"); the card is hidden (radio kept in the DOM & selected) and the
+ * card-entry fields / Place Order stay visible.
  *
- * Design guarantees: purely additive (only inserts nodes / adds a hide-class /
- * clears a placeholder), idempotent (keyed by field name), and fail-soft (wrapped
- * in try/catch; an unrecognised DOM just leaves Ecwid's native rendering).
+ * Guarantees: additive (inserts nodes / hides Ecwid's floating label + card /
+ * clears a placeholder attr), idempotent (keyed by field name), fail-soft
+ * (try/catch), and durable (a debounced MutationObserver re-applies it when Ecwid
+ * re-renders a checkout step).
  */
 
 const LABEL_CLASS = 'cbm-ext-label';
@@ -32,10 +33,7 @@ const SRONLY_CARD_CLASS = 'cbm-sronly-card';
 
 // Fields that already display correctly — never modify these.
 const DENY_LABEL = /^\s*(country|first\s*name|last\s*name|full\s*name|name|phone|telephone|email|e-?mail)\s*\*?\s*$/i;
-
-// Only the address block gets external labels (Street / Apartment / City / Postal /
-// Province / State). This keeps the enhancer off payment (card number), coupon,
-// email, etc. — matched against the field's placeholder text or its name attribute.
+// Only the address block gets external labels (matched on label text / name / autocomplete).
 const ADDRESS_FIELD = /(street|address|apartment|suite|floor|unit|city|town|postal|zip|province|state|region)/i;
 
 type FormField = HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement;
@@ -63,18 +61,10 @@ function isEnhanceableField(el: Element): el is FormField {
   return !['hidden', 'checkbox', 'radio', 'button', 'submit', 'image', 'file'].includes(type);
 }
 
-/** True only when the field shows a real VISIBLE associated <label> (skip those). */
-function hasVisibleLabel(container: HTMLElement, field: FormField): boolean {
-  if (!field.id) return false;
-  const lbl = container.querySelector(`label[for="${cssEscape(field.id)}"]:not(.${LABEL_CLASS})`);
-  return !!(lbl && (lbl.textContent || '').trim());
-}
-
 /**
  * Climb from the input to the OUTERMOST element that still wraps only this one
- * field (stopping before any container that holds other fields, the <form>, or the
- * root), then climb out of any relative/absolute ancestor — so the returned node's
- * parent is a normal-flow block we can safely insert the label before.
+ * field, then climb out of any positioned ancestor — so the label goes before the
+ * full field wrapper, in normal flow, never inside a positioned box.
  */
 function outermostFieldWrapper(field: FormField, root: HTMLElement): HTMLElement {
   let node: HTMLElement = field;
@@ -84,7 +74,6 @@ function outermostFieldWrapper(field: FormField, root: HTMLElement): HTMLElement
     node = parent;
     parent = parent.parentElement;
   }
-  // Never place the label inside a positioned element (that's what caused overlap).
   while (
     node.parentElement &&
     node.parentElement !== root &&
@@ -97,12 +86,14 @@ function outermostFieldWrapper(field: FormField, root: HTMLElement): HTMLElement
   return node;
 }
 
-/** Copy the typography of an existing correct label (Country/name/phone/…). */
+/** Copy the typography of an existing correct label (Ecwid's own name/phone/…). */
 function referenceStyle(container: HTMLElement): RefStyle | null {
-  const leaves = Array.from(container.querySelectorAll('label, span, div, p')).filter(
-    (e) => e.children.length === 0 && !e.classList.contains(LABEL_CLASS),
+  const cands = Array.from(
+    container.querySelectorAll('.form-control__label, .form-control__placeholder, .form-control__placeholder-inner, label'),
   );
-  const ref = leaves.find((e) => DENY_LABEL.test((e.textContent || '').trim()));
+  const ref = cands.find(
+    (e) => !e.classList.contains(LABEL_CLASS) && DENY_LABEL.test((e.textContent || '').trim()),
+  );
   if (!ref) return null;
   const cs = getComputedStyle(ref);
   return {
@@ -117,15 +108,14 @@ function referenceStyle(container: HTMLElement): RefStyle | null {
 }
 
 function applyLabelStyle(label: HTMLLabelElement, ref: RefStyle | null): void {
-  // Set with `important` priority so the copied typography wins over the theme's
-  // own !important rules (inline-important beats a class's !important).
+  // `important` priority so the copied typography wins over the theme's own rules.
   const set = (prop: string, value?: string) => {
     if (value) label.style.setProperty(prop, value, 'important');
   };
   set('display', 'block');
   set('position', 'static');
   set('text-align', 'left');
-  set('margin', '0 0 0.3rem 0');
+  set('margin', '0 0 0.35rem 0');
   set('padding', '0');
   set('background', 'transparent');
   if (ref) {
@@ -140,8 +130,8 @@ function applyLabelStyle(label: HTMLLabelElement, ref: RefStyle | null): void {
 }
 
 /**
- * Promote placeholder-style checkout fields to permanent labels above the box.
- * Pass the Ecwid ProductBrowser container element that holds the checkout.
+ * Promote Ecwid's placeholder/floating-label address fields to permanent labels
+ * above the box. Pass the Ecwid ProductBrowser container holding the checkout.
  */
 export function enhanceCheckoutLabels(container: HTMLElement | null): void {
   if (!container) return;
@@ -150,24 +140,28 @@ export function enhanceCheckoutLabels(container: HTMLElement | null): void {
     const fields = Array.from(container.querySelectorAll('input, select, textarea')).filter(isEnhanceableField);
 
     fields.forEach((field, i) => {
-      const placeholder = (field.getAttribute('placeholder') || '').trim();
-      if (!placeholder || hasVisibleLabel(container, field)) return;
-
-      const text = normaliseLabel(placeholder);
-      if (!text || DENY_LABEL.test(placeholder)) return; // leave country/name/phone/… alone
+      const wrap = field.closest('.form-control') as HTMLElement | null;
+      const floatEl = wrap ? (wrap.querySelector('.form-control__placeholder') as HTMLElement | null) : null;
+      const placeholderAttr = (field.getAttribute('placeholder') || '').trim();
+      const floatText = floatEl ? (floatEl.textContent || '').trim() : '';
+      const rawText = floatText || placeholderAttr || (field.getAttribute('aria-label') || '').trim();
+      if (!rawText) return;
 
       const nameAttr = field.getAttribute('name') || '';
-      // Only the address block — never payment/card/coupon/other placeholder fields.
-      if (!ADDRESS_FIELD.test(placeholder) && !ADDRESS_FIELD.test(nameAttr)) return;
+      const autoAttr = field.getAttribute('autocomplete') || '';
+      // Address block only; never country/name/phone/email.
+      if (!(ADDRESS_FIELD.test(rawText) || ADDRESS_FIELD.test(nameAttr) || ADDRESS_FIELD.test(autoAttr))) return;
+      if (DENY_LABEL.test(rawText)) return;
+
+      const text = normaliseLabel(rawText);
+      if (!text) return;
 
       const key = (nameAttr || field.id || `f${i}`).trim();
-      // Give the field a stable unique id without replacing an existing one.
       if (!field.id) field.id = `cbm-f-${key.replace(/[^a-zA-Z0-9_-]/g, '') || i}`;
 
-      const wrapper = outermostFieldWrapper(field, container);
-      if (!wrapper.parentElement) return;
+      const outer = outermostFieldWrapper(field, container);
+      if (!outer.parentElement) return;
 
-      // Reuse an existing injected label for this field (survives re-renders).
       let label = container.querySelector<HTMLLabelElement>(
         `label.${LABEL_CLASS}[${KEY_ATTR}="${cssEscape(key)}"]`,
       );
@@ -180,13 +174,15 @@ export function enhanceCheckoutLabels(container: HTMLElement | null): void {
       label.textContent = text;
       applyLabelStyle(label, ref);
 
-      // Insert the label BEFORE the full field wrapper (outside any positioned box).
-      if (!(label.parentElement === wrapper.parentElement && label.nextElementSibling === wrapper)) {
-        wrapper.parentElement.insertBefore(label, wrapper);
+      // Insert BEFORE the full field wrapper (outside any positioned box).
+      if (!(label.parentElement === outer.parentElement && label.nextElementSibling === outer)) {
+        outer.parentElement.insertBefore(label, outer);
       }
 
-      // Only after the label is confirmed in place, clear the redundant placeholder.
-      if (label.isConnected && label.nextElementSibling === wrapper) {
+      if (label.isConnected && label.nextElementSibling === outer) {
+        // Hide Ecwid's floating label so only the value sits inside the box.
+        if (floatEl) floatEl.style.setProperty('display', 'none', 'important');
+        // Clear a native placeholder if the field uses one.
         if (field.getAttribute('placeholder')) field.setAttribute('placeholder', '');
       }
     });
@@ -203,19 +199,32 @@ export function enhanceCheckoutLabels(container: HTMLElement | null): void {
  * never a <select>/<option>, so dropdown values and selection are unaffected).
  */
 function renameProvinceLabel(container: HTMLElement): void {
-  container.querySelectorAll('label, span, div, p').forEach((el) => {
-    if (el.children.length === 0 && (el.textContent || '').trim() === 'Province') {
-      el.textContent = 'Province / State';
-    }
-  });
+  container
+    .querySelectorAll('label, span, div, p, .form-control__placeholder-inner')
+    .forEach((el) => {
+      if (el.children.length === 0 && (el.textContent || '').trim() === 'Province') {
+        el.textContent = 'Province / State';
+      }
+    });
 }
 
 /**
  * Replace Ecwid's redundant single-method payment card with one compact row.
  * Hides the whole navy card (radio kept in DOM & accessible) and inserts a red
- * credit-card icon + "Secure credit card payment via Moneris". Does nothing if it
- * can't isolate the card cleanly, so it never duplicates or hides card-entry fields.
+ * credit-card icon + "Secure credit and debit card payment via Moneris". Does
+ * nothing if it can't isolate the card cleanly, so it never duplicates or hides
+ * the card-entry fields.
  */
+/** Any real data field (not a radio/checkbox) — catches untyped inputs, selects,
+ * textareas and iframes (the Moneris hosted card fields). */
+function containsDataField(el: Element): boolean {
+  return Array.from(el.querySelectorAll('input, select, textarea, iframe')).some((f) => {
+    if (f.tagName !== 'INPUT') return true; // select / textarea / iframe
+    const type = ((f as HTMLInputElement).getAttribute('type') || 'text').toLowerCase();
+    return !['radio', 'checkbox', 'hidden', 'button', 'submit', 'image'].includes(type);
+  });
+}
+
 function replacePaymentCard(container: HTMLElement): void {
   if (container.querySelector(`.${MONERIS_ROW_CLASS}`)) return; // already replaced
 
@@ -227,29 +236,29 @@ function replacePaymentCard(container: HTMLElement): void {
   );
   if (!titleEl) return;
 
-  const ENTRY_SEL = 'iframe, input[type="text"], input[type="tel"], input[type="number"], input[type="email"]';
   const RADIO_SEL = 'input[type="radio"], .form-control--radio';
 
-  // Smallest ancestor of the title that actually contains the method radio.
   let card: HTMLElement | null = titleEl as HTMLElement;
   while (card && card !== container && !card.querySelector(RADIO_SEL)) {
     card = card.parentElement;
   }
-  if (!card || card === container || !card.parentElement) return; // no radio → leave default
+  if (!card || card === container || !card.parentElement) return;
 
-  // Climb to the OUTERMOST card element that still holds the radio but NOT the
-  // card-entry inputs / Moneris iframe — i.e. the whole navy selector card, but
-  // never the wrapper that also contains the card-number fields.
+  // Climb to the whole method card, but NEVER into an ancestor that also holds
+  // real data fields (address inputs, the Moneris card-entry iframe/fields, etc.).
+  // A "data field" is any input/select/textarea/iframe that isn't a radio/checkbox —
+  // detected by tag/type so it also catches inputs with no explicit type attribute.
   while (
     card.parentElement &&
     card.parentElement !== container &&
     card.parentElement.querySelector(RADIO_SEL) &&
-    !card.parentElement.querySelector(ENTRY_SEL)
+    !containsDataField(card.parentElement)
   ) {
     card = card.parentElement;
   }
-  // If even this card contains the entry fields, hiding it would remove them — abort.
-  if (card.querySelector(ENTRY_SEL) || !card.parentElement) return;
+  // Safety: if the isolated card itself contains data fields, hiding it would remove
+  // the card-entry inputs / other fields — so abort and leave Ecwid's default.
+  if (containsDataField(card) || !card.parentElement) return;
 
   const row = document.createElement('div');
   row.className = MONERIS_ROW_CLASS;
@@ -260,5 +269,30 @@ function replacePaymentCard(container: HTMLElement): void {
     '<line x1="2" y1="10" x2="22" y2="10"></line></svg>' +
     '<span>Secure credit and debit card payment via Moneris</span>';
   card.parentElement.insertBefore(row, card);
-  card.classList.add(SRONLY_CARD_CLASS); // hide navy card; radio stays accessible
+  card.classList.add(SRONLY_CARD_CLASS);
+}
+
+// One debounced MutationObserver per container so injected labels / the Moneris
+// row survive Ecwid re-rendering a checkout step. Disconnects while it re-applies
+// so its own DOM writes never retrigger it.
+const OBSERVED = new WeakSet<HTMLElement>();
+
+export function installCheckoutObserver(container: HTMLElement | null): void {
+  if (!container || OBSERVED.has(container)) return;
+  OBSERVED.add(container);
+  let scheduled = false;
+  const obs = new MutationObserver(() => {
+    if (scheduled) return;
+    scheduled = true;
+    setTimeout(() => {
+      scheduled = false;
+      obs.disconnect();
+      try {
+        enhanceCheckoutLabels(container);
+      } finally {
+        obs.observe(container, { childList: true, subtree: true });
+      }
+    }, 150);
+  });
+  obs.observe(container, { childList: true, subtree: true });
 }

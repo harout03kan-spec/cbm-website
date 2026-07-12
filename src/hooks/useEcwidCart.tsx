@@ -4,7 +4,7 @@ import {
 import {
   loadEcwid, getEcwid, type EcwidCart, ECWID_STORE_ID,
 } from '../lib/ecwid';
-import { enhanceCheckoutLabels } from '../lib/ecwidCheckoutEnhancer';
+import { enhanceCheckoutLabels, installCheckoutObserver } from '../lib/ecwidCheckoutEnhancer';
 
 /**
  * App-wide bridge to the real Ecwid / Lightspeed eCom cart (store 99673270).
@@ -99,10 +99,13 @@ export function EcwidCartProvider({ children }: { children: ReactNode }) {
           // to permanent visible labels above each box. Re-run a couple of times to
           // catch fields Ecwid renders asynchronously after the page event.
           if (/^CHECKOUT/.test(type)) {
-            const run = () => enhanceCheckoutLabels(document.getElementById(ECWID_CART_CONTAINER_ID));
+            const el = document.getElementById(ECWID_CART_CONTAINER_ID);
+            const run = () => enhanceCheckoutLabels(el);
             run();
             setTimeout(run, 350);
             setTimeout(run, 1000);
+            // Keep labels / the Moneris row in place across Ecwid's re-renders.
+            installCheckoutObserver(el);
           }
         });
       }
