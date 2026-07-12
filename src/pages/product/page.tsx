@@ -3,6 +3,7 @@ import { useSearchParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import Navbar from '../../components/feature/Navbar';
 import Footer from '../../components/feature/Footer';
+import Seo from '../../components/feature/Seo';
 import { useProduct, useProducts } from '../../hooks/useProducts';
 import { useEcwidCart } from '../../hooks/useEcwidCart';
 import { useTranslation } from 'react-i18next';
@@ -14,6 +15,9 @@ const ProductPage = () => {
   const { product, loading } = useProduct(productId);
   const { products: allProducts } = useProducts();
   const { addProduct, openCart } = useEcwidCart();
+  // Only Ecwid-backed products (real permalink) can be added to the cart; supplier
+  // miners not yet listed in Ecwid route to the Contact/inquiry CTA instead.
+  const canBuy = Boolean(product?.permalink);
 
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
@@ -153,8 +157,20 @@ const ProductPage = () => {
     );
   }
 
+  const seoDesc = [
+    product.name,
+    product.hashrate ? `${product.hashrate} ${product.hashrate_unit || 'TH/s'}` : '',
+    product.algorithm || '',
+    product.brand || '',
+  ].filter(Boolean).join(' · ') + ' — ASIC miner from Canada BTC Miners. New & used ASIC sales, repair and hosting across Canada.';
+
   return (
     <div className="min-h-screen bg-midnight">
+      <Seo
+        title={`${product.name} | Canada BTC Miners`}
+        description={product.short_description?.trim() || seoDesc}
+        path={`/product?id=${productId}`}
+      />
       <Navbar />
 
       <section className="pt-32 pb-8 bg-graphite border-b border-crimson-accent/20">
@@ -301,12 +317,21 @@ const ProductPage = () => {
                 </div>
               </div>
 
-              <button onClick={handleAddToCart} disabled={adding} aria-busy={adding}
-                className="w-full py-4 mb-6 bg-gradient-crimson text-white font-inter font-bold text-lg rounded-xl hover:scale-105 transition-transform cursor-pointer whitespace-nowrap disabled:opacity-60 disabled:cursor-not-allowed"
-              >
-                <i className={`${adding ? 'ri-loader-4-line animate-spin' : 'ri-shopping-cart-fill'} mr-2`}></i>
-                {adding ? t('shop_adding') : failed ? t('shop_add_retry') : t('product_add_cart')}
-              </button>
+              {canBuy ? (
+                <button onClick={handleAddToCart} disabled={adding} aria-busy={adding}
+                  className="w-full py-4 mb-6 bg-gradient-crimson text-white font-inter font-bold text-lg rounded-xl hover:scale-105 transition-transform cursor-pointer whitespace-nowrap disabled:opacity-60 disabled:cursor-not-allowed"
+                >
+                  <i className={`${adding ? 'ri-loader-4-line animate-spin' : 'ri-shopping-cart-fill'} mr-2`}></i>
+                  {adding ? t('shop_adding') : failed ? t('shop_add_retry') : t('product_add_cart')}
+                </button>
+              ) : (
+                <Link to="/contact#contact-form"
+                  className="w-full py-4 mb-6 flex items-center justify-center gap-2 bg-gradient-crimson text-white font-inter font-bold text-lg rounded-xl hover:scale-105 transition-transform text-center"
+                >
+                  <i className="ri-customer-service-2-line" aria-hidden="true"></i>
+                  {t('shop_pending_cta')}
+                </Link>
+              )}
 
             </div>
 

@@ -139,8 +139,6 @@ export function EcwidCartProvider({ children }: { children: ReactNode }) {
     const qty = Math.max(1, Math.floor(quantity));
     return new Promise((resolve, reject) => {
       if (!pid || Number.isNaN(pid)) { reject(new Error('Missing/invalid product id')); return; }
-      // eslint-disable-next-line no-console
-      console.log('[cbm-ecwid] add request → id:', pid, 'qty:', qty);
 
       let waited = 0;
       const start = () => {
@@ -163,9 +161,7 @@ export function EcwidCartProvider({ children }: { children: ReactNode }) {
             ecwid.Cart.addProduct({
               id: pid,
               quantity: qty,
-              callback: (success, _product, cart) => {
-                // eslint-disable-next-line no-console
-                console.log('[cbm-ecwid] addProduct callback → success:', success, 'cart:', cart);
+              callback: (success) => {
                 if (!success) {
                   // eslint-disable-next-line no-console
                   console.error('[cbm-ecwid] Ecwid declined product', pid);
@@ -174,8 +170,6 @@ export function EcwidCartProvider({ children }: { children: ReactNode }) {
                 }
                 ecwid.Cart.get((after) => {
                   const afterQty = after?.productsQuantity ?? 0;
-                  // eslint-disable-next-line no-console
-                  console.log('[cbm-ecwid] cart qty before:', beforeQty, '→ after:', afterQty);
                   if (afterQty > beforeQty) {
                     resolve(after);
                   } else {

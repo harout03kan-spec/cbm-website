@@ -78,6 +78,10 @@ export default function ProductCard({ product, index = 0 }: { product: Product; 
   const miner = isMiner(product);
   const priceNum = toNumber(product.price);
   const showPrice = !unclear && priceNum != null && priceNum > 0;
+  // Only products that exist in the Ecwid store (real permalink) can be added to
+  // the cart; supplier-catalog miners not yet listed in Ecwid have no permalink,
+  // so route them to the Contact/inquiry CTA instead of a broken Add-to-Cart.
+  const canBuy = showPrice && Boolean(product.permalink);
   const specs = (!unclear && miner) ? [
     { value: product.hashrate || hashFromTitle(product.name), unit: product.hashrate_unit || 'TH/s' },
     { value: product.power, unit: 'Watts' },
@@ -111,7 +115,7 @@ export default function ProductCard({ product, index = 0 }: { product: Product; 
     >
       <div className="relative w-full h-40 sm:h-64 bg-black overflow-hidden">
         {product.image ? (
-          <img src={product.image} alt={displayName} className="w-full h-full object-contain object-center hover:scale-105 transition-transform duration-500" />
+          <img src={product.image} alt={displayName} loading="lazy" className="w-full h-full object-contain object-center hover:scale-105 transition-transform duration-500" />
         ) : (
           <div className="w-full h-full flex items-center justify-center text-zinc-700">
             <i className="ri-image-line text-5xl" aria-hidden="true"></i>
@@ -163,7 +167,7 @@ export default function ProductCard({ product, index = 0 }: { product: Product; 
         )}
 
         <div className="mt-auto flex flex-col sm:flex-row gap-2 sm:gap-3">
-          {showPrice ? (
+          {canBuy ? (
             <button onClick={handleAdd} disabled={adding} aria-busy={adding}
               className="relative z-10 flex-1 min-h-[44px] py-3 bg-crimson-accent text-white font-inter font-semibold text-sm sm:text-base rounded-lg hover:bg-red-700 active:bg-red-800 transition-colors cursor-pointer whitespace-nowrap disabled:opacity-60 disabled:cursor-not-allowed focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-crimson-accent">
               {adding ? t('shop_adding') : failed ? t('shop_add_retry') : t('shop_add_cart')}

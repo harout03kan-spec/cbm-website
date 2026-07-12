@@ -66,7 +66,7 @@ export default function AboutPage() {
 
         {/* Background photo */}
         <img
-          src="/Put%20this%20in%20the%20about%20us%20page%20background%20instead%20of%20the%20miner.jpeg"
+          src="/about-hero-bg.jpeg"
           alt={t('about_hero_img_alt')}
           className="absolute inset-0 w-full h-full object-cover object-top sm:object-center pointer-events-none"
           loading="eager"

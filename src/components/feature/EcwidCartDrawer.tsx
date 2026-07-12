@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useEcwidCart, ECWID_CART_CONTAINER_ID } from '../../hooks/useEcwidCart';
 // Reuse the exact approved dark/red Ecwid theme from /store-test-cart. Its
 // selectors match this drawer's container id as well as the test container id, so
@@ -19,6 +20,14 @@ import '../../pages/store-test-cart/ecwid-theme.css';
 export default function EcwidCartDrawer() {
   const { open, closeCart, count } = useEcwidCart();
 
+  // Close the drawer with the Escape key (keyboard accessibility).
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') closeCart(); };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [open, closeCart]);
+
   return (
     <div
       aria-hidden={!open}
@@ -33,6 +42,7 @@ export default function EcwidCartDrawer() {
       {/* Panel */}
       <aside
         role="dialog"
+        aria-modal="true"
         aria-label="Shopping cart"
         className={`absolute right-0 top-0 flex h-full w-full flex-col border-l border-white/10 bg-graphite shadow-2xl transition-transform duration-300 sm:w-[420px] ${open ? 'translate-x-0' : 'translate-x-full'}`}
       >

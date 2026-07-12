@@ -24,7 +24,7 @@ const BrandTrack = ({ ariaHidden }: { ariaHidden?: boolean }) => (
         <img
           src={src}
           alt={`${name} logo`}
-          loading="eager"
+          loading="lazy"
           decoding="async"
           className="block h-6 w-auto object-contain opacity-90 sm:h-8"
         />

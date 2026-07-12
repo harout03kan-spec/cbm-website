@@ -111,7 +111,11 @@ const ShopPage = () => {
 
   // Static category traits (algorithm/cooling based — reliable, per-product).
   const isHydro = (p: Product) => lc(p.cooling) === 'hydro' || /hydro|\bhyd\b/.test(ptext(p));
-  const isHome = (p: Product) => /\bhome\b/.test(ptext(p)) || (toNumber(p.power) ?? Infinity) <= 2500;
+  // Home = miners marketed as home/hobby units (home/nano/mini in the name) or
+  // genuinely home-scale wattage. The old ≤2500 W threshold was too broad and
+  // pulled real data-centre Bitcoin miners (e.g. Fluminer T3 115T, 1700 W) out of
+  // Bitcoin into Home; ≤900 W keeps only truly small units there.
+  const isHome = (p: Product) => /\bhome\b|\bnano\b|\bmini\b/.test(ptext(p)) || (toNumber(p.power) ?? Infinity) <= 900;
   const isSha = (p: Product) => /sha-?256/.test(lc(p.algorithm)); // SHA-256 = Bitcoin family
 
   // Category logic:
@@ -399,6 +403,9 @@ const ShopPage = () => {
               const miner = isMiner(product);
               const priceNum = toNumber(product.price);
               const showPrice = !unclear && priceNum != null && priceNum > 0;
+              // Only Ecwid-backed products (real permalink) can be added to cart;
+              // supplier miners not yet in Ecwid route to the Contact/inquiry CTA.
+              const canBuy = showPrice && Boolean(product.permalink);
               // Miner specs only — accessories never show TH/s, W, J/TH.
               const specs = (!unclear && miner) ? [
                 // Hashrate from the real field, else parsed from the title (e.g. "95T").
@@ -419,7 +426,7 @@ const ShopPage = () => {
               >
                 <div className="relative w-full h-40 sm:h-64 bg-black overflow-hidden">
                   {product.image ? (
-                    <img src={product.image} alt={displayName} className="w-full h-full object-contain object-center hover:scale-105 transition-transform duration-500" />
+                    <img src={product.image} alt={displayName} loading="lazy" className="w-full h-full object-contain object-center hover:scale-105 transition-transform duration-500" />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center text-zinc-700">
                       <i className="ri-image-line text-5xl" aria-hidden="true"></i>
@@ -473,7 +480,7 @@ const ShopPage = () => {
                   )}
 
                   <div className="mt-auto flex flex-col sm:flex-row gap-2 sm:gap-3">
-                    {showPrice ? (
+                    {canBuy ? (
                       <button onClick={() => handleAddToCart(product.id)} disabled={addingId === product.id} aria-busy={addingId === product.id}
                         className="relative z-10 flex-1 min-h-[44px] py-3 bg-crimson-accent text-white font-inter font-semibold text-sm sm:text-base rounded-lg hover:bg-red-700 active:bg-red-800 transition-colors cursor-pointer whitespace-nowrap disabled:opacity-60 disabled:cursor-not-allowed focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-crimson-accent">
                         {addingId === product.id ? t('shop_adding') : failedId === product.id ? t('shop_add_retry') : t('shop_add_cart')}

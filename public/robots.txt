@@ -6,5 +6,8 @@ Disallow: /crm
 Disallow: /cart
 Disallow: /checkout
 Disallow: /order-success
+# Internal Ecwid proof-of-concept test routes (also noindex via meta)
+Disallow: /store-test
+Disallow: /store-test-cart
 
 Sitemap: https://canadabtcminers.ca/sitemap.xml

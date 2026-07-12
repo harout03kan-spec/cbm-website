@@ -1,0 +1,20 @@
+# Netlify build configuration for the Canada BTC Miners site.
+# Repo: harout03kan-spec/cbm-website · Netlify project: rad-kitten-18acc7
+#
+# NOTE: this project's Vite build.outDir is "out" (not the Vite default "dist"),
+# so the publish directory is "out". Pinning it here keeps deploys correct and
+# portable regardless of the Netlify UI setting.
+[build]
+  command = "npm run build"
+  publish = "out"
+
+[build.environment]
+  # Vite 7 requires Node 20.19+ / 22.12+. Pin an LTS for reproducible builds.
+  NODE_VERSION = "20"
+
+# SPA fallback so client-side routes (e.g. /shop, /about, /fr/shop) resolve on a
+# direct hit / refresh. Mirrors public/_redirects; the file wins if both exist.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
