@@ -512,13 +512,15 @@
  * actual checkout markup precisely. That is done in JS against the live DOM (see
  * the checkout-label enhancer) rather than with a guess-based blanket CSS rule. */
 
-/* Permanent field labels injected by the enhancer (ecwidCheckoutEnhancer.ts):
- * a normal static label ABOVE the field — visible before, during and after typing,
- * never a floating placeholder. order:-1 keeps it above even if Ecwid lays the
- * field wrapper out as a flex column. */
+/* Permanent field labels injected by the enhancer (ecwidCheckoutEnhancer.ts).
+ * The enhancer inserts each label as a normal block sibling OUTSIDE and ABOVE the
+ * full Ecwid field wrapper and copies the typography of the store's existing good
+ * labels (Country / name / phone) inline. These are only fallback defaults for when
+ * no reference label is found; the inline copied styles override them. No
+ * order/position tricks — the label sits in normal flow before its field. */
 :is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .cbm-ext-label {
   display: block !important;
-  order: -1 !important;
+  position: static !important;
   font-size: 0.8rem !important;
   line-height: 1.2 !important;
   font-weight: 500 !important;
@@ -529,14 +531,45 @@
   background: transparent !important;
 }
 
-/* The single "Secure payment via Moneris" line placed where the redundant Moneris
- * selection card sat (the radio itself stays in the DOM, sr-only). */
-:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .cbm-moneris-line {
+/* ONE compact payment row that replaces Ecwid's redundant single-method card:
+ * red credit-card icon + "Secure credit card payment via Moneris". Transparent
+ * background, subtle dark-grey border, compact padding — matches the black drawer,
+ * no navy. The original card is hidden (sr-only) but its radio stays selectable. */
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .cbm-moneris-row {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.6rem !important;
+  padding: 0.7rem 0.85rem !important;
+  margin: 0.25rem 0 !important;
+  background: transparent !important;
+  border: 1px solid var(--cbm-border-strong) !important;
+  border-radius: 0.5rem !important;
+  color: var(--cbm-text) !important;
   font-size: 0.95rem !important;
   font-weight: 500 !important;
-  color: var(--cbm-text) !important;
-  padding: 0.4rem 0 !important;
-  margin: 0 !important;
+  line-height: 1.3 !important;
+}
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .cbm-moneris-row .cbm-cc-icon {
+  color: var(--cbm-red) !important;
+  flex: none !important;
+  width: 20px !important;
+  height: 20px !important;
+}
+/* Visually hide Ecwid's original navy payment card but keep it in the DOM and the
+ * radio inside it accessible & selected (sr-only, NOT display:none) — so the
+ * payment method, card-entry fields, validation and Place Order all keep working,
+ * and no empty gap is left where the card was. */
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .cbm-sronly-card {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  border: 0 !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  clip-path: inset(50%) !important;
+  white-space: nowrap !important;
 }
 
 /* Payment-method radios ("Moneris Payment" etc.): Ecwid renders a custom radio
@@ -566,30 +599,10 @@
   line-height: 1.45 !important;
 }
 
-/* PAYMENT method (Moneris) is currently the only option, so its radio circle
- * adds nothing and looked odd — hide ONLY the payment radio circle and show the
- * "Moneris Payment" label as the selected method. Scoped to the payment section,
- * so SHIPPING method radios are NOT affected. The native input + Ecwid's payment
- * selection behaviour are untouched. */
-/* Moneris is the only payment option, so the "Moneris Payment" selection row adds
- * nothing (the drawer footer already says "Secure payment via Moneris"). VISUALLY
- * hide just that radio option row — but keep it in the DOM and selectable
- * (sr-only technique, NOT display:none), so Ecwid's payment selection is never
- * broken. Scoped to the payment method radio only; any card-entry fields and the
- * Place-order button are siblings and stay visible. If a second payment method is
- * ever added, remove this rule. */
-:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) [class*="payment"] .form-control--radio {
-  position: absolute !important;
-  width: 1px !important;
-  height: 1px !important;
-  padding: 0 !important;
-  margin: -1px !important;
-  border: 0 !important;
-  overflow: hidden !important;
-  clip: rect(0, 0, 0, 0) !important;
-  clip-path: inset(50%) !important;
-  white-space: nowrap !important;
-}
+/* (The single-method Moneris card is now hidden precisely by the enhancer, which
+ * adds .cbm-sronly-card to the exact card element and drops one compact
+ * .cbm-moneris-row in its place — see the rules above. No blanket payment-radio
+ * hide here, which used to leave Ecwid's navy "Moneris Payment" card visible.) */
 
 /* Shipping-method (and other) option cards: kill the bright-blue selected /
  * focus border and use brand red instead. Covers the browser focus outline and

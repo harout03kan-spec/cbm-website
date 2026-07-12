@@ -53,16 +53,14 @@ export default function EcwidCartDrawer() {
           </button>
         </header>
 
-        {/* Ecwid renders the cart / checkout here; themed via the container id. */}
+        {/* Ecwid renders the cart / checkout here; themed via the container id.
+            No extra Checkout button or footer trust line — Ecwid's own Checkout /
+            Go to Payment buttons live inside its flow, and the single "Secure
+            credit card payment via Moneris" row is shown in the payment section so
+            Moneris appears only once. */}
         <div className="flex-1 overflow-y-auto px-3 py-4">
           <div id={ECWID_CART_CONTAINER_ID} />
         </div>
-
-        {/* No extra Checkout button here — Ecwid's own Checkout / Go to Payment
-            buttons live inside its cart/checkout flow. Keep only the trust line. */}
-        <footer className="border-t border-white/10 p-4">
-          <p className="text-center text-xs text-soft-gray">Secure payment via Moneris</p>
-        </footer>
       </aside>
     </div>
   );
