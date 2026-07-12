@@ -498,39 +498,63 @@
  * theme (store-test-cart id + drawer id).
  * ==================================================================== */
 
-/* Checkout field LABELS.
- * We deliberately do NOT reorder / re-flow Ecwid's field children here. The old
- * blanket rule (make every .form-control a column, force every child static, send
- * the input to order:2 and treat *every other child* as a label) was far too broad
- * — it moved Ecwid's own <select> internals, dropdown arrows, wrappers and
- * validation elements, which broke the Country / Province dropdowns and made field
- * text behave like a placeholder. Ecwid's native fields lay out and validate
- * correctly on their own, so we leave their structure alone and only recolour them
- * (backgrounds / borders / brand red) via the rules above.
+/* Checkout ADDRESS fields — label ABOVE the box (scoped; NO injected labels).
+ * The enhancer (ecwidCheckoutEnhancer.ts) tags each ADDRESS TEXT field wrapper with
+ * .cbm-addr. These rules make that wrapper a simple column and lift Ecwid's OWN
+ * floating label (.form-control__placeholder) into a static label above the input,
+ * with the float animation disabled — so there is exactly ONE label (Ecwid's own,
+ * restyled), it sits above the value, and no floating text remains inside the box.
  *
- * Turning the placeholder-style field texts (Street address, City, Postal code,
- * Apartment) into permanent visible labels ABOVE the box requires inserting real
- * <label for=…> elements next to the exact Ecwid inputs — which must target Ecwid's
- * actual checkout markup precisely. That is done in JS against the live DOM (see
- * the checkout-label enhancer) rather than with a guess-based blanket CSS rule. */
-
-/* Permanent field labels injected by the enhancer (ecwidCheckoutEnhancer.ts).
- * The enhancer inserts each label as a normal block sibling OUTSIDE and ABOVE the
- * full Ecwid field wrapper and copies the typography of the store's existing good
- * labels (Country / name / phone) inline. These are only fallback defaults for when
- * no reference label is found; the inline copied styles override them. No
- * order/position tricks — the label sits in normal flow before its field. */
-:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .cbm-ext-label {
-  display: block !important;
+ * Scoped ONLY to .cbm-addr — this is NOT a blanket .form-control / input / select
+ * rule, and it deliberately does NOT touch the Country / Province SELECTS, which
+ * stay native (native dropdown arrow intact). The value's own height/padding comes
+ * from the shared dark-field rule above (min-height ~3.1rem), which reads as a
+ * slightly taller box with the value comfortably centred. */
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control.cbm-addr {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+}
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control.cbm-addr .form-control__placeholder,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control.cbm-addr .form-control__placeholder-inner {
   position: static !important;
+  transform: none !important;
+  transition: none !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  width: auto !important;
+  max-width: 100% !important;
+  height: auto !important;
+  pointer-events: none;
+}
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control.cbm-addr .form-control__placeholder {
+  order: -1 !important;
+  margin: 0 0 0.35rem 0 !important;
+  padding: 0 !important;
   font-size: 0.8rem !important;
   line-height: 1.2 !important;
   font-weight: 500 !important;
   color: var(--cbm-text-muted) !important;
-  margin: 0 0 0.3rem 0 !important;
-  padding: 0 !important;
-  text-align: left !important;
   background: transparent !important;
+  text-align: left !important;
+  white-space: normal !important;
+}
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control.cbm-addr .form-control__text,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control.cbm-addr .form-control__input,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control.cbm-addr .form-control__select,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control.cbm-addr input,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control.cbm-addr select,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control.cbm-addr textarea {
+  order: 1 !important;
+  width: 100% !important;
+}
+/* The Province select stays a NATIVE select showing the browser's own arrow
+ * (appearance:auto, set above). Ecwid also draws a custom .form-control__arrow —
+ * hide only that duplicate so there is exactly one native arrow, never two. */
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control.cbm-addr .form-control__arrow {
+  display: none !important;
 }
 
 /* ONE compact payment row that replaces Ecwid's redundant single-method card:
