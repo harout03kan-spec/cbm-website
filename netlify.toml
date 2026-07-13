@@ -1,0 +1,48 @@
+# Netlify build configuration for the Canada BTC Miners site.
+# Repo: harout03kan-spec/cbm-website · Netlify project: rad-kitten-18acc7
+#
+# NOTE: this project's Vite build.outDir is "out" (not the Vite default "dist"),
+# so the publish directory is "out". Pinning it here keeps deploys correct and
+# portable regardless of the Netlify UI setting.
+[build]
+  command = "npm run build"
+  publish = "out"
+
+[build.environment]
+  # Vite 7 requires Node 20.19+ / 22.12+. Pin an LTS for reproducible builds.
+  NODE_VERSION = "20"
+
+# Removed internal Ecwid test routes -> real shop. Listed BEFORE the SPA catch-all
+# so a hard load / refresh / old bookmark of /store-test[-cart] 301s to /shop at the
+# edge (before the app boots). The router also redirects these for in-app nav.
+[[redirects]]
+  from = "/store-test-cart"
+  to = "/shop"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/store-test"
+  to = "/shop"
+  status = 301
+  force = true
+
+# SPA fallback so client-side routes (e.g. /shop, /about, /fr/shop) resolve on a
+# direct hit / refresh. Must stay LAST.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Minimal, third-party-safe security headers. These are response headers on our
+# own pages; they do NOT affect the external scripts we load (Ecwid, fonts, CDNs)
+# or the iframes we embed (Moneris card fields), or Netlify Forms.
+# NOTE: no Content-Security-Policy is set on purpose — a CSP must be tested against
+# every required domain (Ecwid, Moneris, Google Fonts, jsDelivr, reCAPTCHA, etc.)
+# before enabling, or it will break the storefront/checkout.
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "SAMEORIGIN"
+    Referrer-Policy = "strict-origin-when-cross-origin"

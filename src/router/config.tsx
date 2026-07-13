@@ -1,5 +1,5 @@
 import { lazy } from 'react';
-import { RouteObject } from 'react-router-dom';
+import { RouteObject, Navigate } from 'react-router-dom';
 import FrenchLayout from './FrenchLayout';
 
 const Home = lazy(() => import('../pages/home/page'));
@@ -14,10 +14,6 @@ const Cart = lazy(() => import('../pages/cart/page'));
 const Checkout = lazy(() => import('../pages/checkout/page'));
 const OrderSuccess = lazy(() => import('../pages/order-success/page'));
 const Crm = lazy(() => import('../pages/crm/page'));
-// Hidden internal PoC route — Ecwid storefront embed. Not in nav or sitemap.
-const StoreTest = lazy(() => import('../pages/store-test/page'));
-// Hidden internal PoC route — Ecwid cart/checkout handoff via JS API. Not in nav or sitemap.
-const StoreTestCart = lazy(() => import('../pages/store-test-cart/page'));
 const NotFound = lazy(() => import('../pages/NotFound'));
 
 const routes: RouteObject[] = [
@@ -69,15 +65,17 @@ const routes: RouteObject[] = [
     path: '/crm',
     element: <Crm />,
   },
-  // Hidden internal PoC — Ecwid storefront test. Not linked in nav; noindex; not in sitemap.
+  // Former internal Ecwid test routes — removed from the production site. Redirect
+  // any old preview link / bookmark to the real shop so it never 404s. (A Netlify
+  // edge redirect in netlify.toml / _redirects handles a hard load before the app
+  // boots; this handles in-app navigation.)
   {
     path: '/store-test',
-    element: <StoreTest />,
+    element: <Navigate to="/shop" replace />,
   },
-  // Hidden internal PoC — Ecwid cart/checkout handoff test. Not linked in nav; noindex; not in sitemap.
   {
     path: '/store-test-cart',
-    element: <StoreTestCart />,
+    element: <Navigate to="/shop" replace />,
   },
   // Localized French URLs. Same pages, French locale. Keeps English routes intact.
   {

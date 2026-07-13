@@ -1,15 +1,26 @@
 import { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
-import { useCart } from '../../hooks/useCart';
+import { useEcwidCart } from '../../hooks/useEcwidCart';
+
+// Routes that have a localized French counterpart under /fr (see router/config.tsx).
+const FR_ROUTES = ['/', '/shop', '/bulk-deals', '/product', '/hosting', '/services', '/about', '/contact'];
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
   const { t, i18n } = useTranslation();
-  const { totalQuantity } = useCart();
+  // Cart badge/button reflect the real Ecwid cart and open the Ecwid cart drawer.
+  const { count: totalQuantity, openCart } = useEcwidCart();
+
+  // Drive language off the URL (the source of truth for the /fr routes), and keep
+  // nav links localized so moving between pages preserves the chosen language.
+  const isFrench = location.pathname === '/fr' || location.pathname.startsWith('/fr/');
+  const barePath = isFrench ? location.pathname.replace(/^\/fr/, '') || '/' : location.pathname;
+  const localize = (path: string) => (isFrench ? `/fr${path === '/' ? '' : path}` : path);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
@@ -19,7 +30,29 @@ const Navbar = () => {
 
   useEffect(() => { setMobileOpen(false); }, [location]);
 
-  const toggleLang = () => i18n.changeLanguage(i18n.language === 'en' ? 'fr' : 'en');
+  // Close the mobile menu with Escape (keyboard accessibility).
+  useEffect(() => {
+    if (!mobileOpen) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setMobileOpen(false); };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [mobileOpen]);
+
+  // Toggle language AND navigate to the matching URL so /fr is reachable and the
+  // locale never desyncs from the path (which would break canonical/hreflang SEO).
+  // On pages that have no /fr counterpart (cart/checkout/order-success), switch the
+  // language in place instead of navigating into a non-existent /fr route.
+  const toggleLang = () => {
+    if (isFrench) {
+      i18n.changeLanguage('en');
+      navigate(`${barePath}${location.search}`);
+    } else {
+      i18n.changeLanguage('fr');
+      if (FR_ROUTES.includes(barePath)) {
+        navigate(`/fr${barePath === '/' ? '' : barePath}${location.search}`);
+      }
+    }
+  };
 
   const navLinks = [
     { to: '/',         label: t('nav_home') },
@@ -40,26 +73,26 @@ const Navbar = () => {
     >
       <div className="max-w-7xl mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
-          <Link to="/" className="flex flex-col cursor-pointer group">
-            <div className="text-xl font-orbitron font-bold text-white tracking-wider leading-tight group-hover:text-crimson-accent transition-colors">Canada BTC Miners</div>
+          <Link to={localize('/')} className="flex flex-col cursor-pointer group min-w-0">
+            <div className="whitespace-nowrap text-lg sm:text-xl font-orbitron font-bold text-white tracking-wide sm:tracking-wider leading-tight group-hover:text-crimson-accent transition-colors">Canada BTC Miners</div>
             <p className="text-[10px] sm:text-xs text-crimson-accent font-inter tracking-wide">ASIC Sales · Repairs · Hosting</p>
           </Link>
 
           <div className="hidden md:flex items-center gap-8">
             {navLinks.map((link) => (
-              <Link key={link.to} to={link.to} className={`font-inter font-medium transition-colors whitespace-nowrap ${location.pathname === link.to ? 'text-crimson-accent' : 'text-white hover:text-crimson-accent'}`}>
+              <Link key={link.to} to={localize(link.to)} className={`font-inter font-medium transition-colors whitespace-nowrap ${location.pathname === localize(link.to) ? 'text-crimson-accent' : 'text-white hover:text-crimson-accent'}`}>
                 {link.label}
               </Link>
             ))}
-            <Link to="/cart" className="relative w-10 h-10 flex items-center justify-center text-white hover:text-crimson-accent transition-colors">
+            <button type="button" onClick={openCart} aria-label="Open cart" className="relative w-10 h-10 flex items-center justify-center text-white hover:text-crimson-accent transition-colors">
               <i className="ri-shopping-cart-line text-2xl"></i>
               {totalQuantity > 0 && (
                 <span className="absolute -top-1 -right-1 w-5 h-5 flex items-center justify-center bg-crimson-accent text-white text-xs font-bold rounded-full">{totalQuantity > 99 ? '99+' : totalQuantity}</span>
               )}
-            </Link>
+            </button>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-1.5 sm:gap-3">
             <a
               href="tel:+15146047050"
               className="hidden lg:flex items-center gap-1.5 text-xs font-semibold text-zinc-300 hover:text-white transition-colors whitespace-nowrap"
@@ -71,19 +104,26 @@ const Navbar = () => {
             <button onClick={toggleLang} className="px-3 py-1.5 text-xs font-bold font-inter tracking-widest border border-white/20 text-white rounded-lg hover:border-crimson-accent hover:text-crimson-accent transition-colors">
               {t('nav_lang')}
             </button>
-            <Link to="/shop" className="hidden sm:block px-6 py-2.5 bg-gradient-crimson text-white font-inter font-semibold rounded-lg hover:scale-105 transition-transform whitespace-nowrap">
+            <Link to={localize('/shop')} className="hidden sm:block px-6 py-2.5 bg-gradient-crimson text-white font-inter font-semibold rounded-lg hover:scale-105 transition-transform whitespace-nowrap">
               {t('nav_shopMiners')}
             </Link>
-            <button onClick={() => setMobileOpen(!mobileOpen)} className="md:hidden w-10 h-10 flex items-center justify-center text-white hover:text-crimson-accent transition-colors">
-              <i className={`${mobileOpen ? 'ri-close-line' : 'ri-menu-line'} text-2xl`}></i>
+            {/* Mobile cart (desktop cart lives in the md:flex nav above) */}
+            <button type="button" onClick={openCart} aria-label="Open cart" className="md:hidden relative w-10 h-10 flex items-center justify-center text-white hover:text-crimson-accent transition-colors">
+              <i className="ri-shopping-cart-line text-2xl"></i>
+              {totalQuantity > 0 && (
+                <span className="absolute -top-1 -right-1 w-5 h-5 flex items-center justify-center bg-crimson-accent text-white text-xs font-bold rounded-full">{totalQuantity > 99 ? '99+' : totalQuantity}</span>
+              )}
+            </button>
+            <button onClick={() => setMobileOpen(!mobileOpen)} aria-label={mobileOpen ? 'Close menu' : 'Open menu'} aria-expanded={mobileOpen} aria-controls="mobile-menu" className="md:hidden w-10 h-10 flex items-center justify-center text-white hover:text-crimson-accent transition-colors">
+              <i className={`${mobileOpen ? 'ri-close-line' : 'ri-menu-line'} text-2xl`} aria-hidden="true"></i>
             </button>
           </div>
         </div>
 
         {mobileOpen && (
-          <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="md:hidden relative z-50 -mx-6 mt-4 flex flex-col gap-4 border-t border-white/10 bg-black/90 px-6 pb-5 pt-4 backdrop-blur-xl shadow-xl shadow-crimson-accent/10">
+          <motion.div id="mobile-menu" initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="md:hidden relative z-50 -mx-6 mt-4 flex flex-col gap-4 border-t border-white/10 bg-black/90 px-6 pb-5 pt-4 backdrop-blur-xl shadow-xl shadow-crimson-accent/10">
             {navLinks.map((link) => (
-              <Link key={link.to} to={link.to} className={`font-inter font-medium text-base transition-colors ${location.pathname === link.to ? 'text-crimson-accent' : 'text-white hover:text-crimson-accent'}`}>
+              <Link key={link.to} to={localize(link.to)} className={`font-inter font-medium text-base transition-colors ${location.pathname === localize(link.to) ? 'text-crimson-accent' : 'text-white hover:text-crimson-accent'}`}>
                 {link.label}
               </Link>
             ))}
@@ -91,7 +131,7 @@ const Navbar = () => {
               <i className="ri-phone-fill text-lg text-crimson-accent"></i>
               +1 (514) 604-7050
             </a>
-            <Link to="/shop" className="mt-2 px-6 py-3 bg-gradient-crimson text-white font-inter font-semibold rounded-lg text-center">{t('nav_shopMiners')}</Link>
+            <Link to={localize('/shop')} className="mt-2 px-6 py-3 bg-gradient-crimson text-white font-inter font-semibold rounded-lg text-center">{t('nav_shopMiners')}</Link>
           </motion.div>
         )}
       </div>

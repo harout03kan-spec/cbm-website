@@ -23,7 +23,7 @@
  * specific/inline styles.
  */
 
-#ecwid-cart-handoff-99673270 {
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) {
   --cbm-red: #dc2626;         /* crimson-accent — same as site "Shop Miners" CTA */
   --cbm-red-hover: #b91c1c;   /* red-700 — same hover as the site CTA */
   --cbm-text: #f5f5f5;
@@ -34,134 +34,134 @@
 }
 
 /* ---- Match the site font (text elements only; icons/SVGs untouched) --- */
-#ecwid-cart-handoff-99673270,
-#ecwid-cart-handoff-99673270 h1,
-#ecwid-cart-handoff-99673270 h2,
-#ecwid-cart-handoff-99673270 h3,
-#ecwid-cart-handoff-99673270 h4,
-#ecwid-cart-handoff-99673270 p,
-#ecwid-cart-handoff-99673270 a,
-#ecwid-cart-handoff-99673270 span,
-#ecwid-cart-handoff-99673270 label,
-#ecwid-cart-handoff-99673270 li,
-#ecwid-cart-handoff-99673270 td,
-#ecwid-cart-handoff-99673270 th,
-#ecwid-cart-handoff-99673270 input,
-#ecwid-cart-handoff-99673270 select,
-#ecwid-cart-handoff-99673270 textarea,
-#ecwid-cart-handoff-99673270 button {
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270),
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) h1,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) h2,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) h3,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) h4,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) p,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) a,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) span,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) label,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) li,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) td,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) th,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) input,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) select,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) textarea,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) button {
   font-family: 'Inter', ui-sans-serif, system-ui, sans-serif !important;
 }
 
 /* ---- Flatten to ONE surface ------------------------------------------ */
 /* Everything transparent so it inherits the single graphite React card —
    no extra boxes behind text. Center + full-width within the card. */
-#ecwid-cart-handoff-99673270,
-#ecwid-cart-handoff-99673270 .ec-store,
-#ecwid-cart-handoff-99673270 .ec-store__content-wrapper,
-#ecwid-cart-handoff-99673270 .ecwid,
-#ecwid-cart-handoff-99673270 .ec-cart,
-#ecwid-cart-handoff-99673270 .ec-cart__body,
-#ecwid-cart-handoff-99673270 .ec-cart__products,
-#ecwid-cart-handoff-99673270 .ec-cart__summary,
-#ecwid-cart-handoff-99673270 .ec-cart__coupon,
-#ecwid-cart-handoff-99673270 .ec-cart-item,
-#ecwid-cart-handoff-99673270 .ec-form,
-#ecwid-cart-handoff-99673270 .ec-form__cell,
-#ecwid-cart-handoff-99673270 .ec-form__row {
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270),
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-store,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-store__content-wrapper,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ecwid,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-cart,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-cart__body,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-cart__products,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-cart__summary,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-cart__coupon,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-cart-item,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-form,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-form__cell,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-form__row {
   background: transparent !important;
   box-shadow: none !important;
   color: var(--cbm-text) !important;
 }
 
-#ecwid-cart-handoff-99673270 .ec-store,
-#ecwid-cart-handoff-99673270 .ec-store__content-wrapper,
-#ecwid-cart-handoff-99673270 .ec-cart,
-#ecwid-cart-handoff-99673270 .ec-form {
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-store,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-store__content-wrapper,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-cart,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-form {
   max-width: 100% !important;
   margin-left: auto !important;
   margin-right: auto !important;
 }
 
 /* Section separation via subtle dividers instead of filled panels */
-#ecwid-cart-handoff-99673270 .ec-cart-item {
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-cart-item {
   border: 0 !important;
   border-bottom: 1px solid var(--cbm-border) !important;
   border-radius: 0 !important;
   padding: 1rem 0 !important;
 }
 
-#ecwid-cart-handoff-99673270 .ec-cart__summary {
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-cart__summary {
   border-top: 1px solid var(--cbm-border) !important;
   padding-top: 1.1rem !important;
   margin-top: 0.5rem !important;
 }
 
-#ecwid-cart-handoff-99673270 .ec-cart__coupon {
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-cart__coupon {
   padding: 0.75rem 0 !important;
 }
 
 /* Breathing room between checkout rows */
-#ecwid-cart-handoff-99673270 .ec-form__row {
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-form__row {
   margin-bottom: 1rem !important;
 }
 
 /* ---- Text ------------------------------------------------------------- */
-#ecwid-cart-handoff-99673270 .ec-cart__title,
-#ecwid-cart-handoff-99673270 .ec-form__title,
-#ecwid-cart-handoff-99673270 .ec-cart-item__title,
-#ecwid-cart-handoff-99673270 .ec-cart-item__price,
-#ecwid-cart-handoff-99673270 .ec-cart-item__subtotal,
-#ecwid-cart-handoff-99673270 .ec-cart__total,
-#ecwid-cart-handoff-99673270 .form-control__label,
-#ecwid-cart-handoff-99673270 label,
-#ecwid-cart-handoff-99673270 h1,
-#ecwid-cart-handoff-99673270 h2,
-#ecwid-cart-handoff-99673270 h3,
-#ecwid-cart-handoff-99673270 p,
-#ecwid-cart-handoff-99673270 span,
-#ecwid-cart-handoff-99673270 td,
-#ecwid-cart-handoff-99673270 th {
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-cart__title,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-form__title,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-cart-item__title,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-cart-item__price,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-cart-item__subtotal,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-cart__total,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control__label,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) label,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) h1,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) h2,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) h3,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) p,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) span,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) td,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) th {
   color: var(--cbm-text) !important;
 }
 
-#ecwid-cart-handoff-99673270 .ec-cart__title,
-#ecwid-cart-handoff-99673270 .ec-form__title,
-#ecwid-cart-handoff-99673270 h1,
-#ecwid-cart-handoff-99673270 h2 {
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-cart__title,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-form__title,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) h1,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) h2 {
   font-weight: 700 !important;
   letter-spacing: -0.01em !important;
 }
 
-#ecwid-cart-handoff-99673270 .ec-cart-item__sku,
-#ecwid-cart-handoff-99673270 .ec-cart__note,
-#ecwid-cart-handoff-99673270 .form-control__help {
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-cart-item__sku,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-cart__note,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control__help {
   color: var(--cbm-text-muted) !important;
 }
 
 /* ---- Links (Continue shopping, Redeem, Quantity/edit) -> ONE red ------ */
-#ecwid-cart-handoff-99673270 a,
-#ecwid-cart-handoff-99673270 .ec-link,
-#ecwid-cart-handoff-99673270 .ec-link--muted,
-#ecwid-cart-handoff-99673270 .ec-link--inherit,
-#ecwid-cart-handoff-99673270 .ec-link__text,
-#ecwid-cart-handoff-99673270 .form-control__inline-link,
-#ecwid-cart-handoff-99673270 .ec-cart-item__control .ec-link,
-#ecwid-cart-handoff-99673270 .ec-cart__coupon .ec-link {
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) a,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-link,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-link--muted,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-link--inherit,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-link__text,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control__inline-link,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-cart-item__control .ec-link,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-cart__coupon .ec-link {
   color: var(--cbm-red) !important;
 }
 
-#ecwid-cart-handoff-99673270 a:hover,
-#ecwid-cart-handoff-99673270 .ec-link:hover,
-#ecwid-cart-handoff-99673270 .ec-link__text:hover {
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) a:hover,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-link:hover,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-link__text:hover {
   color: var(--cbm-red-hover) !important;
 }
 
 /* ---- Primary buttons (Checkout / Place order / Apply) -> ONE red ------ */
-#ecwid-cart-handoff-99673270 .form-control--button .form-control__button,
-#ecwid-cart-handoff-99673270 button.form-control__button,
-#ecwid-cart-handoff-99673270 .ec-cart__button .form-control__button,
-#ecwid-cart-handoff-99673270 .ec-form__button .form-control__button {
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control--button .form-control__button,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) button.form-control__button,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-cart__button .form-control__button,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-form__button .form-control__button {
   background-color: var(--cbm-red) !important;
   border: 1px solid var(--cbm-red) !important;
   color: #ffffff !important;
@@ -171,20 +171,20 @@
   box-shadow: none !important;
 }
 
-#ecwid-cart-handoff-99673270 .form-control--button .form-control__button:hover,
-#ecwid-cart-handoff-99673270 button.form-control__button:hover {
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control--button .form-control__button:hover,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) button.form-control__button:hover {
   background-color: var(--cbm-red-hover) !important;
   border-color: var(--cbm-red-hover) !important;
   color: #ffffff !important;
 }
 
-#ecwid-cart-handoff-99673270 .form-control__button-text {
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control__button-text {
   color: #ffffff !important;
 }
 
 /* ---- Inputs ----------------------------------------------------------- */
 /* Neutralise Ecwid's own field-wrapper box so we don't get nested boxes... */
-#ecwid-cart-handoff-99673270 .form-control:not(.form-control--button) {
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control:not(.form-control--button) {
   background: transparent !important;
   border: 0 !important;
   box-shadow: none !important;
@@ -192,36 +192,51 @@
 }
 
 /* ...and style the input element itself as the single dark field. */
-#ecwid-cart-handoff-99673270 .form-control__text,
-#ecwid-cart-handoff-99673270 .form-control__input,
-#ecwid-cart-handoff-99673270 input[type="text"],
-#ecwid-cart-handoff-99673270 input[type="email"],
-#ecwid-cart-handoff-99673270 input[type="tel"],
-#ecwid-cart-handoff-99673270 input[type="number"],
-#ecwid-cart-handoff-99673270 input[type="search"],
-#ecwid-cart-handoff-99673270 input[type="password"],
-#ecwid-cart-handoff-99673270 select,
-#ecwid-cart-handoff-99673270 textarea {
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control__text,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control__input,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) input[type="text"],
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) input[type="email"],
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) input[type="tel"],
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) input[type="number"],
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) input[type="search"],
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) input[type="password"],
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) select,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) textarea {
   background-color: var(--cbm-input) !important;
   color: var(--cbm-text) !important;
   border: 1px solid var(--cbm-border-strong) !important;
   border-radius: 0.5rem !important;
-  padding: 0.65rem 0.85rem !important;
+  /* Slightly taller, a touch more vertical padding so the entered value sits
+     comfortably centred and never touches the label above it — without leaving a
+     big empty box. */
+  min-height: 3.1rem !important;
+  padding: 0.9rem 0.85rem !important;
   box-shadow: none !important;
   outline: none !important;
   -webkit-appearance: none !important;
   appearance: none !important;
 }
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) textarea {
+  min-height: 5rem !important;
+}
+/* Selects keep the native dropdown arrow INSIDE the field (appearance:none above
+   would remove it). Restore a menulist arrow and leave room for it on the right. */
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) select {
+  -webkit-appearance: menulist !important;
+  -moz-appearance: menulist !important;
+  appearance: auto !important;
+  padding-right: 1.75rem !important;
+}
 
 /* Focus: red ring only — no blue outline, no white corner/box artifacts. */
-#ecwid-cart-handoff-99673270 .form-control__text:focus,
-#ecwid-cart-handoff-99673270 .form-control__input:focus,
-#ecwid-cart-handoff-99673270 input:focus,
-#ecwid-cart-handoff-99673270 select:focus,
-#ecwid-cart-handoff-99673270 textarea:focus,
-#ecwid-cart-handoff-99673270 input:focus-visible,
-#ecwid-cart-handoff-99673270 select:focus-visible,
-#ecwid-cart-handoff-99673270 textarea:focus-visible {
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control__text:focus,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control__input:focus,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) input:focus,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) select:focus,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) textarea:focus,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) input:focus-visible,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) select:focus-visible,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) textarea:focus-visible {
   background-color: var(--cbm-input) !important;
   color: var(--cbm-text) !important;
   border-color: var(--cbm-red) !important;
@@ -230,19 +245,19 @@
 }
 
 /* Ecwid sometimes flags the field-wrapper as focused — keep it flat/red too. */
-#ecwid-cart-handoff-99673270 .form-control:not(.form-control--button):focus-within,
-#ecwid-cart-handoff-99673270 .form-control--focus:not(.form-control--button) {
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control:not(.form-control--button):focus-within,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control--focus:not(.form-control--button) {
   border: 0 !important;
   box-shadow: none !important;
   outline: none !important;
 }
 
 /* Kill the browser autofill white/blue wash (the odd white-corner artifact). */
-#ecwid-cart-handoff-99673270 input:-webkit-autofill,
-#ecwid-cart-handoff-99673270 input:-webkit-autofill:hover,
-#ecwid-cart-handoff-99673270 input:-webkit-autofill:focus,
-#ecwid-cart-handoff-99673270 textarea:-webkit-autofill,
-#ecwid-cart-handoff-99673270 select:-webkit-autofill {
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) input:-webkit-autofill,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) input:-webkit-autofill:hover,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) input:-webkit-autofill:focus,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) textarea:-webkit-autofill,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) select:-webkit-autofill {
   -webkit-text-fill-color: var(--cbm-text) !important;
   -webkit-box-shadow: 0 0 0 1000px var(--cbm-input) inset !important;
   box-shadow: 0 0 0 1000px var(--cbm-input) inset !important;
@@ -251,57 +266,57 @@
   caret-color: var(--cbm-text) !important;
 }
 
-#ecwid-cart-handoff-99673270 input:-webkit-autofill:focus {
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) input:-webkit-autofill:focus {
   -webkit-box-shadow: 0 0 0 1000px var(--cbm-input) inset, 0 0 0 1px var(--cbm-red) !important;
   box-shadow: 0 0 0 1000px var(--cbm-input) inset, 0 0 0 1px var(--cbm-red) !important;
   border-color: var(--cbm-red) !important;
 }
 
-#ecwid-cart-handoff-99673270 ::placeholder {
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) ::placeholder {
   color: var(--cbm-text-muted) !important;
   opacity: 1 !important;
 }
 
 /* ---- Dividers --------------------------------------------------------- */
-#ecwid-cart-handoff-99673270 hr {
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) hr {
   border-color: var(--cbm-border) !important;
 }
 
 /* ---- Bottom Ecwid labels + icons (My Account / Track Orders / Shopping
  * Bag): KEEP them visible, and make them clearer — brand red, readable
  * weight, higher-contrast icons. Never hidden. */
-#ecwid-cart-handoff-99673270 .ec-footer,
-#ecwid-cart-handoff-99673270 .ec-footer *,
-#ecwid-cart-handoff-99673270 .ec-store__footer,
-#ecwid-cart-handoff-99673270 .ec-store__footer * {
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-footer,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-footer *,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-store__footer,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-store__footer * {
   color: var(--cbm-red) !important;
 }
 
-#ecwid-cart-handoff-99673270 .ec-footer a,
-#ecwid-cart-handoff-99673270 .ec-footer .ec-link,
-#ecwid-cart-handoff-99673270 .ec-store__footer a,
-#ecwid-cart-handoff-99673270 .ec-store__footer .ec-link {
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-footer a,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-footer .ec-link,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-store__footer a,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-store__footer .ec-link {
   color: var(--cbm-red) !important;
   font-weight: 600 !important;
 }
 
-#ecwid-cart-handoff-99673270 .ec-footer a:hover,
-#ecwid-cart-handoff-99673270 .ec-store__footer a:hover {
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-footer a:hover,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-store__footer a:hover {
   color: var(--cbm-red-hover) !important;
 }
 
 /* High-contrast footer icons (svg + icon-font glyphs). */
-#ecwid-cart-handoff-99673270 .ec-footer svg,
-#ecwid-cart-handoff-99673270 .ec-store__footer svg,
-#ecwid-cart-handoff-99673270 .ec-minicart__icon svg {
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-footer svg,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-store__footer svg,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-minicart__icon svg {
   fill: var(--cbm-red) !important;
   opacity: 1 !important;
   width: 1.25rem !important;
   height: 1.25rem !important;
 }
 
-#ecwid-cart-handoff-99673270 .ec-footer [class*="icon"],
-#ecwid-cart-handoff-99673270 .ec-store__footer [class*="icon"] {
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-footer [class*="icon"],
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-store__footer [class*="icon"] {
   color: var(--cbm-red) !important;
   opacity: 1 !important;
 }
@@ -311,36 +326,36 @@
  * ==================================================================== */
 
 /* Prevent any stray horizontal scrollbar / overflow "bar" inside the card. */
-#ecwid-cart-handoff-99673270 {
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) {
   overflow-x: hidden !important;
 }
-#ecwid-cart-handoff-99673270 * {
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) * {
   box-sizing: border-box !important;
 }
-#ecwid-cart-handoff-99673270 img,
-#ecwid-cart-handoff-99673270 table {
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) img,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) table {
   max-width: 100% !important;
 }
 
 /* Ecwid loading indicator: theme it (transparent track, brand-red bar) so it
  * never appears as a stray gray bar under the header on the dark card. Only
  * its colour changes — behaviour is untouched. */
-#ecwid-cart-handoff-99673270 .ec-loader,
-#ecwid-cart-handoff-99673270 .ec-progress,
-#ecwid-cart-handoff-99673270 [class*="loader"],
-#ecwid-cart-handoff-99673270 [class*="progress-bar"] {
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-loader,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-progress,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) [class*="loader"],
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) [class*="progress-bar"] {
   background-color: transparent !important;
 }
-#ecwid-cart-handoff-99673270 .ec-loader__bar,
-#ecwid-cart-handoff-99673270 .ec-progress__bar,
-#ecwid-cart-handoff-99673270 [class*="loader"] [class*="bar"] {
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-loader__bar,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-progress__bar,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) [class*="loader"] [class*="bar"] {
   background-color: var(--cbm-red) !important;
 }
 
 /* Promo / coupon (Redeem) icon: make it clearly visible in brand red. */
-#ecwid-cart-handoff-99673270 .ec-cart__coupon svg,
-#ecwid-cart-handoff-99673270 .ec-cart__coupon i,
-#ecwid-cart-handoff-99673270 .ec-cart__coupon [class*="icon"] {
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-cart__coupon svg,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-cart__coupon i,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-cart__coupon [class*="icon"] {
   fill: var(--cbm-red) !important;
   color: var(--cbm-red) !important;
   opacity: 1 !important;
@@ -350,8 +365,8 @@
  * centered row that wraps cleanly instead of stacking awkwardly, with
  * slightly larger, clearer icons. Still fully visible — never hidden. This
  * later rule also bumps the icon size set earlier (1.25rem -> 1.4rem). */
-#ecwid-cart-handoff-99673270 .ec-footer,
-#ecwid-cart-handoff-99673270 .ec-store__footer {
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-footer,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-store__footer {
   display: flex !important;
   flex-wrap: wrap !important;
   justify-content: center !important;
@@ -359,9 +374,9 @@
   gap: 0.6rem 1.25rem !important;
   text-align: center !important;
 }
-#ecwid-cart-handoff-99673270 .ec-footer svg,
-#ecwid-cart-handoff-99673270 .ec-store__footer svg,
-#ecwid-cart-handoff-99673270 .ec-minicart__icon svg {
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-footer svg,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-store__footer svg,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .ec-minicart__icon svg {
   width: 1.4rem !important;
   height: 1.4rem !important;
   fill: var(--cbm-red) !important;
@@ -388,13 +403,13 @@
  * Give ONLY that box a normal ~18px square shape, and lay it out before the label
  * with a gap so the "K" in "Keep..." is never clipped. No colour/red styling, no
  * accent-color; the native input is untouched and the box is not hidden. */
-body.cbm-ecwid-test-active .form-control--checkbox {
+:is(body.cbm-ecwid-test-active, #cbm-ecwid-cart-99673270) .form-control--checkbox {
   display: flex !important;
   align-items: flex-start !important;
   gap: 10px !important;
 }
-body.cbm-ecwid-test-active .form-control--checkbox .form-control__checkbox-view,
-body.cbm-ecwid-test-active .form-control__checkbox-view {
+:is(body.cbm-ecwid-test-active, #cbm-ecwid-cart-99673270) .form-control--checkbox .form-control__checkbox-view,
+:is(body.cbm-ecwid-test-active, #cbm-ecwid-cart-99673270) .form-control__checkbox-view {
   position: static !important;
   flex: none !important;
   width: 18px !important;
@@ -409,7 +424,7 @@ body.cbm-ecwid-test-active .form-control__checkbox-view {
   box-sizing: border-box !important;
   margin: 1px 0 0 0 !important;
 }
-body.cbm-ecwid-test-active .form-control--checkbox .form-control__label {
+:is(body.cbm-ecwid-test-active, #cbm-ecwid-cart-99673270) .form-control--checkbox .form-control__label {
   padding-left: 0 !important;
   margin-left: 0 !important;
   line-height: 1.45 !important;
@@ -419,24 +434,24 @@ body.cbm-ecwid-test-active .form-control--checkbox .form-control__label {
 /* Make Ecwid's loading indicator invisible/subtle so no gray moving bar shows
  * under the header. Loaders/spinners only — validation messages and real
  * controls are untouched. */
-body.cbm-ecwid-test-active [class*="loader"],
-body.cbm-ecwid-test-active [class*="loading"],
-body.cbm-ecwid-test-active [class*="Loading"],
-body.cbm-ecwid-test-active [class*="spinner"],
-body.cbm-ecwid-test-active [class*="progress-bar"],
-body.cbm-ecwid-test-active [class*="progressbar"],
-body.cbm-ecwid-test-active [class*="ec-loading"],
-body.cbm-ecwid-test-active [class*="ecwid-loading"],
-body.cbm-ecwid-test-active [id*="loading"],
-body.cbm-ecwid-test-active [id*="Loading"],
-body.cbm-ecwid-test-active [role="progressbar"],
-body.cbm-ecwid-test-active progress,
-body.cbm-ecwid-test-active .ec-loader,
-body.cbm-ecwid-test-active .ec-progress,
-#ecwid-cart-handoff-99673270 [class*="loader"],
-#ecwid-cart-handoff-99673270 [class*="loading"],
-#ecwid-cart-handoff-99673270 [class*="progress-bar"],
-#ecwid-cart-handoff-99673270 [role="progressbar"] {
+:is(body.cbm-ecwid-test-active, #cbm-ecwid-cart-99673270) [class*="loader"],
+:is(body.cbm-ecwid-test-active, #cbm-ecwid-cart-99673270) [class*="loading"],
+:is(body.cbm-ecwid-test-active, #cbm-ecwid-cart-99673270) [class*="Loading"],
+:is(body.cbm-ecwid-test-active, #cbm-ecwid-cart-99673270) [class*="spinner"],
+:is(body.cbm-ecwid-test-active, #cbm-ecwid-cart-99673270) [class*="progress-bar"],
+:is(body.cbm-ecwid-test-active, #cbm-ecwid-cart-99673270) [class*="progressbar"],
+:is(body.cbm-ecwid-test-active, #cbm-ecwid-cart-99673270) [class*="ec-loading"],
+:is(body.cbm-ecwid-test-active, #cbm-ecwid-cart-99673270) [class*="ecwid-loading"],
+:is(body.cbm-ecwid-test-active, #cbm-ecwid-cart-99673270) [id*="loading"],
+:is(body.cbm-ecwid-test-active, #cbm-ecwid-cart-99673270) [id*="Loading"],
+:is(body.cbm-ecwid-test-active, #cbm-ecwid-cart-99673270) [role="progressbar"],
+:is(body.cbm-ecwid-test-active, #cbm-ecwid-cart-99673270) progress,
+:is(body.cbm-ecwid-test-active, #cbm-ecwid-cart-99673270) .ec-loader,
+:is(body.cbm-ecwid-test-active, #cbm-ecwid-cart-99673270) .ec-progress,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) [class*="loader"],
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) [class*="loading"],
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) [class*="progress-bar"],
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) [role="progressbar"] {
   background-color: transparent !important;
   background-image: none !important;
   box-shadow: none !important;
@@ -450,29 +465,205 @@ body.cbm-ecwid-test-active .ec-progress,
  * before), icon-fonts (<i>/currentColor), and coupon/discount/promo/redeem
  * wrappers. If the icon is a CSS background-image, host CSS can't recolour it —
  * that case needs the exact class (see PR notes). */
-body.cbm-ecwid-test-active [class*="coupon"] svg,
-body.cbm-ecwid-test-active [class*="coupon"] svg path,
-body.cbm-ecwid-test-active [class*="coupon"] svg use,
-body.cbm-ecwid-test-active [class*="coupon"] i,
-body.cbm-ecwid-test-active [class*="coupon"] [class*="icon"],
-body.cbm-ecwid-test-active [class*="discount"] svg,
-body.cbm-ecwid-test-active [class*="discount"] svg path,
-body.cbm-ecwid-test-active [class*="promo"] svg,
-body.cbm-ecwid-test-active [class*="promo"] svg path,
-body.cbm-ecwid-test-active [class*="redeem"] svg,
-#ecwid-cart-handoff-99673270 [class*="coupon"] svg,
-#ecwid-cart-handoff-99673270 [class*="coupon"] svg path,
-#ecwid-cart-handoff-99673270 [class*="coupon"] [class*="icon"] {
+:is(body.cbm-ecwid-test-active, #cbm-ecwid-cart-99673270) [class*="coupon"] svg,
+:is(body.cbm-ecwid-test-active, #cbm-ecwid-cart-99673270) [class*="coupon"] svg path,
+:is(body.cbm-ecwid-test-active, #cbm-ecwid-cart-99673270) [class*="coupon"] svg use,
+:is(body.cbm-ecwid-test-active, #cbm-ecwid-cart-99673270) [class*="coupon"] i,
+:is(body.cbm-ecwid-test-active, #cbm-ecwid-cart-99673270) [class*="coupon"] [class*="icon"],
+:is(body.cbm-ecwid-test-active, #cbm-ecwid-cart-99673270) [class*="discount"] svg,
+:is(body.cbm-ecwid-test-active, #cbm-ecwid-cart-99673270) [class*="discount"] svg path,
+:is(body.cbm-ecwid-test-active, #cbm-ecwid-cart-99673270) [class*="promo"] svg,
+:is(body.cbm-ecwid-test-active, #cbm-ecwid-cart-99673270) [class*="promo"] svg path,
+:is(body.cbm-ecwid-test-active, #cbm-ecwid-cart-99673270) [class*="redeem"] svg,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) [class*="coupon"] svg,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) [class*="coupon"] svg path,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) [class*="coupon"] [class*="icon"] {
   fill: #dc2626 !important;
   color: #dc2626 !important;
   stroke: #dc2626 !important;
   opacity: 1 !important;
 }
 /* Size only the icon itself, not inner paths. */
-body.cbm-ecwid-test-active [class*="coupon"] svg,
-body.cbm-ecwid-test-active [class*="discount"] svg,
-body.cbm-ecwid-test-active [class*="promo"] svg,
-#ecwid-cart-handoff-99673270 [class*="coupon"] svg {
+:is(body.cbm-ecwid-test-active, #cbm-ecwid-cart-99673270) [class*="coupon"] svg,
+:is(body.cbm-ecwid-test-active, #cbm-ecwid-cart-99673270) [class*="discount"] svg,
+:is(body.cbm-ecwid-test-active, #cbm-ecwid-cart-99673270) [class*="promo"] svg,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) [class*="coupon"] svg {
   width: 1.2rem !important;
   height: 1.2rem !important;
 }
+
+/* ======================================================================
+ * Checkout form fixes (PR #57 drawer review): Ecwid select fields + the
+ * payment-method radios. Scoped to the same containers as the rest of the
+ * theme (store-test-cart id + drawer id).
+ * ==================================================================== */
+
+/* Checkout ADDRESS fields — label ABOVE the box (scoped; NO injected labels).
+ * The enhancer (ecwidCheckoutEnhancer.ts) tags each ADDRESS TEXT field wrapper with
+ * .cbm-addr. These rules make that wrapper a simple column and lift Ecwid's OWN
+ * floating label (.form-control__placeholder) into a static label above the input,
+ * with the float animation disabled — so there is exactly ONE label (Ecwid's own,
+ * restyled), it sits above the value, and no floating text remains inside the box.
+ *
+ * Scoped ONLY to .cbm-addr — this is NOT a blanket .form-control / input / select
+ * rule, and it deliberately does NOT touch the Country / Province SELECTS, which
+ * stay native (native dropdown arrow intact). The value's own height/padding comes
+ * from the shared dark-field rule above (min-height ~3.1rem), which reads as a
+ * slightly taller box with the value comfortably centred. */
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control.cbm-addr {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+}
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control.cbm-addr .form-control__placeholder,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control.cbm-addr .form-control__placeholder-inner {
+  position: static !important;
+  transform: none !important;
+  transition: none !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  width: auto !important;
+  max-width: 100% !important;
+  height: auto !important;
+  pointer-events: none;
+}
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control.cbm-addr .form-control__placeholder {
+  order: -1 !important;
+  margin: 0 0 0.35rem 0 !important;
+  padding: 0 !important;
+  font-size: 0.8rem !important;
+  line-height: 1.2 !important;
+  font-weight: 500 !important;
+  color: var(--cbm-text-muted) !important;
+  background: transparent !important;
+  text-align: left !important;
+  white-space: normal !important;
+}
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control.cbm-addr .form-control__text,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control.cbm-addr .form-control__input,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control.cbm-addr .form-control__select,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control.cbm-addr input,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control.cbm-addr select,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control.cbm-addr textarea {
+  order: 1 !important;
+  width: 100% !important;
+}
+/* The Province select stays a NATIVE select showing the browser's own arrow
+ * (appearance:auto, set above). Ecwid also draws a custom .form-control__arrow —
+ * hide only that duplicate so there is exactly one native arrow, never two. */
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control.cbm-addr .form-control__arrow {
+  display: none !important;
+}
+
+/* ONE compact payment row that replaces Ecwid's redundant single-method card:
+ * red credit-card icon + "Secure credit card payment via Moneris". Transparent
+ * background, subtle dark-grey border, compact padding — matches the black drawer,
+ * no navy. The original card is hidden (sr-only) but its radio stays selectable. */
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .cbm-moneris-row {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.6rem !important;
+  padding: 0.7rem 0.85rem !important;
+  margin: 0.25rem 0 !important;
+  background: transparent !important;
+  border: 1px solid var(--cbm-border-strong) !important;
+  border-radius: 0.5rem !important;
+  color: var(--cbm-text) !important;
+  font-size: 0.95rem !important;
+  font-weight: 500 !important;
+  line-height: 1.3 !important;
+}
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .cbm-moneris-row .cbm-cc-icon {
+  color: var(--cbm-red) !important;
+  flex: none !important;
+  width: 20px !important;
+  height: 20px !important;
+}
+/* Visually hide Ecwid's original navy payment card but keep it in the DOM and the
+ * radio inside it accessible & selected (sr-only, NOT display:none) — so the
+ * payment method, card-entry fields, validation and Place Order all keep working,
+ * and no empty gap is left where the card was. */
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .cbm-sronly-card {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  border: 0 !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  clip-path: inset(50%) !important;
+  white-space: nowrap !important;
+}
+
+/* Payment-method radios ("Moneris Payment" etc.): Ecwid renders a custom radio
+ * box (.form-control__radio-view). Make it a normal round circle at a proper
+ * size, aligned before the label — no tiny/odd pill. Selection dot + behaviour
+ * stay Ecwid's own (not touched), so payment selection is unaffected. */
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control--radio {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+}
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control--radio .form-control__radio-view,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control__radio-view {
+  position: static !important;
+  flex: none !important;
+  width: 18px !important;
+  height: 18px !important;
+  min-width: 18px !important;
+  min-height: 18px !important;
+  border-radius: 50% !important;
+  box-sizing: border-box !important;
+  margin: 0 !important;
+}
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control--radio .form-control__label {
+  padding-left: 0 !important;
+  margin-left: 0 !important;
+  line-height: 1.45 !important;
+}
+
+/* (The single-method Moneris card is now hidden precisely by the enhancer, which
+ * adds .cbm-sronly-card to the exact card element and drops one compact
+ * .cbm-moneris-row in its place — see the rules above. No blanket payment-radio
+ * hide here, which used to leave Ecwid's navy "Moneris Payment" card visible.) */
+
+/* Shipping-method (and other) option cards: kill the bright-blue selected /
+ * focus border and use brand red instead. Covers the browser focus outline and
+ * Ecwid's own selected-card border/box-shadow. Scoped to the container so it
+ * only affects the Ecwid checkout, and it does not change selection behaviour. */
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) *:focus,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) *:focus-visible {
+  outline-color: var(--cbm-red) !important;
+}
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control--checked,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) [class*="--checked"],
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) [class*="--selected"],
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) [class*="shipping"] [class*="checked"],
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) [class*="shipping"] [class*="selected"] {
+  border-color: var(--cbm-red) !important;
+  box-shadow: 0 0 0 1px var(--cbm-red) !important;
+  outline: none !important;
+}
+/* Any option/card/method that gets a focus ring: red, not blue. */
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) [class*="shipping"] label:focus-within,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) [class*="method"]:focus-within,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) [class*="option"]:focus-within,
+:is(#ecwid-cart-handoff-99673270, #cbm-ecwid-cart-99673270) .form-control--radio:focus-within {
+  outline: none !important;
+  box-shadow: 0 0 0 1px var(--cbm-red) !important;
+}
+
+/* ======================================================================
+ * Ecwid cookie / privacy CONSENT popup — NOT styled here (Ecwid DASHBOARD task).
+ *
+ * This popup is injected by Ecwid at the document-body level with runtime,
+ * version-specific class names. Multiple host-CSS attempts (broad and narrow)
+ * did NOT change it on the live store, and it cannot be inspected from this
+ * build environment, so no popup CSS is shipped (broad guesses also risked
+ * other site modals). It must be disabled or customised in the Ecwid dashboard
+ * before production:
+ *   Settings -> Legal -> Customers' consent -> Cookie consent banner
+ * ==================================================================== */

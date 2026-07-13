@@ -337,7 +337,7 @@ const CartPage = () => {
                   </div>
                   <div className="flex items-center gap-3 text-soft-gray font-inter text-sm">
                     <i className="ri-truck-fill text-crimson-accent text-xl"></i>
-                    <span>Ships from Toronto in 1-2 Days</span>
+                    <span>Ships from Montreal in 1-2 Days</span>
                   </div>
                   <div className="flex items-center gap-3 text-soft-gray font-inter text-sm">
                     <i className="ri-customer-service-2-fill text-crimson-accent text-xl"></i>

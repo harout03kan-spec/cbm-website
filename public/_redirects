@@ -1,1 +1,6 @@
-/* /index.html 200
+# Removed internal Ecwid test routes -> real shop (edge 301, before the SPA rule).
+/store-test-cart  /shop  301!
+/store-test       /shop  301!
+
+# SPA fallback for all client-side routes (must stay last).
+/*                /index.html  200

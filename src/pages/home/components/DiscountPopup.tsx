@@ -75,7 +75,7 @@ export default function DiscountPopup() {
     <div
       role="dialog"
       aria-label={t('promo_title')}
-      className="fixed z-50 inset-x-4 bottom-4 sm:inset-auto sm:bottom-6 sm:right-6 sm:left-auto sm:w-[380px] rounded-2xl bg-[#111] border border-zinc-800 shadow-2xl shadow-black/70 overflow-hidden"
+      className="fixed z-[60] inset-x-4 bottom-24 sm:inset-auto sm:bottom-24 sm:right-6 sm:left-auto sm:w-[380px] rounded-2xl bg-[#111] border border-zinc-800 shadow-2xl shadow-black/70 overflow-hidden"
     >
       <div className="h-1 w-full bg-gradient-to-r from-red-700 via-red-500 to-red-700" />
 

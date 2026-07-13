@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { useCart } from '../../hooks/useCart';
+import { useEcwidCart } from '../../hooks/useEcwidCart';
 import type { Product } from '../../lib/api';
 
 // Shared product card — the same layout/badges/specs the shop grid uses, so the
@@ -70,13 +70,18 @@ const cleanName = (name: string): string => {
 
 export default function ProductCard({ product, index = 0 }: { product: Product; index?: number }) {
   const { t } = useTranslation();
-  const { addItem } = useCart();
-  const [added, setAdded] = useState(false);
+  const { addProduct, openCart } = useEcwidCart();
+  const [adding, setAdding] = useState(false);
+  const [failed, setFailed] = useState(false);
 
   const unclear = isUnclear(product);
   const miner = isMiner(product);
   const priceNum = toNumber(product.price);
   const showPrice = !unclear && priceNum != null && priceNum > 0;
+  // Only products that exist in the Ecwid store (real permalink) can be added to
+  // the cart; supplier-catalog miners not yet listed in Ecwid have no permalink,
+  // so route them to the Contact/inquiry CTA instead of a broken Add-to-Cart.
+  const canBuy = showPrice && Boolean(product.permalink);
   const specs = (!unclear && miner) ? [
     { value: product.hashrate || hashFromTitle(product.name), unit: product.hashrate_unit || 'TH/s' },
     { value: product.power, unit: 'Watts' },
@@ -86,10 +91,20 @@ export default function ProductCard({ product, index = 0 }: { product: Product; 
   const coinKey = coinTypeKey(product);
   const displayName = unclear ? t('shop_pending_name') : cleanName(product.name);
 
-  const handleAdd = () => {
-    addItem(product.id, 1);
-    setAdded(true);
-    setTimeout(() => setAdded(false), 1500);
+  // Add the product to the real Ecwid cart, then open the cart drawer.
+  const handleAdd = async () => {
+    if (adding) return;
+    setFailed(false);
+    setAdding(true);
+    try {
+      await addProduct(product.id, 1);
+      openCart();
+    } catch {
+      setFailed(true);
+      setTimeout(() => setFailed(false), 2500);
+    } finally {
+      setAdding(false);
+    }
   };
 
   return (
@@ -100,7 +115,7 @@ export default function ProductCard({ product, index = 0 }: { product: Product; 
     >
       <div className="relative w-full h-40 sm:h-64 bg-black overflow-hidden">
         {product.image ? (
-          <img src={product.image} alt={displayName} className="w-full h-full object-contain object-center hover:scale-105 transition-transform duration-500" />
+          <img src={product.image} alt={displayName} loading="lazy" className="w-full h-full object-contain object-center hover:scale-105 transition-transform duration-500" />
         ) : (
           <div className="w-full h-full flex items-center justify-center text-zinc-700">
             <i className="ri-image-line text-5xl" aria-hidden="true"></i>
@@ -152,10 +167,10 @@ export default function ProductCard({ product, index = 0 }: { product: Product; 
         )}
 
         <div className="mt-auto flex flex-col sm:flex-row gap-2 sm:gap-3">
-          {showPrice ? (
-            <button onClick={handleAdd}
-              className="relative z-10 flex-1 min-h-[44px] py-3 bg-crimson-accent text-white font-inter font-semibold text-sm sm:text-base rounded-lg hover:bg-red-700 active:bg-red-800 transition-colors cursor-pointer whitespace-nowrap focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-crimson-accent">
-              {added ? t('fp_added') : t('shop_add_cart')}
+          {canBuy ? (
+            <button onClick={handleAdd} disabled={adding} aria-busy={adding}
+              className="relative z-10 flex-1 min-h-[44px] py-3 bg-crimson-accent text-white font-inter font-semibold text-sm sm:text-base rounded-lg hover:bg-red-700 active:bg-red-800 transition-colors cursor-pointer whitespace-nowrap disabled:opacity-60 disabled:cursor-not-allowed focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-crimson-accent">
+              {adding ? t('shop_adding') : failed ? t('shop_add_retry') : t('shop_add_cart')}
             </button>
           ) : (
             <Link to="/contact#contact-form"
