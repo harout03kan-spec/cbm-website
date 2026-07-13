@@ -35,11 +35,6 @@ interface EcwidCartContextValue {
 
 const EcwidCartContext = createContext<EcwidCartContextValue | undefined>(undefined);
 
-// The hidden internal test route mounts its own Ecwid instance; don't double-init
-// a second ProductBrowser on that page.
-const isStoreTestRoute = () =>
-  typeof window !== 'undefined' && window.location.pathname.startsWith('/store-test-cart');
-
 export function EcwidCartProvider({ children }: { children: ReactNode }) {
   const [count, setCount] = useState(0);
   const [apiReady, setApiReady] = useState(false);
@@ -52,7 +47,7 @@ export function EcwidCartProvider({ children }: { children: ReactNode }) {
 
   // Ensure the Ecwid storefront script is loaded and cart callbacks are wired.
   const ensureLoaded = useCallback(() => {
-    if (loadedRef.current || isStoreTestRoute()) return;
+    if (loadedRef.current) return;
     loadedRef.current = true;
     loadEcwid(ECWID_CART_CONTAINER_ID);
   }, []);

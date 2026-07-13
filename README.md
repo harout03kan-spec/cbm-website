@@ -49,8 +49,14 @@ npm run lint       # eslint (see "Known lint state" below)
 Public: `/`, `/shop`, `/bulk-deals`, `/product?id=<id>`, `/hosting`, `/services`,
 `/about`, `/contact`, and the French mirror under `/fr/*`.
 Non-indexed / app routes (blocked in `robots.txt`): `/crm` (internal, passcode),
-`/cart`, `/checkout`, `/order-success` (legacy React pages — see below),
-`/store-test`, `/store-test-cart` (internal Ecwid PoC, `noindex`).
+`/cart`, `/checkout`, `/order-success` (legacy React pages — see below).
+
+The internal Ecwid test routes `/store-test` and `/store-test-cart` were **removed
+from production**. Both now **301-redirect to `/shop`** (Netlify edge redirect in
+`netlify.toml` / `public/_redirects`, plus an in-app `<Navigate>` for client-side
+navigation) so old preview links / bookmarks never 404. The shared Ecwid theme
+they used (`src/pages/store-test-cart/ecwid-theme.css`) is **kept** — the real cart
+drawer imports it.
 
 The primary cart/checkout is the **Ecwid drawer** (navbar cart button →
 `openCart`). `/cart`, `/checkout`, `/order-success` are **legacy** React pages

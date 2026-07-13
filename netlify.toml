@@ -12,8 +12,23 @@
   # Vite 7 requires Node 20.19+ / 22.12+. Pin an LTS for reproducible builds.
   NODE_VERSION = "20"
 
+# Removed internal Ecwid test routes -> real shop. Listed BEFORE the SPA catch-all
+# so a hard load / refresh / old bookmark of /store-test[-cart] 301s to /shop at the
+# edge (before the app boots). The router also redirects these for in-app nav.
+[[redirects]]
+  from = "/store-test-cart"
+  to = "/shop"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/store-test"
+  to = "/shop"
+  status = 301
+  force = true
+
 # SPA fallback so client-side routes (e.g. /shop, /about, /fr/shop) resolve on a
-# direct hit / refresh. Mirrors public/_redirects; the file wins if both exist.
+# direct hit / refresh. Must stay LAST.
 [[redirects]]
   from = "/*"
   to = "/index.html"
