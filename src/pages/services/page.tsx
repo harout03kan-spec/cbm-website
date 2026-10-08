@@ -153,7 +153,7 @@ export default function ServicesPage() {
             <div className="relative overflow-hidden rounded-[2rem] border border-red-950/60 bg-black/40 p-3 shadow-2xl shadow-black/60">
               <div className="relative overflow-hidden rounded-[1.5rem] border border-zinc-900">
                 <img
-                  src="/repair-lab.jpg"
+                  src="/repair-bench.webp"
                   alt={t('srv2_hero_img_alt')}
                   loading="lazy"
                   className="h-[260px] w-full object-cover object-center sm:h-[360px] lg:h-[460px]"
