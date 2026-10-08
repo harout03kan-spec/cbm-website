@@ -39,7 +39,7 @@ export default function Footer() {
               info@canadabtcminers.ca
             </a>
             <a
-              href="https://www.google.com/maps/search/?api=1&query=6500%20Rte%20Transcanadienne%2C%20Suite%20209%2C%20Saint-Laurent%2C%20QC%20H4T%201X4%2C%20Canada"
+              href="https://www.google.com/maps/search/?api=1&query=4040%20Rue%20Steinberg%2C%20Saint-Laurent%2C%20QC%20H4R%202G7%2C%20Canada"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Open address in Google Maps"
@@ -47,8 +47,8 @@ export default function Footer() {
             >
               <i className="ri-map-pin-fill text-lg text-crimson-accent mt-0.5"></i>
               <address className="not-italic">
-                6500 Rte Transcanadienne, Suite 209<br />
-                Saint-Laurent, QC H4T 1X4<br />
+                4040 Rue Steinberg<br />
+                Saint-Laurent, QC H4R 2G7<br />
                 Canada
               </address>
             </a>

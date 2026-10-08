@@ -133,10 +133,10 @@ export const organizationLd: Record<string, unknown> = {
   telephone: '+1-514-604-7050',
   address: {
     '@type': 'PostalAddress',
-    streetAddress: '6500 Route Transcanadienne, Suite 209',
+    streetAddress: '4040 Rue Steinberg',
     addressLocality: 'Saint-Laurent',
     addressRegion: 'QC',
-    postalCode: 'H4T 1X4',
+    postalCode: 'H4R 2G7',
     addressCountry: 'CA',
   },
 };
@@ -158,10 +158,10 @@ export const localBusinessLd: Record<string, unknown> = {
   telephone: '+1-514-604-7050',
   address: {
     '@type': 'PostalAddress',
-    streetAddress: '6500 Route Transcanadienne, Suite 209',
+    streetAddress: '4040 Rue Steinberg',
     addressLocality: 'Saint-Laurent',
     addressRegion: 'QC',
-    postalCode: 'H4T 1X4',
+    postalCode: 'H4R 2G7',
     addressCountry: 'CA',
   },
   areaServed: 'CA',
