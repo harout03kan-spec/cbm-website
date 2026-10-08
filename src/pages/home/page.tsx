@@ -5,7 +5,6 @@ import FeaturedProducts from './components/FeaturedProducts';
 import ProofStrip from './components/ProofStrip';
 import PlatformSection from './components/PlatformSection';
 import BrandsSection from './components/BrandsSection';
-import BulkFeatureSection from './components/BulkFeatureSection';
 import ServicesTeaser from './components/ServicesTeaser';
 import SellUpgradeSection from './components/SellUpgradeSection';
 import HostingTeaser from './components/HostingTeaser';
@@ -41,19 +40,16 @@ export default function HomePage() {
       {/* 5. Brands we sell and repair */}
       <BrandsSection />
 
-      {/* 6. Bulk Deals feature — real featured wholesale batch */}
-      <BulkFeatureSection />
-
-      {/* 7. Repair center preview */}
+      {/* 6. Repair center preview */}
       <ServicesTeaser />
 
-      {/* 8. Sell or Upgrade — acquisition / liquidation path */}
+      {/* 7. Sell or Upgrade — acquisition / liquidation path */}
       <SellUpgradeSection />
 
-      {/* 9. Hosting support */}
+      {/* 8. Hosting support */}
       <HostingTeaser />
 
-      {/* 10. Final CTA — buy / repair / source */}
+      {/* 9. Final CTA — buy / repair / source */}
       <FinalCTA />
 
       <Footer />
