@@ -23,8 +23,8 @@ export default function Footer() {
   return (
     <footer className="bg-[#0A0A0A] border-t border-[#1A1A1A]">
       <div className="max-w-7xl mx-auto px-6 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-12 mb-12">
-          <div className="md:col-span-1">
+        <div className="grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-5 md:gap-12 mb-12">
+          <div className="col-span-2 md:col-span-1">
             <div className="mb-4">
               <h2 className="text-lg font-orbitron font-bold text-white tracking-wider leading-tight">Canada BTC Miners</h2>
               <p className="text-xs text-crimson-accent font-inter tracking-wide">ASIC Sales · Repairs · Hosting</p>
