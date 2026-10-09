@@ -581,3 +581,11 @@ body.cbm-ecwid-test-active .ec-notices__wrap,
 body.cbm-ecwid-test-active .ec-notice {
   z-index: 2147483000 !important;
 }
+
+/* ---- "You may also like" in the Ecwid cart/checkout ------------------ */
+/* Hidden on request: recommendations are shown on the product page instead
+ * ("Recommended with this product", from the same Ecwid Related products).
+ * Delete this rule to show them in checkout again. */
+#ecwid-cart-handoff-99673270 .ec-related-products {
+  display: none !important;
+}
