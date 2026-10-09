@@ -136,7 +136,15 @@ const CheckoutPage = () => {
       <Navbar />
       <section className="mx-auto max-w-4xl px-4 sm:px-6 pt-28 pb-20">
         <h1 className="mb-2 font-inter text-3xl font-bold text-white">{t('checkout_title')}</h1>
-        <p className="mb-8 max-w-2xl text-sm leading-relaxed text-soft-gray">{t('checkout_secure_note')}</p>
+        <p className="mb-2 max-w-2xl text-sm leading-relaxed text-soft-gray">{t('checkout_secure_note')}</p>
+        <p className="mb-8 max-w-2xl text-sm leading-relaxed text-soft-gray">
+          {t('legal_final_sale')}{' '}
+          <Link to="/terms" className="text-white underline hover:text-crimson-accent">{t('footer_terms')}</Link>
+          {' · '}
+          <Link to="/warranty" className="text-white underline hover:text-crimson-accent">{t('footer_warranty')}</Link>
+          {' · '}
+          <Link to="/shipping-returns" className="text-white underline hover:text-crimson-accent">{t('footer_shipping')}</Link>
+        </p>
 
         {phase === 'loading' && (
           <div className="flex items-center gap-3 rounded-2xl border border-white/10 bg-graphite px-6 py-8 text-soft-gray">

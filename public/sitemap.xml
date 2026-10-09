@@ -126,4 +126,68 @@
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
+  <url>
+    <loc>https://canadabtcminers.ca/privacy</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://canadabtcminers.ca/privacy"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://canadabtcminers.ca/fr/privacy"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://canadabtcminers.ca/privacy"/>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://canadabtcminers.ca/fr/privacy</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://canadabtcminers.ca/privacy"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://canadabtcminers.ca/fr/privacy"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://canadabtcminers.ca/privacy"/>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://canadabtcminers.ca/terms</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://canadabtcminers.ca/terms"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://canadabtcminers.ca/fr/terms"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://canadabtcminers.ca/terms"/>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://canadabtcminers.ca/fr/terms</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://canadabtcminers.ca/terms"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://canadabtcminers.ca/fr/terms"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://canadabtcminers.ca/terms"/>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://canadabtcminers.ca/shipping-returns</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://canadabtcminers.ca/shipping-returns"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://canadabtcminers.ca/fr/shipping-returns"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://canadabtcminers.ca/shipping-returns"/>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://canadabtcminers.ca/fr/shipping-returns</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://canadabtcminers.ca/shipping-returns"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://canadabtcminers.ca/fr/shipping-returns"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://canadabtcminers.ca/shipping-returns"/>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://canadabtcminers.ca/warranty</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://canadabtcminers.ca/warranty"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://canadabtcminers.ca/fr/warranty"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://canadabtcminers.ca/warranty"/>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://canadabtcminers.ca/fr/warranty</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://canadabtcminers.ca/warranty"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://canadabtcminers.ca/fr/warranty"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://canadabtcminers.ca/warranty"/>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
 </urlset>

@@ -331,8 +331,8 @@ const ProductPage = () => {
                     <i className="ri-truck-fill text-crimson-accent text-2xl"></i>
                   </div>
                   <div>
-                    <div className="text-white font-inter font-semibold mb-1">6 to 9 Business Days</div>
-                    <div className="text-soft-gray font-inter text-sm">Fast delivery across Canada · Secure packaging · Tracking included · Shipping &amp; brokerage included on new units</div>
+                    <div className="text-white font-inter font-semibold mb-1">{t('product_ship_title')}</div>
+                    <div className="text-soft-gray font-inter text-sm">{t('product_ship_desc')} <Link to="/shipping-returns" className="text-crimson-accent hover:underline">{t('footer_shipping')}</Link></div>
                   </div>
                 </div>
                 <div className="flex items-start gap-4">
@@ -340,8 +340,8 @@ const ProductPage = () => {
                     <i className="ri-customer-service-2-fill text-crimson-accent text-2xl"></i>
                   </div>
                   <div>
-                    <div className="text-white font-inter font-semibold mb-1">Need Help?</div>
-                    <div className="text-soft-gray font-inter text-sm mb-2">Contact our team for bulk orders or technical questions</div>
+                    <div className="text-white font-inter font-semibold mb-1">{t('product_help_title')}</div>
+                    <div className="text-soft-gray font-inter text-sm mb-2">{t('product_help_desc')}</div>
                     <a href="tel:+15146047050" className="text-crimson-accent font-inter font-semibold hover:underline">
                       <i className="ri-phone-fill mr-1"></i>+1 (514) 604-7050
                     </a>

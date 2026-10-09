@@ -241,6 +241,14 @@ const CartPage = () => {
                 >
                   {t('cart_checkout')}
                 </Link>
+                <p className="text-soft-gray font-inter text-xs leading-relaxed mb-4">
+                  {t('legal_final_sale')}{' '}
+                  <Link to="/terms" className="text-white underline hover:text-crimson-accent">{t('footer_terms')}</Link>
+                  {' · '}
+                  <Link to="/warranty" className="text-white underline hover:text-crimson-accent">{t('footer_warranty')}</Link>
+                  {' · '}
+                  <Link to="/shipping-returns" className="text-white underline hover:text-crimson-accent">{t('footer_shipping')}</Link>
+                </p>
 
                 {/* Trust Badges */}
                 <div className="space-y-3">

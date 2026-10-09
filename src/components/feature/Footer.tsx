@@ -79,7 +79,8 @@ export default function Footer() {
             <ul className="space-y-3">
               <li><Link to={localize('/about')} className="text-gray-400 hover:text-white transition-colors">{t('footer_about')}</Link></li>
               <li><Link to={localize('/contact')} className="text-gray-400 hover:text-white transition-colors">{t('footer_contact')}</Link></li>
-              <li><Link to={localize('/services')} className="text-gray-400 hover:text-white transition-colors">{t('footer_warranty')}</Link></li>
+              <li><Link to={localize('/warranty')} className="text-gray-400 hover:text-white transition-colors">{t('footer_warranty')}</Link></li>
+              <li><Link to={localize('/shipping-returns')} className="text-gray-400 hover:text-white transition-colors">{t('footer_shipping')}</Link></li>
             </ul>
           </div>
           <div>
@@ -105,8 +106,8 @@ export default function Footer() {
         <div className="border-t border-[#1A1A1A] pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-gray-500 text-sm">{t('footer_rights')}</p>
           <div className="flex items-center gap-6">
-            <span className="text-gray-500 text-sm">{t('footer_privacy')}</span>
-            <span className="text-gray-500 text-sm">{t('footer_terms')}</span>
+            <Link to={localize('/privacy')} className="text-gray-500 text-sm hover:text-white transition-colors">{t('footer_privacy')}</Link>
+            <Link to={localize('/terms')} className="text-gray-500 text-sm hover:text-white transition-colors">{t('footer_terms')}</Link>
           </div>
         </div>
       </div>
