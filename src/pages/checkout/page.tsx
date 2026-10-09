@@ -7,7 +7,7 @@ import { useCart, type CartItem } from '../../hooks/useCart';
 import { useTranslation } from 'react-i18next';
 import { loadEcwid, getEcwid, ECWID_STORE_ID, type EcwidApi } from '../../lib/ecwid';
 // Dark/red theme for the embedded Ecwid checkout (scoped to the container id).
-import '../store-test-cart/ecwid-theme.css';
+import './ecwid-theme.css';
 
 /**
  * Checkout = the Ecwid (Lightspeed eCom) checkout for store 99673270.
@@ -77,9 +77,9 @@ const CheckoutPage = () => {
   const started = useRef(false);
 
   useEffect(() => {
-    document.body.classList.add('cbm-ecwid-test-active');
+    document.body.classList.add('cbm-ecwid-active');
     loadEcwid(CONTAINER_ID);
-    return () => document.body.classList.remove('cbm-ecwid-test-active');
+    return () => document.body.classList.remove('cbm-ecwid-active');
   }, []);
 
   // Hand the cart to Ecwid once products are known.
