@@ -87,7 +87,8 @@ export default function ProductCard({ product, index = 0 }: { product: Product; 
   const displayName = unclear ? t('shop_pending_name') : cleanName(product.name);
 
   const handleAdd = () => {
-    addItem(product.id, 1);
+    // Same as the product page default: the first (shown) hashrate version.
+    addItem(product.id, 1, product.variants?.[0]?.label);
     setAdded(true);
     setTimeout(() => setAdded(false), 1500);
   };

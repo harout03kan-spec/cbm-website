@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { useProducts } from '../../hooks/useProducts';
+import { useCart } from '../../hooks/useCart';
 import { useTranslation } from 'react-i18next';
 import Seo from '../../components/feature/Seo';
 import type { Product } from '../../lib/api';
@@ -19,6 +20,15 @@ const ShopPage = () => {
   const [searchQuery, setSearchQuery] = useState(() => searchParams.get('q') || '');
   const [sortBy, setSortBy] = useState('');
   const { products, loading } = useProducts();
+  const { addItem } = useCart();
+  // Brief "Added" confirmation on the card that was clicked.
+  const [addedId, setAddedId] = useState<number | null>(null);
+  const addToCart = (p: Product) => {
+    // Same as the product page default: the first (shown) hashrate version.
+    addItem(p.id, 1, p.variants?.[0]?.label);
+    setAddedId(p.id);
+    setTimeout(() => setAddedId(cur => (cur === p.id ? null : cur)), 1500);
+  };
 
   // Persist the shop scroll position so returning from a product page — via the
   // Shop / Back to Shop buttons (PUSH) or the browser Back button (POP) — lands
@@ -453,8 +463,9 @@ const ShopPage = () => {
 
                   <div className="mt-auto flex flex-col sm:flex-row gap-2 sm:gap-3">
                     {showPrice ? (
-                      <button className="relative z-10 flex-1 min-h-[44px] py-3 bg-crimson-accent text-white font-inter font-semibold text-sm sm:text-base rounded-lg hover:bg-red-700 active:bg-red-800 transition-colors cursor-pointer whitespace-nowrap focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-crimson-accent">
-                        {t('shop_add_cart')}
+                      <button type="button" onClick={() => addToCart(product)}
+                        className="relative z-10 flex-1 min-h-[44px] py-3 bg-crimson-accent text-white font-inter font-semibold text-sm sm:text-base rounded-lg hover:bg-red-700 active:bg-red-800 transition-colors cursor-pointer whitespace-nowrap focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-crimson-accent">
+                        {addedId === product.id ? t('fp_added') : t('shop_add_cart')}
                       </button>
                     ) : (
                       <Link to="/contact#contact-form"
