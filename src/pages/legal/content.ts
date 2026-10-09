@@ -140,7 +140,7 @@ export const LEGAL: Record<'en' | 'fr', Record<LegalDocKey, LegalDoc>> = {
         },
         {
           h: 'Warranty',
-          p: ['Brand-new units carry the manufacturer’s warranty. Used and refurbished units have a 30-day warranty from our repair center. Large lots have a 7-day DOA period unless your invoice says otherwise. See our Warranty policy.'],
+          p: ['Brand-new units carry any remaining manufacturer’s warranty, which varies by unit. Used and refurbished units have a 30-day warranty from our repair center. Large lots have a 7-day DOA period unless your invoice says otherwise. See our Warranty policy.'],
         },
         {
           h: 'Using your equipment',
@@ -215,12 +215,15 @@ export const LEGAL: Record<'en' | 'fr', Record<LegalDocKey, LegalDoc>> = {
     },
     warranty: {
       title: 'Warranty',
-      seoDescription: 'Warranty on ASIC miners from Canada BTC Miners: manufacturer warranty on new units, 30-day warranty on used units and repairs, 7-day DOA on large lots.',
+      seoDescription: 'Warranty on ASIC miners from Canada BTC Miners: remaining manufacturer warranty on new units, 30-day warranty on used units and repairs, 7-day DOA on large lots.',
       intro: 'What is covered on the equipment you buy or repair with us, and how to make a claim.',
       sections: [
         {
           h: 'Brand-new units',
-          p: ['Brand-new units come with the original manufacturer’s warranty (for example Bitmain or MicroBT). The manufacturer sets the terms and handles the claim. We can help you with the process.'],
+          p: [
+            'Brand-new units come with whatever is left of the original manufacturer’s warranty (for example Bitmain or MicroBT). Many new units come from other suppliers, and the manufacturer warranty may have started before you buy, so the time left is different from unit to unit and can be less than 12 months. We do not promise a specific warranty length on new units.',
+            'Ask us before you buy and we will check what we can for that unit. The manufacturer sets the terms and handles the claim. We can help you with the process.',
+          ],
         },
         {
           h: 'Used and refurbished units',
@@ -370,7 +373,7 @@ export const LEGAL: Record<'en' | 'fr', Record<LegalDocKey, LegalDoc>> = {
         },
         {
           h: 'Garantie',
-          p: ['Les appareils neufs sont couverts par la garantie du fabricant. Les appareils usagés et remis à neuf ont une garantie de 30 jours de notre centre de réparation. Les gros lots ont une période DOA de 7 jours, sauf indication contraire sur votre facture. Voir notre politique de garantie.'],
+          p: ['Les appareils neufs sont couverts par ce qui reste de la garantie du fabricant, qui varie selon l’appareil. Les appareils usagés et remis à neuf ont une garantie de 30 jours de notre centre de réparation. Les gros lots ont une période DOA de 7 jours, sauf indication contraire sur votre facture. Voir notre politique de garantie.'],
         },
         {
           h: 'Utilisation de votre équipement',
@@ -445,12 +448,15 @@ export const LEGAL: Record<'en' | 'fr', Record<LegalDocKey, LegalDoc>> = {
     },
     warranty: {
       title: 'Garantie',
-      seoDescription: 'Garantie des mineurs ASIC de Canada BTC Miners : garantie du fabricant sur les appareils neufs, 30 jours sur les usagés et les réparations, DOA de 7 jours sur les gros lots.',
+      seoDescription: 'Garantie des mineurs ASIC de Canada BTC Miners : garantie restante du fabricant sur les appareils neufs, 30 jours sur les usagés et les réparations, DOA de 7 jours sur les gros lots.',
       intro: 'Ce qui est couvert sur l’équipement que vous achetez ou faites réparer chez nous, et comment faire une réclamation.',
       sections: [
         {
           h: 'Appareils neufs',
-          p: ['Les appareils neufs sont couverts par la garantie d’origine du fabricant (par exemple Bitmain ou MicroBT). Le fabricant fixe les conditions et traite la réclamation. Nous pouvons vous aider dans la démarche.'],
+          p: [
+            'Les appareils neufs sont couverts par ce qui reste de la garantie d’origine du fabricant (par exemple Bitmain ou MicroBT). Plusieurs appareils neufs proviennent d’autres fournisseurs et la garantie du fabricant peut avoir commencé avant votre achat. La durée restante varie donc d’un appareil à l’autre et peut être inférieure à 12 mois. Nous ne promettons aucune durée de garantie précise sur les appareils neufs.',
+            'Demandez-nous avant d’acheter et nous vérifierons ce que nous pouvons pour cet appareil. Le fabricant fixe les conditions et traite la réclamation. Nous pouvons vous aider dans la démarche.',
+          ],
         },
         {
           h: 'Appareils usagés et remis à neuf',
