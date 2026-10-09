@@ -29,10 +29,19 @@ const ProductPage = () => {
     return (miners.length ? miners : others).slice(0, 3);
   })();
 
-  // "Buy with this miner" — the real catalog power cable only (network/Cat6/fan
-  // removed). The Add button adds the real cable product to the cart.
-  const POWER_CABLE_ID = 799701739; // C20 to C19 power extension cable
-  const powerCable = allProducts.find(p => p.id === POWER_CABLE_ID) || null;
+  // Recommended add-ons — exactly the products picked for this item in Ecwid
+  // ("Related products": the right cables, fans, PSUs for this model). The
+  // same list shows as "You may also like" in the Ecwid checkout. Hidden when
+  // none are set, so a miner never suggests parts that don't fit it.
+  const addOns = (product?.related || [])
+    .map(id => allProducts.find(p => p.id === id))
+    .filter((p): p is NonNullable<typeof p> => !!p && p.id !== product?.id);
+  const [addedAddOn, setAddedAddOn] = useState<number | null>(null);
+  const addAddOn = (p: (typeof addOns)[number]) => {
+    addItem(p.id, 1, p.variants?.[0]?.label);
+    setAddedAddOn(p.id);
+    setTimeout(() => setAddedAddOn(cur => (cur === p.id ? null : cur)), 1500);
+  };
 
   const handleAddToCart = () => {
     if (!product) return;
@@ -62,12 +71,8 @@ const ProductPage = () => {
     model: v?.model ?? product?.details?.model,
   };
   const subtotalNum = Number(cur.price) * quantity;
-  const totals = {
-    subtotal: subtotalNum.toFixed(2),
-    hst: (subtotalNum * 0.13).toFixed(2),
-    total: (subtotalNum * 1.13).toFixed(2),
-    freeShipping: false,
-  };
+  const fmt = (n: number) => n.toLocaleString('en-CA', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const totals = { subtotal: fmt(subtotalNum) };
 
   // Separate badges: condition (Brand New / Used), cooling (Air-Cooled /
   // Hydro-Cooled), and coin/mining type. "Home" is never a badge.
@@ -270,18 +275,14 @@ const ProductPage = () => {
 
               <div className="mb-6 bg-graphite border border-crimson-accent/20 rounded-xl p-6">
                 <div className="space-y-3">
-                  <div className="flex justify-between items-center">
-                    <span className="text-soft-gray font-inter">Subtotal ({quantity} unit{quantity > 1 ? 's' : ''})</span>
-                    <span className="text-white font-inter font-bold text-xl">${totals.subtotal} CAD</span>
+                  <div className="flex justify-between items-center gap-4">
+                    <div className="font-inter">
+                      <div className="text-soft-gray">{t('cart_subtotal')}</div>
+                      <div className="text-soft-gray text-xs">{quantity} × ${fmt(Number(cur.price))}</div>
+                    </div>
+                    <span className="text-crimson-accent font-inter font-bold text-2xl sm:text-3xl whitespace-nowrap">${totals.subtotal} CAD</span>
                   </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-soft-gray font-inter">HST (13%)</span>
-                    <span className="text-white font-inter font-bold text-xl">${totals.hst} CAD</span>
-                  </div>
-                  <div className="border-t border-white/10 pt-3 flex justify-between items-center">
-                    <span className="text-white font-inter font-bold text-lg">Total</span>
-                    <span className="text-crimson-accent font-inter font-bold text-3xl">${totals.total} CAD</span>
-                  </div>
+                  <p className="text-soft-gray font-inter text-xs leading-relaxed">{t('cart_tax_note')}</p>
                 </div>
               </div>
 
@@ -294,29 +295,33 @@ const ProductPage = () => {
 
             </div>
 
-            {/* Buy with this miner — desktop: directly under the image (left column) */}
+            {/* Recommended add-ons — desktop: directly under the image (left column) */}
+            {addOns.length > 0 && (
             <div className="order-4 lg:order-none lg:col-start-1 lg:row-start-3">
               <div className="bg-graphite border border-crimson-accent/20 rounded-xl p-6">
-                <h3 className="text-white font-inter font-bold text-xl mb-4">Buy with this miner</h3>
-                {powerCable ? (
-                  <div className="flex items-center gap-4 bg-midnight/50 border border-white/10 rounded-lg p-4">
-                    <div className="w-16 h-16 bg-black rounded-lg overflow-hidden flex-shrink-0 flex items-center justify-center">
-                      {powerCable.image ? (
-                        <img src={powerCable.image} alt={powerCable.name} className="w-full h-full object-contain" />
-                      ) : (<i className="ri-plug-2-line text-2xl text-zinc-600" aria-hidden="true"></i>)}
+                <h3 className="text-white font-inter font-bold text-xl mb-4">{t('product_addons_title')}</h3>
+                <div className="space-y-3">
+                  {addOns.map(a => (
+                    <div key={a.id} className="flex items-center gap-3 sm:gap-4 bg-midnight/50 border border-white/10 rounded-lg p-3 sm:p-4">
+                      <Link to={`/product?id=${a.id}`} className="w-12 h-12 sm:w-16 sm:h-16 bg-black rounded-lg overflow-hidden flex-shrink-0 flex items-center justify-center">
+                        {a.image ? (
+                          <img src={a.image} alt={a.name} className="w-full h-full object-contain" />
+                        ) : (<i className="ri-plug-2-line text-2xl text-zinc-600" aria-hidden="true"></i>)}
+                      </Link>
+                      <div className="flex-1 min-w-0">
+                        <Link to={`/product?id=${a.id}`} className="block text-white font-inter font-semibold text-sm mb-1 hover:text-crimson-accent transition-colors">{a.name}</Link>
+                        <div className="text-crimson-accent font-inter font-bold text-base sm:text-lg whitespace-nowrap">${Number(a.variants?.[0]?.price ?? a.price).toFixed(2)} CAD</div>
+                      </div>
+                      <button type="button" onClick={() => addAddOn(a)}
+                        className="flex-shrink-0 px-3 sm:px-4 py-2 bg-crimson-accent/10 border border-crimson-accent text-crimson-accent font-inter font-semibold text-sm rounded-lg hover:bg-crimson-accent hover:text-white transition-colors cursor-pointer whitespace-nowrap">
+                        {addedAddOn === a.id ? t('fp_added') : t('product_addons_add')}
+                      </button>
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <h4 className="text-white font-inter font-semibold text-sm mb-1">{powerCable.name}</h4>
-                      <div className="text-crimson-accent font-inter font-bold text-lg">${Number(powerCable.price).toFixed(2)} CAD</div>
-                    </div>
-                    <button onClick={() => addItem(powerCable.id, 1)}
-                      className="px-4 py-2 bg-crimson-accent/10 border border-crimson-accent text-crimson-accent font-inter font-semibold text-sm rounded-lg hover:bg-crimson-accent hover:text-white transition-colors cursor-pointer whitespace-nowrap">Add</button>
-                  </div>
-                ) : (
-                  <p className="text-soft-gray font-inter text-sm">Power cable available on request.</p>
-                )}
+                  ))}
+                </div>
               </div>
             </div>
+            )}
 
             {/* Shipping / support trust notes — desktop: under the purchase panel */}
             <div className="order-5 lg:order-none lg:col-start-2 lg:row-start-4">

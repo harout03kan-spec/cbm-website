@@ -44,6 +44,9 @@ export interface Product {
   // Selectable hashrate variants (one product card per model; card shows the
   // first/highest variant). Each variant has its own specs and CAD price.
   variants?: ProductVariant[];
+  // Add-ons picked for this product in Ecwid ("Related products"): the
+  // cables, fans, PSUs etc. that go with it. Also shown by Ecwid at checkout.
+  related?: number[];
 }
 
 export interface ProductVariant {

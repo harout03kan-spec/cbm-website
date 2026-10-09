@@ -68,6 +68,7 @@ export interface EcwidProduct {
   attributes?: EcwidAttribute[];
   options?: EcwidOption[];
   combinations?: EcwidCombination[];
+  relatedProducts?: { productIds?: number[] };
 }
 export interface EcwidCategory { id: number; parentId?: number; name: string; enabled?: boolean }
 
@@ -205,6 +206,7 @@ export function mapEcwidProduct(p: EcwidProduct, categoryNames: Map<number, stri
     permalink: p.url || '',
     ...(hasDetails ? { details } : {}),
     ...(variants ? { variants } : {}),
+    ...(p.relatedProducts?.productIds?.length ? { related: p.relatedProducts.productIds } : {}),
   };
 }
 
