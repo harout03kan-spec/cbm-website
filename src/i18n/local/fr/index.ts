@@ -753,6 +753,12 @@ const fr = {
   cart_trust_ships: 'Expédié de Montréal, Québec',
   cart_trust_call: 'Des questions? Appelez le +1 (514) 604-7050',
   cart_we_accept: 'Nous acceptons',
+  cart_pay_online: 'Payer en ligne',
+  cart_pay_other: 'Autres modes de paiement',
+  cart_pay_other_desc: 'Virement Interac, virement bancaire, crypto ou comptant? Appelez-nous et nous vous enverrons une facture.',
+  cart_spec_hashrate: 'Hashrate',
+  cart_spec_power: 'Puissance',
+  cart_spec_efficiency: 'Efficacité',
 
   // ── CHECKOUT ───────────────────────────────────────
   checkout_title: 'Paiement',

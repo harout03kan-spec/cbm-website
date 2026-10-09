@@ -82,9 +82,9 @@ const CartPage = () => {
       <section className="pt-32 pb-8 bg-graphite border-b border-crimson-accent/20">
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex items-center gap-2 text-soft-gray font-inter text-sm">
-            <Link to="/" className="hover:text-crimson-accent transition-colors cursor-pointer">Home</Link>
+            <Link to="/" className="hover:text-crimson-accent transition-colors cursor-pointer">{t('product_bc_home')}</Link>
             <i className="ri-arrow-right-s-line"></i>
-            <span className="text-white">Shopping Cart</span>
+            <span className="text-white">{t('cart_title')}</span>
           </div>
         </div>
       </section>
@@ -145,19 +145,19 @@ const CartPage = () => {
                         <div className="flex flex-wrap gap-x-6 gap-y-2 mb-4">
                           {d.hashrate && (
                             <div>
-                              <div className="text-soft-gray font-inter text-xs mb-1">Hashrate</div>
+                              <div className="text-soft-gray font-inter text-xs mb-1">{t('cart_spec_hashrate')}</div>
                               <div className="text-white font-inter font-bold">{d.hashrate} {d.hashrate_unit || 'TH/s'}</div>
                             </div>
                           )}
                           {d.power && (
                             <div>
-                              <div className="text-soft-gray font-inter text-xs mb-1">Power</div>
+                              <div className="text-soft-gray font-inter text-xs mb-1">{t('cart_spec_power')}</div>
                               <div className="text-white font-inter font-bold">{d.power}W</div>
                             </div>
                           )}
                           {d.efficiency && (
                             <div>
-                              <div className="text-soft-gray font-inter text-xs mb-1">Efficiency</div>
+                              <div className="text-soft-gray font-inter text-xs mb-1">{t('cart_spec_efficiency')}</div>
                               <div className="text-white font-inter font-bold">{d.efficiency} {d.efficiency_unit || 'J/TH'}</div>
                             </div>
                           )}
@@ -166,7 +166,7 @@ const CartPage = () => {
                         {/* Quantity and Price */}
                         <div className="flex flex-wrap items-center justify-between gap-3">
                           <div className="flex items-center gap-3">
-                            <span className="hidden sm:inline text-soft-gray font-inter text-sm">Quantity:</span>
+                            <span className="hidden sm:inline text-soft-gray font-inter text-sm">{t('product_qty')}:</span>
                             <div className="flex items-center bg-midnight border border-white/20 rounded-lg overflow-hidden">
                               <button
                                 onClick={() => updateQuantity(item.id, item.quantity - 1, item.variant)}
@@ -258,25 +258,32 @@ const CartPage = () => {
                   </a>
                 </div>
 
-                {/* Payment Methods */}
+                {/* Payment Methods — cards are paid online through Moneris at
+                    checkout; everything else is invoiced after the customer calls. */}
                 <div className="mt-6 pt-6 border-t border-white/10">
-                  <div className="text-soft-gray font-inter text-xs mb-3 text-center">
-                    {t('cart_we_accept')}
+                  <div className="text-soft-gray font-inter text-xs font-semibold uppercase tracking-[0.15em] mb-3">
+                    {t('cart_pay_online')}
                   </div>
-                  <div className="flex items-center justify-center gap-3">
-                    <div className="w-12 h-8 flex items-center justify-center bg-white rounded">
-                      <i className="ri-visa-line text-2xl text-midnight"></i>
-                    </div>
-                    <div className="w-12 h-8 flex items-center justify-center bg-white rounded">
-                      <i className="ri-mastercard-line text-2xl text-midnight"></i>
-                    </div>
-                    <div className="w-12 h-8 flex items-center justify-center bg-midnight border border-white/20 rounded">
-                      <i className="ri-bitcoin-line text-xl text-crimson-accent"></i>
-                    </div>
-                    <div className="w-12 h-8 flex items-center justify-center bg-midnight border border-white/20 rounded text-white text-xs font-bold">
-                      WIRE
-                    </div>
+                  <div className="grid grid-cols-3 gap-2">
+                    {[
+                      { label: 'Visa', icon: 'ri-visa-line' },
+                      { label: 'Mastercard', icon: 'ri-mastercard-line' },
+                      { label: t('footer_pay_debit'), icon: 'ri-bank-card-2-line' },
+                    ].map((m) => (
+                      <span key={m.label} className="flex flex-col items-center justify-center gap-1 rounded-lg border border-white/10 bg-white/5 px-2 py-2.5 text-center text-xs text-gray-300 leading-tight">
+                        <i className={`${m.icon} text-2xl text-crimson-accent`} aria-hidden="true"></i>
+                        {m.label}
+                      </span>
+                    ))}
                   </div>
+
+                  <div className="mt-5 text-soft-gray font-inter text-xs font-semibold uppercase tracking-[0.15em] mb-2">
+                    {t('cart_pay_other')}
+                  </div>
+                  <p className="text-soft-gray font-inter text-sm leading-relaxed">
+                    {t('cart_pay_other_desc')}{' '}
+                    <a href="tel:+15146047050" className="font-semibold text-white hover:text-crimson-accent transition-colors whitespace-nowrap">+1 (514) 604-7050</a>
+                  </p>
                 </div>
               </div>
             </div>

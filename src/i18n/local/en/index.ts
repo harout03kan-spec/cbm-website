@@ -753,6 +753,12 @@ const en = {
   cart_trust_ships: 'Ships from Montreal, Quebec',
   cart_trust_call: 'Questions? Call +1 (514) 604-7050',
   cart_we_accept: 'We Accept',
+  cart_pay_online: 'Pay online',
+  cart_pay_other: 'Other ways to pay',
+  cart_pay_other_desc: 'E-Transfer, wire transfer, crypto or cash? Call us and we’ll send you an invoice.',
+  cart_spec_hashrate: 'Hashrate',
+  cart_spec_power: 'Power',
+  cart_spec_efficiency: 'Efficiency',
 
   // ── CHECKOUT ───────────────────────────────────────
   checkout_title: 'Checkout',
