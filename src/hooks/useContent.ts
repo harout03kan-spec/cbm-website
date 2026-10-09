@@ -86,7 +86,7 @@ const DEFAULTS: SiteContent = {
   about_stats: { s1_value: 'Montreal', s1_label: 'Repair Center', s2_value: 'Canada-wide', s2_label: 'Sales & Service', s3_value: 'New & Used', s3_label: 'ASIC Miners', s4_value: 'Bulk', s4_label: 'Miner Sourcing' },
   about_leadership: { p1_name: 'Harout Kantanakian', p1_role: 'Founder & CEO', p1_bio: 'Oversees operations, client communication, sourcing, and growth across the business.', p1_linkedin: '', p2_name: 'Patrice Destin', p2_role: 'Co Founder', p2_bio: 'Supports technical operations, repair workflow, and day to day service execution across the business.', p2_linkedin: '' },
   about_differentiators: [{ item: 'In House Board Repair' }, { item: 'Clear Pricing Before Work Starts' }, { item: 'Tested Before Release' }, { item: 'Canadian Based Support' }],
-  about_location: { address_line1: '6500 Route Transcanadienne, Suite 209', address_line2: 'Saint Laurent, Quebec H4T 1X4', map_embed_url: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2795.123456789!2d-73.7!3d45.5' },
+  about_location: { address_line1: '4040 Rue Steinberg', address_line2: 'Saint-Laurent, QC H4R 2G7', map_embed_url: 'https://maps.google.com/maps?q=4040%20Rue%20Steinberg%2C%20Saint-Laurent%2C%20QC%20H4R%202G7%2C%20Canada&z=15&output=embed' },
   about_markets: [{ market: 'Canada' }, { market: 'United States' }, { market: 'Dubai' }, { market: 'Africa' }, { market: 'International Clients' }],
   about_values: [
     { title: 'Canadian Based',    text: 'Built and operated in Canada with real understanding of local mining conditions, logistics, and client needs.' },
@@ -101,7 +101,7 @@ const DEFAULTS: SiteContent = {
     { name: 'Brad Holman', text: 'They were very helpful sorting out my setup issue. Pricing was reasonable and shipping to Ontario was quick.', featured: '0' },
     { name: 'Will James', text: 'Ordered an S21. Great service, quick response, and smooth shipping in Canada.', featured: '0' },
   ],
-  global_contact: { phone: '+15146047050', phone_display: '+1 (514) 604-7050', email: '', google_review: 'https://g.page/r/canadabtcminers/review', address: '6500 Route Transcanadienne, Suite 209, Saint Laurent, Quebec H4T 1X4' },
+  global_contact: { phone: '+15146047050', phone_display: '+1 (514) 604-7050', email: '', google_review: 'https://g.page/r/canadabtcminers/review', address: '4040 Rue Steinberg, Saint-Laurent, QC H4R 2G7' },
 };
 
 // In-memory cache so we only hit the API once per session

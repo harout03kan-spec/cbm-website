@@ -1,27 +1,16 @@
 
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import Navbar from '../../components/feature/Navbar';
 import Footer from '../../components/feature/Footer';
-import { CATALOG_PRODUCTS as products } from '../../data/catalog';
+import { useProducts } from '../../hooks/useProducts';
 import { useTranslation } from 'react-i18next';
 import { useCart } from '../../hooks/useCart';
 
 const CartPage = () => {
   const { t } = useTranslation();
   const { items: cartItems, updateQuantity, removeItem } = useCart();
-
-  const [promoCode, setPromoCode] = useState('');
-  const [promoApplied, setPromoApplied] = useState(false);
-  const [promoDiscount, setPromoDiscount] = useState(0);
-
-  const applyPromoCode = () => {
-    if (promoCode.toUpperCase() === 'CANADA10') {
-      setPromoApplied(true);
-      setPromoDiscount(10);
-    }
-  };
+  const { products } = useProducts();
 
   // Resolve a cart line to its product + selected variant (variant overrides
   // name/price/specs so each variant is priced and labelled correctly).
@@ -47,22 +36,7 @@ const CartPage = () => {
       const d = lineData(item);
       return sum + (d ? d.price * item.quantity : 0);
     }, 0);
-
-    const discount = promoApplied ? (subtotal * promoDiscount) / 100 : 0;
-    const subtotalAfterDiscount = subtotal - discount;
-    const hst = subtotalAfterDiscount * 0.13;
-    const shipping = subtotal > 10000 ? 0 : 150;
-    const total = subtotalAfterDiscount + hst + shipping;
-
-    return {
-      subtotal: subtotal.toFixed(2),
-      discount: discount.toFixed(2),
-      subtotalAfterDiscount: subtotalAfterDiscount.toFixed(2),
-      hst: hst.toFixed(2),
-      shipping: shipping.toFixed(2),
-      total: total.toFixed(2),
-      freeShipping: subtotal > 10000
-    };
+    return { subtotal: subtotal.toLocaleString('en-CA', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) };
   };
 
   const totals = calculateTotals();
@@ -108,9 +82,9 @@ const CartPage = () => {
       <section className="pt-32 pb-8 bg-graphite border-b border-crimson-accent/20">
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex items-center gap-2 text-soft-gray font-inter text-sm">
-            <Link to="/" className="hover:text-crimson-accent transition-colors cursor-pointer">Home</Link>
+            <Link to="/" className="hover:text-crimson-accent transition-colors cursor-pointer">{t('product_bc_home')}</Link>
             <i className="ri-arrow-right-s-line"></i>
-            <span className="text-white">Shopping Cart</span>
+            <span className="text-white">{t('cart_title')}</span>
           </div>
         </div>
       </section>
@@ -137,11 +111,11 @@ const CartPage = () => {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.1 }}
-                    className="bg-graphite border border-crimson-accent/20 rounded-2xl p-6"
+                    className="bg-graphite border border-crimson-accent/20 rounded-2xl p-4 sm:p-6"
                   >
-                    <div className="flex gap-6">
+                    <div className="flex gap-4 sm:gap-6">
                       {/* Product Image */}
-                      <div className="relative w-40 h-40 bg-black rounded-xl overflow-hidden flex-shrink-0 border border-white/10 flex items-center justify-center">
+                      <div className="relative w-20 h-20 sm:w-40 sm:h-40 bg-black rounded-xl overflow-hidden flex-shrink-0 border border-white/10 flex items-center justify-center">
                         {hasImg ? (
                           <img src={d.image} alt={d.name} className="w-full h-full object-contain object-center" />
                         ) : (
@@ -150,48 +124,49 @@ const CartPage = () => {
                       </div>
 
                       {/* Product Info */}
-                      <div className="flex-1">
-                        <div className="flex justify-between items-start mb-3">
+                      <div className="flex-1 min-w-0">
+                        <div className="flex justify-between items-start gap-2 mb-3">
                           <Link
                             to={`/product?id=${item.id}`}
-                            className="text-white font-inter font-bold text-2xl hover:text-crimson-accent transition-colors cursor-pointer"
+                            className="text-white font-inter font-bold text-lg sm:text-2xl break-words hover:text-crimson-accent transition-colors cursor-pointer"
                           >
                             {d.name}
                           </Link>
                           <button
                             onClick={() => removeItem(item.id, item.variant)}
-                            className="w-10 h-10 flex items-center justify-center text-soft-gray hover:text-red-500 hover:bg-red-500/10 rounded-lg transition-colors cursor-pointer"
+                            aria-label={t('cart_remove')}
+                            className="w-10 h-10 flex-shrink-0 flex items-center justify-center text-soft-gray hover:text-red-500 hover:bg-red-500/10 rounded-lg transition-colors cursor-pointer"
                           >
                             <i className="ri-delete-bin-line text-xl"></i>
                           </button>
                         </div>
 
                         {/* Specs */}
-                        <div className="flex gap-6 mb-4">
+                        <div className="flex flex-wrap gap-x-6 gap-y-2 mb-4">
                           {d.hashrate && (
                             <div>
-                              <div className="text-soft-gray font-inter text-xs mb-1">Hashrate</div>
+                              <div className="text-soft-gray font-inter text-xs mb-1">{t('cart_spec_hashrate')}</div>
                               <div className="text-white font-inter font-bold">{d.hashrate} {d.hashrate_unit || 'TH/s'}</div>
                             </div>
                           )}
                           {d.power && (
                             <div>
-                              <div className="text-soft-gray font-inter text-xs mb-1">Power</div>
+                              <div className="text-soft-gray font-inter text-xs mb-1">{t('cart_spec_power')}</div>
                               <div className="text-white font-inter font-bold">{d.power}W</div>
                             </div>
                           )}
                           {d.efficiency && (
                             <div>
-                              <div className="text-soft-gray font-inter text-xs mb-1">Efficiency</div>
+                              <div className="text-soft-gray font-inter text-xs mb-1">{t('cart_spec_efficiency')}</div>
                               <div className="text-white font-inter font-bold">{d.efficiency} {d.efficiency_unit || 'J/TH'}</div>
                             </div>
                           )}
                         </div>
 
                         {/* Quantity and Price */}
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-4">
-                            <span className="text-soft-gray font-inter text-sm">Quantity:</span>
+                        <div className="flex flex-wrap items-center justify-between gap-3">
+                          <div className="flex items-center gap-3">
+                            <span className="hidden sm:inline text-soft-gray font-inter text-sm">{t('product_qty')}:</span>
                             <div className="flex items-center bg-midnight border border-white/20 rounded-lg overflow-hidden">
                               <button
                                 onClick={() => updateQuantity(item.id, item.quantity - 1, item.variant)}
@@ -216,8 +191,8 @@ const CartPage = () => {
                           </div>
 
                           <div className="text-right">
-                            <div className="text-crimson-accent font-inter font-bold text-3xl">
-                              ${(d.price * item.quantity).toFixed(2)}
+                            <div className="text-crimson-accent font-inter font-bold text-2xl sm:text-3xl">
+                              ${(d.price * item.quantity).toLocaleString('en-CA', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                             </div>
                             <div className="text-soft-gray font-inter text-sm">
                               ${d.price.toFixed(2)} × {item.quantity}
@@ -247,78 +222,16 @@ const CartPage = () => {
                   {t('cart_subtotal')}
                 </h2>
 
-                {/* Promo Code */}
-                <div className="mb-6">
-                  <label className="text-soft-gray font-inter text-sm mb-2 block">
-                    Promo Code
-                  </label>
-                  <div className="flex gap-2">
-                    <input
-                      type="text"
-                      value={promoCode}
-                      onChange={(e) => setPromoCode(e.target.value)}
-                      placeholder="Enter code"
-                      disabled={promoApplied}
-                      className="flex-1 px-4 py-3 bg-midnight border border-white/20 rounded-lg text-white font-inter outline-none focus:border-crimson-accent transition-colors disabled:opacity-50"
-                    />
-                    <button
-                      onClick={applyPromoCode}
-                      disabled={promoApplied}
-                      className="px-6 py-3 bg-crimson-accent text-white font-inter font-semibold rounded-lg hover:scale-105 transition-transform cursor-pointer whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                      Apply
-                    </button>
-                  </div>
-                  {promoApplied && (
-                    <div className="mt-2 flex items-center gap-2 text-green-400 font-inter text-sm">
-                      <i className="ri-checkbox-circle-fill"></i>
-                      Promo code applied: {promoDiscount}% off
-                    </div>
-                  )}
-                </div>
-
-                {/* Price Breakdown */}
-                <div className="space-y-4 mb-6 pb-6 border-b border-white/10">
+                {/* Subtotal — taxes and shipping are calculated by the Ecwid
+                    checkout from the shipping address (GST/QST/HST by province). */}
+                <div className="space-y-3 mb-6 pb-6 border-b border-white/10">
                   <div className="flex justify-between items-center">
-                    <span className="text-soft-gray font-inter">Subtotal</span>
-                    <span className="text-white font-inter font-bold text-lg">${totals.subtotal}</span>
+                    <span className="text-soft-gray font-inter">{t('cart_subtotal')}</span>
+                    <span className="text-white font-inter font-bold text-2xl">${totals.subtotal}</span>
                   </div>
-                  
-                  {promoApplied && (
-                    <div className="flex justify-between items-center">
-                      <span className="text-green-400 font-inter">Discount ({promoDiscount}%)</span>
-                      <span className="text-green-400 font-inter font-bold text-lg">-${totals.discount}</span>
-                    </div>
-                  )}
-
-                  <div className="flex justify-between items-center">
-                    <span className="text-soft-gray font-inter">Shipping</span>
-                    <span className="text-white font-inter font-bold text-lg">
-                      {totals.freeShipping ? (
-                        <span className="text-green-400">FREE</span>
-                      ) : (
-                        `$${totals.shipping}`
-                      )}
-                    </span>
-                  </div>
-
-                  {!totals.freeShipping && (
-                    <div className="text-soft-gray font-inter text-xs">
-                      <i className="ri-truck-fill text-crimson-accent mr-1"></i>
-                      Free shipping on orders over $10,000
-                    </div>
-                  )}
-
-                  <div className="flex justify-between items-center">
-                    <span className="text-soft-gray font-inter">HST (13%)</span>
-                    <span className="text-white font-inter font-bold text-lg">${totals.hst}</span>
-                  </div>
-                </div>
-
-                {/* Total */}
-                <div className="flex justify-between items-center mb-6">
-                  <span className="text-white font-inter font-bold text-xl">Total</span>
-                  <span className="text-crimson-accent font-inter font-bold text-4xl">${totals.total}</span>
+                  <p className="text-soft-gray font-inter text-xs leading-relaxed">
+                    {t('cart_tax_note')}
+                  </p>
                 </div>
 
                 {/* Checkout Button */}
@@ -328,42 +241,57 @@ const CartPage = () => {
                 >
                   {t('cart_checkout')}
                 </Link>
+                <p className="text-soft-gray font-inter text-xs leading-relaxed mb-4">
+                  {t('legal_final_sale')}{' '}
+                  <Link to="/terms" className="text-white underline hover:text-crimson-accent">{t('footer_terms')}</Link>
+                  {' · '}
+                  <Link to="/warranty" className="text-white underline hover:text-crimson-accent">{t('footer_warranty')}</Link>
+                  {' · '}
+                  <Link to="/shipping-returns" className="text-white underline hover:text-crimson-accent">{t('footer_shipping')}</Link>
+                </p>
 
                 {/* Trust Badges */}
                 <div className="space-y-3">
                   <div className="flex items-center gap-3 text-soft-gray font-inter text-sm">
                     <i className="ri-shield-check-fill text-crimson-accent text-xl"></i>
-                    <span>Secure SSL Encrypted Checkout</span>
+                    <span>{t('cart_trust_secure')}</span>
                   </div>
                   <div className="flex items-center gap-3 text-soft-gray font-inter text-sm">
                     <i className="ri-truck-fill text-crimson-accent text-xl"></i>
-                    <span>Ships from Toronto in 1-2 Days</span>
+                    <span>{t('cart_trust_ships')}</span>
                   </div>
-                  <div className="flex items-center gap-3 text-soft-gray font-inter text-sm">
-                    <i className="ri-customer-service-2-fill text-crimson-accent text-xl"></i>
-                    <span>24/7 Canadian Support Team</span>
-                  </div>
+                  <a href="tel:+15146047050" className="flex items-center gap-3 text-soft-gray font-inter text-sm hover:text-white transition-colors">
+                    <i className="ri-phone-fill text-crimson-accent text-xl"></i>
+                    <span>{t('cart_trust_call')}</span>
+                  </a>
                 </div>
 
-                {/* Payment Methods */}
+                {/* Payment Methods — cards are paid online through Moneris at
+                    checkout; everything else is invoiced after the customer calls. */}
                 <div className="mt-6 pt-6 border-t border-white/10">
-                  <div className="text-soft-gray font-inter text-xs mb-3 text-center">
-                    We Accept
+                  <div className="text-soft-gray font-inter text-xs font-semibold uppercase tracking-[0.15em] mb-3">
+                    {t('cart_pay_online')}
                   </div>
-                  <div className="flex items-center justify-center gap-3">
-                    <div className="w-12 h-8 flex items-center justify-center bg-white rounded">
-                      <i className="ri-visa-line text-2xl text-midnight"></i>
-                    </div>
-                    <div className="w-12 h-8 flex items-center justify-center bg-white rounded">
-                      <i className="ri-mastercard-line text-2xl text-midnight"></i>
-                    </div>
-                    <div className="w-12 h-8 flex items-center justify-center bg-midnight border border-white/20 rounded">
-                      <i className="ri-bitcoin-line text-xl text-crimson-accent"></i>
-                    </div>
-                    <div className="w-12 h-8 flex items-center justify-center bg-midnight border border-white/20 rounded text-white text-xs font-bold">
-                      WIRE
-                    </div>
+                  <div className="grid grid-cols-3 gap-2">
+                    {[
+                      { label: 'Visa', icon: 'ri-visa-line' },
+                      { label: 'Mastercard', icon: 'ri-mastercard-line' },
+                      { label: t('footer_pay_debit'), icon: 'ri-bank-card-2-line' },
+                    ].map((m) => (
+                      <span key={m.label} className="flex flex-col items-center justify-center gap-1 rounded-lg border border-white/10 bg-white/5 px-2 py-2.5 text-center text-xs text-gray-300 leading-tight">
+                        <i className={`${m.icon} text-2xl text-crimson-accent`} aria-hidden="true"></i>
+                        {m.label}
+                      </span>
+                    ))}
                   </div>
+
+                  <div className="mt-5 text-soft-gray font-inter text-xs font-semibold uppercase tracking-[0.15em] mb-2">
+                    {t('cart_pay_other')}
+                  </div>
+                  <p className="text-soft-gray font-inter text-sm leading-relaxed">
+                    {t('cart_pay_other_desc')}{' '}
+                    <a href="tel:+15146047050" className="font-semibold text-white hover:text-crimson-accent transition-colors whitespace-nowrap">+1 (514) 604-7050</a>
+                  </p>
                 </div>
               </div>
             </div>

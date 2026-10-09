@@ -7,7 +7,7 @@ import Seo, { localBusinessLd } from '../../components/feature/Seo';
 
 const TEL = '+15146047050';
 const EMAIL = 'info@canadabtcminers.ca';
-const ADDRESS = '6500 Route Transcanadienne, Suite 209, Saint-Laurent, Quebec H4T 1X4';
+const ADDRESS = '4040 Rue Steinberg, Saint-Laurent, QC H4R 2G7';
 
 // Netlify Forms. A matching hidden static form lives in index.html so Netlify
 // detects it at build time. Submissions are emailed to the recipient configured

@@ -4,8 +4,10 @@ import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { useProducts } from '../../hooks/useProducts';
+import { useCart } from '../../hooks/useCart';
 import { useTranslation } from 'react-i18next';
 import Seo from '../../components/feature/Seo';
+import FAQSection from '../home/components/FAQSection';
 import type { Product } from '../../lib/api';
 
 const ShopPage = () => {
@@ -19,6 +21,15 @@ const ShopPage = () => {
   const [searchQuery, setSearchQuery] = useState(() => searchParams.get('q') || '');
   const [sortBy, setSortBy] = useState('');
   const { products, loading } = useProducts();
+  const { addItem } = useCart();
+  // Brief "Added" confirmation on the card that was clicked.
+  const [addedId, setAddedId] = useState<number | null>(null);
+  const addToCart = (p: Product) => {
+    // Same as the product page default: the first (shown) hashrate version.
+    addItem(p.id, 1, p.variants?.[0]?.label);
+    setAddedId(p.id);
+    setTimeout(() => setAddedId(cur => (cur === p.id ? null : cur)), 1500);
+  };
 
   // Persist the shop scroll position so returning from a product page — via the
   // Shop / Back to Shop buttons (PUSH) or the browser Back button (POP) — lands
@@ -389,6 +400,8 @@ const ShopPage = () => {
               ].filter((s) => s.value && String(s.value).trim()) : [];
               const condKey = conditionKey(product);
               const coinKey = coinTypeKey(product);
+              // Coin typed in Ecwid wins (Hydro miners keep their Hydro label).
+              const coinLabel = coinKey === 'shop_badge_hydro' ? t(coinKey) : (!unclear && product.coin) || (coinKey ? t(coinKey) : '');
               const displayName = unclear ? t('shop_pending_name') : cleanName(product.name);
               return (
               <motion.div key={product.id}
@@ -405,10 +418,10 @@ const ShopPage = () => {
                     </div>
                   )}
                   {/* Top corner badges: condition + coin/mining type */}
-                  {!unclear && (condKey || coinKey) && (
+                  {!unclear && (condKey || coinLabel) && (
                     <div className="absolute top-2 left-2 sm:top-4 sm:left-4 flex flex-col items-start gap-1.5 sm:gap-2">
                       {condKey && <span className="px-2 py-0.5 sm:px-3 sm:py-1 bg-black/70 border border-white/30 text-white text-[10px] sm:text-xs font-inter font-semibold rounded">{t(condKey)}</span>}
-                      {coinKey && <span className="px-2 py-0.5 sm:px-3 sm:py-1 bg-crimson-accent text-white text-[10px] sm:text-xs font-inter font-semibold rounded">{t(coinKey)}</span>}
+                      {coinLabel && <span className="px-2 py-0.5 sm:px-3 sm:py-1 bg-crimson-accent text-white text-[10px] sm:text-xs font-inter font-semibold rounded">{coinLabel}</span>}
                     </div>
                   )}
                 </div>
@@ -453,8 +466,9 @@ const ShopPage = () => {
 
                   <div className="mt-auto flex flex-col sm:flex-row gap-2 sm:gap-3">
                     {showPrice ? (
-                      <button className="relative z-10 flex-1 min-h-[44px] py-3 bg-crimson-accent text-white font-inter font-semibold text-sm sm:text-base rounded-lg hover:bg-red-700 active:bg-red-800 transition-colors cursor-pointer whitespace-nowrap focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-crimson-accent">
-                        {t('shop_add_cart')}
+                      <button type="button" onClick={() => addToCart(product)}
+                        className="relative z-10 flex-1 min-h-[44px] py-3 bg-crimson-accent text-white font-inter font-semibold text-sm sm:text-base rounded-lg hover:bg-red-700 active:bg-red-800 transition-colors cursor-pointer whitespace-nowrap focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-crimson-accent">
+                        {addedId === product.id ? t('fp_added') : t('shop_add_cart')}
                       </button>
                     ) : (
                       <Link to="/contact#contact-form"
@@ -492,6 +506,9 @@ const ShopPage = () => {
           </motion.div>
         </div>
       </section>
+
+      {/* Before you order — shipping, warranty, final sale, payment */}
+      <FAQSection />
 
       <Footer />
     </div>

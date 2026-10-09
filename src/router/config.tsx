@@ -13,11 +13,11 @@ const Contact = lazy(() => import('../pages/contact/page'));
 const Cart = lazy(() => import('../pages/cart/page'));
 const Checkout = lazy(() => import('../pages/checkout/page'));
 const OrderSuccess = lazy(() => import('../pages/order-success/page'));
-const Crm = lazy(() => import('../pages/crm/page'));
 // Hidden internal PoC route — Ecwid storefront embed. Not in nav or sitemap.
 const StoreTest = lazy(() => import('../pages/store-test/page'));
 // Hidden internal PoC route — Ecwid cart/checkout handoff via JS API. Not in nav or sitemap.
 const StoreTestCart = lazy(() => import('../pages/store-test-cart/page'));
+const Legal = lazy(() => import('../pages/legal/page'));
 const NotFound = lazy(() => import('../pages/NotFound'));
 
 const routes: RouteObject[] = [
@@ -53,6 +53,11 @@ const routes: RouteObject[] = [
     path: '/contact',
     element: <Contact />,
   },
+  // Policy pages (EN + FR under /fr).
+  { path: '/privacy', element: <Legal doc="privacy" /> },
+  { path: '/terms', element: <Legal doc="terms" /> },
+  { path: '/shipping-returns', element: <Legal doc="shipping" /> },
+  { path: '/warranty', element: <Legal doc="warranty" /> },
   {
     path: '/cart',
     element: <Cart />,
@@ -64,10 +69,6 @@ const routes: RouteObject[] = [
   {
     path: '/order-success',
     element: <OrderSuccess />,
-  },
-  {
-    path: '/crm',
-    element: <Crm />,
   },
   // Hidden internal PoC — Ecwid storefront test. Not linked in nav; noindex; not in sitemap.
   {
@@ -92,6 +93,10 @@ const routes: RouteObject[] = [
       { path: 'services', element: <Services /> },
       { path: 'about', element: <About /> },
       { path: 'contact', element: <Contact /> },
+      { path: 'privacy', element: <Legal doc="privacy" /> },
+      { path: 'terms', element: <Legal doc="terms" /> },
+      { path: 'shipping-returns', element: <Legal doc="shipping" /> },
+      { path: 'warranty', element: <Legal doc="warranty" /> },
       { path: '*', element: <NotFound /> },
     ],
   },

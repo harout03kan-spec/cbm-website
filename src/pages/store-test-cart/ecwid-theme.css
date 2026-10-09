@@ -476,3 +476,116 @@ body.cbm-ecwid-test-active [class*="promo"] svg,
   width: 1.2rem !important;
   height: 1.2rem !important;
 }
+
+/* ---- Ecwid notices (cookie/privacy banner) — dark card, readable text ---- */
+/* Ecwid injects these at <body> level, so they inherit the site's light text
+ * color while keeping their own white card: near-invisible text. Make the card
+ * match the dark checkout instead. Scoped by the body flag, so only while the
+ * Ecwid checkout is on screen. */
+body.cbm-ecwid-test-active .ec-notice__wrap {
+  background-color: #141414 !important;
+  border: 1px solid rgba(255, 255, 255, 0.16) !important;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6) !important;
+}
+body.cbm-ecwid-test-active .ec-notice__wrap,
+body.cbm-ecwid-test-active .ec-notice__wrap * {
+  color: #f5f5f5 !important;
+}
+body.cbm-ecwid-test-active .ec-notice__text,
+body.cbm-ecwid-test-active .ec-notice__text * {
+  color: #d4d4d4 !important;
+}
+
+/* ---- Floating-label fields (Street address, City…) ------------------- */
+/* Once a field has a value (or focus), Ecwid shrinks its label to the top of
+ * the box. Our uniform input padding left no room for it, so the small label
+ * sat on top of the typed text. Give those fields room for the label. */
+#ecwid-cart-handoff-99673270 .form-control--label:not(.form-control--empty) input,
+#ecwid-cart-handoff-99673270 .form-control--label.form-control--focus input {
+  padding-top: 1.45rem !important;
+  padding-bottom: 0.35rem !important;
+}
+#ecwid-cart-handoff-99673270 .form-control--label .form-control__placeholder {
+  color: var(--cbm-text-muted) !important;
+}
+
+/* ---- Payment method picker (Moneris) --------------------------------- */
+/* Ecwid's default is a blue tinted box, blue border and a blue radio dot.
+ * Make it a dark card with the site red, a lock icon, and no radio dot when
+ * Moneris is the only option (Ecwid selects it automatically). If more
+ * options are added later, the radios come back, in red. */
+#ecwid-cart-handoff-99673270 .ec-radiogroup__items,
+#ecwid-cart-handoff-99673270 .ec-radiogroup__items fieldset,
+#ecwid-cart-handoff-99673270 .ec-radiogroup__items-inner {
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+#ecwid-cart-handoff-99673270 .ec-radiogroup__item {
+  background-color: var(--cbm-input) !important;
+  border: 1px solid var(--cbm-border-strong) !important;
+  border-radius: 12px !important;
+  box-shadow: none !important;
+  margin-bottom: 8px !important;
+}
+#ecwid-cart-handoff-99673270 .ec-radiogroup__item::before,
+#ecwid-cart-handoff-99673270 .ec-radiogroup__item::after {
+  display: none !important;
+}
+#ecwid-cart-handoff-99673270 .ec-radiogroup__item--checked {
+  background-color: rgba(220, 38, 38, 0.08) !important;
+  border-color: var(--cbm-red) !important;
+}
+#ecwid-cart-handoff-99673270 .form-control__radio-view {
+  border-color: var(--cbm-red) !important;
+  background-color: transparent !important;
+}
+#ecwid-cart-handoff-99673270 .form-control__radio:checked + .form-control__radio-view,
+#ecwid-cart-handoff-99673270 .ec-radiogroup__item--checked .form-control__radio-view {
+  background-color: var(--cbm-red) !important;
+  border-color: var(--cbm-red) !important;
+}
+#ecwid-cart-handoff-99673270 .form-control__radio-view-inner {
+  background-color: #fff !important;
+}
+/* Single payment method: hide the radio column. */
+#ecwid-cart-handoff-99673270 .ec-radiogroup__item:only-of-type .ec-radiogroup__radio {
+  display: none !important;
+}
+#ecwid-cart-handoff-99673270 .ec-radiogroup__item:only-of-type .ec-radiogroup__item-wrap {
+  padding-left: 16px !important;
+}
+/* Lock icon before the Moneris title. */
+#ecwid-cart-handoff-99673270 .ec-radiogroup__item--app_id-moneris-payment .ec-radiogroup__title {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  font-weight: 600 !important;
+}
+#ecwid-cart-handoff-99673270 .ec-radiogroup__item--app_id-moneris-payment .ec-radiogroup__title::before {
+  content: "" !important;
+  flex: none;
+  width: 18px;
+  height: 18px;
+  background: no-repeat center / contain
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23dc2626'%3E%3Cpath d='M18 8h2a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1h2V7a6 6 0 1 1 12 0v1zm-2 0V7a4 4 0 1 0-8 0v1h8zm-5 6v4h2v-4h-2z'/%3E%3C/svg%3E");
+}
+/* Ecwid's light shadow strips above/below the payment group. */
+#ecwid-cart-handoff-99673270 .ec-radiogroup::before,
+#ecwid-cart-handoff-99673270 .ec-radiogroup::after {
+  display: none !important;
+}
+/* On phones Ecwid's sticky cart summary stacks above its own notices, so
+ * the summary text showed through the privacy popup. Keep notices on top. */
+body.cbm-ecwid-test-active .ec-notices,
+body.cbm-ecwid-test-active .ec-notices__wrap,
+body.cbm-ecwid-test-active .ec-notice {
+  z-index: 2147483000 !important;
+}
+
+/* ---- "You may also like" in the Ecwid cart/checkout ------------------ */
+/* Hidden on request: recommendations are shown on the product page instead
+ * ("Recommended with this product", from the same Ecwid Related products).
+ * Delete this rule to show them in checkout again. */
+#ecwid-cart-handoff-99673270 .ec-related-products {
+  display: none !important;
+}

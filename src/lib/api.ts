@@ -16,6 +16,7 @@ export interface Product {
   condition: string;       // New | Refurbished | Used
   cooling: string;         // Air | Hydro | Immersion
   algorithm: string;       // SHA-256 | Scrypt
+  coin?: string;           // red card label typed in Ecwid ("LTC/DOGE", "KAS", "ALEO"…); overrides the algorithm-based label
   hashrate: string;        // TH/s
   hashrate_unit?: string;  // display unit for hashrate (TH/s, GH/s, MH/s)
   power: string;           // Watts
@@ -44,10 +45,14 @@ export interface Product {
   // Selectable hashrate variants (one product card per model; card shows the
   // first/highest variant). Each variant has its own specs and CAD price.
   variants?: ProductVariant[];
+  // Add-ons picked for this product in Ecwid ("Related products"): the
+  // cables, fans, PSUs etc. that go with it. Also shown by Ecwid at checkout.
+  related?: number[];
 }
 
 export interface ProductVariant {
   label: string;            // short tag shown in the selector, e.g. "310T", "16.5G"
+  option?: string;          // Ecwid option name this label belongs to (e.g. "Hashrate")
   model?: string;           // exact model name for this variant
   hashrate: string;
   hashrate_unit?: string;

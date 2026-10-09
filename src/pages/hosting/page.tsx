@@ -3,12 +3,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Navbar from '../../components/feature/Navbar';
 import Footer from '../../components/feature/Footer';
 import { useTranslation } from 'react-i18next';
-import { useRecaptcha } from '../../hooks/useRecaptcha';
 import Seo from '../../components/feature/Seo';
 
 export default function HostingPage() {
   const { t } = useTranslation();
-  const { getToken } = useRecaptcha();
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   const [form, setForm] = useState({
@@ -74,24 +72,31 @@ export default function HostingPage() {
     { q: t('host_faq_q5'), a: t('host_faq_a5') },
   ];
 
+  // Netlify Forms (same as the contact form). A matching hidden form named
+  // "hosting-quote" lives in index.html so Netlify registers the fields; the
+  // notification email goes to the address set in the Netlify dashboard.
+  // Netlify's honeypot + spam filtering cover bots.
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setFormStatus('sending');
+    const payload: Record<string, string> = {
+      'form-name': 'hosting-quote',
+      subject: `[Website Lead] Hosting quote - ${form.name}`.trim(),
+      ...form,
+      page_source: window.location.href,
+      submitted_at: new Date().toLocaleString('en-CA', { timeZone: 'America/Toronto', dateStyle: 'medium', timeStyle: 'short' }),
+      'bot-field': '',
+    };
     try {
-      const recaptchaToken = await getToken('hosting_quote').catch(() => '');
-      // The browser sends the form + a reCAPTCHA token to the backend, which
-      // verifies the token server-side at
-      // https://www.google.com/recaptcha/api/siteverify using the secret key held
-      // only in server environment variables (never in this frontend bundle).
-      const res = await fetch('https://wholesaleasic.com/wp-json/cbtc/v1/hosting-quote', {
+      const res = await fetch('/', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...form, recaptcha_token: recaptchaToken }),
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: Object.keys(payload).map(k => `${encodeURIComponent(k)}=${encodeURIComponent(payload[k])}`).join('&'),
       });
+      // Only surface success on a confirmed response; otherwise show an error.
       if (!res.ok) throw new Error(`Request failed with status ${res.status}`);
       setFormStatus('sent');
     } catch {
-      // Only surface success on a confirmed response; otherwise show an error.
       setFormStatus('error');
     }
   };

@@ -61,7 +61,7 @@ export default function AboutPage() {
       >
         <meta itemProp="name" content="Canada BTC Miners" />
         <meta itemProp="telephone" content="+15146047050" />
-        <meta itemProp="address" content="6500 Route Transcanadienne, Suite 209, Saint-Laurent, Quebec H4T 1X4" />
+        <meta itemProp="address" content="4040 Rue Steinberg, Saint-Laurent, QC H4R 2G7" />
         <meta itemProp="url" content="https://canadabtcminers.ca" />
 
         {/* Background photo */}
@@ -216,7 +216,7 @@ export default function AboutPage() {
           <div className="mt-6 space-y-3 text-sm leading-7 text-zinc-300 sm:text-base sm:leading-8">
             <p>{t('about_location_p1')}</p>
             <a
-              href="https://www.google.com/maps/search/?api=1&query=6500%20Rte%20Transcanadienne%2C%20Suite%20209%2C%20Saint-Laurent%2C%20QC%20H4T%201X4%2C%20Canada"
+              href="https://www.google.com/maps/search/?api=1&query=4040%20Rue%20Steinberg%2C%20Saint-Laurent%2C%20QC%20H4R%202G7%2C%20Canada"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Open address in Google Maps"
@@ -247,7 +247,7 @@ export default function AboutPage() {
         <div className="overflow-hidden rounded-[2rem] border border-red-950/60 bg-black h-72 sm:h-80 lg:h-96">
           <iframe
             title={t('about_map_title')}
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2795.3!2d-73.745!3d45.498!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4cc9390c1d3e4a93%3A0x0!2s6500+Rte+Transcanadienne%2C+Saint-Laurent%2C+QC+H4T+1X4!5e0!3m2!1sen!2sca!4v1"
+            src="https://maps.google.com/maps?q=4040%20Rue%20Steinberg%2C%20Saint-Laurent%2C%20QC%20H4R%202G7%2C%20Canada&z=15&output=embed"
             width="100%"
             height="100%"
             style={{ border: 0, filter: 'invert(90%) hue-rotate(180deg) saturate(0.7)' }}
