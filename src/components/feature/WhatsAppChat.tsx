@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 const WA_NUMBER = '15146047050';
@@ -7,7 +6,6 @@ const WA_URL = `https://wa.me/${WA_NUMBER}`;
 
 export default function WhatsAppChat() {
   const { t } = useTranslation();
-  const { pathname } = useLocation();
   const [open, setOpen] = useState(false);
   const [visible, setVisible] = useState(false);
   const [pulse, setPulse] = useState(true);
@@ -24,9 +22,6 @@ export default function WhatsAppChat() {
     return () => clearTimeout(t);
   }, []);
 
-  // The CRM at /crm is an isolated internal tool and must not inherit the
-  // public storefront's floating WhatsApp widget.
-  if (/(^|\/)crm(\/|$)/.test(pathname)) return null;
 
   if (!visible) return null;
 
