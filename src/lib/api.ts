@@ -16,6 +16,7 @@ export interface Product {
   condition: string;       // New | Refurbished | Used
   cooling: string;         // Air | Hydro | Immersion
   algorithm: string;       // SHA-256 | Scrypt
+  coin?: string;           // red card label typed in Ecwid ("LTC/DOGE", "KAS", "ALEO"…); overrides the algorithm-based label
   hashrate: string;        // TH/s
   hashrate_unit?: string;  // display unit for hashrate (TH/s, GH/s, MH/s)
   power: string;           // Watts

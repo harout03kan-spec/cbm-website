@@ -18,7 +18,9 @@
  *  • Product attributes (custom fields) — Hashrate, Hashrate unit, Power,
  *    Efficiency, Efficiency unit, Algorithm, Cooling, Condition, Manufacturer,
  *    Model, Release, Size, Weight, Noise, Fans, Voltage, Interface,
- *    Temperature, Humidity, Badge. Empty fields simply don't show.
+ *    Temperature, Humidity, Badge, Coin (the red card label, e.g. "LTC/DOGE",
+ *    "KAS", "ALEO" — left blank, it is worked out from Algorithm).
+ *    Empty fields simply don't show.
  *  • Hashrate versions — one product option (e.g. "Hashrate": 310T / 335T)
  *    with a price per choice. Variation-level attributes (Hashrate, Power,
  *    Efficiency, Model) override the product's when present.
@@ -200,6 +202,7 @@ export function mapEcwidProduct(p: EcwidProduct, categoryNames: Map<number, stri
     image: images[0] || '',
     images,
     badge: attr(a, 'Badge'),
+    ...(attr(a, 'Coin', 'Coin label', 'Coin type') ? { coin: attr(a, 'Coin', 'Coin label', 'Coin type') } : {}),
     short_description: stripHtml(p.description),
     featured: false,
     categories,

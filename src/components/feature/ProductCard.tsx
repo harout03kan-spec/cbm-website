@@ -84,6 +84,8 @@ export default function ProductCard({ product, index = 0 }: { product: Product; 
   ].filter((s) => s.value && String(s.value).trim()) : [];
   const condKey = conditionKey(product);
   const coinKey = coinTypeKey(product);
+  // Coin typed in Ecwid wins (Hydro miners keep their Hydro label).
+  const coinLabel = coinKey === 'shop_badge_hydro' ? t(coinKey) : (!unclear && product.coin) || (coinKey ? t(coinKey) : '');
   const displayName = unclear ? t('shop_pending_name') : cleanName(product.name);
 
   const handleAdd = () => {
@@ -107,10 +109,10 @@ export default function ProductCard({ product, index = 0 }: { product: Product; 
             <i className="ri-image-line text-5xl" aria-hidden="true"></i>
           </div>
         )}
-        {!unclear && (condKey || coinKey) && (
+        {!unclear && (condKey || coinLabel) && (
           <div className="absolute top-2 left-2 sm:top-4 sm:left-4 flex flex-col items-start gap-1.5 sm:gap-2">
             {condKey && <span className="px-2 py-0.5 sm:px-3 sm:py-1 bg-black/70 border border-white/30 text-white text-[10px] sm:text-xs font-inter font-semibold rounded">{t(condKey)}</span>}
-            {coinKey && <span className="px-2 py-0.5 sm:px-3 sm:py-1 bg-crimson-accent text-white text-[10px] sm:text-xs font-inter font-semibold rounded">{t(coinKey)}</span>}
+            {coinLabel && <span className="px-2 py-0.5 sm:px-3 sm:py-1 bg-crimson-accent text-white text-[10px] sm:text-xs font-inter font-semibold rounded">{coinLabel}</span>}
           </div>
         )}
       </div>

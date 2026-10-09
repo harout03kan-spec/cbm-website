@@ -183,7 +183,7 @@ const ProductPage = () => {
               <div className="flex flex-wrap items-center gap-2">
                 {condLabel && <span className="px-3 py-1 bg-white/15 border border-white/25 text-white rounded-full text-xs font-inter font-semibold">{condLabel}</span>}
                 {coolingLabel && <span className="px-3 py-1 bg-white/15 border border-white/25 text-white rounded-full text-xs font-inter font-semibold">{coolingLabel}</span>}
-                {coinKey && coinKey !== 'shop_badge_hydro' && <span className="px-3 py-1 bg-crimson-accent text-white rounded-full text-xs font-inter font-semibold">{t(coinKey)}</span>}
+                {(product.coin || (coinKey && coinKey !== 'shop_badge_hydro')) && <span className="px-3 py-1 bg-crimson-accent text-white rounded-full text-xs font-inter font-semibold">{product.coin || t(coinKey as string)}</span>}
               </div>
             </div>
 
