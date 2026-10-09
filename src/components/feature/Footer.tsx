@@ -53,10 +53,10 @@ export default function Footer() {
               </address>
             </a>
             <div className="flex items-center gap-3">
-              <a href="https://t.me/CanadaBTCMiners" target="_blank" rel="noopener noreferrer nofollow" className="w-10 h-10 flex items-center justify-center bg-white/5 rounded-lg hover:bg-white/10 transition-colors" aria-label="Telegram"><i className="ri-telegram-fill text-lg text-white"></i></a>
-              <a href="https://www.facebook.com/profile.php?id=61576904563276" target="_blank" rel="noopener noreferrer nofollow" className="w-10 h-10 flex items-center justify-center bg-white/5 rounded-lg hover:bg-white/10 transition-colors" aria-label="Facebook"><i className="ri-facebook-fill text-lg text-white"></i></a>
               <a href="https://www.linkedin.com/company/102872939/" target="_blank" rel="noopener noreferrer nofollow" className="w-10 h-10 flex items-center justify-center bg-white/5 rounded-lg hover:bg-white/10 transition-colors" aria-label="LinkedIn"><i className="ri-linkedin-fill text-lg text-white"></i></a>
+              <a href="https://t.me/CanadaBTCMiners" target="_blank" rel="noopener noreferrer nofollow" className="w-10 h-10 flex items-center justify-center bg-white/5 rounded-lg hover:bg-white/10 transition-colors" aria-label="Telegram"><i className="ri-telegram-fill text-lg text-white"></i></a>
               <a href="https://wa.me/15146047050" target="_blank" rel="noopener noreferrer nofollow" className="w-10 h-10 flex items-center justify-center bg-white/5 rounded-lg hover:bg-white/10 transition-colors" aria-label="WhatsApp"><i className="ri-whatsapp-fill text-lg text-white"></i></a>
+              <a href="https://www.facebook.com/profile.php?id=61576904563276" target="_blank" rel="noopener noreferrer nofollow" className="w-10 h-10 flex items-center justify-center bg-white/5 rounded-lg hover:bg-white/10 transition-colors" aria-label="Facebook"><i className="ri-facebook-fill text-lg text-white"></i></a>
             </div>
           </div>
           <div>
@@ -87,10 +87,10 @@ export default function Footer() {
           <div>
             <h3 className="text-white font-semibold mb-4">{t('footer_connect')}</h3>
             <ul className="space-y-3">
-              <li><a href="https://t.me/CanadaBTCMiners" target="_blank" rel="noopener noreferrer nofollow" className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors"><i className="ri-telegram-fill text-base"></i> Telegram</a></li>
-              <li><a href="https://www.facebook.com/profile.php?id=61576904563276" target="_blank" rel="noopener noreferrer nofollow" className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors"><i className="ri-facebook-fill text-base"></i> Facebook</a></li>
               <li><a href="https://www.linkedin.com/company/102872939/" target="_blank" rel="noopener noreferrer nofollow" className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors"><i className="ri-linkedin-fill text-base"></i> LinkedIn</a></li>
+              <li><a href="https://t.me/CanadaBTCMiners" target="_blank" rel="noopener noreferrer nofollow" className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors"><i className="ri-telegram-fill text-base"></i> Telegram</a></li>
               <li><a href="https://wa.me/15146047050" target="_blank" rel="noopener noreferrer nofollow" className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors"><i className="ri-whatsapp-fill text-base"></i> WhatsApp</a></li>
+              <li><a href="https://www.facebook.com/profile.php?id=61576904563276" target="_blank" rel="noopener noreferrer nofollow" className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors"><i className="ri-facebook-fill text-base"></i> Facebook</a></li>
             </ul>
           </div>
         </div>
