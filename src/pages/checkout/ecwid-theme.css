@@ -1,26 +1,13 @@
 /*
- * Scoped dark/red theme for the embedded Ecwid cart / checkout on the hidden
- * /store-test-cart proof-of-concept route ONLY.
+ * Dark/red theme for the Ecwid cart / checkout embedded on /checkout.
  *
  * Every selector is prefixed with #ecwid-cart-handoff-99673270 (the container
- * Ecwid renders its cart/checkout into), so these rules cannot affect any other
- * page and do NOT touch the real /shop, /cart or /checkout. This is host-side
- * CSS only — it changes nothing in the Ecwid store itself.
+ * Ecwid renders its cart/checkout into) or body.cbm-ecwid-active (set only
+ * while the checkout page is open), so these rules cannot affect any other
+ * page. This is host-side CSS only — it changes nothing in the Ecwid store.
  *
- * Design goals:
- *   - ONE clean dark checkout card: the React wrapper is graphite (#141414),
- *     and Ecwid's content is made transparent so it sits on that single surface
- *     (no nested gray-on-black-on-gray boxes). Sections are separated by subtle
- *     dividers, not filled panels.
- *   - ONE red everywhere: #DC2626 (the site's crimson-accent — the same red as
- *     the "Shop Miners" CTA), hover #B91C1C (red-700). No other reds.
- *   - Dark inputs with a red focus ring (no blue/white browser artifacts).
- *   - All Ecwid links/icons kept VISIBLE (breadcrumbs, My Account, Track Orders,
- *     Shopping Bag, Continue shopping, Redeem, quantity controls) — never hidden.
- *
- * The Moneris credit-card fields render in a PCI iframe Ecwid controls and
- * CANNOT be restyled from host CSS. !important is required to beat Ecwid's own
- * specific/inline styles.
+ * The Moneris card fields render in a PCI iframe Ecwid controls and cannot be
+ * restyled from here. !important is needed to beat Ecwid's own styles.
  */
 
 #ecwid-cart-handoff-99673270 {
@@ -369,17 +356,12 @@
 }
 
 /* ======================================================================
- * Route-active checkout/cart overrides (scoped to /store-test-cart only).
+ * Body-level overrides (only while the checkout page is open).
  *
- * The page adds `cbm-ecwid-test-active` to <body> while this route is open and
- * removes it on leave, so everything below applies ONLY on this hidden route.
- *
- * NOTE: the Ecwid cookie/privacy banner is intentionally NOT styled here. It is
- * injected at the document-body level with runtime, version-specific classes,
- * so broad CSS to catch it risked touching other Ecwid elements. The Ecwid
- * cookie/privacy banner is controlled in the Ecwid dashboard
- * (Settings -> Legal -> Customers' consent -> Cookie consent banner) and MUST
- * be configured there before production.
+ * The checkout page adds `cbm-ecwid-active` to <body> and removes it on leave,
+ * so everything below applies ONLY while the checkout page is open. Ecwid's
+ * cookie/privacy notice is styled further down; its wording and options are
+ * set in Ecwid (Settings → Legal → Customers' consent).
  * ==================================================================== */
 
 /* ---- Marketing / newsletter checkbox — size/shape only --------------- */
@@ -388,13 +370,13 @@
  * Give ONLY that box a normal ~18px square shape, and lay it out before the label
  * with a gap so the "K" in "Keep..." is never clipped. No colour/red styling, no
  * accent-color; the native input is untouched and the box is not hidden. */
-body.cbm-ecwid-test-active .form-control--checkbox {
+body.cbm-ecwid-active .form-control--checkbox {
   display: flex !important;
   align-items: flex-start !important;
   gap: 10px !important;
 }
-body.cbm-ecwid-test-active .form-control--checkbox .form-control__checkbox-view,
-body.cbm-ecwid-test-active .form-control__checkbox-view {
+body.cbm-ecwid-active .form-control--checkbox .form-control__checkbox-view,
+body.cbm-ecwid-active .form-control__checkbox-view {
   position: static !important;
   flex: none !important;
   width: 18px !important;
@@ -409,7 +391,7 @@ body.cbm-ecwid-test-active .form-control__checkbox-view {
   box-sizing: border-box !important;
   margin: 1px 0 0 0 !important;
 }
-body.cbm-ecwid-test-active .form-control--checkbox .form-control__label {
+body.cbm-ecwid-active .form-control--checkbox .form-control__label {
   padding-left: 0 !important;
   margin-left: 0 !important;
   line-height: 1.45 !important;
@@ -419,20 +401,20 @@ body.cbm-ecwid-test-active .form-control--checkbox .form-control__label {
 /* Make Ecwid's loading indicator invisible/subtle so no gray moving bar shows
  * under the header. Loaders/spinners only — validation messages and real
  * controls are untouched. */
-body.cbm-ecwid-test-active [class*="loader"],
-body.cbm-ecwid-test-active [class*="loading"],
-body.cbm-ecwid-test-active [class*="Loading"],
-body.cbm-ecwid-test-active [class*="spinner"],
-body.cbm-ecwid-test-active [class*="progress-bar"],
-body.cbm-ecwid-test-active [class*="progressbar"],
-body.cbm-ecwid-test-active [class*="ec-loading"],
-body.cbm-ecwid-test-active [class*="ecwid-loading"],
-body.cbm-ecwid-test-active [id*="loading"],
-body.cbm-ecwid-test-active [id*="Loading"],
-body.cbm-ecwid-test-active [role="progressbar"],
-body.cbm-ecwid-test-active progress,
-body.cbm-ecwid-test-active .ec-loader,
-body.cbm-ecwid-test-active .ec-progress,
+body.cbm-ecwid-active [class*="loader"],
+body.cbm-ecwid-active [class*="loading"],
+body.cbm-ecwid-active [class*="Loading"],
+body.cbm-ecwid-active [class*="spinner"],
+body.cbm-ecwid-active [class*="progress-bar"],
+body.cbm-ecwid-active [class*="progressbar"],
+body.cbm-ecwid-active [class*="ec-loading"],
+body.cbm-ecwid-active [class*="ecwid-loading"],
+body.cbm-ecwid-active [id*="loading"],
+body.cbm-ecwid-active [id*="Loading"],
+body.cbm-ecwid-active [role="progressbar"],
+body.cbm-ecwid-active progress,
+body.cbm-ecwid-active .ec-loader,
+body.cbm-ecwid-active .ec-progress,
 #ecwid-cart-handoff-99673270 [class*="loader"],
 #ecwid-cart-handoff-99673270 [class*="loading"],
 #ecwid-cart-handoff-99673270 [class*="progress-bar"],
@@ -450,16 +432,16 @@ body.cbm-ecwid-test-active .ec-progress,
  * before), icon-fonts (<i>/currentColor), and coupon/discount/promo/redeem
  * wrappers. If the icon is a CSS background-image, host CSS can't recolour it —
  * that case needs the exact class (see PR notes). */
-body.cbm-ecwid-test-active [class*="coupon"] svg,
-body.cbm-ecwid-test-active [class*="coupon"] svg path,
-body.cbm-ecwid-test-active [class*="coupon"] svg use,
-body.cbm-ecwid-test-active [class*="coupon"] i,
-body.cbm-ecwid-test-active [class*="coupon"] [class*="icon"],
-body.cbm-ecwid-test-active [class*="discount"] svg,
-body.cbm-ecwid-test-active [class*="discount"] svg path,
-body.cbm-ecwid-test-active [class*="promo"] svg,
-body.cbm-ecwid-test-active [class*="promo"] svg path,
-body.cbm-ecwid-test-active [class*="redeem"] svg,
+body.cbm-ecwid-active [class*="coupon"] svg,
+body.cbm-ecwid-active [class*="coupon"] svg path,
+body.cbm-ecwid-active [class*="coupon"] svg use,
+body.cbm-ecwid-active [class*="coupon"] i,
+body.cbm-ecwid-active [class*="coupon"] [class*="icon"],
+body.cbm-ecwid-active [class*="discount"] svg,
+body.cbm-ecwid-active [class*="discount"] svg path,
+body.cbm-ecwid-active [class*="promo"] svg,
+body.cbm-ecwid-active [class*="promo"] svg path,
+body.cbm-ecwid-active [class*="redeem"] svg,
 #ecwid-cart-handoff-99673270 [class*="coupon"] svg,
 #ecwid-cart-handoff-99673270 [class*="coupon"] svg path,
 #ecwid-cart-handoff-99673270 [class*="coupon"] [class*="icon"] {
@@ -469,9 +451,9 @@ body.cbm-ecwid-test-active [class*="redeem"] svg,
   opacity: 1 !important;
 }
 /* Size only the icon itself, not inner paths. */
-body.cbm-ecwid-test-active [class*="coupon"] svg,
-body.cbm-ecwid-test-active [class*="discount"] svg,
-body.cbm-ecwid-test-active [class*="promo"] svg,
+body.cbm-ecwid-active [class*="coupon"] svg,
+body.cbm-ecwid-active [class*="discount"] svg,
+body.cbm-ecwid-active [class*="promo"] svg,
 #ecwid-cart-handoff-99673270 [class*="coupon"] svg {
   width: 1.2rem !important;
   height: 1.2rem !important;
@@ -482,17 +464,17 @@ body.cbm-ecwid-test-active [class*="promo"] svg,
  * color while keeping their own white card: near-invisible text. Make the card
  * match the dark checkout instead. Scoped by the body flag, so only while the
  * Ecwid checkout is on screen. */
-body.cbm-ecwid-test-active .ec-notice__wrap {
+body.cbm-ecwid-active .ec-notice__wrap {
   background-color: #141414 !important;
   border: 1px solid rgba(255, 255, 255, 0.16) !important;
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6) !important;
 }
-body.cbm-ecwid-test-active .ec-notice__wrap,
-body.cbm-ecwid-test-active .ec-notice__wrap * {
+body.cbm-ecwid-active .ec-notice__wrap,
+body.cbm-ecwid-active .ec-notice__wrap * {
   color: #f5f5f5 !important;
 }
-body.cbm-ecwid-test-active .ec-notice__text,
-body.cbm-ecwid-test-active .ec-notice__text * {
+body.cbm-ecwid-active .ec-notice__text,
+body.cbm-ecwid-active .ec-notice__text * {
   color: #d4d4d4 !important;
 }
 
@@ -576,9 +558,9 @@ body.cbm-ecwid-test-active .ec-notice__text * {
 }
 /* On phones Ecwid's sticky cart summary stacks above its own notices, so
  * the summary text showed through the privacy popup. Keep notices on top. */
-body.cbm-ecwid-test-active .ec-notices,
-body.cbm-ecwid-test-active .ec-notices__wrap,
-body.cbm-ecwid-test-active .ec-notice {
+body.cbm-ecwid-active .ec-notices,
+body.cbm-ecwid-active .ec-notices__wrap,
+body.cbm-ecwid-active .ec-notice {
   z-index: 2147483000 !important;
 }
 

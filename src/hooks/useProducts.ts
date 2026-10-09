@@ -12,12 +12,7 @@ import { ecwidCatalogEnabled, loadEcwidCatalog } from '../lib/ecwidCatalog';
 // stay identical and every link resolves by the same id.
 
 // ─── useProducts ──────────────────────────────────────────────────────────────
-export function useProducts(_params: {
-  featured?: boolean;
-  condition?: string;
-  cooling?: string;
-  per_page?: number;
-} = {}) {
+export function useProducts() {
   const [products, setProducts] = useState<Product[]>(ecwidCatalogEnabled ? [] : CATALOG_PRODUCTS);
   const [loading, setLoading] = useState(ecwidCatalogEnabled);
   const [error, setError] = useState<string | null>(null);

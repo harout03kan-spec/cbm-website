@@ -4,6 +4,5 @@ Allow: /
 # Non-indexable / private app routes
 Disallow: /cart
 Disallow: /checkout
-Disallow: /order-success
 
 Sitemap: https://canadabtcminers.ca/sitemap.xml
