@@ -7,6 +7,7 @@ import { useProducts } from '../../hooks/useProducts';
 import { useCart } from '../../hooks/useCart';
 import { useTranslation } from 'react-i18next';
 import Seo from '../../components/feature/Seo';
+import FAQSection from '../home/components/FAQSection';
 import type { Product } from '../../lib/api';
 
 const ShopPage = () => {
@@ -505,6 +506,9 @@ const ShopPage = () => {
           </motion.div>
         </div>
       </section>
+
+      {/* Before you order — shipping, warranty, final sale, payment */}
+      <FAQSection />
 
       <Footer />
     </div>
