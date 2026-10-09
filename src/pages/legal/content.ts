@@ -1,6 +1,6 @@
 // Legal / policy pages content (EN + FR). Plain language, matched to how
 // Canada BTC Miners sells: final sale, used-unit 30-day warranty, manufacturer
-// warranty on new units, 7-day DOA on large lots, 6–9 business day shipping
+// warranty on new units, 7-day DOA on large lots, 2–12 business day shipping
 // after full payment, shipping included on new units.
 //
 // Edit the text here; the page layout is in ./page.tsx.
@@ -132,7 +132,7 @@ export const LEGAL: Record<'en' | 'fr', Record<LegalDocKey, LegalDoc>> = {
         },
         {
           h: 'Shipping',
-          p: ['Orders ship 6 to 9 business days after full payment is received. See our Shipping & Returns policy for details.'],
+          p: ['Orders ship 2 to 12 business days after full payment is received, depending on availability and the model. See our Shipping & Returns policy for details.'],
         },
         {
           h: 'All sales are final',
@@ -178,7 +178,7 @@ export const LEGAL: Record<'en' | 'fr', Record<LegalDocKey, LegalDoc>> = {
       sections: [
         {
           h: 'Shipping time',
-          p: ['Orders ship 6 to 9 business days after full payment is received.'],
+          p: ['Orders ship 2 to 12 business days after full payment is received, depending on availability and the model.'],
         },
         {
           h: 'Shipping cost',
@@ -362,7 +362,7 @@ export const LEGAL: Record<'en' | 'fr', Record<LegalDocKey, LegalDoc>> = {
         },
         {
           h: 'Expédition',
-          p: ['Les commandes sont expédiées de 6 à 9 jours ouvrables après la réception du paiement complet. Voir notre politique d’expédition et de retours.'],
+          p: ['Les commandes sont expédiées de 2 à 12 jours ouvrables après la réception du paiement complet, selon la disponibilité et le modèle. Voir notre politique d’expédition et de retours.'],
         },
         {
           h: 'Toutes les ventes sont finales',
@@ -408,7 +408,7 @@ export const LEGAL: Record<'en' | 'fr', Record<LegalDocKey, LegalDoc>> = {
       sections: [
         {
           h: 'Délai d’expédition',
-          p: ['Les commandes sont expédiées de 6 à 9 jours ouvrables après la réception du paiement complet.'],
+          p: ['Les commandes sont expédiées de 2 à 12 jours ouvrables après la réception du paiement complet, selon la disponibilité et le modèle.'],
         },
         {
           h: 'Coût de livraison',
