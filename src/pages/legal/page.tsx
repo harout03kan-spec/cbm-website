@@ -1,4 +1,4 @@
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Navbar from '../../components/feature/Navbar';
 import Footer from '../../components/feature/Footer';
@@ -11,9 +11,7 @@ export default function LegalPage({ doc }: { doc: LegalDocKey }) {
   const { pathname } = useLocation();
   const isFrenchUrl = pathname === '/fr' || pathname.startsWith('/fr/');
   const lang = isFrenchUrl || i18n.language?.startsWith('fr') ? 'fr' : 'en';
-  const localize = (path: string) => (isFrenchUrl ? `/fr${path}` : path);
   const content = LEGAL[lang][doc];
-  const others = (Object.keys(LEGAL_PATHS) as LegalDocKey[]).filter(k => k !== doc);
 
   return (
     <div className="min-h-screen bg-midnight text-white">
@@ -49,22 +47,6 @@ export default function LegalPage({ doc }: { doc: LegalDocKey }) {
               ))}
             </div>
           ))}
-
-          <div className="rounded-2xl border border-white/10 bg-graphite p-6">
-            <p className="mb-4 text-sm font-semibold uppercase tracking-[0.15em] text-soft-gray">{t('legal_other')}</p>
-            <div className="flex flex-wrap gap-3">
-              {others.map(k => (
-                <Link key={k} to={localize(LEGAL_PATHS[k])}
-                  className="rounded-lg border border-white/15 px-4 py-2 text-sm font-semibold text-white transition-colors hover:border-crimson-accent hover:text-crimson-accent">
-                  {LEGAL[lang][k].title}
-                </Link>
-              ))}
-              <a href="tel:+15146047050"
-                className="inline-flex items-center gap-2 rounded-lg bg-crimson-accent px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-red-700">
-                <i className="ri-phone-fill" aria-hidden="true"></i> +1 (514) 604-7050
-              </a>
-            </div>
-          </div>
         </div>
       </section>
 

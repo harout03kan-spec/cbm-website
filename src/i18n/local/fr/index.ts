@@ -290,7 +290,6 @@ const fr = {
   footer_terms: 'Conditions de vente',
   legal_tag: 'Politiques',
   legal_updated: 'Dernière mise à jour',
-  legal_other: 'Autres politiques',
   legal_final_sale: 'Toutes les ventes sont finales. En commandant, vous acceptez nos',
   footer_shipping: 'Expédition et retours',
   product_ship_title: 'Expédié en 2 à 12 jours ouvrables',

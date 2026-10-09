@@ -290,7 +290,6 @@ const en = {
   footer_terms: 'Terms of Sale',
   legal_tag: 'Policies',
   legal_updated: 'Last updated',
-  legal_other: 'Other policies',
   legal_final_sale: 'All sales are final. By ordering, you agree to our',
   footer_shipping: 'Shipping & Returns',
   product_ship_title: 'Ships in 2 to 12 business days',
