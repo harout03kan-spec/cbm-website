@@ -760,7 +760,7 @@ const fr = {
   cart_remove: 'Supprimer',
   cart_tax_note: 'Les taxes (TPS, TVQ, TVH, etc.) et la livraison sont calculées au paiement selon votre adresse.',
   cart_trust_secure: 'Paiement sécurisé, cartes traitées par Moneris',
-  cart_trust_ships: 'Expédié de Montréal, Québec',
+  cart_trust_ships: 'Livraison avec suivi, expédiée en 2 à 12 jours ouvrables',
   cart_trust_call: 'Des questions? Appelez le +1 (514) 604-7050',
   cart_we_accept: 'Nous acceptons',
   cart_pay_online: 'Payer en ligne par carte de crédit ou de débit',

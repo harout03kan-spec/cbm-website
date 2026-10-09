@@ -760,7 +760,7 @@ const en = {
   cart_remove: 'Remove',
   cart_tax_note: 'Taxes (GST, QST, HST, etc.) and shipping are calculated at checkout based on your address.',
   cart_trust_secure: 'Secure checkout, cards processed by Moneris',
-  cart_trust_ships: 'Ships from Montreal, Quebec',
+  cart_trust_ships: 'Tracked shipping, ships in 2 to 12 business days',
   cart_trust_call: 'Questions? Call +1 (514) 604-7050',
   cart_we_accept: 'We Accept',
   cart_pay_online: 'Pay online by credit or debit card',
