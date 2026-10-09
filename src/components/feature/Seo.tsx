@@ -139,6 +139,11 @@ export const organizationLd: Record<string, unknown> = {
     postalCode: 'H4R 2G7',
     addressCountry: 'CA',
   },
+  sameAs: [
+    'https://www.linkedin.com/company/102872939/',
+    'https://www.facebook.com/profile.php?id=61576904563276',
+    'https://t.me/CanadaBTCMiners',
+  ],
 };
 
 export const websiteLd: Record<string, unknown> = {
