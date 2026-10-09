@@ -48,6 +48,7 @@ export interface Product {
 
 export interface ProductVariant {
   label: string;            // short tag shown in the selector, e.g. "310T", "16.5G"
+  option?: string;          // Ecwid option name this label belongs to (e.g. "Hashrate")
   model?: string;           // exact model name for this variant
   hashrate: string;
   hashrate_unit?: string;

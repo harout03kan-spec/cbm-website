@@ -748,6 +748,11 @@ const en = {
   cart_subtotal: 'Subtotal',
   cart_checkout: 'Proceed to Checkout',
   cart_remove: 'Remove',
+  cart_tax_note: 'Taxes (GST, QST or HST for your province) and shipping are calculated at checkout from your address.',
+  cart_trust_secure: 'Secure checkout, cards processed by Moneris',
+  cart_trust_ships: 'Ships from Montreal, Quebec',
+  cart_trust_call: 'Questions? Call +1 (514) 604-7050',
+  cart_we_accept: 'We Accept',
 
   // ── CHECKOUT ───────────────────────────────────────
   checkout_title: 'Checkout',
@@ -764,6 +769,14 @@ const en = {
   checkout_province: 'Province',
   checkout_postal: 'Postal Code',
   checkout_country: 'Country',
+  checkout_preparing: 'Preparing your secure checkout…',
+  checkout_secure_note: 'Your payment is processed securely by Moneris. Taxes and shipping are calculated from your address.',
+  checkout_empty: 'Your cart is empty.',
+  checkout_back_cart: 'Back to Cart',
+  checkout_unavailable_title: 'Some items can’t be ordered online yet',
+  checkout_unavailable_desc: 'Call us and we’ll prepare a quote for these items:',
+  checkout_continue_others: 'Continue with the other items',
+  checkout_load_error: 'The checkout could not load. Please refresh the page or call us at +1 (514) 604-7050.',
 
   // ── ORDER SUCCESS ──────────────────────────────────
   success_title: 'Order Confirmed',

@@ -67,6 +67,21 @@
       <input type="text" name="subject" />
       <input type="text" name="bot-field" />
     </form>
+    <!-- Netlify Forms detection form (hidden) for the Hosting page quote request. -->
+    <form name="hosting-quote" data-netlify="true" netlify-honeypot="bot-field" hidden>
+      <input type="text" name="name" />
+      <input type="email" name="email" />
+      <input type="tel" name="phone" />
+      <input type="text" name="miners" />
+      <input type="text" name="quantity" />
+      <input type="text" name="location" />
+      <input type="text" name="timeline" />
+      <textarea name="message"></textarea>
+      <input type="text" name="subject" />
+      <input type="text" name="page_source" />
+      <input type="text" name="submitted_at" />
+      <input type="text" name="bot-field" />
+    </form>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

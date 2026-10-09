@@ -748,6 +748,11 @@ const fr = {
   cart_subtotal: 'Sous-total',
   cart_checkout: 'Procéder au Paiement',
   cart_remove: 'Supprimer',
+  cart_tax_note: 'Les taxes (TPS, TVQ ou TVH selon votre province) et la livraison sont calculées au paiement selon votre adresse.',
+  cart_trust_secure: 'Paiement sécurisé, cartes traitées par Moneris',
+  cart_trust_ships: 'Expédié de Montréal, Québec',
+  cart_trust_call: 'Des questions? Appelez le +1 (514) 604-7050',
+  cart_we_accept: 'Nous acceptons',
 
   // ── CHECKOUT ───────────────────────────────────────
   checkout_title: 'Paiement',
@@ -764,6 +769,14 @@ const fr = {
   checkout_province: 'Province',
   checkout_postal: 'Code Postal',
   checkout_country: 'Pays',
+  checkout_preparing: 'Préparation de votre paiement sécurisé…',
+  checkout_secure_note: 'Votre paiement est traité de façon sécurisée par Moneris. Les taxes et la livraison sont calculées selon votre adresse.',
+  checkout_empty: 'Votre panier est vide.',
+  checkout_back_cart: 'Retour au Panier',
+  checkout_unavailable_title: 'Certains articles ne peuvent pas encore être commandés en ligne',
+  checkout_unavailable_desc: 'Appelez-nous et nous préparerons une soumission pour ces articles :',
+  checkout_continue_others: 'Continuer avec les autres articles',
+  checkout_load_error: 'Le paiement n’a pas pu se charger. Actualisez la page ou appelez-nous au +1 (514) 604-7050.',
 
   // ── ORDER SUCCESS ──────────────────────────────────
   success_title: 'Commande Confirmée',

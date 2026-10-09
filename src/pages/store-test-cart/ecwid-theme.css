@@ -476,3 +476,22 @@ body.cbm-ecwid-test-active [class*="promo"] svg,
   width: 1.2rem !important;
   height: 1.2rem !important;
 }
+
+/* ---- Ecwid notices (cookie/privacy banner) — dark card, readable text ---- */
+/* Ecwid injects these at <body> level, so they inherit the site's light text
+ * color while keeping their own white card: near-invisible text. Make the card
+ * match the dark checkout instead. Scoped by the body flag, so only while the
+ * Ecwid checkout is on screen. */
+body.cbm-ecwid-test-active .ec-notice__wrap {
+  background-color: #141414 !important;
+  border: 1px solid rgba(255, 255, 255, 0.16) !important;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6) !important;
+}
+body.cbm-ecwid-test-active .ec-notice__wrap,
+body.cbm-ecwid-test-active .ec-notice__wrap * {
+  color: #f5f5f5 !important;
+}
+body.cbm-ecwid-test-active .ec-notice__text,
+body.cbm-ecwid-test-active .ec-notice__text * {
+  color: #d4d4d4 !important;
+}

@@ -33,15 +33,18 @@ export interface EcwidApi {
         | {
             id: number;
             quantity?: number;
+            options?: Record<string, string>;
             callback?: (success: boolean, product: unknown, cart: EcwidCart) => void;
           },
     ) => void;
     gotoCheckout: () => void;
+    clear: (callback?: (success: boolean, error?: unknown) => void) => void;
     get: (callback: (cart: EcwidCart) => void) => void;
   };
   openPage: (page: string, params?: Record<string, unknown>) => void;
   OnAPILoaded: { add: (cb: () => void) => void };
   OnCartChanged: { add: (cb: (cart: EcwidCart) => void) => void };
+  OnOrderPlaced?: { add: (cb: (order: unknown) => void) => void };
 }
 
 // Minimal window shape we read/write. Accessed through a local cast so this
