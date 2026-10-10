@@ -4,7 +4,7 @@ import { CATALOG_PRODUCTS } from '../data/catalog';
 import { ecwidCatalogEnabled, loadEcwidCatalog } from '../lib/ecwidCatalog';
 
 // Where products come from:
-//  • Ecwid (My e-Shop) when VITE_ECWID_PUBLIC_TOKEN is set — the single place
+//  • Ecwid (My e-Shop) once the new store is switched on — the single place
 //    products, prices, specs and categories are managed. See lib/ecwidCatalog.
 //  • Otherwise the bundled catalog (src/data/catalog.ts), so the site keeps
 //    working until the Ecwid catalog is ready.

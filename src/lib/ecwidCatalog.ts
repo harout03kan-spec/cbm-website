@@ -7,8 +7,8 @@
  * browser) and maps it to the same Product shape the shop, product page and
  * cards already use, so no page needs to know where products come from.
  *
- * Until VITE_ECWID_PUBLIC_TOKEN is set, `ecwidCatalogEnabled` is false and the
- * site keeps using the bundled catalog (src/data/catalog.ts).
+ * Until the new store is switched on (USE_NEW_STORE in ./ecwid), `ecwidCatalogEnabled`
+ * is false and the site keeps using the bundled catalog (src/data/catalog.ts).
  *
  * How products are set up in Ecwid so they map cleanly:
  *  • Categories — "Bitcoin Miners", "Altcoin Miners", "Hydro Miners",
@@ -28,9 +28,9 @@
  * Reference: https://api-docs.ecwid.com/reference/products
  */
 import type { Product, ProductVariant } from './api';
-import { ECWID_STORE_ID } from './ecwid';
+import { ECWID_STORE_ID, ECWID_PUBLIC_TOKEN } from './ecwid';
 
-const PUBLIC_TOKEN = (import.meta.env.VITE_ECWID_PUBLIC_TOKEN as string | undefined)?.trim() || '';
+const PUBLIC_TOKEN = ECWID_PUBLIC_TOKEN;
 const API = `https://app.ecwid.com/api/v3/${ECWID_STORE_ID}`;
 const PAGE = 100;
 

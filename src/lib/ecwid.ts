@@ -14,8 +14,25 @@
  * Reference: Ecwid JS API — https://api-docs.ecwid.com/reference/javascript-api
  */
 
-// Public store id (safe to expose in the browser — it is in every storefront).
-export const ECWID_STORE_ID = '99673270';
+// Ecwid stores during the move (both ids and the token are public values —
+// they appear in every storefront and only allow reading).
+//  • Legacy 99673270 — the store inside the Looka site. Current orders and
+//    Moneris live here until launch.
+//  • New 143927266 — CBM's own Ecwid account (Business plan). Products,
+//    Moneris, taxes and shipping are being set up here.
+// Launch = set USE_NEW_STORE to true (or VITE_ECWID_USE_NEW_STORE=true in
+// Netlify). Checkout and the product catalog then BOTH use the new store; they
+// must switch together because cart product ids are per store.
+const LEGACY_STORE_ID = '99673270';
+const NEW_STORE_ID = '143927266';
+const NEW_STORE_PUBLIC_TOKEN = 'public_g9nayzjbys9vYBw85USjLB99P3fzjvvn';
+
+export const USE_NEW_STORE =
+  (import.meta.env.VITE_ECWID_USE_NEW_STORE as string | undefined)?.trim() === 'true';
+
+export const ECWID_STORE_ID = USE_NEW_STORE ? NEW_STORE_ID : LEGACY_STORE_ID;
+/** Read-only public token; empty for the legacy store (catalog stays bundled). */
+export const ECWID_PUBLIC_TOKEN = USE_NEW_STORE ? NEW_STORE_PUBLIC_TOKEN : '';
 
 // Shape of the cart object passed to OnCartChanged / Cart.get callbacks.
 export interface EcwidCart {
