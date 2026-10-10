@@ -5,12 +5,12 @@ import Footer from '../../components/feature/Footer';
 import { useProducts } from '../../hooks/useProducts';
 import { useCart, type CartItem } from '../../hooks/useCart';
 import { useTranslation } from 'react-i18next';
-import { loadEcwid, getEcwid, ECWID_STORE_ID, type EcwidApi } from '../../lib/ecwid';
+import { loadEcwid, getEcwid, type EcwidApi } from '../../lib/ecwid';
 // Dark/red theme for the embedded Ecwid checkout (scoped to the container id).
 import './ecwid-theme.css';
 
 /**
- * Checkout = the Ecwid (Lightspeed eCom) checkout for store 99673270.
+ * Checkout = the Ecwid (Lightspeed eCom) checkout for the active store (see lib/ecwid).
  *
  * The React cart is handed to Ecwid: its cart is cleared, each line is added
  * (with the hashrate option for multi-version miners), then Ecwid's checkout
@@ -22,7 +22,7 @@ import './ecwid-theme.css';
  */
 
 // Same container id the scoped theme (ecwid-theme.css) targets.
-const CONTAINER_ID = `ecwid-cart-handoff-${ECWID_STORE_ID}`;
+const CONTAINER_ID = 'cbm-ecwid-checkout';
 
 type Phase = 'loading' | 'blocked' | 'checkout' | 'empty' | 'error';
 
